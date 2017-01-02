@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|PT+Mono|PT+Sans+Narrow|Roboto');
+
+/* Main Sections */
+
+html, body {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  background-color: #42C6FF;
+  font-family: 'PT Mono', sans-serif;
+  font-size: 2.2vw;
+  line-height: 1.3em;
+}
+
+footer {
+  text-align: center;
+}
+
+/* Subsections */
+
+/*#menu {
+}*/
+
+#header, #skills {
+  height: 100vw;
+  background-color: #42C6FF;
+}
+
+#about, #work {
+  height: 100vw;
+  background-color: #FFFFFF;
+}
+
+.columns {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+/* Headline text */
+
+.background-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  letter-spacing: 5px;
+  font-size: 15vw;
+  line-height: 0.93em;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: right;
+  color: #ffffff;
+}
+
+.background-text-2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  letter-spacing: 5px;
+  font-size: 17vw;
+  line-height: 0.93em;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: right;
+  color: #42C6FF;
+}
+
+.foreground-text {
+  font-family: 'PT Mono', sans-serif;
+  font-weight: bold;
+  font-size: 2.5vw;
+  line-height: 4vw;
+  letter-spacing: 0.3vw;
+  text-align: left;
+  color: #000000;
+}
+
+/* Section text */
+
+#toma-text {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#contact-text {
+  align-self: flex-end;
+  margin-bottom: 0.5vw;
+  margin-right: 2.5vw;
+}
+
+.left-text {
+  align-self: flex-end;
+  margin-right: 3vw;
+  margin-left: 3vw;
+}
+
+/* Links */
+
+a {
+  text-decoration: none;
+  box-shadow: inset 0 -0.5vw 0 yellow;
+  color: inherit;
+  transition: background 0.2s;
+}
+
+a:hover {
+  color: #42C6FF;
+  background-color: yellow;
+}
+
+a.noshadow, a.noshadow:hover {
+  box-shadow: none;
+  background: none;
+  text-decoration: none;
+}
+
+/* Images */
+
+img {
+  width: 100%;
+}
+
+/* Elements */
+
+.center {
+  width: 100%;
+  margin: 0 auto;
+}
