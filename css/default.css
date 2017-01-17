@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Merriweather|Open+Sans+Condensed+Bold|PT+Mono');
+@import url('https://fonts.googleapis.com/css?family=Proxima+Nova|Open+Sans+Condensed+Bold|PT+Mono');
 
 /* Color Palette
   ['#0D1F30', '#3B6670', '#8BADA3', '#F0E3C0', '#DB6C0F']
@@ -11,7 +11,7 @@ html, body {
   height: 100%;
   margin: 0;
   background-color: #0D1F30;
-  font-family: 'Merriweather', sans-serif;
+  font-family: 'Proxima Nova', sans-serif;
   font-size: 1.2em;
   color: #0D1F30;
 }
@@ -31,7 +31,7 @@ html, body {
   width: 70%;
   margin: 0 auto;
   color: #8BADA3;
-  font-size: 2vw;
+  font-size: 1.5vw;
 }
 
 .menu > a {
@@ -75,10 +75,6 @@ html, body {
 }
 
 /* Text */
-
-p {
-  font-family: 'Merriweather', serif;
-}
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Open Sans Condensed Bold', sans-serif;
@@ -127,7 +123,7 @@ input {
   width: 100%;
   padding: 1vw;
   font-size: 1em;
-  font-family: 'Open Sans Condensed Bold', sans-serif;
+  font-family: 'Proxima Nova', sans-serif;
   color: #0D1F30;
   background: #8BADA3;
   border: none;
@@ -142,7 +138,7 @@ textarea {
   max-height: 200px;
   padding: 1vw;
   font-size: 1em;
-  font-family: 'Open Sans Condensed Bold', sans-serif;
+  font-family: 'Proxima Nova', sans-serif;
   color: #0D1F30;
   background: #8BADA3;
   border: none;
