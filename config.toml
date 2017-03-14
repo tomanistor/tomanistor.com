@@ -1,0 +1,12 @@
+title = "Toma Nistor"
+baseURL = "https://tomanistor.com"
+languageCode = "en-us"
+theme = "black-and-light"
+canonifyurls = true
+googleAnalytics = "UA-70206008-1"
+
+pygmentsstyle = "native"
+pygmentscodefences = true
+
+[Params]
+    Author = "Toma Nistor"
