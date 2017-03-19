@@ -1,12 +1,14 @@
 title = "Toma Nistor"
 baseURL = "https://tomanistor.com"
-languageCode = "en-us"
-theme = "black-and-light"
+description = "Full-stack web developer in San Diego. Fueled by the creation of an optimal user experience."
+tags = ["portfolio", "web design", "web developer", "ruby on rails", "javascript", "postgres", "San Diego"]
+languageCode = "en-US"
+theme = "outrun"
 canonifyurls = true
 googleAnalytics = "UA-70206008-1"
 
-pygmentsstyle = "native"
-pygmentscodefences = true
 
 [Params]
     Author = "Toma Nistor"
+    Sitename = "Toma Nistor"
+    disqusShortname = "Toma Nistor"

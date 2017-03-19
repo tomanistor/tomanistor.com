@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Toma Nistor</title>
-    <link>https://tomanistor.com/index.xml</link>
-    <description>Recent content on Toma Nistor</description>
+    <title>Posts on Toma Nistor</title>
+    <link>https://tomanistor.com/post/index.xml</link>
+    <description>Recent content in Posts on Toma Nistor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Mon, 13 Mar 2017 23:03:31 -0700</lastBuildDate>
-    <atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://tomanistor.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Starting with Hugo</title>
