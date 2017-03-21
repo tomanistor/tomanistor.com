@@ -4,7 +4,15 @@ var gulp         = require("gulp"),
 
 // Compile SCSS files to CSS
 gulp.task("scss", function () {
-    gulp.src("src/scss/**/*.scss")
+    // gulp.src("src/scss/**/*.scss")
+    //     .pipe(sass({
+    //         outputStyle : "compressed"
+    //     }))
+    //     .pipe(autoprefixer({
+    //         browsers : ["last 20 versions"]
+    //     }))
+    //     .pipe(gulp.dest("static/css"))
+    gulp.src("themes/outrun/static/styles/**/*.scss")
         .pipe(sass({
             outputStyle : "compressed"
         }))
@@ -14,9 +22,10 @@ gulp.task("scss", function () {
         .pipe(gulp.dest("static/css"))
 })
 
-// Watch asset folder for changes
+// Watch css folders for changes
 gulp.task("watch", ["scss"], function () {
-    gulp.watch("src/scss/**/*", ["scss"])
+    // gulp.watch("src/scss/**/*", ["scss"])
+    gulp.watch("themes/outrun/static/styles/**/*", ["scss"])
 })
 
 // Set watch as default task
