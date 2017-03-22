@@ -4,14 +4,6 @@ var gulp         = require("gulp"),
 
 // Compile SCSS files to CSS
 gulp.task("scss", function () {
-    // gulp.src("src/scss/**/*.scss")
-    //     .pipe(sass({
-    //         outputStyle : "compressed"
-    //     }))
-    //     .pipe(autoprefixer({
-    //         browsers : ["last 20 versions"]
-    //     }))
-    //     .pipe(gulp.dest("static/css"))
     gulp.src("themes/outrun/static/styles/**/*.scss")
         .pipe(sass({
             outputStyle : "compressed"
@@ -19,12 +11,11 @@ gulp.task("scss", function () {
         .pipe(autoprefixer({
             browsers : ["last 20 versions"]
         }))
-        .pipe(gulp.dest("static/css"))
+        .pipe(gulp.dest("themes/outrun/static/styles"))
 })
 
-// Watch css folders for changes
+// Watch styles folders for changes
 gulp.task("watch", ["scss"], function () {
-    // gulp.watch("src/scss/**/*", ["scss"])
     gulp.watch("themes/outrun/static/styles/**/*", ["scss"])
 })
 

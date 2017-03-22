@@ -25,8 +25,12 @@ alert(s);
 s = "Python syntax highlighting"
 print s
 ```
+This is an example of a paragraph between two blocks of code. It will be used to test for spacing.
 
 ```
 No language indicated, so no syntax highlighting.
 But let's throw in a <b>tag</b>.
 ```
+>This is a blockquote
+
+More text after the block quote that is shown above.

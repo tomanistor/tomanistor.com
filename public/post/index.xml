@@ -17,7 +17,7 @@
       <guid>https://tomanistor.com/post/starting-with-hugo/</guid>
       <description>
 
-&lt;p&gt;I&amp;rsquo;m finally ditching &lt;a href=&#34;https://wordpress.org&#34;&gt;Wordpress&lt;/a&gt; and testing out new waters with &lt;a href=&#34;https://gohugo.io&#34;&gt;&lt;strong&gt;Hugo&lt;/strong&gt;&lt;/a&gt;, the static site generator written in &lt;a href=&#34;https://golang.org&#34;&gt;Go&lt;/a&gt;. Go is a speedy programming language developed by Google.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m finally ditching &lt;a href=&#34;https://wordpress.org&#34;&gt;Wordpress&lt;/a&gt; and testing out new waters with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;, the static site generator written in &lt;a href=&#34;https://golang.org&#34;&gt;Go&lt;/a&gt;. Go is a speedy programming language developed by Google.&lt;/p&gt;
 
 &lt;p&gt;During this new chapter of my career as a web developer, I&amp;rsquo;ll be moving away from dynamically generated site builders and constructing my new portfolio from the ground up in order to practice and refine my web developing skills with &lt;strong&gt;JavaScript&lt;/strong&gt;, &lt;strong&gt;Go&lt;/strong&gt;, and &lt;strong&gt;SCSS&lt;/strong&gt;.&lt;/p&gt;
 
