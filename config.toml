@@ -11,3 +11,20 @@ googleAnalytics = "UA-70206008-1"
 [Params]
     Author = "Toma Nistor"
     Sitename = "Toma Nistor"
+
+[[menu.main]]
+    name = "Home"
+    url  = "https://tomanistor.com"
+    weight = 1
+[[menu.main]]
+    name = "Work"
+    url  = "https://tomanistor.com"
+    weight = 2
+[[menu.main]]
+    name = "Blog"
+    url  = "https://tomanistor.com"
+    weight = 3
+[[menu.main]]
+    name = "Contact"
+    url  = "https://tomanistor.com"
+    weight = 4

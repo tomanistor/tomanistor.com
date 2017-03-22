@@ -40,9 +40,17 @@ alert(s);
 print s
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;This is an example of a paragraph between two blocks of code. It will be used to test for spacing.&lt;/p&gt;
+
 &lt;pre&gt;&lt;code&gt;No language indicated, so no syntax highlighting.
 But let&#39;s throw in a &amp;lt;b&amp;gt;tag&amp;lt;/b&amp;gt;.
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;This is a blockquote&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;More text after the block quote that is shown above.&lt;/p&gt;
 </description>
     </item>
     
