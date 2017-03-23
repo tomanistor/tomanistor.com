@@ -4,7 +4,7 @@ var gulp         = require("gulp"),
 
 // Compile SCSS files to CSS
 gulp.task("scss", function () {
-    gulp.src("themes/outrun/static/styles/**/*.scss")
+    gulp.src("themes/outrun/static/styles/scss/**/*.scss")
         .pipe(sass({
             outputStyle : "compressed"
         }))
@@ -16,7 +16,7 @@ gulp.task("scss", function () {
 
 // Watch styles folders for changes
 gulp.task("watch", ["scss"], function () {
-    gulp.watch("themes/outrun/static/styles/**/*", ["scss"])
+    gulp.watch("themes/outrun/static/styles/scss/**/*", ["scss"])
 })
 
 // Set watch as default task

@@ -14,17 +14,17 @@ googleAnalytics = "UA-70206008-1"
 
 [[menu.main]]
     name = "Home"
-    url  = "https://tomanistor.com"
+    url  = "/"
     weight = 1
 [[menu.main]]
     name = "Work"
-    url  = "https://tomanistor.com"
+    url  = "/#work"
     weight = 2
 [[menu.main]]
     name = "Blog"
-    url  = "https://tomanistor.com"
+    url  = "/#blog"
     weight = 3
 [[menu.main]]
     name = "Contact"
-    url  = "https://tomanistor.com"
+    url  = "/#contact"
     weight = 4

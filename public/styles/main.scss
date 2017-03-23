@@ -294,7 +294,24 @@ header {
     position: relative;
     z-index: 100;
     text-align: center;
-    background-color: #e7e7e7;
+    background-color: #fff;
+    box-shadow: 0 0 5px grey;
+    h3 {
+        margin: 0;
+    }
+    ul {
+        height: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-grow: 2;
+        margin: 0;
+    }
+    ul li, li:before {
+        display: inline;
+        content: "";
+        margin: 0;
+    }
 }
 
 .title {
