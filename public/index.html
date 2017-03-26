@@ -22,52 +22,77 @@
         <header>
             <h1>Toma Nistor</h1>
         </header>
-        <nav>
-            <ul>
-                
-                <li><h3><a href="https://tomanistor.com/">Home</a></h3></li>
-                
-                <li><h3><a href="https://tomanistor.com/#work">Work</a></h3></li>
-                
-                <li><h3><a href="https://tomanistor.com/#blog">Blog</a></h3></li>
-                
-                <li><h3><a href="https://tomanistor.com/#contact">Contact</a></h3></li>
-                
-            </ul>
+        <nav class="row middle-xs center-xs">
+            
+            
+            <div class="col-xs-2"><h3><a href="https://tomanistor.com/">Home</a></h3></div>
+            
+            <div class="col-xs-2"><h3><a href="https://tomanistor.com/#work">Work</a></h3></div>
+            
+            <div class="col-xs-2"><h3><a href="https://tomanistor.com/#blog">Blog</a></h3></div>
+            
+            <div class="col-xs-2"><h3><a href="https://tomanistor.com/#contact">Contact</a></h3></div>
+            
         </nav>
         <section class="page">
 
-<section class="row gallery" id="work">
-    <div class="col-xs-12 col-sm-6 col-lg-4 volunteerup">
-        <a href="https://volunteerup.herokuapp.com"><img src="https://tomanistor.com/images/volunteerup.png" alt="VolunteerUP"></a>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-lg-4 rfg">
-        <a href="https://ruggedfellowsguide.com"><img src="https://ruggedfellowsguide.com/wp-content/uploads/2015/07/Rugged-Fellows-Guide-Logo-Reverse-White.png" alt="Rugged Fellows Guide"></a>
-        <div class="overlay">
-            <div class="overlay-text">Rugged Fellows Guide</div>
+<section class="gallery" id="work">
+    <div class="row">
+        <div class="col-xs-12 col-md-4 volunteerup">
+            <img src="https://tomanistor.com/images/volunteerup.png" alt="VolunteerUP">
+            <a href="https://volunteerup.herokuapp.com"><div class="overlay"></div></a>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-lg-4 rhinolinings">
-        <a href="http://spf.rhinolinings.com"><img src="http://spf.rhinolinings.com/wp-content/uploads/2016/12/Logo_RL-SPF_380px.png" alt="Rhino Linings Spray Foam Insulation"></a>
+        <div class="col-xs-12 col-md-4 rfg">
+            <img src="https://tomanistor.com/images/rugged-fellows-guide.png" alt="Rugged Fellows Guide">
+            <a href="https://ruggedfellowsguide.com"><div class="overlay"></div></a>
+        </div>
+        <div class="col-xs-12 col-md-4 rhinolinings">
+            <img src="https://tomanistor.com/images/rhino-linings-sprayfoam.png" alt="Rhino Linings Spray Foam Insulation">
+            <a href="http://spf.rhinolinings.com"><div class="overlay"></div></a>
+        </div>
     </div>
 </section>
 
 
-<section class="container" id="blog">
-    <section class="content">
-        <ul class="posts_list">
-            
-            
-                <article>
-                    <h2><a href="https://tomanistor.com/post/starting-with-hugo/">Starting with Hugo</a></h2>
-                    <div id=sub-header>
-                      March 2017 · 1 minute read
-                    </div>
-                </article>
-            
-            
-        </ul>
-    </section>
+<section class="blog" id="blog">
+    <div class="container">
+        <div class="row center-xs">
+            <section class="col-xs-12"><h1>Latest Posts</h1></section>
+        </div>
+        <div class="row">
+            <ul class="posts_list">
+                
+                
+                    <article>
+                        <h2><a href="https://tomanistor.com/post/starting-with-hugo/">Starting with Hugo</a></h2>
+                        <div id=sub-header>
+                          March 2017 · 1 minute read
+                        </div>
+                    </article>
+                
+                
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <div class="container">
+        <div class="row center-xs">
+            <div class="col-xs-12"><h1>Let's Chat</h1></div>
+        </div>
+        <form action="https://formspree.io/toma.nistor@gmail.com" method="POST">
+            <div class="row center-xs">
+                <div class="col-xs-12 col-sm-6"><input type="text" name="name" placeholder="Name"></div>
+                <div class="col-xs-12 col-sm-6"><input type="email" name="_replyto" placeholder="Email"></div>
+                <div class="col-xs-12"><input type="text" name="_subject" placeholder="Subject"></div>
+                <div class="col-xs-12"><textarea name="message" placeholder="Message"></textarea></div>
+                <input type="text" name="_gotcha" style="display:none">
+                <input type="hidden" name="_next" value="/">
+                <div class="col-xs-6"><input type="submit" value="Send"></div>
+            </div>
+        </form>
+    </div>
 </section>
 
         </section>
@@ -75,6 +100,7 @@
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         
         <script src="https://tomanistor.com/scripts/script.js" type="text/javascript"></script>
+        <script src="https://tomanistor.com/scripts/contact-form.js"></script>
     </body>
 </html>
 
