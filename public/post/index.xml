@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Toma Nistor</title>
+    <link>https://tomanistor.com/post/index.xml</link>
+    <description>Recent content in Posts on Toma Nistor</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 13 Mar 2017 23:03:31 -0700</lastBuildDate>
+    <atom:link href="https://tomanistor.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Starting with Hugo</title>
+      <link>https://tomanistor.com/post/starting-with-hugo/</link>
+      <pubDate>Mon, 13 Mar 2017 23:03:31 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/post/starting-with-hugo/</guid>
+      <description>
+
+&lt;p&gt;I&amp;rsquo;m finally ditching &lt;a href=&#34;https://wordpress.org&#34;&gt;Wordpress&lt;/a&gt; and testing out new waters with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;, the static site generator written in &lt;a href=&#34;https://golang.org&#34;&gt;Go&lt;/a&gt;. Go is a speedy programming language developed by Google.&lt;/p&gt;
+
+&lt;p&gt;During this new chapter of my career as a web developer, I&amp;rsquo;ll be moving away from dynamically generated site builders and constructing my new portfolio from the ground up in order to practice and refine my web developing skills with &lt;strong&gt;JavaScript&lt;/strong&gt;, &lt;strong&gt;Go&lt;/strong&gt;, and &lt;strong&gt;SCSS&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;objectives&#34;&gt;Objectives&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create portfolio to display work&lt;/li&gt;
+&lt;li&gt;Create blog to jot down my progress and help others along the way&lt;/li&gt;
+&lt;li&gt;Implement design with SCSS&lt;/li&gt;
+&lt;li&gt;Design new Hugo theme and distribute for others to used&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When this post is published, the four primary objectives of my new Hugo portfolio site should be complete.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;javascript&#34;&gt;var s = &#34;JavaScript syntax highlighting&#34;;
+alert(s);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;s = &amp;quot;Python syntax highlighting&amp;quot;
+print s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is an example of a paragraph between two blocks of code. It will be used to test for spacing.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;No language indicated, so no syntax highlighting.
+But let&#39;s throw in a &amp;lt;b&amp;gt;tag&amp;lt;/b&amp;gt;.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;This is a blockquote&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;More text after the block quote that is shown above.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

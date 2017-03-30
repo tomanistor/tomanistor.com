@@ -1,0 +1,519 @@
+// $body-width: 700px;
+// $baseline: 16px;
+// @mixin baseline-grid {
+// 	$columns: 16;
+// 	$column-color: rgba(200,0,0,.2);
+// 	$baseline-color: rgba(56,255,255,.8);
+//
+// 	// These are all automatically calculated
+// 	$gutter-width: 20px;  // Change if you like
+// 	$gutters: ($columns - 1);
+// 	$column-width: $body-width / $columns;
+//
+// 	background-image: -webkit-linear-gradient(0deg, $column-color $column-width, transparent $gutter-width),
+// 							-webkit-linear-gradient(top, rgba(0,0,0,0) 95%, $baseline-color 100%);
+// 	background-image: -moz-linear-gradient(0deg, $column-color $column-width, transparent $gutter-width),
+// 							-moz-linear-gradient(top, rgba(0,0,0,0) 95%, $baseline-color 100%);
+// 	background-image: -o-linear-gradient(0deg, $column-color $column-width, transparent $gutter-width),
+// 							-o-linear-gradient(top, rgba(0,0,0,0) 95%, $baseline-color 100%);
+// 	background-size: ($column-width + $gutter-width) 100%, 100% $baseline;
+// 	background-position: 10px 0px; // Use to offset and center your grid
+// }
+//
+// // Example call
+// body {
+// 	@include baseline-grid;
+// }
+
+@import url("https://fonts.googleapis.com/css?family=Proxima+Nova|Lora");
+@import "flexboxgrid";
+
+// Colors
+// https://coolors.co/1e1e1e-4e6b6c-f7f7f7-ffffff-da784d
+$black: #212121;
+$storm: #4E6B6C;
+$smoke: #F7F7F7;
+$accent: #DA784D;
+
+// Fonts
+$font-header: "Lora", "sans-serif";
+$font-body: "Proxima Nova", "sans-serif";
+$font-code: "Menlo", "Monaco", "Andale Mono", "lucida console", "Courier New", "monospace";
+
+// Modular font scale
+// Large: http://www.modularscale.com/?1.25&em&1.333&web&text
+// Medium: http://www.modularscale.com/?1.25&em&1.25&web&text
+// SMall: http://www.modularscale.com/?1.1&em&1.25&web&text
+
+$font-scale-large: (
+    h1: 2.961rem,
+    h2: 2.221rem,
+    h3: 1.666rem,
+    p: 1.25rem
+);
+
+$font-scale-medium: (
+    h1: 2.441rem,
+    h2: 1.953em,
+    h3: 1.563rem,
+    p: 1.25rem,
+);
+
+$font-scale-small: (
+    h1: 2.148rem,
+    h2: 1.719rem,
+    h3: 1.375rem,
+    p: 1.1rem
+);
+
+$base-line-height: 1.6;
+$base-font-size: 1.25rem; // 20px
+$vertical-rhythm: $base-line-height * $base-font-size; // 2.125em or 34px
+
+$breakpoint-medium: 48em; // 768px
+$breakpoint-small: 25em; // 400px
+
+@mixin size($level) {
+    font-size: map-get($font-scale-large, $level);
+    @media (max-width: $breakpoint-medium) {
+        font-size: map-get($font-scale-medium, $level);
+    }
+    @media (max-width: $breakpoint-small) {
+        font-size: map-get($font-scale-small, $level);
+    }
+}
+
+@media(max-width: 48em) {
+	body .container {
+        padding: $vertical-rhythm;
+	}
+}
+@media(max-width: 25em) {
+	body .container {
+        padding: 0 $vertical-rhythm;
+	}
+}
+
+* {
+	box-sizing: border-box;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
+	margin: 0;
+	padding: 0;
+	color: $black;
+	&:before, &:after {
+		box-sizing: border-box;
+	}
+}
+
+html {
+    box-sizing: inherit;
+}
+
+body {
+    @include size(p);
+	font-family: $font-body;
+	line-height: $base-line-height;
+	color: $black;
+    // padding-top: calc(100vh - 4em);
+}
+
+.page {
+    background-color: #fff;
+    position: relative;
+}
+
+.container {
+    max-width: 43.750rem; // 700px
+    padding: $vertical-rhythm * 2 0 $vertical-rhythm * 2;
+    margin: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+p {
+	margin-bottom: $vertical-rhythm;
+	code {
+		font-family: $font-code;
+	}
+}
+
+a {
+    text-decoration: none;
+	img {
+		border: none;
+	}
+}
+
+img {
+	margin: 0 auto;
+	max-width: 100%;
+	display: block;
+}
+
+pre {
+	font: 12px "Consolas", "Liberation Mono", "Menlo", "Courier", "monospace";
+	background-color: $smoke;
+	margin-top: 0;
+    margin-bottom: $vertical-rhythm;
+	word-wrap: normal;
+	padding: 16px;
+	overflow: auto;
+	font-size: 85%;
+	line-height: 1.45;
+	font-family: "Menlo", "Monaco", "Andale Mono", "lucida console", "Courier New", "monospace";
+	> code {
+		padding: 0;
+		margin: 0;
+		font-size: 100%;
+		//Instead of the line below you could use @include word-break($value)
+		word-break: normal;
+		white-space: pre;
+		background: transparent;
+		border: 0;
+	}
+	code {
+		display: inline;
+		max-width: auto;
+		padding: 0;
+		margin: 0;
+		overflow: visible;
+		line-height: inherit;
+		word-wrap: normal;
+		background-color: transparent;
+		border: 0;
+	}
+	code::before, code::after {
+		content: normal;
+	}
+}
+
+code {
+    font-family: $font-code;
+	font-size: 12px;
+    background-color: $smoke;
+	padding: 4px;
+}
+
+em {
+	font-style: italic;
+}
+
+q {
+	@extend em;
+	&:before {
+		content: "\201C";
+	}
+	&:after {
+		content: "\201D";
+	}
+}
+
+dfn {
+	font-style: italic;
+}
+.sans {
+	font-family: "Open Sans", "Myriad Pro", "Myriad", "sans-serif";
+}
+.mono {
+	font-family: "Menlo", "Monaco", "Andale Mono", "lucida console", "Courier New", "monospace";
+}
+tt {
+	font-family: "Menlo", "Monaco", "Andale Mono", "lucida console", "Courier New", "monospace";
+}
+
+ul, ol {
+    margin-bottom: $vertical-rhythm;
+    li {
+        margin-left: 1.25em;
+        code {
+            font-family: "Menlo", "Monaco", "Andale Mono", "lucida console", "Courier New", "monospace";
+        }
+    }
+}
+
+ul li {
+	list-style-type: none;
+	&:before {
+		content: "\00BB \0020";
+	}
+}
+
+h1, h2, h3 {
+    font-family: $font-header;
+    margin-top: $vertical-rhythm;
+    letter-spacing: 2px;
+    a {
+        text-decoration: none;
+    }
+}
+
+h1 { @include size(h1); }
+h2 { @include size(h2); }
+h3 { @include size(h3); }
+
+strong {
+	font-weight: 600;
+}
+
+del, s {
+	text-decoration: line-through;
+}
+
+%blockquote {
+	font-family: $font-header;
+	content: '\201C';
+	font-size: 35px;
+	color: $accent;
+}
+
+blockquote {
+	font-family: $font-header, "serif";
+	text-align: center;
+	padding: 25px;
+	p {
+		display: inline-block;
+		font-style: italic;
+	}
+	&:before {
+		@extend %blockquote;
+	}
+	&:after {
+		@extend %blockquote;
+		content: '\201D';
+	}
+}
+
+header {
+    height: 100vh;
+    background-color: #FFF;
+    padding-top: $vertical-rhythm * 5;
+    img {
+        max-height: $vertical-rhythm * 6;
+    }
+    h1 {
+        font-family: $font-body;
+    }
+    .cursor {
+        font-size: $vertical-rhythm * 2;
+        vertical-align: middle;
+        animation: 1s blink step-end infinite;
+    }
+}
+
+@keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: $black;
+  }
+}
+
+.nav-fixed {
+    position: fixed;
+    top: 0;
+}
+
+nav {
+    height: $vertical-rhythm * 2;
+    width: 100%;
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    z-index: 100;
+    text-align: center;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .4 );
+    h3 {
+        margin: 0;
+        font-family: $font-body;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 600;
+    }
+    img {
+        max-height: 2em;
+    }
+}
+
+.posts_listing {
+    margin: 0 0 $vertical-rhythm;
+    a {
+        text-decoration: none;
+    }
+    li {
+        margin: 0 0 25px 15px;
+        &:before {
+            content: '';
+            margin-right: 0;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.sub-header, time {
+    @include size(p);
+	color: $storm;
+    margin-bottom: $vertical-rhythm;
+}
+
+.content {
+	text-align: left;
+	width: 100%;
+	time {
+		margin-left: 3px;
+	}
+    a {
+        text-shadow: 0.03em 0 #fff,
+                     -0.03em 0 #fff,
+                     0 0.03em #fff,
+                     0 -0.03em #fff,
+                     0.06em 0 #fff,
+                     -0.06em 0 #fff,
+                     0.09em 0 #fff,
+                     -0.09em 0 #fff,
+                     0.12em 0 #fff,
+                     -0.12em 0 #fff,
+                     0.15em 0 #fff,
+                     -0.15em 0 #fff,
+                     0.03em 0.075em #fff,
+                     -0.03em 0.075em #fff,
+                     0.06em 0.075em #fff,
+                     -0.06em 0.075em #fff,
+                     0.09em 0.075em #fff,
+                     -0.09em 0.075em #fff,
+                     0.12em 0.075em #fff,
+                     -0.12em 0.075em #fff,
+                     0.15em 0.075em #fff,
+                     -0.15em 0.075em #fff;
+        background-image: linear-gradient($accent,$accent);
+        background-size: 1px 2px;
+        background-repeat: repeat-x;
+        background-position: 0 90%;
+        text-decoration: none;
+        transition: color .2s ease-in-out;
+        &:hover {
+            color: $accent;
+        }
+    }
+}
+
+.highlight {
+	margin: 10px 0;
+}
+
+#links {
+	margin: 50px 0 0;
+	:nth-child(2) {
+		float: right;
+	}
+}
+
+#not-found {
+	text-align: center;
+	a {
+		font-family: $font-header;
+		font-size: 200px;
+		text-decoration: none;
+		display: inline-block;
+		padding-top: 225px;
+	}
+}
+
+.gallery {
+    div[class^="col-"], div[class*=" col-"] {
+        padding: 0;
+        position: relative;
+        &:hover .overlay {
+            opacity: 1;
+        }
+    }
+    img {
+        padding: $vertical-rhythm * 3;
+    }
+    .rfg {
+        background-color: #263248;
+    }
+    .volunteerup {
+        background-color: #EFEFEF;
+    }
+    .rhinolinings {
+        background-color: #222;
+    }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .2s ease;
+    background-color: $black;
+    h2, h3, a{
+        color: #FFF;
+        font-family: $font-body;
+    }
+    h3:hover, a:hover {
+        color: $accent;
+    }
+}
+
+
+.blog {
+    height: 100vh;
+}
+
+.contact {
+    width: 100%;
+    background-color: $smoke;
+    padding-bottom: $vertical-rhythm * 2;
+    form {
+        margin-top: $vertical-rhythm;
+    }
+}
+
+input {
+    background-color: #FFF;
+    border-color: $smoke;
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    color: $black;
+    padding: 10px;
+    margin: 8px 0;
+    width: 100%;
+    &[type="submit"] {
+        background-color: $storm;
+        color: #FFF;
+    }
+    &[type="submit"]:hover {
+        background-color: $accent;
+        color: #FFF;
+    }
+}
+
+textarea {
+    @extend input;
+    min-height: $vertical-rhythm * 4;
+    overflow: auto;
+}
+
+footer {
+    height: $vertical-rhythm * 6;
+    background-color: $black;
+    a {
+        color: #FFF;
+    }
+    a:hover {
+        color: $accent;
+    }
+}
