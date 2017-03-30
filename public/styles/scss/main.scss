@@ -130,6 +130,10 @@ body {
     margin: auto;
 }
 
+.hidden {
+    display: none;
+}
+
 p {
 	margin-bottom: $vertical-rhythm;
 	code {
@@ -286,19 +290,16 @@ blockquote {
 header {
     height: 100vh;
     background-color: #FFF;
-    padding-top: $vertical-rhythm * 3;
+    padding-top: $vertical-rhythm * 5;
     img {
-        max-height: 200px;
+        max-height: $vertical-rhythm * 6;
     }
     h1 {
         font-family: $font-body;
     }
     .cursor {
-        content: "|";
-        width: 2px;
-        position: absolute;
-        height: 60px;
-        -webkit-animation: 1s blink step-end infinite;
+        font-size: $vertical-rhythm * 2;
+        vertical-align: middle;
         animation: 1s blink step-end infinite;
     }
 }
@@ -308,7 +309,7 @@ header {
     color: transparent;
   }
   50% {
-    color: black;
+    color: $black;
   }
 }
 
@@ -331,6 +332,7 @@ nav {
         font-family: $font-body;
         text-transform: uppercase;
         letter-spacing: 2px;
+        font-weight: 600;
     }
     img {
         max-height: 2em;
@@ -356,7 +358,7 @@ nav {
 
 .sub-header, time {
     @include size(p);
-	color: $accent;
+	color: $storm;
     margin-bottom: $vertical-rhythm;
 }
 
@@ -428,7 +430,7 @@ nav {
         padding: 0;
         position: relative;
         &:hover .overlay {
-            opacity: .5;
+            opacity: 1;
         }
     }
     img {
@@ -456,6 +458,18 @@ nav {
     opacity: 0;
     transition: .2s ease;
     background-color: $black;
+    h2, h3, a{
+        color: #FFF;
+        font-family: $font-body;
+    }
+    h3:hover, a:hover {
+        color: $accent;
+    }
+}
+
+
+.blog {
+    height: 100vh;
 }
 
 .contact {
@@ -477,10 +491,29 @@ input {
     padding: 10px;
     margin: 8px 0;
     width: 100%;
+    &[type="submit"] {
+        background-color: $storm;
+        color: #FFF;
+    }
+    &[type="submit"]:hover {
+        background-color: $accent;
+        color: #FFF;
+    }
 }
 
 textarea {
     @extend input;
     min-height: $vertical-rhythm * 4;
     overflow: auto;
+}
+
+footer {
+    height: $vertical-rhythm * 6;
+    background-color: $black;
+    a {
+        color: #FFF;
+    }
+    a:hover {
+        color: $accent;
+    }
 }
