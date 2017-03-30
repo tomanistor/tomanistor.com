@@ -1,7 +1,7 @@
 +++
+title = "Starting with Hugo"
 date = "2017-03-13T23:03:31-07:00"
 draft = false
-title = "Starting with Hugo"
 
 +++
 
@@ -16,21 +16,3 @@ During this new chapter of my career as a web developer, I'll be moving away fro
 - Design new Hugo theme and distribute for others to used
 
 When this post is published, the four primary objectives of my new Hugo portfolio site should be complete.
-
-<pre><code class="javascript">var s = "JavaScript syntax highlighting";
-alert(s);
-</code></pre>
-
-```python
-s = "Python syntax highlighting"
-print s
-```
-This is an example of a paragraph between two blocks of code. It will be used to test for spacing.
-
-```
-No language indicated, so no syntax highlighting.
-But let's throw in a <b>tag</b>.
-```
->This is a blockquote
-
-More text after the block quote that is shown above.
