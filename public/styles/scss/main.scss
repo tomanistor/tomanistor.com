@@ -29,10 +29,11 @@
 @import "flexboxgrid";
 
 // Colors
-$black: black;
-$color_night_rider_approx: #1d1313;
-$color_black_haze_approx: #f7f7f7;
-$color_masala_approx: #403c3b;
+// https://coolors.co/1e1e1e-4e6b6c-f7f7f7-ffffff-da784d
+$black: #212121;
+$storm: #4E6B6C;
+$smoke: #F7F7F7;
+$accent: #DA784D;
 
 // Fonts
 $font-header: "Lora", "sans-serif";
@@ -114,7 +115,7 @@ body {
     @include size(p);
 	font-family: $font-body;
 	line-height: $base-line-height;
-	color: $color_night_rider_approx;
+	color: $black;
     // padding-top: calc(100vh - 4em);
 }
 
@@ -151,7 +152,7 @@ img {
 
 pre {
 	font: 12px "Consolas", "Liberation Mono", "Menlo", "Courier", "monospace";
-	background-color: $color_black_haze_approx;
+	background-color: $smoke;
 	margin-top: 0;
     margin-bottom: $vertical-rhythm;
 	word-wrap: normal;
@@ -189,7 +190,7 @@ pre {
 code {
     font-family: $font-code;
 	font-size: 12px;
-    background-color: $color_black_haze_approx;
+    background-color: $smoke;
 	padding: 4px;
 }
 
@@ -262,7 +263,7 @@ del, s {
 	font-family: $font-header;
 	content: '\201C';
 	font-size: 35px;
-	color: $color_masala_approx;
+	color: $accent;
 }
 
 blockquote {
@@ -284,9 +285,31 @@ blockquote {
 
 header {
     height: 100vh;
-    background-color: #0783AB;
-    padding-top: 80px;
-    text-align: center;
+    background-color: #FFF;
+    padding-top: $vertical-rhythm * 3;
+    img {
+        max-height: 200px;
+    }
+    h1 {
+        font-family: $font-body;
+    }
+    .cursor {
+        content: "|";
+        width: 2px;
+        position: absolute;
+        height: 60px;
+        -webkit-animation: 1s blink step-end infinite;
+        animation: 1s blink step-end infinite;
+    }
+}
+
+@keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: black;
+  }
 }
 
 .nav-fixed {
@@ -302,21 +325,15 @@ nav {
     bottom: 0;
     z-index: 100;
     text-align: center;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, .4 );
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .4 );
     h3 {
         margin: 0;
         font-family: $font-body;
         text-transform: uppercase;
         letter-spacing: 2px;
     }
-}
-
-.title {
-    text-align: center;
-    position: static;
-    margin-top: 60px;
-    a {
-        text-decoration: none;
+    img {
+        max-height: 2em;
     }
 }
 
@@ -339,7 +356,7 @@ nav {
 
 .sub-header, time {
     @include size(p);
-	color: $color_masala_approx;
+	color: $accent;
     margin-bottom: $vertical-rhythm;
 }
 
@@ -372,14 +389,14 @@ nav {
                      -0.12em 0.075em #fff,
                      0.15em 0.075em #fff,
                      -0.15em 0.075em #fff;
-        background-image: linear-gradient(#0783AB,#0783AB);
+        background-image: linear-gradient($accent,$accent);
         background-size: 1px 2px;
         background-repeat: repeat-x;
         background-position: 0 90%;
         text-decoration: none;
         transition: color .2s ease-in-out;
         &:hover {
-            color: #0783AB;
+            color: $accent;
         }
     }
 }
@@ -421,7 +438,7 @@ nav {
         background-color: #263248;
     }
     .volunteerup {
-        background-color: #efefef;
+        background-color: #EFEFEF;
     }
     .rhinolinings {
         background-color: #222;
@@ -438,12 +455,12 @@ nav {
     width: 100%;
     opacity: 0;
     transition: .2s ease;
-    background-color: #000;
+    background-color: $black;
 }
 
 .contact {
     width: 100%;
-    background-color: #f5f5f5;
+    background-color: $smoke;
     padding-bottom: $vertical-rhythm * 2;
     form {
         margin-top: $vertical-rhythm;
@@ -451,12 +468,12 @@ nav {
 }
 
 input {
-    background-color: #fff;
-    border-color: #e0e0e0;
+    background-color: #FFF;
+    border-color: $smoke;
     border-radius: 3px;
     border-width: 1px;
     border-style: solid;
-    color: #474e57;
+    color: $black;
     padding: 10px;
     margin: 8px 0;
     width: 100%;
