@@ -6,8 +6,47 @@
     <description>Recent content on Toma Nistor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 13 Mar 2017 23:03:31 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 30 Mar 2017 02:28:01 -0700</lastBuildDate>
     <atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Hugo Site is Launched</title>
+      <link>https://tomanistor.com/post/hugo-site-is-launched/</link>
+      <pubDate>Thu, 30 Mar 2017 02:28:01 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/post/hugo-site-is-launched/</guid>
+      <description>
+
+&lt;p&gt;My new portfolio has officially been launched! This is my first static website built using Hugo. In my &lt;a href=&#34;https://tomanistor.com/content/post/starting-with-hugo&#34;&gt;previous post&lt;/a&gt;, I mapped out a few broad objectives for this project.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s take a look at the completed goals from a short while ago and review.&lt;/p&gt;
+
+&lt;h2 id=&#34;objectives&#34;&gt;Objectives&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;del&gt;Create portfolio to display work&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Create blog to jot down my progress and help others along the way&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Implement design with SCSS&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;Design new Hugo theme and distribute for others to used&lt;/del&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;create-portfolio&#34;&gt;Create Portfolio&lt;/h2&gt;
+
+&lt;p&gt;The portfolio is been created and published in place of my old static portfolio. Currently, projects are displayed under the &amp;ldquo;Work&amp;rdquo; section on the index page. The index page was constructed as a one-page template to display a hero header, gallery of web projects, a list of the 10 latest blog posts, and a contact form.&lt;/p&gt;
+
+&lt;h2 id=&#34;create-blog&#34;&gt;Create Blog&lt;/h2&gt;
+
+&lt;p&gt;The blog post links on the index page lead to their own individual pages. The majority of the blog was based off of the &lt;a href=&#34;https://github.com/davidhampgonsalves/hugo-black-and-light-theme&#34;&gt;Hugo Black and Light Theme&lt;/a&gt; by David Hamp-Gonsalves. Overall, it was a well-constructed, minimalist, text-only theme without any scripts or clutter. The blog has been slightly redesigned but there is a bit more customization work to be done.&lt;/p&gt;
+
+&lt;h2 id=&#34;use-scss&#34;&gt;Use SCSS&lt;/h2&gt;
+
+&lt;p&gt;My first major challenge was figuring out how to use &lt;a href=&#34;http://sass-lang.com/&#34;&gt;SCSS&lt;/a&gt; outside of a Ruby on Rails project, since my previous installations of SASS were as easy as typing &lt;code&gt;gem install sass&lt;/code&gt; in the terminal. Luckily, I found a fantastically thorough tutorial by Dan Bahrami: &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/&#34;&gt;Building a production website with Hugo and GulpJS&lt;/a&gt;. This also marked my first exposure to &lt;a href=&#34;https://nodejs.org/en/&#34;&gt;Node.js&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;design-distribute-hugo-theme&#34;&gt;Design &amp;amp; Distribute Hugo Theme&lt;/h2&gt;
+
+&lt;p&gt;While the theme I&amp;rsquo;ve constructed is fine to publish now and use myself, there is a ways to go to clean it up and optimize it before distributing to the Hugo community. This will be the most challenging objective that I still need to complete and requires more studying of Hugo and the correct syntax. However, I&amp;rsquo;m very close to finishing the design portion of the theme!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Starting with Hugo</title>
@@ -31,26 +70,6 @@
 &lt;/ul&gt;
 
 &lt;p&gt;When this post is published, the four primary objectives of my new Hugo portfolio site should be complete.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;javascript&#34;&gt;var s = &#34;JavaScript syntax highlighting&#34;;
-alert(s);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;s = &amp;quot;Python syntax highlighting&amp;quot;
-print s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is an example of a paragraph between two blocks of code. It will be used to test for spacing.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;No language indicated, so no syntax highlighting.
-But let&#39;s throw in a &amp;lt;b&amp;gt;tag&amp;lt;/b&amp;gt;.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;This is a blockquote&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;More text after the block quote that is shown above.&lt;/p&gt;
 </description>
     </item>
     
