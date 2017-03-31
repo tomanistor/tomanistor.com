@@ -25,7 +25,7 @@
 // 	@include baseline-grid;
 // }
 
-@import url("https://fonts.googleapis.com/css?family=Proxima+Nova|Lora");
+@import url("https://fonts.googleapis.com/css?family=Rubik|Bitter");
 @import "flexboxgrid";
 
 // Colors
@@ -36,8 +36,8 @@ $smoke: #F7F7F7;
 $accent: #DA784D;
 
 // Fonts
-$font-header: "Lora", "sans-serif";
-$font-body: "Proxima Nova", "sans-serif";
+$font-header: "Bitter", "Roboto Slab", "serif";
+$font-body: "Rubik", "Poppins", "sans-serif";
 $font-code: "Menlo", "Monaco", "Andale Mono", "lucida console", "Courier New", "monospace";
 
 // Modular font scale
@@ -51,14 +51,12 @@ $font-scale-large: (
     h3: 1.666rem,
     p: 1.25rem
 );
-
 $font-scale-medium: (
     h1: 2.441rem,
     h2: 1.953em,
     h3: 1.563rem,
     p: 1.25rem,
 );
-
 $font-scale-small: (
     h1: 2.148rem,
     h2: 1.719rem,
@@ -87,10 +85,18 @@ $breakpoint-small: 25em; // 400px
 	body .container {
         padding: $vertical-rhythm;
 	}
+    nav {
+        div:not(:first-child) {
+            display: none;
+        }
+        div:last-child {
+            display: block;
+        }
+    }
 }
 @media(max-width: 25em) {
 	body .container {
-        padding: 0 $vertical-rhythm;
+        padding: 500 $vertical-rhythm;
 	}
 }
 
@@ -106,22 +112,43 @@ $breakpoint-small: 25em; // 400px
 		box-sizing: border-box;
 	}
 }
-
 html {
     box-sizing: inherit;
 }
-
 body {
     @include size(p);
 	font-family: $font-body;
 	line-height: $base-line-height;
 	color: $black;
-    // padding-top: calc(100vh - 4em);
 }
-
 .page {
     background-color: #fff;
     position: relative;
+    transform: translate(0px, 0px);
+    transition: 0.15s ease;
+}
+.page.active {
+    transform: translate(-100vw, 0px);
+}
+.nav-full {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
+    right: -100vw;
+    height: 100%;
+    background-color: $black;
+    transform: translate(0px, 0px);
+    transition: 0.15s ease;
+    h1 a {
+        color: #FFF;
+    }
+    h1:hover, a:hover {
+        color: $accent;
+    }
+}
+.nav-full.active {
+    transform: translate(-100vw, 0px);
 }
 
 .container {
@@ -138,6 +165,38 @@ p {
 	margin-bottom: $vertical-rhythm;
 	code {
 		font-family: $font-code;
+	}
+}
+
+h1, h2, h3 {
+    font-family: $font-header;
+    margin-top: $vertical-rhythm;
+    letter-spacing: 2px;
+    a {
+        text-decoration: none;
+    }
+}
+
+h1 { @include size(h1); }
+h2 { @include size(h2); }
+h3 { @include size(h3); }
+
+strong {
+	font-weight: 600;
+}
+del, s {
+	text-decoration: line-through;
+}
+em, dfn {
+	font-style: italic;
+}
+q {
+	@extend em;
+	&:before {
+		content: "\201C";
+	}
+	&:after {
+		content: "\201D";
 	}
 }
 
@@ -169,7 +228,6 @@ pre {
 		padding: 0;
 		margin: 0;
 		font-size: 100%;
-		//Instead of the line below you could use @include word-break($value)
 		word-break: normal;
 		white-space: pre;
 		background: transparent;
@@ -198,30 +256,10 @@ code {
 	padding: 4px;
 }
 
-em {
-	font-style: italic;
-}
-
-q {
-	@extend em;
-	&:before {
-		content: "\201C";
-	}
-	&:after {
-		content: "\201D";
-	}
-}
-
-dfn {
-	font-style: italic;
-}
 .sans {
 	font-family: "Open Sans", "Myriad Pro", "Myriad", "sans-serif";
 }
-.mono {
-	font-family: "Menlo", "Monaco", "Andale Mono", "lucida console", "Courier New", "monospace";
-}
-tt {
+.mono, tt {
 	font-family: "Menlo", "Monaco", "Andale Mono", "lucida console", "Courier New", "monospace";
 }
 
@@ -242,36 +280,14 @@ ul li {
 	}
 }
 
-h1, h2, h3 {
-    font-family: $font-header;
-    margin-top: $vertical-rhythm;
-    letter-spacing: 2px;
-    a {
-        text-decoration: none;
-    }
-}
-
-h1 { @include size(h1); }
-h2 { @include size(h2); }
-h3 { @include size(h3); }
-
-strong {
-	font-weight: 600;
-}
-
-del, s {
-	text-decoration: line-through;
-}
-
 %blockquote {
 	font-family: $font-header;
 	content: '\201C';
 	font-size: 35px;
 	color: $accent;
 }
-
 blockquote {
-	font-family: $font-header, "serif";
+	font-family: $font-header;
 	text-align: center;
 	padding: 25px;
 	p {
@@ -290,7 +306,6 @@ blockquote {
 header {
     height: 100vh;
     background-color: #FFF;
-    padding-top: $vertical-rhythm * 5;
     img {
         max-height: $vertical-rhythm * 6;
     }
@@ -298,8 +313,6 @@ header {
         font-family: $font-body;
     }
     .cursor {
-        font-size: $vertical-rhythm * 2;
-        vertical-align: middle;
         animation: 1s blink step-end infinite;
     }
 }
@@ -311,11 +324,6 @@ header {
   50% {
     color: $black;
   }
-}
-
-.nav-fixed {
-    position: fixed;
-    top: 0;
 }
 
 nav {
@@ -335,8 +343,12 @@ nav {
         font-weight: 600;
     }
     img {
-        max-height: 2em;
+        max-width: 2em;
     }
+}
+.nav-fixed {
+    position: fixed;
+    top: 0;
 }
 
 .posts_listing {
@@ -347,7 +359,7 @@ nav {
     li {
         margin: 0 0 25px 15px;
         &:before {
-            content: '';
+            content: "";
             margin-right: 0;
         }
         a:hover {
@@ -394,7 +406,7 @@ nav {
         background-image: linear-gradient($accent,$accent);
         background-size: 1px 2px;
         background-repeat: repeat-x;
-        background-position: 0 90%;
+        background-position: 0 95%;
         text-decoration: none;
         transition: color .2s ease-in-out;
         &:hover {
@@ -407,7 +419,7 @@ nav {
 	margin: 10px 0;
 }
 
-#links {
+.links {
 	margin: 50px 0 0;
 	:nth-child(2) {
 		float: right;
@@ -458,15 +470,16 @@ nav {
     opacity: 0;
     transition: .2s ease;
     background-color: $black;
-    h2, h3, a{
+    h2, h3, a {
         color: #FFF;
+    }
+    h3 {
         font-family: $font-body;
     }
     h3:hover, a:hover {
         color: $accent;
     }
 }
-
 
 .blog {
     height: 100vh;
