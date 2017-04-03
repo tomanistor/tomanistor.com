@@ -14,8 +14,23 @@ $(document).ready(function() {
         }
     });
 
+    // Full screen nav activation
     $(".nav-icon").click(function(){
         $(".nav-full").toggleClass("active");
         $(".page").toggleClass("active");
+        $(this).find("img").toggle();
     });
+
+    // Close full screen nav on link click
+    $(".nav-full").find("a").click(function(){
+        $(".nav-full").toggleClass("active");
+        $(".page").toggleClass("active");
+        $(".nav-icon").find("img").toggle();
+    });
+
+    // Highlight.js initialization
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
 });

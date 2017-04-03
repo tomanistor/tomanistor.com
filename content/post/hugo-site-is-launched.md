@@ -16,7 +16,7 @@ Let's take a look at the completed goals from a short while ago and review.
 - ~~Design new Hugo theme and distribute for others to used~~
 
 ## Create Portfolio
-The portfolio is been created and published in place of my old static portfolio. Currently, projects are displayed under the "Work" section on the index page. The index page was constructed as a one-page template to display a hero header, gallery of web projects, a list of the 10 latest blog posts, and a contact form.
+The portfolio has been created and published in place of my old portfolio site. Currently, projects are displayed under the "Work" section on the index page. The index page was constructed as a one-page template to display a hero header, gallery of web projects, a list of the 10 latest blog posts, and a contact form.
 
 ## Create Blog
 The blog post links on the index page lead to their own individual pages. The majority of the blog was based off of the [Hugo Black and Light Theme](https://github.com/davidhampgonsalves/hugo-black-and-light-theme) by David Hamp-Gonsalves. Overall, it was a well-constructed, minimalist, text-only theme without any scripts or clutter. The blog has been slightly redesigned but there is a bit more customization work to be done.
