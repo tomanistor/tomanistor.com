@@ -6,15 +6,68 @@
     <description>Recent content on Toma Nistor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 30 Mar 2017 02:28:01 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 28 Apr 2017 11:32:36 -0700</lastBuildDate>
     <atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Hugo Workflow</title>
+      <link>https://tomanistor.com/posts/hugo-workflow/</link>
+      <pubDate>Fri, 28 Apr 2017 11:32:36 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/posts/hugo-workflow/</guid>
+      <description>
+
+&lt;p&gt;The Hugo workflow is fairly simple and straightforward.&lt;/p&gt;
+
+&lt;p&gt;Inside of your Hugo project folder, the &lt;code&gt;/public&lt;/code&gt; folder is generated with all of your static site files once &lt;code&gt;hugo&lt;/code&gt; is run in the terminal.&lt;/p&gt;
+
+&lt;h2 id=&#34;purge-and-serve&#34;&gt;Purge and Serve&lt;/h2&gt;
+
+&lt;p&gt;To generate a new &lt;code&gt;/public&lt;/code&gt; folder, just remove the existing one and run the server. All updates you have made to your content and theme are now available in the new &lt;code&gt;/public&lt;/code&gt; folder and visible on the live server.&lt;/p&gt;
+
+&lt;p&gt;Always make sure to remove the old &lt;code&gt;/public&lt;/code&gt; folder otherwise Hugo will continue to update existing files and add new files without removed old unused files. You definitely don&amp;rsquo;t want the clutter and confusion.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ rm -rf public/
+$ hugo server --verbose
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;livereload&#34;&gt;LiveReload&lt;/h2&gt;
+
+&lt;p&gt;My favorite feature in Hugo so far? LiveReload. The Hugo server automatically watches your project folder for changes and refreshes your browser when any new changes are made while editing, creating, or deleting files.&lt;/p&gt;
+
+&lt;p&gt;This is great for development when you can make changes in your text editor and immediately see them occur in your browser window.&lt;/p&gt;
+
+&lt;p&gt;If you want to disable LiveReload:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ hugo server --disableLiveReload
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;gulp-pipeline&#34;&gt;Gulp Pipeline&lt;/h2&gt;
+
+&lt;p&gt;When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into CSS files that can then be rendering into the &lt;code&gt;/public&lt;/code&gt; folder appropriately. Dan Bahrami has a &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/&#34;&gt;great guide&lt;/a&gt; for setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.&lt;/p&gt;
+
+&lt;p&gt;To get the Gulp pipeline going after I start the Hugo server, I simply type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ gulp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;new-content&#34;&gt;New Content&lt;/h2&gt;
+
+&lt;p&gt;Creating new content in the project folder is also very simple. For example, I created this page as a markdown file inside of &lt;code&gt;/content/post&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ hugo new post/hugo-workflow.md
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So far I&amp;rsquo;ve been enjoying writing blog posts in markdown&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Hugo Site is Launched</title>
-      <link>https://tomanistor.com/post/hugo-site-is-launched/</link>
+      <link>https://tomanistor.com/posts/hugo-site-is-launched/</link>
       <pubDate>Thu, 30 Mar 2017 02:28:01 -0700</pubDate>
       
-      <guid>https://tomanistor.com/post/hugo-site-is-launched/</guid>
+      <guid>https://tomanistor.com/posts/hugo-site-is-launched/</guid>
       <description>
 
 &lt;p&gt;My new portfolio has officially been launched! This is my first static website built using Hugo. In my &lt;a href=&#34;https://tomanistor.com/content/post/starting-with-hugo&#34;&gt;previous post&lt;/a&gt;, I mapped out a few broad objectives for this project.&lt;/p&gt;
@@ -50,10 +103,10 @@
     
     <item>
       <title>Starting with Hugo</title>
-      <link>https://tomanistor.com/post/starting-with-hugo/</link>
+      <link>https://tomanistor.com/posts/starting-with-hugo/</link>
       <pubDate>Mon, 13 Mar 2017 23:03:31 -0700</pubDate>
       
-      <guid>https://tomanistor.com/post/starting-with-hugo/</guid>
+      <guid>https://tomanistor.com/posts/starting-with-hugo/</guid>
       <description>
 
 &lt;p&gt;I&amp;rsquo;m finally ditching &lt;a href=&#34;https://wordpress.org&#34;&gt;Wordpress&lt;/a&gt; and testing out new waters with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;, the static site generator written in &lt;a href=&#34;https://golang.org&#34;&gt;Go&lt;/a&gt;. Go is a speedy programming language developed by Google.&lt;/p&gt;
