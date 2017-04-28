@@ -19,13 +19,13 @@
 
 &lt;p&gt;The Hugo workflow is fairly simple and straightforward.&lt;/p&gt;
 
-&lt;p&gt;Inside of your Hugo project folder, the &lt;code&gt;/public&lt;/code&gt; folder is generated with all of your static site files once &lt;code&gt;hugo&lt;/code&gt; is run in the terminal.&lt;/p&gt;
+&lt;p&gt;Inside of your Hugo project folder, the &lt;code&gt;public/&lt;/code&gt; folder is generated with all of your static site files once &lt;code&gt;hugo&lt;/code&gt; is run in the terminal.&lt;/p&gt;
 
 &lt;h2 id=&#34;purge-and-serve&#34;&gt;Purge and Serve&lt;/h2&gt;
 
-&lt;p&gt;To generate a new &lt;code&gt;/public&lt;/code&gt; folder, just remove the existing one and run the server. All updates you have made to your content and theme are now available in the new &lt;code&gt;/public&lt;/code&gt; folder and visible on the live server.&lt;/p&gt;
+&lt;p&gt;To generate a new &lt;code&gt;public/&lt;/code&gt; folder, just remove the existing one and run the server. All updates you have made to your content and theme are now available in the new &lt;code&gt;public/&lt;/code&gt; folder and visible on the live server.&lt;/p&gt;
 
-&lt;p&gt;Always make sure to remove the old &lt;code&gt;/public&lt;/code&gt; folder otherwise Hugo will continue to update existing files and add new files without removed old unused files. You definitely don&amp;rsquo;t want the clutter and confusion.&lt;/p&gt;
+&lt;p&gt;Always make sure to remove the old &lt;code&gt;public/&lt;/code&gt; folder otherwise Hugo will continue to update existing files and add new files without removed old unused files. You definitely don&amp;rsquo;t want the clutter and confusion.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ rm -rf public/
 $ hugo server --verbose
@@ -44,7 +44,7 @@ $ hugo server --verbose
 
 &lt;h2 id=&#34;gulp-pipeline&#34;&gt;Gulp Pipeline&lt;/h2&gt;
 
-&lt;p&gt;When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into CSS files that can then be rendering into the &lt;code&gt;/public&lt;/code&gt; folder appropriately. Dan Bahrami has a &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/&#34;&gt;great guide&lt;/a&gt; for setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.&lt;/p&gt;
+&lt;p&gt;When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into CSS files that can then be rendering into the &lt;code&gt;public/&lt;/code&gt; folder appropriately. Dan Bahrami has a &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/&#34;&gt;great guide&lt;/a&gt; for setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.&lt;/p&gt;
 
 &lt;p&gt;To get the Gulp pipeline going after I start the Hugo server, I simply type:&lt;/p&gt;
 
@@ -53,7 +53,7 @@ $ hugo server --verbose
 
 &lt;h2 id=&#34;new-content&#34;&gt;New Content&lt;/h2&gt;
 
-&lt;p&gt;Creating new content in the project folder is also very simple. For example, I created this page as a markdown file inside of &lt;code&gt;/content/post&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Creating new content in the project folder is also very simple. For example, I created this page as a markdown file inside of &lt;code&gt;content/post/&lt;/code&gt;:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ hugo new post/hugo-workflow.md
 &lt;/code&gt;&lt;/pre&gt;
