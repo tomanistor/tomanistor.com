@@ -87,6 +87,7 @@ $breakpoint-small: 25em; // 400px
 }
 html {
     box-sizing: inherit;
+    overflow-x:hidden;
 }
 body {
     @include size(p);
@@ -118,7 +119,7 @@ header {
 nav {
     height: $vertical-rhythm * 2;
     width: 100%;
-    background-color: #fff;
+    background-color: #FFF;
     position: absolute;
     bottom: 0;
     z-index: 100;
@@ -131,8 +132,11 @@ nav {
         letter-spacing: 2px;
         font-weight: 600;
     }
+    a > .active {
+        color: $accent;
+    }
     img {
-        max-width: 2em;
+        max-width: 2.5em;
     }
     .nav-toggle a {
         display: none;
@@ -229,7 +233,7 @@ pre {
 	font: 12px "Consolas", "Liberation Mono", "Menlo", "Courier", "monospace";
 	background-color: $smoke;
 	margin-top: 0;
-    margin-bottom: $vertical-rhythm;
+  margin-bottom: $vertical-rhythm;
 	word-wrap: normal;
 	padding: 16px;
 	overflow: auto;
@@ -247,7 +251,6 @@ pre {
 	}
 	code {
 		display: inline;
-		max-width: auto;
 		padding: 0;
 		margin: 0;
 		overflow: visible;
@@ -261,9 +264,9 @@ pre {
 	}
 }
 code {
-    font-family: $font-code;
-	font-size: 12px;
-    background-color: $smoke;
+  font-family: $font-code;
+  font-size: 90%;
+  background-color: $smoke;
 	padding: 4px;
 }
 .sans {
