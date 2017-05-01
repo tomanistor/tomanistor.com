@@ -31,7 +31,7 @@ $ hugo server --disableLiveReload
 ```
 
 ## Gulp Pipeline ##
-When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into CSS files that can then be rendering into the `public/` folder appropriately. Dan Bahrami has a [great guide](http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/) for setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.
+When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into compressed CSS files that are then rendering into the `public/` folder appropriately. Besides compiling and compressing style files, my gulpfile also runs a task that minifies my JavaScript files. Dan Bahrami has a [great guide](http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/) for setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.
 
 To get the Gulp pipeline going after I start the Hugo server, I simply type:
 
@@ -46,4 +46,24 @@ Creating new content in the project folder is also very simple. For example, I c
 $ hugo new post/hugo-workflow.md
 ```
 
-So far I've been enjoying writing blog posts in markdown
+So far I've been enjoying writing blog posts in markdown.
+
+## Hugo Deploy ##
+For deploying Hugo, I currently use [hugodeploy](https://github.com/mindok/hugodeploy), a simple FTP/SFTP deployment tool built in Go. Content inside of `public/` is effortlessly uploaded to my website's root folder on my shared webhost account with two simple commands:
+
+```console
+$ hugodeploy preview
+$ hugodeploy push
+```
+
+A neat extra feature of hugodeploy is the minification of CSS, HTML, JavaScript, JSON, and XML files upon deployment. While this option can be turned off, it does help with file size and site speed if you're not already minifying your static files.
+
+## Conclusion ##
+All in all, my Hugo workflow is short and sweet. A typical update and publication to the live site can look like this:
+
+```console
+$ rm -rf public
+$ hugo
+$ hugodeploy preview
+$ hugodeploy push
+```
