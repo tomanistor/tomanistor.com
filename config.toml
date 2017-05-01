@@ -9,7 +9,7 @@ googleAnalytics = "UA-70206008-1"
 
 [Params]
     author = "Toma Nistor"
-    description = "Full-stack web developer in San Diego. Fueled by the creation of an optimal user experience."
+    description = "Full-stack web developer and UI/UX enthusiast based in San Diego, CA. I enjoy using multiple tools to engineer and build powerful websites and apps."
     logoBig = "/images/logo/Toma-Nistor-Logo-450px.png"
     logoSmall = "/images/logo/Toma-Nistor-Logo-150px.png"
     favicon = "favicon.ico"

@@ -44,7 +44,7 @@ $ hugo server --verbose
 
 &lt;h2 id=&#34;gulp-pipeline&#34;&gt;Gulp Pipeline&lt;/h2&gt;
 
-&lt;p&gt;When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into CSS files that can then be rendering into the &lt;code&gt;public/&lt;/code&gt; folder appropriately. Dan Bahrami has a &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/&#34;&gt;great guide&lt;/a&gt; for setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.&lt;/p&gt;
+&lt;p&gt;When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into compressed CSS files that are then rendering into the &lt;code&gt;public/&lt;/code&gt; folder appropriately. Besides compiling and compressing style files, my gulpfile also runs a task that minifies my JavaScript files. Dan Bahrami has a &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/&#34;&gt;great guide&lt;/a&gt; for setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.&lt;/p&gt;
 
 &lt;p&gt;To get the Gulp pipeline going after I start the Hugo server, I simply type:&lt;/p&gt;
 
@@ -68,7 +68,7 @@ $ hugo server --verbose
 $ hugodeploy push
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;A neat extra feature of hugodeploy is the minification of CSS, HTML, JavaScript, JSON, and XML files upon deployment. While this option can be turned off, it does help with file size and site speed.&lt;/p&gt;
+&lt;p&gt;A neat extra feature of hugodeploy is the minification of CSS, HTML, JavaScript, JSON, and XML files upon deployment. While this option can be turned off, it does help with file size and site speed if you&amp;rsquo;re not already minifying your static files.&lt;/p&gt;
 
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
