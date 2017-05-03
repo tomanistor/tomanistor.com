@@ -19,8 +19,8 @@ $ rm -rf public/
 $ hugo server --verbose
 ```
 
-## LiveReload ##
-My favorite feature in Hugo so far? LiveReload. The Hugo server automatically watches your project folder for changes and refreshes your browser when any new changes are made while editing, creating, or deleting files.
+### LiveReload ###
+One of my favorite features in Hugo so far? LiveReload. The Hugo server automatically watches your project folder for changes and refreshes your browser when any new changes are made while editing, creating, or deleting files.
 
 This is great for development when you can make changes in your text editor and immediately see them occur in your browser window.
 
@@ -31,7 +31,7 @@ $ hugo server --disableLiveReload
 ```
 
 ## Gulp Pipeline ##
-When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into compressed CSS files that are then rendering into the `public/` folder appropriately. Besides compiling and compressing style files, my gulpfile also runs a task that minifies my JavaScript files. Dan Bahrami has a [great guide](http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/) for setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.
+When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into compressed CSS files that are then rendering into the `public/` folder appropriately. Besides compiling and compressing style files, my gulpfile also runs a task that minifies my JavaScript files. Dan Bahrami has a [great guide](http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/) that includes setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.
 
 To get the Gulp pipeline going after I start the Hugo server, I simply type:
 
@@ -57,6 +57,9 @@ $ hugodeploy push
 ```
 
 A neat extra feature of hugodeploy is the minification of CSS, HTML, JavaScript, JSON, and XML files upon deployment. While this option can be turned off, it does help with file size and site speed if you're not already minifying your static files.
+
+### Rsync Process ###
+An alternative deployment method I was thinking about using and may try out down the link is using rsync. Andrew Codispoti detailed the steps to [setting up an rsync process](http://www.andrewcodispoti.com/deploy-process/) that can deploy updates when committing and pushing with git.
 
 ## Conclusion ##
 All in all, my Hugo workflow is short and sweet. A typical update and publication to the live site can look like this:
