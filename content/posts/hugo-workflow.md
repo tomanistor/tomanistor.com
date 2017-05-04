@@ -2,10 +2,11 @@
 date = "2017-04-28T11:32:36-07:00"
 title = "Hugo Workflow"
 draft = false
+description = "The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio."
 
 +++
 
-The Hugo workflow is fairly simple and straightforward.
+The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.
 
 Inside of your Hugo project folder, the `public/` folder is generated with all of your static site files once `hugo` is run in the terminal.
 
