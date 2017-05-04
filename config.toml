@@ -17,6 +17,8 @@ googleAnalytics = "UA-70206008-1"
     twitter = "TomaNistor"
     linkedin = "tomanistor"
     github = "tomanistor"
+    copyright = false
+    credit = false
 
 [[menu.main]]
     name = "Work"

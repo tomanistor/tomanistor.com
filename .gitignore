@@ -1,6 +1,5 @@
 deployed/
 node_modules/
-public/
 /themes/black-and-light/
 
 hugodeploy.yaml

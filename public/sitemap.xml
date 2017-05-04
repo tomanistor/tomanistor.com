@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://tomanistor.com/blog/hugo-workflow/</loc>
+    <lastmod>2017-04-28T11:32:36-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/hugo-site-is-launched/</loc>
+    <lastmod>2017-03-30T02:28:01-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/starting-with-hugo/</loc>
+    <lastmod>2017-03-13T23:03:31-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/</loc>
+    <lastmod>2017-04-28T11:32:36-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/</loc>
+    <lastmod>2017-04-28T11:32:36-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

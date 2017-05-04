@@ -1,8 +1,8 @@
 +++
 date = "2017-04-28T11:32:36-07:00"
 title = "Hugo Workflow"
-draft = false
 description = "The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio."
+aliases = ["/posts/hugo-workflow", "/post/hugo-workflow"]
 
 +++
 
@@ -41,10 +41,10 @@ $ gulp
 ```
 
 ## New Content ##
-Creating new content in the project folder is also very simple. For example, I created this page as a markdown file inside of `content/post/`:
+Creating new content in the project folder is also very simple. For example, I created this page as a markdown file inside of `content/blog/`:
 
 ```console
-$ hugo new post/hugo-workflow.md
+$ hugo new blog/hugo-workflow.md
 ```
 
 So far I've been enjoying writing blog posts in markdown.

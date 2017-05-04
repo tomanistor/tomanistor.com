@@ -1,8 +1,8 @@
 +++
-title = "Starting with Hugo"
 date = "2017-03-13T23:03:31-07:00"
-draft = false
+title = "Starting with Hugo"
 description = "This marks the beginning of my journey using Hugo, a static website generator written in GoLang. It will act as my blog, portfolio, and online presence."
+aliases = [ "/post/starting-with-hugo"]
 
 +++
 
