@@ -60,7 +60,10 @@ $ hugodeploy push
 A neat extra feature of hugodeploy is the minification of CSS, HTML, JavaScript, JSON, and XML files upon deployment. While this option can be turned off, it does help with file size and site speed if you're not already minifying your static files.
 
 ### Rsync Process ###
-An alternative deployment method I was thinking about using and may try out down the link is using rsync. Andrew Codispoti detailed the steps to [setting up an rsync process](http://www.andrewcodispoti.com/deploy-process/) that can deploy updates when committing and pushing with git.
+An alternative deployment method I was thinking about using and may try out down the line is using rsync. Andrew Codispoti detailed the steps to [setting up an rsync process](http://www.andrewcodispoti.com/deploy-process/) that can deploy updates when committing and pushing with git.
+
+### Clear Cache ###
+I use CloudFlare as my DNS to cache my static files and help serve them faster around the world. When deploying, I sometimes find that I'll need to clear CloudFlare's caches in order to serve up freshly update files. As a little shortcut to constantly going to the CloudFlare site and manually clearing the cache, I created a [shell script that clears the cache](blog/shell-script-to-clear-cloudflare-cache) after deployment when I call it in the terminal with: `cloudclear`.
 
 ## Conclusion ##
 All in all, my Hugo workflow is short and sweet. A typical update and publication to the live site can look like this:

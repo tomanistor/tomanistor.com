@@ -12,7 +12,7 @@
         <title>
             
             
-                Hugo Workflow | Toma Nistor
+                Shell Script to Clear CloudFlare Cache | Toma Nistor
             
         </title>
 
@@ -24,7 +24,7 @@
         <meta name="referrer" content="no-referrer-when-downgrade">
         <meta name="generator" content="" />
         <base href="https://tomanistor.com">
-        <meta name="description" content="The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.">
+        <meta name="description" content="How to create a shell script in Linux that clears your website&#39;s CloudFlare cache.">
         
         <meta name="author" content="Toma Nistor">
         
@@ -32,11 +32,11 @@
         <meta name="twitter:site" content="@TomaNistor">
         <meta name="twitter:creator" content="@TomaNistor">
         
-        <meta property="og:title" content="Hugo Workflow | Toma Nistor">
+        <meta property="og:title" content="Shell Script to Clear CloudFlare Cache | Toma Nistor">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://tomanistor.com">
         <meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png">
-        <meta name="og:description" content="The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.">
+        <meta name="og:description" content="How to create a shell script in Linux that clears your website&#39;s CloudFlare cache.">
         
 
         
@@ -59,7 +59,7 @@
         <meta name="theme-color" content="#FFF">
         
 
-        <link rel="canonical" href="https://tomanistor.com/blog/hugo-workflow/">
+        <link rel="canonical" href="https://tomanistor.com/blog/shell-script-to-clear-cloudflare-cache/">
         
         <link rel="stylesheet" href="styles/main.css" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/github.min.css">
@@ -115,94 +115,89 @@ ga('send', 'pageview');
 
 <section class="container">
     <section class="content">
-      <h1> Hugo Workflow </h1>
+      <h1> Shell Script to Clear CloudFlare Cache </h1>
 
       <div class="sub-header">
-        April 2017 · 3 minute read
+        May 2017 · 3 minute read
       </div>
 
       <div class="entry-content">
         
 
-<p>The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.</p>
+<p><a href="https://cloudflare.com">CloudFlare</a> is a free content delivery network (CDN) that helps deliver static content quickly and efficiently throughout the world. Caching and serving static content through dependable CDNs like CloudFlare, <a href="https://maxcdn.com">MaxCDN</a>, or <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a> can help speed up your website drastically.</p>
 
-<p>Inside of your Hugo project folder, the <code>public/</code> folder is generated with all of your static site files once <code>hugo</code> is run in the terminal.</p>
+<blockquote>
+<p>A CDN is essentially a network of geographically dispersed servers. Each CDN node (also called Edge Servers) caches the static content of a site like the images, CSS/JS files and other structural components. The majority of an end-user’s page load time is spent on retrieving this content, and so it makes sense to provide these “building blocks” of a site in as many server nodes as possible, distributed throughout the world.</p>
 
-<h2 id="purge-and-serve">Purge and Serve</h2>
+<p>When a user requests your site, the node closest in proximity to user will deliver the static content, ensuring the shortest distance for the data to travel (reduced latency), therefore providing the fastest site experience.</p>
+</blockquote>
 
-<p>To generate a new <code>public/</code> folder, just remove the existing one and run the server. All updates you have made to your content and theme are now available in the new <code>public/</code> folder and visible on the live server.</p>
+<p>Static resources like image, JavaScript, and CSS files that are cached by CloudFlare sometimes need to be purged before the CDN can deliver freshly updated resources. You could always log in to CloudFlare and purge the cache manually each time you make a website update, or you work smarter and create a shell script that does it for you upon deployment.</p>
 
-<p>Always make sure to remove the old <code>public/</code> folder otherwise Hugo will continue to update existing files and add new files without removed old unused files. You definitely don&rsquo;t want the clutter and confusion.</p>
+<h2 id="get-your-cloudflare-global-api-key">Get Your CloudFlare Global API Key</h2>
 
-<pre><code class="language-console">$ rm -rf public/
-$ hugo server --verbose
+<p>First, you must retrieve the CloudFlare <strong>Global API Key</strong>. This key will be available on your CloudFlare account settings page. Copy this key to use in the next</p>
+
+<h2 id="get-your-cloudflare-zone-id">Get Your CloudFlare Zone ID</h2>
+
+<p>The <strong>Zone ID</strong> can be found on your domain&rsquo;s CloudFlare overview page.</p>
+
+<p>Another way to grab your Zone ID is to enter the following command in the terminal and replace the <code>X-Auth-Email</code> with your email and the <code>X-Auth-Key</code> with your Global API Key.</p>
+
+<pre><code class="language-console">$ curl -X GET &quot;https://api.cloudflare.com/client/v4/zones&quot; \
+-H &quot;X-Auth-Email: user@example.com&quot; \
+-H &quot;X-Auth-Key: c2547eb745079dac9320b638f5e225cf483cc5cfdda42&quot; \
+-H &quot;Content-Type: application/json&quot;
 </code></pre>
 
-<h3 id="livereload">LiveReload</h3>
+<p>The resulting output will be a load of information about your CloudFlare account&rsquo;s domain names, including a Zone ID associated with each domain name.</p>
 
-<p>One of my favorite features in Hugo so far? LiveReload. The Hugo server automatically watches your project folder for changes and refreshes your browser when any new changes are made while editing, creating, or deleting files.</p>
+<h2 id="clear-your-cloudflare-cache">Clear Your CloudFlare cache</h2>
 
-<p>This is great for development when you can make changes in your text editor and immediately see them occur in your browser window.</p>
+<p>We&rsquo;ll use your domain&rsquo;s Zone ID to clear the cache and force Cloudflare to fetch a fresh versions of your static files. Enter the following command in the terminal and again use your email for the <code>X-Auth-Email</code> and your Global API Key for the <code>X-Auth-Key</code>. However, now replace <code>ZONE-ID</code> with your Zone ID.</p>
 
-<p>If you want to disable LiveReload:</p>
-
-<pre><code>$ hugo server --disableLiveReload
+<pre><code class="language-console">$ curl -X DELETE &quot;https://api.cloudflare.com/client/v4/zones/ZONE-ID/purge_cache&quot; \
+-H &quot;X-Auth-Email: user@example.com&quot; \
+-H &quot;X-Auth-Key: c2547eb745079dac9320b638f5e225cf483cc5cfdda42&quot; \
+-H &quot;Content-Type:application/json&quot; \
+--data '{&quot;purge_everything&quot;:true}'
 </code></pre>
 
-<h2 id="gulp-pipeline">Gulp Pipeline</h2>
+<p>If you made changes to the site they should now be visible since the cache will have been cleared.</p>
 
-<p>When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into compressed CSS files that are then rendering into the <code>public/</code> folder appropriately. Besides compiling and compressing style files, my gulpfile also runs a task that minifies my JavaScript files. Dan Bahrami has a <a href="http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/">great guide</a> that includes setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.</p>
+<h2 id="create-the-shell-script">Create the Shell Script</h2>
 
-<p>To get the Gulp pipeline going after I start the Hugo server, I simply type:</p>
+<p>Copy that last command into your text editor and add <code>#!/bin/bash</code> to the very top of the file. Feel free to add a comment under that line so you know what the bash file does in the future. At the end, I also added an <code>echo</code> to print out a message letting me know that the cache has been cleared. It should look something like this:</p>
 
-<pre><code class="language-console">$ gulp
+<pre><code class="language-console">#!/bin/bash
+# Clear CloudFlare cache for tomanistor.com
+
+curl -X DELETE &quot;https://api.cloudflare.com/client/v4/zones/ZONE-ID/purge_cache&quot; \
+-H &quot;X-Auth-Email: user@example.com&quot; \
+-H &quot;X-Auth-Key: c2547eb745079dac9320b638f5e225cf483cc5cfdda42&quot; \
+-H &quot;Content-Type:application/json&quot; \
+--data '{&quot;purge_everything&quot;:true}'
+
+echo &quot;CloudFlare cache has been cleared&quot;
 </code></pre>
 
-<h2 id="new-content">New Content</h2>
+<p>Shell scripts should be saved in <code>usr/local/bin/</code>. I named my script <code>cloudclear</code> with no file extensions.</p>
 
-<p>Creating new content in the project folder is also very simple. For example, I created this page as a markdown file inside of <code>content/blog/</code>:</p>
+<h2 id="run-the-script">Run the Script</h2>
 
-<pre><code class="language-console">$ hugo new blog/hugo-workflow.md
+<p>Type the name of your shell script in the terminal. If everything has been done correctly, the script will run and clear your CloudFlare cache.</p>
+
+<pre><code class="language-console">$ cloudclear
 </code></pre>
 
-<p>So far I&rsquo;ve been enjoying writing blog posts in markdown.</p>
-
-<h2 id="hugo-deploy">Hugo Deploy</h2>
-
-<p>For deploying Hugo, I currently use <a href="https://github.com/mindok/hugodeploy">hugodeploy</a>, a simple FTP/SFTP deployment tool built in Go. Content inside of <code>public/</code> is effortlessly uploaded to my website&rsquo;s root folder on my shared webhost account with two simple commands:</p>
-
-<pre><code class="language-console">$ hugodeploy preview
-$ hugodeploy push
-</code></pre>
-
-<p>A neat extra feature of hugodeploy is the minification of CSS, HTML, JavaScript, JSON, and XML files upon deployment. While this option can be turned off, it does help with file size and site speed if you&rsquo;re not already minifying your static files.</p>
-
-<h3 id="rsync-process">Rsync Process</h3>
-
-<p>An alternative deployment method I was thinking about using and may try out down the line is using rsync. Andrew Codispoti detailed the steps to <a href="http://www.andrewcodispoti.com/deploy-process/">setting up an rsync process</a> that can deploy updates when committing and pushing with git.</p>
-
-<h3 id="clear-cache">Clear Cache</h3>
-
-<p>I use CloudFlare as my DNS to cache my static files and help serve them faster around the world. When deploying, I sometimes find that I&rsquo;ll need to clear CloudFlare&rsquo;s caches in order to serve up freshly update files. As a little shortcut to constantly going to the CloudFlare site and manually clearing the cache, I created a <a href="blog/shell-script-to-clear-cloudflare-cache">shell script that clears the cache</a> after deployment when I call it in the terminal with: <code>cloudclear</code>.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>All in all, my Hugo workflow is short and sweet. A typical update and publication to the live site can look like this:</p>
-
-<pre><code class="language-console">$ rm -rf public
-$ hugo
-$ hugodeploy preview
-$ hugodeploy push
-</code></pre>
+<p>There it is! Faster DNS cache clearing.</p>
 
       </div>
 
       <div class="links">
         
-          &laquo; <a class="basic-alignment left" href="https://tomanistor.com/blog/hugo-site-is-launched/">Hugo Site is Launched</a>
+          &laquo; <a class="basic-alignment left" href="https://tomanistor.com/blog/hugo-workflow/">Hugo Workflow</a>
         
-        
-          <a class="basic-alignment left" href="https://tomanistor.com/blog/shell-script-to-clear-cloudflare-cache/">Shell Script to Clear CloudFlare Cache</a> &raquo;
         
       </div>
     </section>
