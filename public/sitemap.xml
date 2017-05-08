@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tomanistor.com/blog/big-list-of-free-javascript-books/</loc>
+    <lastmod>2017-05-07T14:46:09-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tomanistor.com/blog/shell-script-to-clear-cloudflare-cache/</loc>
     <lastmod>2017-05-05T16:03:45-07:00</lastmod>
   </url>
@@ -23,13 +28,13 @@
   
   <url>
     <loc>https://tomanistor.com/blog/</loc>
-    <lastmod>2017-05-05T16:03:45-07:00</lastmod>
+    <lastmod>2017-05-07T14:46:09-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tomanistor.com/</loc>
-    <lastmod>2017-05-05T16:03:45-07:00</lastmod>
+    <lastmod>2017-05-07T14:46:09-07:00</lastmod>
     <priority>0</priority>
   </url>
   

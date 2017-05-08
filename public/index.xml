@@ -7,8 +7,129 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
-    <lastBuildDate>Fri, 05 May 2017 16:03:45 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 07 May 2017 14:46:09 -0700</lastBuildDate>
     <atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Big List of Free JavaScript Books</title>
+      <link>https://tomanistor.com/blog/big-list-of-free-javascript-books/</link>
+      <pubDate>Sun, 07 May 2017 14:46:09 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/big-list-of-free-javascript-books/</guid>
+      <description>
+
+&lt;p&gt;This is a big list of free JavaScript books and resources that can all be found online. The list is categorized by different JavaScript frameworks and ordered alphabetically. Some of the reading materials require registration or your email but are otherwise still free for consumption.&lt;/p&gt;
+
+&lt;p&gt;If you have a resource to add to this list, please &lt;a href=&#34;https://tomanistor.com/#contact&#34;&gt;let me know&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;* Registration required&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;javascript&#34;&gt;JavaScript&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://2ality.com/2013/06/basic-javascript.html&#34;&gt;Basic JavaScript for the Impatient Programmer&lt;/a&gt; by Dr. Axel Rauschmayer&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://web-engineering.info/JsFrontendApp-Book&#34;&gt;Building Front-End Web Apps with Plain JavaScript&lt;/a&gt; by Gerd Wagner&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://domenlightenment.com/&#34;&gt;DOM Enlightenment&lt;/a&gt; by Cody Lindley&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://eloquentjavascript.net/&#34;&gt;Eloquent JavaScript&lt;/a&gt; by Marijn Haverbeke&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://exploringjs.com/es6/&#34;&gt;Exploring ES6&lt;/a&gt; by Dr. Axel Rauschmayer&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://exploringjs.com/es2016-es2017/&#34;&gt;Exploring ES2016 and ES2017&lt;/a&gt; by Dr. Axel Rauschmayer&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://google.github.io/styleguide/jsguide.html&#34;&gt;Google JavaScript Style Guide&lt;/a&gt; by Google&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://read.humanjavascript.com/&#34;&gt;Human JavaScript&lt;/a&gt; by Henrik Joreteg&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leanpub.com/javascriptallongesix/read&#34;&gt;JavaScript Allongé&lt;/a&gt; by Reginald Braithwaite&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.javascriptenlightenment.com/JavaScript_Enlightenment.pdf&#34;&gt;JavaScript Enlightenment&lt;/a&gt; by Cody Lindley&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://jsforcats.com/&#34;&gt;JavaScript for Cats&lt;/a&gt; by Max Ogden&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/&#34;&gt;JavaScript Garden&lt;/a&gt; by Ivo Wetzel&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction&#34;&gt;JavaScript Guide&lt;/a&gt; by Mozilla Developer Network&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://shichuan.github.io/javascript-patterns/&#34;&gt;JavaScript Patters&lt;/a&gt; by Shi Chuan&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.syncfusion.com/resources/techportal/ebooks/javascript&#34;&gt;JavaScript Succinctly&lt;/a&gt; by Cody Lindley*&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://jstherightway.org/&#34;&gt;JavaScript the Right Way&lt;/a&gt; by William Oliveira&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/spencertipping/js-in-ten-minutes/blob/master/js-in-ten-minutes.pdf&#34;&gt;JS in 10 Minutes&lt;/a&gt; by Spencer Tipping&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gitbookio.gitbooks.io/javascript/content/&#34;&gt;Learn JavaScript&lt;/a&gt; by GitBook&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://addyosmani.com/resources/essentialjsdesignpatterns/book/&#34;&gt;Learning JavaScript Design Patters&lt;/a&gt; by Addy Osmani&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.noelrappin.com/mstwjs&#34;&gt;Master Space and Time with JavaScript&lt;/a&gt; by Noel Rappin&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://drboolean.gitbooks.io/mostly-adequate-guide/content/&#34;&gt;Mostly Adequate Guide to Functional Programming&lt;/a&gt; by Brian Lonsdorf&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/object-oriented-javascript-pdf-ebook&#34;&gt;Object-Oriented JavaScript&lt;/a&gt; by Stoyan Stefanov, Kumar Chetan Sharma&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gumroad.com/l/ohmyjs&#34;&gt;Oh My JS&lt;/a&gt; by Azat Mardan*&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://addyosmani.com/largescalejavascript/&#34;&gt;Patterns For Large-Scale JavaScript Application Architecture&lt;/a&gt; by Addy Osmani&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ponyfoo.com/books/practical-es6&#34;&gt;Practical ES6&lt;/a&gt; by Nicolás Bevacqua&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://chimera.labs.oreilly.com/books/1234000000262/index.html&#34;&gt;Programming JavaScript Applications&lt;/a&gt; by Eric Elliot&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://speakingjs.com/es5/&#34;&gt;Speaking JavaScript&lt;/a&gt; by Dr. Axel Rauschmayer&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/thinking-in-javascript&#34;&gt;Thinking in JavaScript&lt;/a&gt; by Aravind Shenoy*&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://javascript.info/&#34;&gt;The JavaScript Tutorial&lt;/a&gt; by Ilya Kantor&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://chimera.labs.oreilly.com/books/1234000001655&#34;&gt;The Problem with Native JavaScript APIs&lt;/a&gt; by Nicholas C. Zakas&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leanpub.com/understandinges6/read/&#34;&gt;Understanding ECMAScript 6&lt;/a&gt; by Nicholas C. Zakas&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/what-you-need-know-about-javascript&#34;&gt;What You Need to Know About JavaScript&lt;/a&gt; by Gabriel Cánepa*&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS&#34;&gt;You Don&amp;rsquo;t Know JS&lt;/a&gt; by Kyle Simpson&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;angularjs&#34;&gt;AngularJS&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.angularjsbook.com/&#34;&gt;Angular Basics&lt;/a&gt; by Chris Smith&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/angularjs-essentials&#34;&gt;AngularJS Essentials&lt;/a&gt; by Rodrigo Branas*&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://sd.blackball.lv/library/AngularJS_in_60_minutes_Dan_Wahlin_May_2013.pdf&#34;&gt;AngularJS in 60 Minutes&lt;/a&gt; by Dan Wahlin&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://pascalprecht.github.io/slides/angularjs-insights/#/&#34;&gt;AngularJS Insights&lt;/a&gt; by Pascal Precht&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.syncfusion.com/resources/techportal/ebooks/angularjs&#34;&gt;AngularJS Succinctly&lt;/a&gt; by Frederik Dietz*&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://angular-rails.com/&#34;&gt;AngularJS with Ruby on Rials&lt;/a&gt; by David Bryant Copeland&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://nicholasjohnson.com/blog/angularjs-step-by-logical-step/&#34;&gt;AngularJS: Step by Logical Step&lt;/a&gt; by Nicholas Johnson&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.angularjs.org/guide/&#34;&gt;Guide to AngularJS Documenation&lt;/a&gt; by Google&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://ngokevin.com/blog/angular-1/&#34;&gt;ngoKevin&amp;rsquo;s Introduction to AngularJS&lt;/a&gt; by Kevin Ngo&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leanpub.com/Practical_AngularJS/read&#34;&gt;Practical AngularJS&lt;/a&gt; by Dinis Cruz&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leanpub.com/recipes-with-angular-js/read&#34;&gt;Recipes with Angular.js&lt;/a&gt; by Frederik Dietz&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;express-js&#34;&gt;Express.js&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://web.archive.org/web/20140621124403/https://leanpub.com/express/read&#34;&gt;Express.js Guide&lt;/a&gt; by Azat Mardan&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;ember-js&#34;&gt;Ember.js&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://dockyard.com/blog/ember/2013/01/07/building-an-ember-app-with-rails-api-part-1&#34;&gt;Building an Ember App with RailsAPI&lt;/a&gt; by Brian Cardarella&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://guides.emberjs.com/v2.13.0/getting-started/&#34;&gt;Ember.js Guide&lt;/a&gt; by Ember.js&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://ember.vicramon.com/&#34;&gt;Vic Ramon&amp;rsquo;s Ember Tutorial&lt;/a&gt; by Vic Ramon&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;jquery&#34;&gt;jQuery&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://nicholasjohnson.com/javascript-book/&#34;&gt;JavaScript Plus a Dash of jQuery&lt;/a&gt; by Nicholas Johnson&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://jqueryenlightenment.com/jquery_enlightenment.pdf&#34;&gt;jQuery Enlightenment&lt;/a&gt; by Cody Lindley&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://jqfundamentals.com/&#34;&gt;jQuery Fundamentals&lt;/a&gt; by Rebecca Murphey&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.syncfusion.com/resources/techportal/ebooks/jquery&#34;&gt;jQuery Succinctly&lt;/a&gt; by Cody Lindley*&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://mediatheque.cite-musique.fr/MediaComposite/Debug/Dossier-Orchestre/ressources/jQuery.Novice.to.Ninja.2nd.Edition.pdf&#34;&gt;jQuery: Novice to Ninja&lt;/a&gt; by Earle Castledine, Graig Sharkie&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;node-js&#34;&gt;Node.js&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://nodeguide.com/&#34;&gt;Felix&amp;rsquo;s Node.js Guide&lt;/a&gt; by Felix Geisendörfer&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://web.archive.org/web/20150327025334/https://leanpub.com/jsfun/read&#34;&gt;JavaScript and Node FUNdamentals&lt;/a&gt; by Azat Mardan&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://visionmedia.github.io/masteringnode/book.html&#34;&gt;Mastering Node.js&lt;/a&gt; by TJ Holowaychuk&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://book.mixu.net/node/single.html&#34;&gt;Mixu&amp;rsquo;s Node book&lt;/a&gt; by Mikito Takada&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://chimera.labs.oreilly.com/books/1234000001808/index.html&#34;&gt;Node: Up and Running&lt;/a&gt; by Tom Hughes-Croucher, Mike Wilson&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.syncfusion.com/resources/techportal/ebooks/nodejs&#34;&gt;Node.js Succinctly&lt;/a&gt; by&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/maxogden/art-of-node#the-art-of-node&#34;&gt;The Art of Node.js&lt;/a&gt; by Max Ogden&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://nodebeginner.org/&#34;&gt;The Node Beginner Book&lt;/a&gt; by Manuel Kiessling&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/what-you-need-to-know-about-nodejs&#34;&gt;What You Need to Know About Node.js&lt;/a&gt; by Bruno Joseph Dmello*&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;react&#34;&gt;React&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.hackingwithreact.com/&#34;&gt;Hacking with React&lt;/a&gt; by Paul Hudson&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://code.tutsplus.com/tutorials/intro-to-the-react-framework--net-35660&#34;&gt;Intro to the React Framework&lt;/a&gt; by Pavan Podila&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://library.oreilly.com/book/0636920049579/learning-react/toc&#34;&gt;Learning React&lt;/a&gt; by Alex Banks, Eve Porcello&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://scotch.io/tutorials/learning-react-getting-started-and-concepts&#34;&gt;Learning React.js: Getting Started and Concepts&lt;/a&gt; by Ken Wheeler&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.reactenlightenment.com/&#34;&gt;React Enlightenment&lt;/a&gt; by Cody Lindley&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://developmentarc.gitbooks.io/react-indepth/content/&#34;&gt;React In-Depth: an Exploration in UI Development&lt;/a&gt; by DevelopmentArc&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://facebook.github.io/react/tutorial/tutorial.html&#34;&gt;React Tutorial&lt;/a&gt; by Facebook&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://survivejs.com/react/introduction/&#34;&gt;SurviveJS - React&lt;/a&gt; by Juho Vepsäläinen&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Shell Script to Clear CloudFlare Cache</title>
