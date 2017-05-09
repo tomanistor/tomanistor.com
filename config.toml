@@ -17,8 +17,11 @@ googleAnalytics = "UA-70206008-1"
     twitter = "TomaNistor"
     linkedin = "tomanistor"
     github = "tomanistor"
-    copyright = false
-    credit = false
+    email = "toma@tomanistor.com"
+    googleTagManger = "GTM-T94X59P"
+    hightlightJS = true # Highlight code snippets?
+    copyright = false # Add copyright in footer?
+    credit = false # Credit author of theme in footer?
 
 [[menu.main]]
     name = "Work"
