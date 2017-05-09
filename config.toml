@@ -19,9 +19,9 @@ googleAnalytics = "UA-70206008-1"
     github = "tomanistor"
     email = "toma@tomanistor.com"
     googleTagManger = "GTM-T94X59P"
-    hightlightJS = true # Highlight code snippets?
-    copyright = false # Add copyright in footer?
-    credit = false # Credit author of theme in footer?
+    highlightJS = true
+    copyright = false
+    credit = false
 
 [[menu.main]]
     name = "Work"
