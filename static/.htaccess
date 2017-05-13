@@ -9,6 +9,8 @@ RewriteRule ^(.*)$ https://tomanistor.com/$1 [R=301,L]
 AddType image/svg+xml svg svgz
 AddEncoding gzip svgz
 
+ErrorDocument 404 /404.html
+
 # Cache files
 <IfModule mod_expires.c>
     ExpiresActive on

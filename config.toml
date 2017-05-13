@@ -17,6 +17,9 @@ googleAnalytics = "UA-70206008-1"
     twitter = "TomaNistor"
     linkedin = "tomanistor"
     github = "tomanistor"
+    email = "toma@tomanistor.com"
+    googleTagManger = "GTM-T94X59P"
+    highlightJS = true
     copyright = false
     credit = false
 

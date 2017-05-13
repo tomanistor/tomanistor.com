@@ -104,7 +104,7 @@ header {
     background-color: #FFF;
     div { z-index: 101; }
     img { max-height: $vertical-rhythm * 6; }
-    h1 { font-family: $font-body;}
+    h1 { font-family: $font-body; }
     .cursor { animation: 1s blink step-end infinite; }
 }
 @keyframes "blink" {
@@ -165,12 +165,12 @@ nav {
 .nav-full.active {
     transform: translate(-100vw, 0px);
 }
-.page {
+main {
     background-color: #fff;
     transform: translate(0px, 0px);
     transition: 0.15s ease;
 }
-.page.active {
+main.active {
     transform: translate(-100vw, 0px);
 }
 .container {
@@ -304,19 +304,11 @@ blockquote {
 		content: '\201D';
 	}
 }
-.posts_listing {
+.posts-list {
     margin: 0 0 $vertical-rhythm;
-    a {
-        text-decoration: none;
-    }
-    li {
-        margin: 0 0 25px 15px;
-        &:before {
-            content: "";
-            margin-right: 0;
-        }
+    h2 {
         a:hover {
-            text-decoration: underline;
+            color: $accent;
         }
     }
 }
@@ -366,23 +358,18 @@ blockquote {
     }
 }
 .highlight {
-	margin: 10px 0;
+	 margin: 10px 0;
 }
 .links {
-	margin: 50px 0 0;
-	:nth-child(2) {
-		float: right;
-	}
+  	margin: 50px 0 0;
+  	:nth-child(2) {
+  		  float: right;
+  	}
 }
-#not-found {
-	text-align: center;
-	a {
-		font-family: $font-header;
-		font-size: 200px;
-		text-decoration: none;
-		display: inline-block;
-		padding-top: 225px;
-	}
+.full {
+    height: 100vh;
+    top: 0;
+    bottom: 0;
 }
 .gallery {
     div[class^="col-"], div[class*=" col-"] {
@@ -394,18 +381,6 @@ blockquote {
     }
     img {
         padding: $vertical-rhythm * 3;
-    }
-    .learn-academy {
-        background-color: #7ac143;
-    }
-    .rfg {
-        background-color: #263248;
-    }
-    .rhinolinings {
-        background-color: #222;
-    }
-    .volunteerup {
-        background-color: #EFEFEF;
     }
 }
 .overlay {
@@ -457,6 +432,7 @@ input {
     &[type="submit"]:hover {
         background-color: $accent;
         color: #FFF;
+        cursor: pointer;
     }
 }
 textarea {

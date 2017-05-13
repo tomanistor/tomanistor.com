@@ -7,8 +7,44 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
-    <lastBuildDate>Sun, 07 May 2017 14:46:09 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 10 May 2017 21:47:41 -0700</lastBuildDate>
     <atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Rhino Linings Corporation SPF</title>
+      <link>https://tomanistor.com/gallery/rhino-linings-corporation-spf/</link>
+      <pubDate>Wed, 10 May 2017 21:47:41 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/gallery/rhino-linings-corporation-spf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rugged Fellows Guide</title>
+      <link>https://tomanistor.com/gallery/rugged-fellows-guide/</link>
+      <pubDate>Wed, 10 May 2017 21:47:19 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/gallery/rugged-fellows-guide/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LEARN academy</title>
+      <link>https://tomanistor.com/gallery/learn-academy/</link>
+      <pubDate>Wed, 10 May 2017 21:35:17 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/gallery/learn-academy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VolunteerUp</title>
+      <link>https://tomanistor.com/gallery/volunteerup/</link>
+      <pubDate>Tue, 09 May 2017 00:56:44 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/gallery/volunteerup/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Big List of Free JavaScript Books</title>
@@ -298,7 +334,7 @@ $ hugodeploy push
       <guid>https://tomanistor.com/blog/hugo-site-is-launched/</guid>
       <description>
 
-&lt;p&gt;My new portfolio has officially been launched! This is my first static website built using Hugo. In my &lt;a href=&#34;https://tomanistor.com/content/post/starting-with-hugo&#34;&gt;previous post&lt;/a&gt;, I mapped out a few broad objectives for this project.&lt;/p&gt;
+&lt;p&gt;My new portfolio has officially been launched! This is my first static website built using Hugo. In my &lt;a href=&#34;blog/starting-with-hugo&#34;&gt;previous post&lt;/a&gt;, I mapped out a few broad objectives for this project.&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s take a look at the completed goals from a short while ago and review.&lt;/p&gt;
 

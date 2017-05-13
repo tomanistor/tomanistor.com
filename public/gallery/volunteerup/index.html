@@ -6,11 +6,11 @@
         <title>
             
             
-                Hugo Workflow | Toma Nistor
+                VolunteerUp | Toma Nistor
             
         </title>
 
-        <meta name="title" content="Hugo Workflow | Toma Nistor">
+        <meta name="title" content="VolunteerUp | Toma Nistor">
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -20,7 +20,7 @@
         <meta name="referrer" content="no-referrer-when-downgrade">
         <meta name="generator" content="">
         <base href="https://tomanistor.com">
-        <meta name="description" content="The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.">
+        <meta name="description" content="Full-stack web developer and UI/UX enthusiast based in San Diego, CA. I enjoy using multiple tools to engineer and build powerful websites and apps.">
         
         <meta name="author" content="Toma Nistor">
         
@@ -28,11 +28,11 @@
         <meta name="twitter:site" content="@TomaNistor">
         <meta name="twitter:creator" content="@TomaNistor">
         
-        <meta property="og:title" content="Hugo Workflow | Toma Nistor">
+        <meta property="og:title" content="VolunteerUp | Toma Nistor">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://tomanistor.com">
         <meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png">
-        <meta name="og:description" content="The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.">
+        <meta property="og:description" content="Full-stack web developer and UI/UX enthusiast based in San Diego, CA. I enjoy using multiple tools to engineer and build powerful websites and apps.">
         
 
         
@@ -55,7 +55,7 @@
         <meta name="theme-color" content="#FFF">
         
 
-        <link rel="canonical" href="https://tomanistor.com/blog/hugo-workflow/">
+        <link rel="canonical" href="https://tomanistor.com/gallery/volunteerup/">
         
         <link rel="stylesheet" href="styles/main.css" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/github.min.css">
@@ -110,94 +110,20 @@ ga('send', 'pageview');
 
 <section class="container">
     <section class="content">
-      <h1> Hugo Workflow </h1>
+      <h1> VolunteerUp </h1>
 
       <div class="sub-header">
-        April 2017 · 3 minute read
+        May 2017 · 0 minute read
       </div>
 
       <div class="entry-content">
         
-
-<p>The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.</p>
-
-<p>Inside of your Hugo project folder, the <code>public/</code> folder is generated with all of your static site files once <code>hugo</code> is run in the terminal.</p>
-
-<h2 id="purge-and-serve">Purge and Serve</h2>
-
-<p>To generate a new <code>public/</code> folder, just remove the existing one and run the server. All updates you have made to your content and theme are now available in the new <code>public/</code> folder and visible on the live server.</p>
-
-<p>Always make sure to remove the old <code>public/</code> folder otherwise Hugo will continue to update existing files and add new files without removed old unused files. You definitely don&rsquo;t want the clutter and confusion.</p>
-
-<pre><code class="language-console">$ rm -rf public/
-$ hugo server --verbose
-</code></pre>
-
-<h3 id="livereload">LiveReload</h3>
-
-<p>One of my favorite features in Hugo so far? LiveReload. The Hugo server automatically watches your project folder for changes and refreshes your browser when any new changes are made while editing, creating, or deleting files.</p>
-
-<p>This is great for development when you can make changes in your text editor and immediately see them occur in your browser window.</p>
-
-<p>If you want to disable LiveReload:</p>
-
-<pre><code>$ hugo server --disableLiveReload
-</code></pre>
-
-<h2 id="gulp-pipeline">Gulp Pipeline</h2>
-
-<p>When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into compressed CSS files that are then rendering into the <code>public/</code> folder appropriately. Besides compiling and compressing style files, my gulpfile also runs a task that minifies my JavaScript files. Dan Bahrami has a <a href="http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/">great guide</a> that includes setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.</p>
-
-<p>To get the Gulp pipeline going after I start the Hugo server, I simply type:</p>
-
-<pre><code class="language-console">$ gulp
-</code></pre>
-
-<h2 id="new-content">New Content</h2>
-
-<p>Creating new content in the project folder is also very simple. For example, I created this page as a markdown file inside of <code>content/blog/</code>:</p>
-
-<pre><code class="language-console">$ hugo new blog/hugo-workflow.md
-</code></pre>
-
-<p>So far I&rsquo;ve been enjoying writing blog posts in markdown.</p>
-
-<h2 id="hugo-deploy">Hugo Deploy</h2>
-
-<p>For deploying Hugo, I currently use <a href="https://github.com/mindok/hugodeploy">hugodeploy</a>, a simple FTP/SFTP deployment tool built in Go. Content inside of <code>public/</code> is effortlessly uploaded to my website&rsquo;s root folder on my shared webhost account with two simple commands:</p>
-
-<pre><code class="language-console">$ hugodeploy preview
-$ hugodeploy push
-</code></pre>
-
-<p>A neat extra feature of hugodeploy is the minification of CSS, HTML, JavaScript, JSON, and XML files upon deployment. While this option can be turned off, it does help with file size and site speed if you&rsquo;re not already minifying your static files.</p>
-
-<h3 id="rsync-process">Rsync Process</h3>
-
-<p>An alternative deployment method I was thinking about using and may try out down the line is using rsync. Andrew Codispoti detailed the steps to <a href="http://www.andrewcodispoti.com/deploy-process/">setting up an rsync process</a> that can deploy updates when committing and pushing with git.</p>
-
-<h3 id="clear-cache">Clear Cache</h3>
-
-<p>I use CloudFlare as my DNS to cache my static files and help serve them faster around the world. When deploying, I sometimes find that I&rsquo;ll need to clear CloudFlare&rsquo;s caches in order to serve up freshly update files. As a little shortcut to constantly going to the CloudFlare site and manually clearing the cache, I created a <a href="blog/shell-script-to-clear-cloudflare-cache">shell script that clears the cache</a> after deployment when I call it in the terminal with: <code>cloudclear</code>.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>All in all, my Hugo workflow is short and sweet. A typical update and publication to the live site can look like this:</p>
-
-<pre><code class="language-console">$ rm -rf public
-$ hugo
-$ hugodeploy preview
-$ hugodeploy push
-</code></pre>
-
       </div>
 
       <div class="links">
         
-          &laquo; <a class="basic-alignment left" href="https://tomanistor.com/blog/hugo-site-is-launched/">Hugo Site is Launched</a>
         
-        
-          <a class="basic-alignment left" href="https://tomanistor.com/blog/shell-script-to-clear-cloudflare-cache/">Shell Script to Clear CloudFlare Cache</a> &raquo;
+          <a class="basic-alignment left" href="https://tomanistor.com/gallery/learn-academy/">LEARN academy</a> &raquo;
         
       </div>
     </section>

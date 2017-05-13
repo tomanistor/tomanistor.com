@@ -27,28 +27,20 @@ $(document).ready(function() {
     // Full screen nav open on click
     $(".nav-icon").click(function(){
         $(".nav-full").toggleClass("active");
-        $(".page").toggleClass("active");
+        $("main").toggleClass("active");
         $(this).find("img").toggle();
     });
 
     // Full screen nav close on click
     $(".nav-full").find("a").click(function(){
         $(".nav-full").toggleClass("active");
-        $(".page").toggleClass("active");
+        $("main").toggleClass("active");
         $(".nav-icon").find("img").toggle();
     });
 
     // Highlight.js initialization
     $('pre code').each(function(i, block) {
         hljs.highlightBlock(block);
-    });
-
-    // Formspree AJAX contact form
-    $.ajax({
-        url: "https://formspree.io/toma@tomanistor.com",
-        method: "POST",
-        data: {message: "Thanks for your email! I'll get back to you soon."},
-        dataType: "application/json"
     });
 
 });
