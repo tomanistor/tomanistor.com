@@ -334,7 +334,7 @@ $ hugodeploy push
       <guid>https://tomanistor.com/blog/hugo-site-is-launched/</guid>
       <description>
 
-&lt;p&gt;My new portfolio has officially been launched! This is my first static website built using Hugo. In my &lt;a href=&#34;https://tomanistor.com/content/post/starting-with-hugo&#34;&gt;previous post&lt;/a&gt;, I mapped out a few broad objectives for this project.&lt;/p&gt;
+&lt;p&gt;My new portfolio has officially been launched! This is my first static website built using Hugo. In my &lt;a href=&#34;blog/starting-with-hugo&#34;&gt;previous post&lt;/a&gt;, I mapped out a few broad objectives for this project.&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s take a look at the completed goals from a short while ago and review.&lt;/p&gt;
 

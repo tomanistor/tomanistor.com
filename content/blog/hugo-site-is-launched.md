@@ -6,7 +6,7 @@ aliases = ["/post/starting-with-hugo"]
 
 +++
 
-My new portfolio has officially been launched! This is my first static website built using Hugo. In my [previous post](/content/post/starting-with-hugo), I mapped out a few broad objectives for this project.
+My new portfolio has officially been launched! This is my first static website built using Hugo. In my [previous post](blog/starting-with-hugo), I mapped out a few broad objectives for this project.
 
 Let's take a look at the completed goals from a short while ago and review.
 
