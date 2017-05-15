@@ -3,7 +3,7 @@ Static portfolio website showcasing my web development and graphic design work. 
 * [TomaNistor.com](https://tomanistor.com)
 
 ## Theme
-* [Outrun](https://github.com/tomanistor/outrun): minimalist blog and portfolio Hugo theme which I built for this site
+* [Osprey](https://github.com/tomanistor/osprey): minimalist blog and portfolio Hugo theme which I built for this site
 
 ![Screenshot](static/images/screenshot.jpg)
 

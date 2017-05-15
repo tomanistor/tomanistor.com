@@ -3,7 +3,7 @@ baseURL = "https://tomanistor.com"
 tags = ["portfolio", "web design", "web developer", "ruby on rails", "javascript", "postgres", "San Diego"]
 languageCode = "en-US"
 config = "config.toml"
-theme = "outrun"
+theme = "osprey"
 canonifyurls = true
 googleAnalytics = "UA-70206008-1"
 

@@ -7,9 +7,9 @@ var gulp         = require("gulp"),
 // Minify JS
 gulp.task("compress", function (cb) {
     pump([
-            gulp.src("themes/outrun/static/scripts/src/*.js"),
+            gulp.src("themes/osprey/static/scripts/src/*.js"),
             uglify(),
-            gulp.dest("themes/outrun/static/scripts")
+            gulp.dest("themes/osprey/static/scripts")
         ],
         cb
     );
@@ -17,20 +17,20 @@ gulp.task("compress", function (cb) {
 
 // Compile and Minify SCSS files to CSS
 gulp.task("scss", function () {
-    gulp.src("themes/outrun/static/styles/scss/main.scss")
+    gulp.src("themes/osprey/static/styles/scss/main.scss")
         .pipe(sass({
             outputStyle : "compressed"
         }))
         .pipe(autoprefixer({
             browsers : ["last 20 versions"]
         }))
-        .pipe(gulp.dest("themes/outrun/static/styles"))
+        .pipe(gulp.dest("themes/osprey/static/styles"))
 });
 
 // Watch scripts and styles folders for changes
 gulp.task("watch", ["compress", "scss"], function () {
-    gulp.watch("themes/outrun/static/scripts/src/*.js", ["compress"]),
-    gulp.watch("themes/outrun/static/styles/scss/main.scss", ["scss"])
+    gulp.watch("themes/osprey/static/scripts/src/*.js", ["compress"]),
+    gulp.watch("themes/osprey/static/styles/scss/main.scss", ["scss"])
 });
 
 // Set watch as default task
