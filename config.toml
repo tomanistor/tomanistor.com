@@ -4,7 +4,7 @@ tags = ["portfolio", "web design", "web developer", "ruby on rails", "javascript
 languageCode = "en-US"
 config = "config.toml"
 theme = "osprey"
-canonifyurls = true
+canonifyURLS = true
 googleAnalytics = "UA-70206008-1"
 
 [Params]
