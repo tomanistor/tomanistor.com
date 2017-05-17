@@ -5,10 +5,14 @@ RewriteCond %{SERVER_PORT} 80 [OR]
 RewriteCond %{HTTP_HOST} ^www\.tomanistor\.com$ [NC]
 RewriteRule ^(.*)$ https://tomanistor.com/$1 [R=301,L]
 
+# Redirects
+Redirect 301 /resume /resume.pdf
+
 # Enable SVG images
 AddType image/svg+xml svg svgz
 AddEncoding gzip svgz
 
+# Enable 404 page
 ErrorDocument 404 /404.html
 
 # Cache files
@@ -41,13 +45,13 @@ ErrorDocument 404 /404.html
     ExpiresByType text/cache-manifest                   "access plus 0 seconds"
 
   # Media
-    ExpiresByType audio/ogg                             "access plus 1 month"
-    ExpiresByType image/gif                             "access plus 1 month"
-    ExpiresByType image/jpeg                            "access plus 1 month"
-    ExpiresByType image/png                             "access plus 1 month"
-    ExpiresByType video/mp4                             "access plus 1 month"
-    ExpiresByType video/ogg                             "access plus 1 month"
-    ExpiresByType video/webm                            "access plus 1 month"
+    ExpiresByType audio/ogg                             "access plus 1 week"
+    ExpiresByType image/gif                             "access plus 1 week"
+    ExpiresByType image/jpeg                            "access plus 1 week"
+    ExpiresByType image/png                             "access plus 1 week"
+    ExpiresByType video/mp4                             "access plus 1 week"
+    ExpiresByType video/ogg                             "access plus 1 week"
+    ExpiresByType video/webm                            "access plus 1 week"
 
   # Web feeds
     ExpiresByType application/atom+xml                  "access plus 1 hour"
