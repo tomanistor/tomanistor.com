@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tomanistor.com/gallery/resume/</loc>
+    <lastmod>2017-05-17T14:28:01-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/gallery/osprey/</loc>
+    <lastmod>2017-05-17T14:27:42-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tomanistor.com/gallery/rhino-linings-corporation-spf/</loc>
     <lastmod>2017-05-10T21:47:41-07:00</lastmod>
   </url>
@@ -54,13 +64,13 @@
   
   <url>
     <loc>https://tomanistor.com/gallery/</loc>
-    <lastmod>2017-05-10T21:47:41-07:00</lastmod>
+    <lastmod>2017-05-17T14:28:01-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tomanistor.com/</loc>
-    <lastmod>2017-05-10T21:47:41-07:00</lastmod>
+    <lastmod>2017-05-17T14:28:01-07:00</lastmod>
     <priority>0</priority>
   </url>
   
