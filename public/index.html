@@ -66,6 +66,10 @@
         <link rel="canonical" href="https://tomanistor.com/">
         <link href="https://tomanistor.com/index.xml" rel="alternate" type="application/rss+xml" title="Toma Nistor">
         <link rel="stylesheet" href="styles/main.css" type="text/css">
+        <style>
+  nav {box-shadow: none;}
+</style>
+
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/github.min.css">
         
 <script>
@@ -313,10 +317,10 @@ ga('send', 'pageview');
         </div>
         <form action="https://formspree.io/toma@tomanistor.com" method="POST">
             <div class="row center-xs">
-                <div class="col-xs-12 col-sm-6"><input type="text" name="name" placeholder="Name"></div>
-                <div class="col-xs-12 col-sm-6"><input type="email" name="email" placeholder="Email"></div>
-                <div class="col-xs-12"><input type="text" name="_subject" placeholder="Subject"></div>
-                <div class="col-xs-12"><textarea name="message" placeholder="Message"></textarea></div>
+                <div class="col-xs-12 col-sm-6"><input type="text" name="name" placeholder="Name" required></div>
+                <div class="col-xs-12 col-sm-6"><input type="email" name="email" placeholder="Email" required></div>
+                <div class="col-xs-12"><input type="text" name="_subject" placeholder="Subject" required></div>
+                <div class="col-xs-12"><textarea name="message" placeholder="Message" required></textarea></div>
                 <input type="text" name="_gotcha" style="display:none">
                 <input type="hidden" name="_next" value="/">
                 <div class="col-xs-6"><input type="submit" value="Send"></div>
