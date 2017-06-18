@@ -22,6 +22,7 @@ googleAnalytics = "UA-70206008-1"
     highlightJS = true
     copyright = false
     credit = false
+    customCSS = true
 
 [[menu.main]]
     name = "Work"
