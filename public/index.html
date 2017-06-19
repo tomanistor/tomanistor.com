@@ -65,7 +65,7 @@
 
         <link rel="canonical" href="https://tomanistor.com/">
         <link href="https://tomanistor.com/index.xml" rel="alternate" type="application/rss+xml" title="Toma Nistor">
-        <link rel="stylesheet" href="styles/main-4f9a2533.css" type="text/css">
+        <link rel="stylesheet" href="styles/main-5a40e56c.css" type="text/css">
         <style>
   nav {box-shadow: none;}
 </style>
@@ -315,7 +315,7 @@ ga('send', 'pageview');
         <div class="row center-xs">
             <div class="col-xs-12"><h1>Let's Chat</h1></div>
         </div>
-        <form action="https://formspree.io/toma@tomanistor.com" method="POST">
+        <form id="form-contact" action="https://formspree.io/toma@tomanistor.com" method="POST">
             <div class="row center-xs">
                 <div class="col-xs-12 col-sm-6"><input type="text" name="name" placeholder="Name" required></div>
                 <div class="col-xs-12 col-sm-6"><input type="email" name="email" placeholder="Email" required></div>
@@ -323,7 +323,8 @@ ga('send', 'pageview');
                 <div class="col-xs-12"><textarea name="message" placeholder="Message" required></textarea></div>
                 <input type="text" name="_gotcha" style="display:none">
                 <input type="hidden" name="_next" value="/">
-                <div class="col-xs-6"><input type="submit" value="Send"></div>
+                <div class="col-xs-6" id="form-submit"><input type="submit" value="Send"></div>
+                <div class="col-xs-12" id="form-thankyou" style="display:none;">Thanks for your email!</div>
             </div>
         </form>
     </div>
@@ -345,6 +346,48 @@ ga('send', 'pageview');
             <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
             
             <script src="https://tomanistor.com/scripts/index-f65864f2.js" type="text/javascript"></script>
+            
+            
+            <script>
+              $("#form-contact").on("submit", function(e) {
+                  e.preventDefault();
+
+                  
+                  var name = $("input[name=name]").val();
+                  var email = $("input[name=email").val();
+                  var subject = $("input[name=_subject").val();
+                  var message = $("input[name=message]").val();
+
+                  
+                  $.ajax({
+                      url:"https://formspree.io/toma@tomanistor.com",
+                      method:"POST",
+                      data:{
+                          name:name,
+                          _replyto:email,
+                          email:email,
+                          _subject:subject,
+                          message:message,
+                      },
+                      dataType:"json",
+                      success:function() {
+                          console.log("Form successfully sent");
+                          
+                          $("#form-contact").get(0).reset();
+                          
+                          $("#form-submit").fadeOut(function(){
+                              $("#form-thankyou").fadeIn(function(){
+                                  $("#form-thankyou").delay(4000).fadeOut(function(){
+                                      $("#form-submit").fadeIn();
+                                  });
+                              });
+                          });
+                      }
+                  });
+
+              });
+            </script>
+            
             
             <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script>
         </footer>

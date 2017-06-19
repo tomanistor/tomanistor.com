@@ -8,6 +8,7 @@ canonifyURLS = true
 googleAnalytics = "UA-70206008-1"
 
 [Params]
+    tagline = "Toma Nistor"
     author = "Toma Nistor"
     description = "Full-stack web developer and UI/UX enthusiast based in San Diego, CA. I enjoy using multiple tools to engineer and build powerful websites and apps."
     logoBig = "/images/logo/Toma-Nistor-Logo-450px.png"
@@ -23,6 +24,9 @@ googleAnalytics = "UA-70206008-1"
     copyright = false
     credit = false
     customCSS = true
+    cacheBustCSS = true
+    cacheBustJS = true
+    ajaxFormspree = true
 
 [[menu.main]]
     name = "Work"
