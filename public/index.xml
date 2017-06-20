@@ -7,8 +7,56 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
-    <lastBuildDate>Wed, 17 May 2017 14:28:01 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 20 Jun 2017 13:00:59 -0700</lastBuildDate>
     <atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Cache Bust That Asset</title>
+      <link>https://tomanistor.com/blog/cache-bust-that-asset/</link>
+      <pubDate>Tue, 20 Jun 2017 13:00:59 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/cache-bust-that-asset/</guid>
+      <description>
+
+&lt;p&gt;Static assets like CSS, JavaScript, and image files are normally cached for long periods of time with expiry periods of a few weeks or months after being served to a user&amp;rsquo;s web browser. &lt;strong&gt;Caching is used to speed up a website or application by once downloading a file and storing a cached version of it in the browser.&lt;/strong&gt; When a user moves from page to page on a website or revisits the same site in the future, the cached file is served automatically without wasting any time loading the same file.&lt;/p&gt;
+
+&lt;p&gt;All in all, a faster loading site is great for usability and user experience, thus also great for SEO. However, caching assets comes with one major drawback: &lt;strong&gt;browsers will continue to serve the same cached version of a file that has not reached its expiry period even if that file has been updated.&lt;/strong&gt; This means that if you&amp;rsquo;ve made an update to &lt;code&gt;main.css&lt;/code&gt;, the browser will continue serving the old, outdated version of &lt;code&gt;main.css&lt;/code&gt; until the expiry period is over or the user clears their cache. This is of course troublesome when you want to deploy your site updates but browsers won&amp;rsquo;t serve your updates.&lt;/p&gt;
+
+&lt;p&gt;A user can manually clear their browser&amp;rsquo;s cache if they know how (with a hard refresh or through the browser&amp;rsquo;s settings) and they choose to do so, but serving updated assets shouldn&amp;rsquo;t be left at the whim of a user. Cache busting is a web developer&amp;rsquo;s responsibility.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-cache-busting&#34;&gt;What is Cache Busting?&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Cache busting is the forced clearing of files cached in a web browser.&lt;/strong&gt; When cached assets are cleared, the cache is effectively reset and assets must be downloaded again via HTTP request when a user visits the same site again. The browser doesn&amp;rsquo;t need to wait for the end of assets&amp;rsquo; expiry period or the user clearing the cache.&lt;/p&gt;
+
+&lt;p&gt;Sure, the file needs to be downloaded again, which may temporarily slow down your site a bit. But the important thing is that cache busting forces browsers to serve your updated files so users experience the newest and most up-to-date version of your web app.&lt;/p&gt;
+
+&lt;h2 id=&#34;how-is-cache-busting-done&#34;&gt;How is Cache Busting Done?&lt;/h2&gt;
+
+&lt;p&gt;One effective way to cache bust old files is to &amp;ldquo;fingerprint&amp;rdquo; them. A browser will serve the same, old, previously downloaded version of &lt;code&gt;main.css&lt;/code&gt; regardless of file updates because it only looks for the file name in an HTTP request. The browser notices that it has a cached version of the file requested for the site and serves it to the user.&lt;/p&gt;
+
+&lt;p&gt;However, if the file name has changed, the browser will determine that this is a new file and must be downloaded and stored in the cache. &lt;strong&gt;Fingerprinting static assets is adding a unique hash to the file name in order to force the browser to download and serve the asset&lt;/strong&gt;. When a user revisits the site and &lt;code&gt;main.css&lt;/code&gt; has changed to &lt;code&gt;main-2017206216.css&lt;/code&gt;, the browser fetches, downloads, serves, and caches the new resource. The next time a developer updates the resource and gives the file a new hash, the browser again serves the newly requested resource.&lt;/p&gt;
+
+&lt;p&gt;So in short, the cache is &amp;ldquo;busted&amp;rdquo; because we trick the browser into serving updated assets by adding unique fingerprints file names to distinguish between different versions. The old, outdated assets remain cached by the browser but aren&amp;rsquo;t touched because they&amp;rsquo;re no longer linked on the website and thus no longer requested by the user visiting the site.&lt;/p&gt;
+
+&lt;h2 id=&#34;cache-busting-tools&#34;&gt;Cache Busting Tools&lt;/h2&gt;
+
+&lt;p&gt;Fingerprinting CSS or JS files can be done manually by renaming files and updated links, but that&amp;rsquo;s probably the least optimal way of going about it. For this reason, many programming language frameworks and tools do the dirty work for us.&lt;/p&gt;
+
+&lt;p&gt;Ruby on Rails, for example, has the &lt;a href=&#34;http://guides.rubyonrails.org/asset_pipeline.html&#34;&gt;asset pipeline&lt;/a&gt;. The asset pipeline automatically fingerprints CSS, JS, and image files inside of asset folders. Asset files are then linked to using Rails helpers such as &lt;code&gt;asset_path&lt;/code&gt;, &lt;code&gt;image_tag&lt;/code&gt;, &lt;code&gt;javascript_include_tag&lt;/code&gt; and &lt;code&gt;stylesheet_link_tag&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;On this Hugo static site, I use &lt;a href=&#34;http://gulpjs.com/&#34;&gt;Gulp.js&lt;/a&gt; and &lt;a href=&#34;https://www.npmjs.com/package/gulp-hash&#34;&gt;gulp-hash&lt;/a&gt; in order to automatically add a random hash to my CSS and JS file names any time there is an update. These two guides by &lt;a href=&#34;https://www.hughgrigg.com/posts/gulp-asset-versioning-hugo-data-files/&#34;&gt;Hugh Grigg&lt;/a&gt; and &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/#cache-busting:c9938300a3bdba2018b469c2485ca2b6&#34;&gt;Dan Bahrami&lt;/a&gt; provide good instructions on setting up cache busting for a Hugo site with the Gulp.js pipeline and gulp-hash.&lt;/p&gt;
+
+&lt;h2 id=&#34;fingerprinting-image-files-and-seo&#34;&gt;Fingerprinting Image Files and SEO&lt;/h2&gt;
+
+&lt;p&gt;What about image files? They&amp;rsquo;re static assets too and images may also be updated or changed from time to time. From an SEO standpoint though, is it a good idea to add gibberish in hash form to the file name &lt;em&gt;and&lt;/em&gt; force search engines to re-index a image files?&lt;/p&gt;
+
+&lt;p&gt;My SEO instincts tell me I don&amp;rsquo;t want to reset progress on a highly indexed image if I compressed or changed the file size. I also don&amp;rsquo;t want to add random numbers and letters to a file name that I use to target keywords. Hot-linking isn&amp;rsquo;t a concern to me but broken links are. If an image file name changes from &lt;code&gt;mysite.com/logo.png&lt;/code&gt; to &lt;code&gt;mysite.com/logo-201612080755.png&lt;/code&gt; but the first URL is linked elsewhere on the web, the image would not display and show as a broken file path.&lt;/p&gt;
+
+&lt;p&gt;I don&amp;rsquo;t know how Google&amp;rsquo;s or Bing&amp;rsquo;s algorithm treat fingerprinting (&lt;a href=&#34;https://webmasters.stackexchange.com/questions/106195/does-fingerprinting-image-file-names-hurt-seo-rankings&#34;&gt;I&amp;rsquo;ve tried to ask the question on StackOverflow&lt;/a&gt;) but I&amp;rsquo;d assume search engines are intelligent enough to break down a file name into keywords and discard the hash. &lt;a href=&#34;https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=en&#34;&gt;Google recommends fingerprinting file names&lt;/a&gt; but doesn&amp;rsquo;t discuss image files in particular. Most image files also aren&amp;rsquo;t updated as often as other assets, so changing file paths shouldn&amp;rsquo;t be too much of a concern, but each project has different circumstances.&lt;/p&gt;
+
+&lt;p&gt;Although I&amp;rsquo;m still on the fence about fingerprinting image files, I take it on a case by case basis. In most of my Ruby on Rails projects, I use the default asset pipeline setting and fingerprint all static assets. On this static Hugo website that doesn&amp;rsquo;t contain many images and images aren&amp;rsquo;t really ever changed, I only fingerprint and cache bust CSS and JS files.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>My Resume</title>
