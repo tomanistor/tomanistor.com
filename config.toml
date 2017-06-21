@@ -28,6 +28,9 @@ googleAnalytics = "UA-70206008-1"
     cacheBustJS = true
     ajaxFormspree = true
 
+[permalinks]
+    gallery = "/"
+
 [[menu.main]]
     name = "Work"
     url  = "/#work"
