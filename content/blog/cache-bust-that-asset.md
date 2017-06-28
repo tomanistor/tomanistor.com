@@ -1,6 +1,6 @@
 +++
 date = "2017-06-20T13:00:59-07:00"
-title = "Cache Bust That Asset"
+title = "Cache Bust that Asset"
 description = "How to cache bust your static assets and force web browsers to serve uncached, freshly updated files."
 
 +++
