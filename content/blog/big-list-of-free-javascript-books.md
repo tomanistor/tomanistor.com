@@ -1,8 +1,8 @@
 +++
-date = "2017-05-07T14:46:09-07:00"
 title = "Big List of Free JavaScript Books"
+date = "2017-05-07T14:46:09-07:00"
 description = "A big list of free JavaScript books accessible online categorized by topics and frameworks."
-
+draft = false
 +++
 
 This is a big list of free JavaScript books and resources that can all be found online. The list is categorized by different JavaScript frameworks and ordered alphabetically. Some of the reading materials require registration or your email but are otherwise still free for consumption.

@@ -1,8 +1,8 @@
 +++
-date = "2017-06-20T13:00:59-07:00"
 title = "Cache Bust that Asset"
+date = "2017-06-20T13:00:59-07:00"
 description = "How to cache bust your static assets and force web browsers to serve uncached, freshly updated files."
-
+draft = false
 +++
 
 Static assets like CSS, JavaScript, and image files are normally cached for long periods of time with expiry periods of a few weeks or months after being served to a user's web browser. **Caching is used to speed up a website or application by once downloading a file and storing a cached version of it in the browser.** When a user moves from page to page on a website or revisits the same site in the future, the cached file is served automatically without wasting any time loading the same file.

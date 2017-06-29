@@ -2,7 +2,7 @@
 title = "Shell Script to Clear CloudFlare Cache"
 date = "2017-05-05T16:03:45-07:00"
 description = "How to create a shell script in Linux that clears your website's CloudFlare cache."
-
+draft = false
 +++
 
 [CloudFlare](https://cloudflare.com) is a free content delivery network (CDN) that helps deliver static content quickly and efficiently throughout the world. Caching and serving static content through dependable CDNs like CloudFlare, [MaxCDN](https://maxcdn.com), or [AWS CloudFront](https://aws.amazon.com/cloudfront/) can help speed up your website drastically.

@@ -2,60 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on Toma Nistor</title>
-    <link>https://tomanistor.com/blog/index.xml</link>
+    <link>https://tomanistor.com/blog/</link>
     <description>Recent content in Blogs on Toma Nistor</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
     <lastBuildDate>Tue, 20 Jun 2017 13:00:59 -0700</lastBuildDate>
-    <atom:link href="https://tomanistor.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://tomanistor.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
-      <title>Cache Bust That Asset</title>
+      <title>Cache Bust that Asset</title>
       <link>https://tomanistor.com/blog/cache-bust-that-asset/</link>
       <pubDate>Tue, 20 Jun 2017 13:00:59 -0700</pubDate>
       
       <guid>https://tomanistor.com/blog/cache-bust-that-asset/</guid>
-      <description>
-
-&lt;p&gt;Static assets like CSS, JavaScript, and image files are normally cached for long periods of time with expiry periods of a few weeks or months after being served to a user&amp;rsquo;s web browser. &lt;strong&gt;Caching is used to speed up a website or application by once downloading a file and storing a cached version of it in the browser.&lt;/strong&gt; When a user moves from page to page on a website or revisits the same site in the future, the cached file is served automatically without wasting any time loading the same file.&lt;/p&gt;
-
-&lt;p&gt;All in all, a faster loading site is great for usability and user experience, thus also great for SEO. However, caching assets comes with one major drawback: &lt;strong&gt;browsers will continue to serve the same cached version of a file that has not reached its expiry period even if that file has been updated.&lt;/strong&gt; This means that if you&amp;rsquo;ve made an update to &lt;code&gt;main.css&lt;/code&gt;, the browser will continue serving the old, outdated version of &lt;code&gt;main.css&lt;/code&gt; until the expiry period is over or the user clears their cache. This is of course troublesome when you want to deploy your site updates but browsers won&amp;rsquo;t serve your updates.&lt;/p&gt;
-
-&lt;p&gt;A user can manually clear their browser&amp;rsquo;s cache if they know how (with a hard refresh or through the browser&amp;rsquo;s settings) and they choose to do so, but serving updated assets shouldn&amp;rsquo;t be left at the whim of a user. Cache busting is a web developer&amp;rsquo;s responsibility.&lt;/p&gt;
-
-&lt;h2 id=&#34;what-is-cache-busting&#34;&gt;What is Cache Busting?&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;Cache busting is the forced clearing of files cached in a web browser.&lt;/strong&gt; When cached assets are cleared, the cache is effectively reset and assets must be downloaded again via HTTP request when a user visits the same site again. The browser doesn&amp;rsquo;t need to wait for the end of assets&amp;rsquo; expiry period or the user clearing the cache.&lt;/p&gt;
-
-&lt;p&gt;Sure, the file needs to be downloaded again, which may temporarily slow down your site a bit. But the important thing is that cache busting forces browsers to serve your updated files so users experience the newest and most up-to-date version of your web app.&lt;/p&gt;
-
-&lt;h2 id=&#34;how-is-cache-busting-done&#34;&gt;How is Cache Busting Done?&lt;/h2&gt;
-
-&lt;p&gt;One effective way to cache bust old files is to &amp;ldquo;fingerprint&amp;rdquo; them. A browser will serve the same, old, previously downloaded version of &lt;code&gt;main.css&lt;/code&gt; regardless of file updates because it only looks for the file name in an HTTP request. The browser notices that it has a cached version of the file requested for the site and serves it to the user.&lt;/p&gt;
-
-&lt;p&gt;However, if the file name has changed, the browser will determine that this is a new file and must be downloaded and stored in the cache. &lt;strong&gt;Fingerprinting static assets is adding a unique hash to the file name in order to force the browser to download and serve the asset&lt;/strong&gt;. When a user revisits the site and &lt;code&gt;main.css&lt;/code&gt; has changed to &lt;code&gt;main-2017206216.css&lt;/code&gt;, the browser fetches, downloads, serves, and caches the new resource. The next time a developer updates the resource and gives the file a new hash, the browser again serves the newly requested resource.&lt;/p&gt;
-
-&lt;p&gt;So in short, the cache is &amp;ldquo;busted&amp;rdquo; because we trick the browser into serving updated assets by adding unique fingerprints file names to distinguish between different versions. The old, outdated assets remain cached by the browser but aren&amp;rsquo;t touched because they&amp;rsquo;re no longer linked on the website and thus no longer requested by the user visiting the site.&lt;/p&gt;
-
-&lt;h2 id=&#34;cache-busting-tools&#34;&gt;Cache Busting Tools&lt;/h2&gt;
-
-&lt;p&gt;Fingerprinting CSS or JS files can be done manually by renaming files and updated links, but that&amp;rsquo;s probably the least optimal way of going about it. For this reason, many programming language frameworks and tools do the dirty work for us.&lt;/p&gt;
-
-&lt;p&gt;Ruby on Rails, for example, has the &lt;a href=&#34;http://guides.rubyonrails.org/asset_pipeline.html&#34;&gt;asset pipeline&lt;/a&gt;. The asset pipeline automatically fingerprints CSS, JS, and image files inside of asset folders. Asset files are then linked to using Rails helpers such as &lt;code&gt;asset_path&lt;/code&gt;, &lt;code&gt;image_tag&lt;/code&gt;, &lt;code&gt;javascript_include_tag&lt;/code&gt; and &lt;code&gt;stylesheet_link_tag&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;On this Hugo static site, I use &lt;a href=&#34;http://gulpjs.com/&#34;&gt;Gulp.js&lt;/a&gt; and &lt;a href=&#34;https://www.npmjs.com/package/gulp-hash&#34;&gt;gulp-hash&lt;/a&gt; in order to automatically add a random hash to my CSS and JS file names any time there is an update. These two guides by &lt;a href=&#34;https://www.hughgrigg.com/posts/gulp-asset-versioning-hugo-data-files/&#34;&gt;Hugh Grigg&lt;/a&gt; and &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/#cache-busting:c9938300a3bdba2018b469c2485ca2b6&#34;&gt;Dan Bahrami&lt;/a&gt; provide good instructions on setting up cache busting for a Hugo site with the Gulp.js pipeline and gulp-hash.&lt;/p&gt;
-
-&lt;h2 id=&#34;fingerprinting-image-files-and-seo&#34;&gt;Fingerprinting Image Files and SEO&lt;/h2&gt;
-
-&lt;p&gt;What about image files? They&amp;rsquo;re static assets too and images may also be updated or changed from time to time. From an SEO standpoint though, is it a good idea to add gibberish in hash form to the file name &lt;em&gt;and&lt;/em&gt; force search engines to re-index a image files?&lt;/p&gt;
-
-&lt;p&gt;My SEO instincts tell me I don&amp;rsquo;t want to reset progress on a highly indexed image if I compressed or changed the file size. I also don&amp;rsquo;t want to add random numbers and letters to a file name that I use to target keywords. Hot-linking isn&amp;rsquo;t a concern to me but broken links are. If an image file name changes from &lt;code&gt;mysite.com/logo.png&lt;/code&gt; to &lt;code&gt;mysite.com/logo-201612080755.png&lt;/code&gt; but the first URL is linked elsewhere on the web, the image would not display and show as a broken file path.&lt;/p&gt;
-
-&lt;p&gt;I don&amp;rsquo;t know how Google&amp;rsquo;s or Bing&amp;rsquo;s algorithm treat fingerprinting (&lt;a href=&#34;https://webmasters.stackexchange.com/questions/106195/does-fingerprinting-image-file-names-hurt-seo-rankings&#34;&gt;I&amp;rsquo;ve tried to ask the question on StackOverflow&lt;/a&gt;) but I&amp;rsquo;d assume search engines are intelligent enough to break down a file name into keywords and discard the hash. &lt;a href=&#34;https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=en&#34;&gt;Google recommends fingerprinting file names&lt;/a&gt; but doesn&amp;rsquo;t discuss image files in particular. Most image files also aren&amp;rsquo;t updated as often as other assets, so changing file paths shouldn&amp;rsquo;t be too much of a concern, but each project has different circumstances.&lt;/p&gt;
-
-&lt;p&gt;Although I&amp;rsquo;m still on the fence about fingerprinting image files, I take it on a case by case basis. In most of my Ruby on Rails projects, I use the default asset pipeline setting and fingerprint all static assets. On this static Hugo website that doesn&amp;rsquo;t contain many images and images aren&amp;rsquo;t really ever changed, I only fingerprint and cache bust CSS and JS files.&lt;/p&gt;
-</description>
+      <description>Static assets like CSS, JavaScript, and image files are normally cached for long periods of time with expiry periods of a few weeks or months after being served to a user&amp;rsquo;s web browser. Caching is used to speed up a website or application by once downloading a file and storing a cached version of it in the browser. When a user moves from page to page on a website or revisits the same site in the future, the cached file is served automatically without wasting any time loading the same file.</description>
     </item>
     
     <item>
@@ -64,119 +27,10 @@
       <pubDate>Sun, 07 May 2017 14:46:09 -0700</pubDate>
       
       <guid>https://tomanistor.com/blog/big-list-of-free-javascript-books/</guid>
-      <description>
-
-&lt;p&gt;This is a big list of free JavaScript books and resources that can all be found online. The list is categorized by different JavaScript frameworks and ordered alphabetically. Some of the reading materials require registration or your email but are otherwise still free for consumption.&lt;/p&gt;
-
-&lt;p&gt;If you have a resource to add to this list, please &lt;a href=&#34;https://tomanistor.com/#contact&#34;&gt;let me know&lt;/a&gt;!&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;* Registration required&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;javascript&#34;&gt;JavaScript&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://2ality.com/2013/06/basic-javascript.html&#34;&gt;Basic JavaScript for the Impatient Programmer&lt;/a&gt; by Dr. Axel Rauschmayer&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://web-engineering.info/JsFrontendApp-Book&#34;&gt;Building Front-End Web Apps with Plain JavaScript&lt;/a&gt; by Gerd Wagner&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://domenlightenment.com/&#34;&gt;DOM Enlightenment&lt;/a&gt; by Cody Lindley&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://eloquentjavascript.net/&#34;&gt;Eloquent JavaScript&lt;/a&gt; by Marijn Haverbeke&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://exploringjs.com/es6/&#34;&gt;Exploring ES6&lt;/a&gt; by Dr. Axel Rauschmayer&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://exploringjs.com/es2016-es2017/&#34;&gt;Exploring ES2016 and ES2017&lt;/a&gt; by Dr. Axel Rauschmayer&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://google.github.io/styleguide/jsguide.html&#34;&gt;Google JavaScript Style Guide&lt;/a&gt; by Google&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://read.humanjavascript.com/&#34;&gt;Human JavaScript&lt;/a&gt; by Henrik Joreteg&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://leanpub.com/javascriptallongesix/read&#34;&gt;JavaScript Allongé&lt;/a&gt; by Reginald Braithwaite&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.javascriptenlightenment.com/JavaScript_Enlightenment.pdf&#34;&gt;JavaScript Enlightenment&lt;/a&gt; by Cody Lindley&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://jsforcats.com/&#34;&gt;JavaScript for Cats&lt;/a&gt; by Max Ogden&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/&#34;&gt;JavaScript Garden&lt;/a&gt; by Ivo Wetzel&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction&#34;&gt;JavaScript Guide&lt;/a&gt; by Mozilla Developer Network&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://shichuan.github.io/javascript-patterns/&#34;&gt;JavaScript Patters&lt;/a&gt; by Shi Chuan&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.syncfusion.com/resources/techportal/ebooks/javascript&#34;&gt;JavaScript Succinctly&lt;/a&gt; by Cody Lindley*&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://jstherightway.org/&#34;&gt;JavaScript the Right Way&lt;/a&gt; by William Oliveira&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spencertipping/js-in-ten-minutes/blob/master/js-in-ten-minutes.pdf&#34;&gt;JS in 10 Minutes&lt;/a&gt; by Spencer Tipping&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://gitbookio.gitbooks.io/javascript/content/&#34;&gt;Learn JavaScript&lt;/a&gt; by GitBook&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://addyosmani.com/resources/essentialjsdesignpatterns/book/&#34;&gt;Learning JavaScript Design Patters&lt;/a&gt; by Addy Osmani&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.noelrappin.com/mstwjs&#34;&gt;Master Space and Time with JavaScript&lt;/a&gt; by Noel Rappin&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://drboolean.gitbooks.io/mostly-adequate-guide/content/&#34;&gt;Mostly Adequate Guide to Functional Programming&lt;/a&gt; by Brian Lonsdorf&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/object-oriented-javascript-pdf-ebook&#34;&gt;Object-Oriented JavaScript&lt;/a&gt; by Stoyan Stefanov, Kumar Chetan Sharma&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://gumroad.com/l/ohmyjs&#34;&gt;Oh My JS&lt;/a&gt; by Azat Mardan*&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://addyosmani.com/largescalejavascript/&#34;&gt;Patterns For Large-Scale JavaScript Application Architecture&lt;/a&gt; by Addy Osmani&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://ponyfoo.com/books/practical-es6&#34;&gt;Practical ES6&lt;/a&gt; by Nicolás Bevacqua&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://chimera.labs.oreilly.com/books/1234000000262/index.html&#34;&gt;Programming JavaScript Applications&lt;/a&gt; by Eric Elliot&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://speakingjs.com/es5/&#34;&gt;Speaking JavaScript&lt;/a&gt; by Dr. Axel Rauschmayer&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/thinking-in-javascript&#34;&gt;Thinking in JavaScript&lt;/a&gt; by Aravind Shenoy*&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://javascript.info/&#34;&gt;The JavaScript Tutorial&lt;/a&gt; by Ilya Kantor&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://chimera.labs.oreilly.com/books/1234000001655&#34;&gt;The Problem with Native JavaScript APIs&lt;/a&gt; by Nicholas C. Zakas&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://leanpub.com/understandinges6/read/&#34;&gt;Understanding ECMAScript 6&lt;/a&gt; by Nicholas C. Zakas&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/what-you-need-know-about-javascript&#34;&gt;What You Need to Know About JavaScript&lt;/a&gt; by Gabriel Cánepa*&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS&#34;&gt;You Don&amp;rsquo;t Know JS&lt;/a&gt; by Kyle Simpson&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;angularjs&#34;&gt;AngularJS&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.angularjsbook.com/&#34;&gt;Angular Basics&lt;/a&gt; by Chris Smith&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/angularjs-essentials&#34;&gt;AngularJS Essentials&lt;/a&gt; by Rodrigo Branas*&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://sd.blackball.lv/library/AngularJS_in_60_minutes_Dan_Wahlin_May_2013.pdf&#34;&gt;AngularJS in 60 Minutes&lt;/a&gt; by Dan Wahlin&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://pascalprecht.github.io/slides/angularjs-insights/#/&#34;&gt;AngularJS Insights&lt;/a&gt; by Pascal Precht&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.syncfusion.com/resources/techportal/ebooks/angularjs&#34;&gt;AngularJS Succinctly&lt;/a&gt; by Frederik Dietz*&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://angular-rails.com/&#34;&gt;AngularJS with Ruby on Rials&lt;/a&gt; by David Bryant Copeland&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://nicholasjohnson.com/blog/angularjs-step-by-logical-step/&#34;&gt;AngularJS: Step by Logical Step&lt;/a&gt; by Nicholas Johnson&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://docs.angularjs.org/guide/&#34;&gt;Guide to AngularJS Documenation&lt;/a&gt; by Google&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://ngokevin.com/blog/angular-1/&#34;&gt;ngoKevin&amp;rsquo;s Introduction to AngularJS&lt;/a&gt; by Kevin Ngo&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://leanpub.com/Practical_AngularJS/read&#34;&gt;Practical AngularJS&lt;/a&gt; by Dinis Cruz&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://leanpub.com/recipes-with-angular-js/read&#34;&gt;Recipes with Angular.js&lt;/a&gt; by Frederik Dietz&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;express-js&#34;&gt;Express.js&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://web.archive.org/web/20140621124403/https://leanpub.com/express/read&#34;&gt;Express.js Guide&lt;/a&gt; by Azat Mardan&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;ember-js&#34;&gt;Ember.js&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://dockyard.com/blog/ember/2013/01/07/building-an-ember-app-with-rails-api-part-1&#34;&gt;Building an Ember App with RailsAPI&lt;/a&gt; by Brian Cardarella&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://guides.emberjs.com/v2.13.0/getting-started/&#34;&gt;Ember.js Guide&lt;/a&gt; by Ember.js&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://ember.vicramon.com/&#34;&gt;Vic Ramon&amp;rsquo;s Ember Tutorial&lt;/a&gt; by Vic Ramon&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;jquery&#34;&gt;jQuery&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://nicholasjohnson.com/javascript-book/&#34;&gt;JavaScript Plus a Dash of jQuery&lt;/a&gt; by Nicholas Johnson&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://jqueryenlightenment.com/jquery_enlightenment.pdf&#34;&gt;jQuery Enlightenment&lt;/a&gt; by Cody Lindley&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://jqfundamentals.com/&#34;&gt;jQuery Fundamentals&lt;/a&gt; by Rebecca Murphey&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.syncfusion.com/resources/techportal/ebooks/jquery&#34;&gt;jQuery Succinctly&lt;/a&gt; by Cody Lindley*&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://mediatheque.cite-musique.fr/MediaComposite/Debug/Dossier-Orchestre/ressources/jQuery.Novice.to.Ninja.2nd.Edition.pdf&#34;&gt;jQuery: Novice to Ninja&lt;/a&gt; by Earle Castledine, Graig Sharkie&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;node-js&#34;&gt;Node.js&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://nodeguide.com/&#34;&gt;Felix&amp;rsquo;s Node.js Guide&lt;/a&gt; by Felix Geisendörfer&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://web.archive.org/web/20150327025334/https://leanpub.com/jsfun/read&#34;&gt;JavaScript and Node FUNdamentals&lt;/a&gt; by Azat Mardan&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://visionmedia.github.io/masteringnode/book.html&#34;&gt;Mastering Node.js&lt;/a&gt; by TJ Holowaychuk&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://book.mixu.net/node/single.html&#34;&gt;Mixu&amp;rsquo;s Node book&lt;/a&gt; by Mikito Takada&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://chimera.labs.oreilly.com/books/1234000001808/index.html&#34;&gt;Node: Up and Running&lt;/a&gt; by Tom Hughes-Croucher, Mike Wilson&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.syncfusion.com/resources/techportal/ebooks/nodejs&#34;&gt;Node.js Succinctly&lt;/a&gt; by&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/maxogden/art-of-node#the-art-of-node&#34;&gt;The Art of Node.js&lt;/a&gt; by Max Ogden&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://nodebeginner.org/&#34;&gt;The Node Beginner Book&lt;/a&gt; by Manuel Kiessling&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.packtpub.com/packt/free-ebook/what-you-need-to-know-about-nodejs&#34;&gt;What You Need to Know About Node.js&lt;/a&gt; by Bruno Joseph Dmello*&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;react&#34;&gt;React&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.hackingwithreact.com/&#34;&gt;Hacking with React&lt;/a&gt; by Paul Hudson&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://code.tutsplus.com/tutorials/intro-to-the-react-framework--net-35660&#34;&gt;Intro to the React Framework&lt;/a&gt; by Pavan Podila&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://library.oreilly.com/book/0636920049579/learning-react/toc&#34;&gt;Learning React&lt;/a&gt; by Alex Banks, Eve Porcello&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://scotch.io/tutorials/learning-react-getting-started-and-concepts&#34;&gt;Learning React.js: Getting Started and Concepts&lt;/a&gt; by Ken Wheeler&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.reactenlightenment.com/&#34;&gt;React Enlightenment&lt;/a&gt; by Cody Lindley&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://developmentarc.gitbooks.io/react-indepth/content/&#34;&gt;React In-Depth: an Exploration in UI Development&lt;/a&gt; by DevelopmentArc&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://facebook.github.io/react/tutorial/tutorial.html&#34;&gt;React Tutorial&lt;/a&gt; by Facebook&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://survivejs.com/react/introduction/&#34;&gt;SurviveJS - React&lt;/a&gt; by Juho Vepsäläinen&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <description>This is a big list of free JavaScript books and resources that can all be found online. The list is categorized by different JavaScript frameworks and ordered alphabetically. Some of the reading materials require registration or your email but are otherwise still free for consumption.
+If you have a resource to add to this list, please let me know!
+* Registration required
+JavaScript  Basic JavaScript for the Impatient Programmer by Dr.</description>
     </item>
     
     <item>
@@ -185,76 +39,8 @@
       <pubDate>Fri, 05 May 2017 16:03:45 -0700</pubDate>
       
       <guid>https://tomanistor.com/blog/shell-script-to-clear-cloudflare-cache/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;https://cloudflare.com&#34;&gt;CloudFlare&lt;/a&gt; is a free content delivery network (CDN) that helps deliver static content quickly and efficiently throughout the world. Caching and serving static content through dependable CDNs like CloudFlare, &lt;a href=&#34;https://maxcdn.com&#34;&gt;MaxCDN&lt;/a&gt;, or &lt;a href=&#34;https://aws.amazon.com/cloudfront/&#34;&gt;AWS CloudFront&lt;/a&gt; can help speed up your website drastically.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;A CDN is essentially a network of geographically dispersed servers. Each CDN node (also called Edge Servers) caches the static content of a site like the images, CSS/JS files and other structural components. The majority of an end-user’s page load time is spent on retrieving this content, and so it makes sense to provide these “building blocks” of a site in as many server nodes as possible, distributed throughout the world.&lt;/p&gt;
-
-&lt;p&gt;When a user requests your site, the node closest in proximity to user will deliver the static content, ensuring the shortest distance for the data to travel (reduced latency), therefore providing the fastest site experience.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Static resources like image, JavaScript, and CSS files that are cached by CloudFlare sometimes need to be purged before the CDN can deliver freshly updated resources. You could always log in to CloudFlare and purge the cache manually each time you make a website update, or you work smarter and create a shell script that does it for you upon deployment.&lt;/p&gt;
-
-&lt;h2 id=&#34;get-your-cloudflare-global-api-key&#34;&gt;Get Your CloudFlare Global API Key&lt;/h2&gt;
-
-&lt;p&gt;First, you must retrieve the CloudFlare &lt;strong&gt;Global API Key&lt;/strong&gt;. This key will be available on your CloudFlare account settings page. Copy this key to use in the next&lt;/p&gt;
-
-&lt;h2 id=&#34;get-your-cloudflare-zone-id&#34;&gt;Get Your CloudFlare Zone ID&lt;/h2&gt;
-
-&lt;p&gt;The &lt;strong&gt;Zone ID&lt;/strong&gt; can be found on your domain&amp;rsquo;s CloudFlare overview page.&lt;/p&gt;
-
-&lt;p&gt;Another way to grab your Zone ID is to enter the following command in the terminal and replace the &lt;code&gt;X-Auth-Email&lt;/code&gt; with your email and the &lt;code&gt;X-Auth-Key&lt;/code&gt; with your Global API Key.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ curl -X GET &amp;quot;https://api.cloudflare.com/client/v4/zones&amp;quot; \
--H &amp;quot;X-Auth-Email: user@example.com&amp;quot; \
--H &amp;quot;X-Auth-Key: c2547eb745079dac9320b638f5e225cf483cc5cfdda42&amp;quot; \
--H &amp;quot;Content-Type: application/json&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The resulting output will be a load of information about your CloudFlare account&amp;rsquo;s domain names, including a Zone ID associated with each domain name.&lt;/p&gt;
-
-&lt;h2 id=&#34;clear-your-cloudflare-cache&#34;&gt;Clear Your CloudFlare cache&lt;/h2&gt;
-
-&lt;p&gt;We&amp;rsquo;ll use your domain&amp;rsquo;s Zone ID to clear the cache and force Cloudflare to fetch a fresh versions of your static files. Enter the following command in the terminal and again use your email for the &lt;code&gt;X-Auth-Email&lt;/code&gt; and your Global API Key for the &lt;code&gt;X-Auth-Key&lt;/code&gt;. However, now replace &lt;code&gt;ZONE-ID&lt;/code&gt; with your Zone ID.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ curl -X DELETE &amp;quot;https://api.cloudflare.com/client/v4/zones/ZONE-ID/purge_cache&amp;quot; \
--H &amp;quot;X-Auth-Email: user@example.com&amp;quot; \
--H &amp;quot;X-Auth-Key: c2547eb745079dac9320b638f5e225cf483cc5cfdda42&amp;quot; \
--H &amp;quot;Content-Type:application/json&amp;quot; \
---data &#39;{&amp;quot;purge_everything&amp;quot;:true}&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you made changes to the site they should now be visible since the cache will have been cleared.&lt;/p&gt;
-
-&lt;h2 id=&#34;create-the-shell-script&#34;&gt;Create the Shell Script&lt;/h2&gt;
-
-&lt;p&gt;Copy that last command into your text editor and add &lt;code&gt;#!/bin/bash&lt;/code&gt; to the very top of the file. Feel free to add a comment under that line so you know what the bash file does in the future. At the end, I also added an &lt;code&gt;echo&lt;/code&gt; to print out a message letting me know that the cache has been cleared. It should look something like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;#!/bin/bash
-# Clear CloudFlare cache for tomanistor.com
-
-curl -X DELETE &amp;quot;https://api.cloudflare.com/client/v4/zones/ZONE-ID/purge_cache&amp;quot; \
--H &amp;quot;X-Auth-Email: user@example.com&amp;quot; \
--H &amp;quot;X-Auth-Key: c2547eb745079dac9320b638f5e225cf483cc5cfdda42&amp;quot; \
--H &amp;quot;Content-Type:application/json&amp;quot; \
---data &#39;{&amp;quot;purge_everything&amp;quot;:true}&#39;
-
-echo &amp;quot;CloudFlare cache has been cleared&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Shell scripts should be saved in &lt;code&gt;usr/local/bin/&lt;/code&gt;. I named my script &lt;code&gt;cloudclear&lt;/code&gt; with no file extensions.&lt;/p&gt;
-
-&lt;h2 id=&#34;run-the-script&#34;&gt;Run the Script&lt;/h2&gt;
-
-&lt;p&gt;Type the name of your shell script in the terminal. If everything has been done correctly, the script will run and clear your CloudFlare cache.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ cloudclear
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;There it is! Faster DNS cache clearing.&lt;/p&gt;
-</description>
+      <description>CloudFlare is a free content delivery network (CDN) that helps deliver static content quickly and efficiently throughout the world. Caching and serving static content through dependable CDNs like CloudFlare, MaxCDN, or AWS CloudFront can help speed up your website drastically.
+ A CDN is essentially a network of geographically dispersed servers. Each CDN node (also called Edge Servers) caches the static content of a site like the images, CSS/JS files and other structural components.</description>
     </item>
     
     <item>
@@ -263,79 +49,9 @@ echo &amp;quot;CloudFlare cache has been cleared&amp;quot;
       <pubDate>Fri, 28 Apr 2017 11:32:36 -0700</pubDate>
       
       <guid>https://tomanistor.com/blog/hugo-workflow/</guid>
-      <description>
-
-&lt;p&gt;The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.&lt;/p&gt;
-
-&lt;p&gt;Inside of your Hugo project folder, the &lt;code&gt;public/&lt;/code&gt; folder is generated with all of your static site files once &lt;code&gt;hugo&lt;/code&gt; is run in the terminal.&lt;/p&gt;
-
-&lt;h2 id=&#34;purge-and-serve&#34;&gt;Purge and Serve&lt;/h2&gt;
-
-&lt;p&gt;To generate a new &lt;code&gt;public/&lt;/code&gt; folder, just remove the existing one and run the server. All updates you have made to your content and theme are now available in the new &lt;code&gt;public/&lt;/code&gt; folder and visible on the live server.&lt;/p&gt;
-
-&lt;p&gt;Always make sure to remove the old &lt;code&gt;public/&lt;/code&gt; folder otherwise Hugo will continue to update existing files and add new files without removed old unused files. You definitely don&amp;rsquo;t want the clutter and confusion.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ rm -rf public/
-$ hugo server --verbose
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;livereload&#34;&gt;LiveReload&lt;/h3&gt;
-
-&lt;p&gt;One of my favorite features in Hugo so far? LiveReload. The Hugo server automatically watches your project folder for changes and refreshes your browser when any new changes are made while editing, creating, or deleting files.&lt;/p&gt;
-
-&lt;p&gt;This is great for development when you can make changes in your text editor and immediately see them occur in your browser window.&lt;/p&gt;
-
-&lt;p&gt;If you want to disable LiveReload:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ hugo server --disableLiveReload
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;gulp-pipeline&#34;&gt;Gulp Pipeline&lt;/h2&gt;
-
-&lt;p&gt;When making any styling changes or designing themes, I use a Gulp pipeline to compile my SCSS files into compressed CSS files that are then rendering into the &lt;code&gt;public/&lt;/code&gt; folder appropriately. Besides compiling and compressing style files, my gulpfile also runs a task that minifies my JavaScript files. Dan Bahrami has a &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/&#34;&gt;great guide&lt;/a&gt; that includes setting up a Gulp pipeline and assigning Gulp tasks to watch for changes in style folders.&lt;/p&gt;
-
-&lt;p&gt;To get the Gulp pipeline going after I start the Hugo server, I simply type:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ gulp
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;new-content&#34;&gt;New Content&lt;/h2&gt;
-
-&lt;p&gt;Creating new content in the project folder is also very simple. For example, I created this page as a markdown file inside of &lt;code&gt;content/blog/&lt;/code&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ hugo new blog/hugo-workflow.md
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So far I&amp;rsquo;ve been enjoying writing blog posts in markdown.&lt;/p&gt;
-
-&lt;h2 id=&#34;hugo-deploy&#34;&gt;Hugo Deploy&lt;/h2&gt;
-
-&lt;p&gt;For deploying Hugo, I currently use &lt;a href=&#34;https://github.com/mindok/hugodeploy&#34;&gt;hugodeploy&lt;/a&gt;, a simple FTP/SFTP deployment tool built in Go. Content inside of &lt;code&gt;public/&lt;/code&gt; is effortlessly uploaded to my website&amp;rsquo;s root folder on my shared webhost account with two simple commands:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ hugodeploy preview
-$ hugodeploy push
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A neat extra feature of hugodeploy is the minification of CSS, HTML, JavaScript, JSON, and XML files upon deployment. While this option can be turned off, it does help with file size and site speed if you&amp;rsquo;re not already minifying your static files.&lt;/p&gt;
-
-&lt;h3 id=&#34;rsync-process&#34;&gt;Rsync Process&lt;/h3&gt;
-
-&lt;p&gt;An alternative deployment method I was thinking about using and may try out down the line is using rsync. Andrew Codispoti detailed the steps to &lt;a href=&#34;http://www.andrewcodispoti.com/deploy-process/&#34;&gt;setting up an rsync process&lt;/a&gt; that can deploy updates when committing and pushing with git.&lt;/p&gt;
-
-&lt;h3 id=&#34;clear-cache&#34;&gt;Clear Cache&lt;/h3&gt;
-
-&lt;p&gt;I use CloudFlare as my DNS to cache my static files and help serve them faster around the world. When deploying, I sometimes find that I&amp;rsquo;ll need to clear CloudFlare&amp;rsquo;s caches in order to serve up freshly update files. As a little shortcut to constantly going to the CloudFlare site and manually clearing the cache, I created a &lt;a href=&#34;blog/shell-script-to-clear-cloudflare-cache&#34;&gt;shell script that clears the cache&lt;/a&gt; after deployment when I call it in the terminal with: &lt;code&gt;cloudclear&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;All in all, my Hugo workflow is short and sweet. A typical update and publication to the live site can look like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;$ rm -rf public
-$ hugo
-$ hugodeploy preview
-$ hugodeploy push
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+      <description>The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.
+Inside of your Hugo project folder, the public/ folder is generated with all of your static site files once hugo is run in the terminal.
+Purge and Serve To generate a new public/ folder, just remove the existing one and run the server. All updates you have made to your content and theme are now available in the new public/ folder and visible on the live server.</description>
     </item>
     
     <item>
@@ -344,37 +60,9 @@ $ hugodeploy push
       <pubDate>Thu, 30 Mar 2017 02:28:01 -0700</pubDate>
       
       <guid>https://tomanistor.com/blog/hugo-site-is-launched/</guid>
-      <description>
-
-&lt;p&gt;My new portfolio has officially been launched! This is my first static website built using Hugo. In my &lt;a href=&#34;blog/starting-with-hugo&#34;&gt;previous post&lt;/a&gt;, I mapped out a few broad objectives for this project.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s take a look at the completed goals from a short while ago and review.&lt;/p&gt;
-
-&lt;h2 id=&#34;objectives&#34;&gt;Objectives&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;del&gt;Create portfolio to display work&lt;/del&gt;&lt;/li&gt;
-&lt;li&gt;&lt;del&gt;Create blog to jot down my progress and help others along the way&lt;/del&gt;&lt;/li&gt;
-&lt;li&gt;&lt;del&gt;Implement design with SCSS&lt;/del&gt;&lt;/li&gt;
-&lt;li&gt;&lt;del&gt;Design new Hugo theme and distribute for others to used&lt;/del&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;create-portfolio&#34;&gt;Create Portfolio&lt;/h2&gt;
-
-&lt;p&gt;The portfolio has been created and published in place of my old portfolio site. Currently, projects are displayed under the &amp;ldquo;Work&amp;rdquo; section on the index page. The index page was constructed as a one-page template to display a hero header, gallery of web projects, a list of the 10 latest blog posts, and a contact form.&lt;/p&gt;
-
-&lt;h2 id=&#34;create-blog&#34;&gt;Create Blog&lt;/h2&gt;
-
-&lt;p&gt;The blog post links on the index page lead to their own individual pages. The majority of the blog was based off of the &lt;a href=&#34;https://github.com/davidhampgonsalves/hugo-black-and-light-theme&#34;&gt;Hugo Black and Light Theme&lt;/a&gt; by David Hamp-Gonsalves. Overall, it was a well-constructed, minimalist, text-only theme without any scripts or clutter. The blog has been slightly redesigned but there is a bit more customization work to be done.&lt;/p&gt;
-
-&lt;h2 id=&#34;use-scss&#34;&gt;Use SCSS&lt;/h2&gt;
-
-&lt;p&gt;My first major challenge was figuring out how to use &lt;a href=&#34;http://sass-lang.com/&#34;&gt;SCSS&lt;/a&gt; outside of a Ruby on Rails project, since my previous installations of SASS were as easy as typing &lt;code&gt;gem install sass&lt;/code&gt; in the terminal. Luckily, I found a fantastically thorough tutorial by Dan Bahrami: &lt;a href=&#34;http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/&#34;&gt;Building a production website with Hugo and GulpJS&lt;/a&gt;. This also marked my first exposure to &lt;a href=&#34;https://nodejs.org/en/&#34;&gt;Node.js&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;design-distribute-hugo-theme&#34;&gt;Design &amp;amp; Distribute Hugo Theme&lt;/h2&gt;
-
-&lt;p&gt;While the theme I&amp;rsquo;ve constructed is fine to publish now and use myself, there is a ways to go to clean it up and optimize it before distributing to the Hugo community. This will be the most challenging objective that I still need to complete and requires more studying of Hugo and the correct syntax. However, I&amp;rsquo;m very close to finishing the design portion of the theme!&lt;/p&gt;
-</description>
+      <description>My new portfolio has officially been launched! This is my first static website built using Hugo. In my previous post, I mapped out a few broad objectives for this project.
+Let&amp;rsquo;s take a look at the completed goals from a short while ago and review.
+Objectives  Create portfolio to display work Create blog to jot down my progress and help others along the way Implement design with SCSS Design new Hugo theme and distribute for others to used  Create Portfolio The portfolio has been created and published in place of my old portfolio site.</description>
     </item>
     
     <item>
@@ -383,23 +71,8 @@ $ hugodeploy push
       <pubDate>Mon, 13 Mar 2017 23:03:31 -0700</pubDate>
       
       <guid>https://tomanistor.com/blog/starting-with-hugo/</guid>
-      <description>
-
-&lt;p&gt;I&amp;rsquo;m finally ditching &lt;a href=&#34;https://wordpress.org&#34;&gt;Wordpress&lt;/a&gt; and testing out new waters with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;, the static site generator written in &lt;a href=&#34;https://golang.org&#34;&gt;Go&lt;/a&gt;. Go is a speedy programming language developed by Google.&lt;/p&gt;
-
-&lt;p&gt;During this new chapter of my career as a web developer, I&amp;rsquo;ll be moving away from dynamically generated site builders and constructing my new portfolio from the ground up in order to practice and refine my web developing skills with &lt;strong&gt;JavaScript&lt;/strong&gt;, &lt;strong&gt;Go&lt;/strong&gt;, and &lt;strong&gt;SCSS&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;objectives&#34;&gt;Objectives&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Create portfolio to display work&lt;/li&gt;
-&lt;li&gt;Create blog to jot down my progress and help others along the way&lt;/li&gt;
-&lt;li&gt;Implement design with SCSS&lt;/li&gt;
-&lt;li&gt;Design new Hugo theme and distribute for others to used&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When this post is published, the four primary objectives of my new Hugo portfolio site should be complete.&lt;/p&gt;
-</description>
+      <description>I&amp;rsquo;m finally ditching Wordpress and testing out new waters with Hugo, the static site generator written in Go. Go is a speedy programming language developed by Google.
+During this new chapter of my career as a web developer, I&amp;rsquo;ll be moving away from dynamically generated site builders and constructing my new portfolio from the ground up in order to practice and refine my web developing skills with JavaScript, Go, and SCSS.</description>
     </item>
     
   </channel>

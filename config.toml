@@ -28,6 +28,10 @@ googleAnalytics = "UA-70206008-1"
     cacheBustJS = true
     ajaxFormspree = true
 
+[taxonomies]
+    tag = ""
+    category = ""
+
 [permalinks]
     gallery = "/"
 

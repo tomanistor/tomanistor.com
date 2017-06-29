@@ -1,9 +1,9 @@
 +++
-date = "2017-03-13T23:03:31-07:00"
 title = "Starting with Hugo"
+date = "2017-03-13T23:03:31-07:00"
 description = "This marks the beginning of my journey using Hugo, a static website generator written in GoLang. It will act as my blog, portfolio, and online presence."
 aliases = ["/post/starting-with-hugo"]
-
+draft = false
 +++
 
 I'm finally ditching [Wordpress](https://wordpress.org) and testing out new waters with [Hugo](https://gohugo.io), the static site generator written in [Go](https://golang.org). Go is a speedy programming language developed by Google.
