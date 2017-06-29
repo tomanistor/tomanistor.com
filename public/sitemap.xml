@@ -38,26 +38,6 @@
   </url>
   
   <url>
-    <loc>https://tomanistor.com/</loc>
-    <priority>0</priority>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://tomanistor.com/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://tomanistor.com/</loc>
-    <priority>0</priority>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://tomanistor.com/"
-                />
-  </url>
-  
-  <url>
     <loc>https://tomanistor.com/blog/</loc>
     <lastmod>2017-06-20T13:00:59-07:00</lastmod>
     <priority>0</priority>

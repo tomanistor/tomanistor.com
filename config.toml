@@ -28,9 +28,7 @@ googleAnalytics = "UA-70206008-1"
     cacheBustJS = true
     ajaxFormspree = true
 
-[taxonomies]
-    tag = ""
-    category = ""
+[taxonomies] # Leave this here to remove the default "tag" and "category" taxonomies
 
 [permalinks]
     gallery = "/"
