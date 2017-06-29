@@ -6,6 +6,7 @@ config = "config.toml"
 theme = "osprey"
 canonifyURLS = true
 googleAnalytics = "UA-70206008-1"
+disableKinds = ["taxonomy", "taxonomyTerm"] # This theme does not currently use "tag" and "category" taxonomies
 
 [Params]
     tagline = "Toma Nistor"
@@ -27,8 +28,6 @@ googleAnalytics = "UA-70206008-1"
     cacheBustCSS = true
     cacheBustJS = true
     ajaxFormspree = true
-
-[taxonomies] # Leave this here to remove the default "tag" and "category" taxonomies
 
 [permalinks]
     gallery = "/"
