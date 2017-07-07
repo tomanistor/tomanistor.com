@@ -30,7 +30,7 @@ disableKinds = ["taxonomy", "taxonomyTerm"] # This theme does not currently use 
     ajaxFormspree = true
 
 [permalinks]
-    gallery = "/"
+    gallery = "/" # Redirect gallery index to home page
 
 [[menu.main]]
     name = "About"
