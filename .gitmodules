@@ -4,3 +4,6 @@
 [submodule "themes/osprey"]
 	path = themes/osprey
 	url = https://github.com/tomanistor/osprey.git
+[submodule "static/to-do-list"]
+	path = static/to-do-list
+	url = https://github.com/tomanistor/vuejs-todo.git
