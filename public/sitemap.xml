@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tomanistor.com/blog/starting-with-vuejs/</loc>
+    <lastmod>2017-07-09T23:23:29-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tomanistor.com/about/</loc>
     <lastmod>2017-06-28T12:36:41-07:00</lastmod>
   </url>
@@ -39,13 +44,13 @@
   
   <url>
     <loc>https://tomanistor.com/blog/</loc>
-    <lastmod>2017-06-20T13:00:59-07:00</lastmod>
+    <lastmod>2017-07-09T23:23:29-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tomanistor.com/</loc>
-    <lastmod>2017-07-06T15:55:00-07:00</lastmod>
+    <lastmod>2017-07-09T23:23:29-07:00</lastmod>
     <priority>0</priority>
   </url>
   

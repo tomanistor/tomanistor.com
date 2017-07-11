@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
-    <lastBuildDate>Thu, 06 Jul 2017 15:55:00 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 09 Jul 2017 23:23:29 -0700</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Starting with Vue.js</title>
+      <link>https://tomanistor.com/blog/starting-with-vuejs/</link>
+      <pubDate>Sun, 09 Jul 2017 23:23:29 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/starting-with-vuejs/</guid>
+      <description>Lately, I&amp;rsquo;ve been a little indecisive on which JavaScript framework or library to dive into next. Based on all of the job descriptions I&amp;rsquo;ve been plowing through, any front-end and even most full-stack web development roles require proficiency with a number of different JavaScript frameworks.
+Vanilla JavaScript is Not Enough A lot of advice directed at junior web developers that I&amp;rsquo;ve come across online stresses the importance of mastering JavaScript before attempting to level up with frameworks.</description>
+    </item>
     
     <item>
       <title>Miniflix</title>

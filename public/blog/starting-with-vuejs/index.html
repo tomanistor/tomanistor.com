@@ -14,11 +14,11 @@
         <title>
             
             
-                Cache Bust that Asset | Toma Nistor
+                Starting with Vue.js | Toma Nistor
             
         </title>
 
-        <meta name="title" content="Cache Bust that Asset | Toma Nistor">
+        <meta name="title" content="Starting with Vue.js | Toma Nistor">
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -28,7 +28,7 @@
         <meta name="referrer" content="no-referrer-when-downgrade">
         <meta name="generator" content="">
         <base href="https://tomanistor.com">
-        <meta name="description" content="How to cache bust your static assets and force web browsers to serve uncached, freshly updated files.">
+        <meta name="description" content="My newest journey in web development is now learning Vue.js, a JavaScript library.">
         
         <meta name="author" content="Toma Nistor">
         
@@ -36,11 +36,11 @@
         <meta name="twitter:site" content="@TomaNistor">
         <meta name="twitter:creator" content="@TomaNistor">
         
-        <meta property="og:title" content="Cache Bust that Asset | Toma Nistor">
+        <meta property="og:title" content="Starting with Vue.js | Toma Nistor">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://tomanistor.com">
         <meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png">
-        <meta name="og:description" content="How to cache bust your static assets and force web browsers to serve uncached, freshly updated files.">
+        <meta name="og:description" content="My newest journey in web development is now learning Vue.js, a JavaScript library.">
         
 
         
@@ -63,7 +63,7 @@
         <meta name="theme-color" content="#FFF">
         
 
-        <link rel="canonical" href="https://tomanistor.com/blog/cache-bust-that-asset/">
+        <link rel="canonical" href="https://tomanistor.com/blog/starting-with-vuejs/">
         
         <link rel="stylesheet" href="styles/main-0fd2c8fe.css" type="text/css">
         <style>
@@ -131,61 +131,61 @@ ga('send', 'pageview');
 
     <section class="container">
         <section class="content">
-            <h1> Cache Bust that Asset </h1>
+            <h1> Starting with Vue.js </h1>
 
             <div class="sub-header">
-                June 2017 · 5 minute read
+                July 2017 · 4 minute read
             </div>
 
             <div class="entry-content">
                 
 
-<p>Static assets like CSS, JavaScript, and image files are normally cached for long periods of time with expiry periods of a few weeks or months after being served to a user&rsquo;s web browser. <strong>Caching is used to speed up a website or application by once downloading a file and storing a cached version of it in the browser.</strong> When a user moves from page to page on a website or revisits the same site in the future, the cached file is served automatically without wasting any time loading the same file.</p>
+<p>Lately, I&rsquo;ve been a little indecisive on which JavaScript framework or library to dive into next. Based on all of the job descriptions I&rsquo;ve been plowing through, any front-end and even most full-stack web development roles require proficiency with a number of different JavaScript frameworks.</p>
 
-<p>All in all, a faster loading site is great for usability and user experience, thus also great for SEO. However, caching assets comes with one major drawback: <strong>browsers will continue to serve the same cached version of a file that has not reached its expiry period even if that file has been updated.</strong> This means that if you&rsquo;ve made an update to <code>main.css</code>, the browser will continue serving the old, outdated version of <code>main.css</code> until the expiry period is over or the user clears their cache. This is of course troublesome when you want to deploy your site updates but browsers won&rsquo;t serve your updates.</p>
+<h2 id="vanilla-javascript-is-not-enough">Vanilla JavaScript is Not Enough</h2>
 
-<p>A user can manually clear their browser&rsquo;s cache if they know how (with a hard refresh or through the browser&rsquo;s settings) and they choose to do so, but serving updated assets shouldn&rsquo;t be left at the whim of a user. Cache busting is a web developer&rsquo;s responsibility.</p>
+<p>A lot of advice directed at junior web developers that I&rsquo;ve come across online stresses the importance of mastering JavaScript before attempting to level up with frameworks. Some even suggest that a junior developer that knows a framework or two isn&rsquo;t as valuable as one with a just a solid understanding of pure JavaScript.</p>
 
-<h2 id="what-is-cache-busting">What is Cache Busting?</h2>
+<p>However, that advice doesn&rsquo;t seem to take into account job descriptions and phone screens that specifically filter out candidates who haven&rsquo;t populated their resumes with certain frameworks. With jQuery and <a href="https://github.com/justenPalmer/uni">Uni.js</a> as the only JavaScript libraries in my tool belt, I figured it was time to gear up with another.</p>
 
-<p><strong>Cache busting is the forced clearing of files cached in a web browser.</strong> When cached assets are cleared, the cache is effectively reset and assets must be downloaded again via HTTP request when a user visits the same site again. The browser doesn&rsquo;t need to wait for the end of assets&rsquo; expiry period or the user clearing the cache.</p>
+<h2 id="picking-the-next-one">Picking the Next One</h2>
 
-<p>Sure, the file needs to be downloaded again, which may temporarily slow down your site a bit. But the important thing is that cache busting forces browsers to serve your updated files so users experience the newest and most up-to-date version of your web app.</p>
+<p>For a while, I was researching various JavaScript frameworks and ranking them based on job demand in my region, ease of learning, availability of guides and tutorials, and figuring out the pros and cons of the actual frameworks themselves.</p>
 
-<h2 id="how-is-cache-busting-done">How is Cache Busting Done?</h2>
+<h3 id="angularjs-and-angular">AngularJS and Angular</h3>
 
-<p>One effective way to cache bust old files is to &ldquo;fingerprint&rdquo; them. A browser will serve the same, old, previously downloaded version of <code>main.css</code> regardless of file updates because it only looks for the file name in an HTTP request. The browser notices that it has a cached version of the file requested for the site and serves it to the user.</p>
+<p><a href="https://angularjs.org/">AngularJS</a> and <a href="https://angular.io/">Angular</a> were the clear winners in my market. Besides being in demand, a big appeal for me was the MVC framework, which I wanted to learn with JavaScript since I enjoyed using it with Ruby on Rails. The MVC structure may also be better for a junior developer to learn and develop good habits with.</p>
 
-<p>However, if the file name has changed, the browser will determine that this is a new file and must be downloaded and stored in the cache. <strong>Fingerprinting static assets is adding a unique hash to the file name in order to force the browser to download and serve the asset</strong>. When a user revisits the site and <code>main.css</code> has changed to <code>main-2017206216.css</code>, the browser fetches, downloads, serves, and caches the new resource. The next time a developer updates the resource and gives the file a new hash, the browser again serves the newly requested resource.</p>
+<p>Although AngularJS is supposedly on its deathbed (with the arrival of Angular 2 and Angular 4), I still had a little interest in learning it in order to appreciate Angular in the future. Angular seems like a massive framework geared more toward enterprise-sized applications and having to also learn and use TypeScript didn&rsquo;t get me too excited.</p>
 
-<p>So in short, the cache is &ldquo;busted&rdquo; because we trick the browser into serving updated assets by adding unique fingerprints file names to distinguish between different versions. The old, outdated assets remain cached by the browser but aren&rsquo;t touched because they&rsquo;re no longer linked on the website and thus no longer requested by the user visiting the site.</p>
+<h3 id="react">React</h3>
 
-<h2 id="cache-busting-tools">Cache Busting Tools</h2>
+<p><a href="https://facebook.github.io/react/">React</a> was next big dog on the list. In contrast to the two previous frameworks, React is just a library that deals with the view alone. A company I interviewed with relied heavily on React, so I chose to dive in head first with a <a href="https://scotch.io/tutorials/build-a-mini-netflix-with-react-in-10-minutes">quick tutorial</a> on building a video uploading, displaying, and sharing app. I created my <a href="https://miniflix-react.herokuapp.com/">Miniflix</a> app but didn&rsquo;t as much out of it with understanding React as I got dev ops practice with Auth0, Cloudinary, and Heroku. I have a lot to learn and from the opinions I&rsquo;ve read online, React requires plenty of time, patience, and practice.</p>
 
-<p>Fingerprinting CSS or JS files can be done manually by renaming files and updated links, but that&rsquo;s probably the least optimal way of going about it. For this reason, many programming language frameworks and tools do the dirty work for us.</p>
+<h3 id="vue-js">Vue.js</h3>
 
-<p>Ruby on Rails, for example, has the <a href="http://guides.rubyonrails.org/asset_pipeline.html">asset pipeline</a>. The asset pipeline automatically fingerprints CSS, JS, and image files inside of asset folders. Asset files are then linked to using Rails helpers such as <code>asset_path</code>, <code>image_tag</code>, <code>javascript_include_tag</code> and <code>stylesheet_link_tag</code>.</p>
+<p>One week after my interview with the React company, I had a great interview for a front-end web developer role at a different company that used Ruby, JavaScript, and jQuery without any other major JS framework. However, the lead developer informed me that his aim is to adopt a new JavaScript framework or library for their user interfaces. And that framework was <a href="https://vuejs.org/">Vue.js</a>.</p>
 
-<p>On this Hugo static site, I use <a href="http://gulpjs.com/">Gulp.js</a> and <a href="https://www.npmjs.com/package/gulp-hash">gulp-hash</a> in order to automatically add a random hash to my CSS and JS file names any time there is an update. These two guides by <a href="https://www.hughgrigg.com/posts/gulp-asset-versioning-hugo-data-files/">Hugh Grigg</a> and <a href="http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/#cache-busting:c9938300a3bdba2018b469c2485ca2b6">Dan Bahrami</a> provide good instructions on setting up cache busting for a Hugo site with the Gulp.js pipeline and gulp-hash.</p>
+<p>I asked the lead dev why he chose Vue.js over something like React and described it basically as a <a href="https://medium.com/js-dojo/react-or-vue-which-javascript-ui-library-should-you-be-using-543a383608d">summary of this article</a>. It piqued my interest. So what did I do? I naturally researched more about Vue.js, its <a href="http://www.valuecoders.com/blog/technology-and-apps/vue-js-comparison-angular-react/">comparison to Angularjs and React</a>, and <a href="https://vuejs.org/v2/guide/comparison.html">comparison to other frameworks</a>, then made up my mind to learn it and start my next app with Vue.js.</p>
 
-<h2 id="fingerprinting-image-files-and-seo">Fingerprinting Image Files and SEO</h2>
+<h2 id="what-is-vue-js">What is Vue.js?</h2>
 
-<p>What about image files? They&rsquo;re static assets too and images may also be updated or changed from time to time. From an SEO standpoint though, is it a good idea to add gibberish in hash form to the file name <em>and</em> force search engines to re-index a image files?</p>
+<p>Vue.js is a JavaScript library that deals with just the view and is used for building user interfaces. From <a href="https://vuejs.org/">Vuejs.org</a>:</p>
 
-<p>My SEO instincts tell me I don&rsquo;t want to reset progress on a highly indexed image if I compressed or changed the file size. I also don&rsquo;t want to add random numbers and letters to a file name that I use to target keywords. Hot-linking isn&rsquo;t a concern to me but broken links are. If an image file name changes from <code>mysite.com/logo.png</code> to <code>mysite.com/logo-201612080755.png</code> but the first URL is linked elsewhere on the web, the image would not display and show as a broken file path.</p>
+<blockquote>
+<p>Vue (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable. The core library is focused on the view layer only, and is very easy to pick up and integrate with other libraries or existing projects. On the other hand, Vue is also perfectly capable of powering sophisticated Single-Page Applications when used in combination with modern tooling and supporting libraries.</p>
+</blockquote>
 
-<p>I don&rsquo;t know how Google&rsquo;s or Bing&rsquo;s algorithm treat fingerprinting (<a href="https://webmasters.stackexchange.com/questions/106195/does-fingerprinting-image-file-names-hurt-seo-rankings">I&rsquo;ve tried to ask the question on StackOverflow</a>) but I&rsquo;d assume search engines are intelligent enough to break down a file name into keywords and discard the hash. <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=en">Google recommends fingerprinting file names</a> but doesn&rsquo;t discuss image files in particular. Most image files also aren&rsquo;t updated as often as other assets, so changing file paths shouldn&rsquo;t be too much of a concern, but each project has different circumstances.</p>
+<p>Vue.js is very similar to React in scope and AngularJS in syntax, except a lot simpler and lighter than each. Some concepts from both are borrowed, like AngularJS&rsquo;s templating and React&rsquo;s one-way data binding, utilization of a virtual DOM, and component architecture.</p>
 
-<p>Although I&rsquo;m still on the fence about fingerprinting image files, I take it on a case by case basis. In most of my Ruby on Rails projects, I use the default asset pipeline setting and fingerprint all static assets. On this static Hugo website that doesn&rsquo;t contain many images and images aren&rsquo;t really ever changed, I only fingerprint and cache bust CSS and JS files.</p>
+<p>In my next post, I&rsquo;ll discuss my first app developed with Vue.js and how surprisingly easy it was to learn by doing.</p>
 
             </div>
 
             <div class="links">
                 
-                    &laquo; <a class="basic-alignment left" href="https://tomanistor.com/blog/big-list-of-free-javascript-books/">Big List of Free JavaScript Books</a>
+                    &laquo; <a class="basic-alignment left" href="https://tomanistor.com/blog/cache-bust-that-asset/">Cache Bust that Asset</a>
                 
-                
-                    <a class="basic-alignment left" href="https://tomanistor.com/blog/starting-with-vuejs/">Starting with Vue.js</a> &raquo;
                 
             </div>
         </section>
