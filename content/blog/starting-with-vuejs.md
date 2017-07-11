@@ -5,6 +5,8 @@ description = "My newest journey in web development is now learning Vue.js, a Ja
 draft = false
 +++
 
+![Vue.js](images/blog/vuejs-logo.png)
+
 Lately, I've been a little indecisive on which JavaScript framework or library to dive into next. Based on all of the job descriptions I've been plowing through, any front-end and even most full-stack web development roles require proficiency with a number of different JavaScript frameworks.
 
 ## Vanilla JavaScript is Not Enough
