@@ -29,8 +29,8 @@ disableKinds = ["taxonomy", "taxonomyTerm"] # This theme does not currently use 
     cacheBustJS = true
     ajaxFormspree = true
 
-[permalinks]
-    gallery = "/" # Redirect gallery index to home page
+# [permalinks]
+#     gallery = "/" # Redirect gallery index to home page
 
 [[menu.main]]
     name = "About"
