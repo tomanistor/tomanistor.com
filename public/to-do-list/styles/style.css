@@ -1,0 +1,149 @@
+/* Relevant resets */
+
+
+/* Reset the default browser styles on list items */
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+
+/* Global Styles */
+
+body {
+  line-height: 1.2;
+  font-family: "Lato", sans-serif;
+  background-color: #EFF1F2;
+}
+
+p, pre, h1, h2, {
+  color: #3E4651;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  width: 70%;
+  max-width: 800px;
+  margin: 1em auto 3em;
+  border: 1px solid #EFF1F2;
+}
+
+.panel,
+li {
+  /* Use flexbox */
+  display: flex;
+  /* Center everything inside .panel and li vertically */
+  align-items: center;
+  /* Distribute space evenly between the contents*/
+  justify-content: space-between;
+  list-style-type: none;
+  padding: 10px;
+  border-bottom: 1px solid #EFF1F2;
+  border-radius: 2px;
+  background-color: #42729B;
+}
+
+.text-input {
+  border: 1px solid #999;
+  border-radius: 2px;
+  padding: 0 10px 0 10px;
+  width: 70%;
+  height: 35px;
+  color: #3E4651;
+  font-size: 1.2em;
+}
+
+button {
+  color: #3E4651;
+  background-color: #DEDEDE;
+  border: 1px solid #999;
+  border-radius: 2px;
+  outline: 0;
+  width: 100px;
+  height: 38px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  margin: 10px;
+}
+
+
+/* Task  area */
+
+.list li {
+  background-color: #2C82C9;
+}
+
+.list li .delete {
+  background-color: transparent;
+  border: 1px solid #2C82C9;
+  color: #DDD;
+  /* Hide the delete button by default*/
+  visibility: hidden;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.list li:hover > .delete {
+  /* Show the delete button when hovering over each list item */
+  visibility: visible;
+}
+
+.list label {
+  padding-right: 10px;
+  display: inline-block;
+  width: 70%;
+  font-size: 1.3em;
+  line-height: 24px;
+  color: #FCFCFC;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.list li.done label {
+  color: #DEDEDE;
+  text-decoration: line-through;
+}
+
+
+/* Code */
+
+.panel-bottom {
+  margin-top: 100px;
+}
+
+.code {
+  width: 100%;
+  background-color: #FCFCFC;
+  border: 1px solid #999;
+  border-radius: 2px;
+  padding: 20px;
+}
+
+pre {
+  color: #3E4651;
+}
+
+
+/* Media Queries */
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 90%;
+    max-width: 90%;
+  }
+  button {
+    width: 80px;
+  }
+}
