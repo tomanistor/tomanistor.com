@@ -4,3 +4,6 @@
 [submodule "static/octodrummer"]
 	path = static/octodrummer
 	url = https://github.com/tomanistor/octodrummer.git
+[submodule "static/to-do-list"]
+	path = static/to-do-list
+	url = https://github.com/tomanistor/vuejs-todo.git

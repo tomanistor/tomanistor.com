@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        
+        
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-T94X59P');</script>
+        
+        
+
+        <title>
+            
+            
+                Starting with Vue.js | Toma Nistor
+            
+        </title>
+
+        <meta name="title" content="Starting with Vue.js | Toma Nistor">
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer-when-downgrade">
+        <meta name="generator" content="">
+        <base href="https://tomanistor.com">
+        <meta name="description" content="My newest journey in web development is now learning Vue.js, a JavaScript library.">
+        
+        <meta name="author" content="Toma Nistor">
+        
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@TomaNistor">
+        <meta name="twitter:creator" content="@TomaNistor">
+        
+        <meta property="og:title" content="Starting with Vue.js | Toma Nistor">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://tomanistor.com">
+        <meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png">
+        <meta name="og:description" content="My newest journey in web development is now learning Vue.js, a JavaScript library.">
+        
+
+        
+        <link rel="apple-touch-icon" sizes="57x57" href="https://tomanistor.com/images/logo/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="https://tomanistor.com/images/logo/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="https://tomanistor.com/images/logo/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="https://tomanistor.com/images/logo/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="https://tomanistor.com/images/logo/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="https://tomanistor.com/images/logo/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="https://tomanistor.com/images/logo/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="https://tomanistor.com/images/logo/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="https://tomanistor.com/images/logo/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="images/logo/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://tomanistor.com/images/logo/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="https://tomanistor.com/images/logo/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://tomanistor.com/images/logo/favicon-16x16.png">
+        <link rel="manifest" href="images/logo/manifest.json">
+        <meta name="msapplication-TileColor" content="#FFF">
+        <meta name="msapplication-TileImage" content="/images/logo/ms-icon-144x144.png">
+        <meta name="theme-color" content="#FFF">
+        
+
+        <link rel="canonical" href="https://tomanistor.com/blog/starting-with-vuejs/">
+        
+        <link rel="stylesheet" href="https://tomanistor.com/styles/main-9b200bbc.css" type="text/css">
+        <style>
+  nav {box-shadow: none;}
+</style>
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/github.min.css">
+        
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-70206008-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+    </head>
+
+    <body>
+        
+        
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T94X59P"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        
+        
+
+        
+
+        <nav class="row middle-xs center-xs">
+            <div class="col-xs-6 col-sm-1 logo">
+                <a href="https://tomanistor.com"><img src="https://tomanistor.com/images/logo/Toma-Nistor-Logo-150px.png" alt="Toma Nistor"></a>
+            </div>
+            
+            <div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#about">About</a></h3></div>
+            
+            <div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#work">Work</a></h3></div>
+            
+            <div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#blog">Blog</a></h3></div>
+            
+            <div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#contact">Contact</a></h3></div>
+            
+            <div class="col-xs-6 col-sm-1 nav-toggle">
+                <a href="" class="nav-icon" onclick="return false"><img src="https://tomanistor.com/images/icon-menu.png" alt="Open Menu"><img src="https://tomanistor.com/images/icon-x.png" alt="Close Menu" style="display: none;"></a>
+            </div>
+        </nav>
+        <section class="nav-full row middle-xs center-xs">
+            <div class="col-xs-12">
+                <div class="row middle-xs center-xs">
+                    
+                    <div class="col-xs-12"><h1><a href="https://tomanistor.com/#about">About</a></h1></div>
+                    
+                    <div class="col-xs-12"><h1><a href="https://tomanistor.com/#work">Work</a></h1></div>
+                    
+                    <div class="col-xs-12"><h1><a href="https://tomanistor.com/#blog">Blog</a></h1></div>
+                    
+                    <div class="col-xs-12"><h1><a href="https://tomanistor.com/#contact">Contact</a></h1></div>
+                    
+                </div>
+            </div>
+        </section>
+        <main>
+
+
+    <section class="container">
+        <section class="content">
+            <h1> Starting with Vue.js </h1>
+
+            <div class="sub-header">
+                July 2017 · 4 minute read
+            </div>
+
+            <div class="entry-content">
+                
+
+<p><img src="images/blog/vuejs-logo.png" alt="Vue.js" /></p>
+
+<p>Lately, I&rsquo;ve been a little indecisive on which JavaScript framework or library to dive into next. Based on all of the job descriptions I&rsquo;ve been plowing through, any front-end and even most full-stack web development roles require proficiency with a number of different JavaScript frameworks.</p>
+
+<h2 id="vanilla-javascript-is-not-enough">Vanilla JavaScript is Not Enough</h2>
+
+<p>A lot of advice directed at junior web developers that I&rsquo;ve come across online stresses the importance of mastering JavaScript before attempting to level up with frameworks. Some even suggest that a junior developer that knows a framework or two isn&rsquo;t as valuable as one with a just a solid understanding of pure JavaScript.</p>
+
+<p>However, that advice doesn&rsquo;t seem to take into account job descriptions and phone screens that specifically filter out candidates who haven&rsquo;t populated their resumes with certain frameworks. With jQuery and <a href="https://github.com/justenPalmer/uni">Uni.js</a> as the only JavaScript libraries in my tool belt, I figured it was time to gear up with another.</p>
+
+<h2 id="picking-the-next-one">Picking the Next One</h2>
+
+<p>For a while, I was researching various JavaScript frameworks and ranking them based on job demand in my region, ease of learning, availability of guides and tutorials, and figuring out the pros and cons of the actual frameworks themselves.</p>
+
+<h3 id="angularjs-and-angular">AngularJS and Angular</h3>
+
+<p><a href="https://angularjs.org/">AngularJS</a> and <a href="https://angular.io/">Angular</a> were the clear winners in my market. Besides being in demand, a big appeal for me was the MVC framework, which I wanted to learn with JavaScript since I enjoyed using it with Ruby on Rails. The MVC structure may also be better for a junior developer to learn and develop good habits with.</p>
+
+<p>Although AngularJS is supposedly on its deathbed (with the arrival of Angular 2 and Angular 4), I still had a little interest in learning it in order to appreciate Angular in the future. Angular seems like a massive framework geared more toward enterprise-sized applications and having to also learn and use TypeScript didn&rsquo;t get me too excited.</p>
+
+<h3 id="react">React</h3>
+
+<p><a href="https://facebook.github.io/react/">React</a> was next big dog on the list. In contrast to the two previous frameworks, React is just a library that deals with the view alone. A company I interviewed with relied heavily on React, so I chose to dive in head first with a <a href="https://scotch.io/tutorials/build-a-mini-netflix-with-react-in-10-minutes">quick tutorial</a> on building a video uploading, displaying, and sharing app. I created my <a href="https://miniflix-react.herokuapp.com/">Miniflix</a> app but didn&rsquo;t as much out of it with understanding React as I got dev ops practice with Auth0, Cloudinary, and Heroku. I have a lot to learn and from the opinions I&rsquo;ve read online, React requires plenty of time, patience, and practice.</p>
+
+<h3 id="vue-js">Vue.js</h3>
+
+<p>One week after my interview with the React company, I had a great interview for a front-end web developer role at a different company that used Ruby, JavaScript, and jQuery without any other major JS framework. However, the lead developer informed me that his aim is to adopt a new JavaScript framework or library for their user interfaces. And that framework was <a href="https://vuejs.org/">Vue.js</a>.</p>
+
+<p>I asked the lead dev why he chose Vue.js over something like React and described it basically as a <a href="https://medium.com/js-dojo/react-or-vue-which-javascript-ui-library-should-you-be-using-543a383608d">summary of this article</a>. It piqued my interest. So what did I do? I naturally researched more about Vue.js, its <a href="http://www.valuecoders.com/blog/technology-and-apps/vue-js-comparison-angular-react/">comparison to Angularjs and React</a>, and <a href="https://vuejs.org/v2/guide/comparison.html">comparison to other frameworks</a>, then made up my mind to learn it and start my next app with Vue.js.</p>
+
+<h2 id="what-is-vue-js">What is Vue.js?</h2>
+
+<p>Vue.js is a JavaScript library that deals with just the view and is used for building user interfaces. From <a href="https://vuejs.org/">Vuejs.org</a>:</p>
+
+<blockquote>
+<p>Vue (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable. The core library is focused on the view layer only, and is very easy to pick up and integrate with other libraries or existing projects. On the other hand, Vue is also perfectly capable of powering sophisticated Single-Page Applications when used in combination with modern tooling and supporting libraries.</p>
+</blockquote>
+
+<p>Vue.js is very similar to React in scope and AngularJS in syntax, except a lot simpler and lighter than each. Some concepts from both are borrowed, like AngularJS&rsquo;s templating and React&rsquo;s one-way data binding, utilization of a virtual DOM, and component architecture.</p>
+
+<p>In my next post, I&rsquo;ll discuss my first app developed with Vue.js and how surprisingly easy it was to learn by doing.</p>
+
+            </div>
+
+            <div class="pagination">
+                
+                    <a href="https://tomanistor.com/blog/cache-bust-that-asset/">&laquo; Cache Bust that Asset</a>
+                
+                
+            </div>
+        </section>
+        <br>
+        <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        (function() {
+            
+            
+            if (window.location.hostname == "localhost")
+                return;
+            var disqus_shortname = '';
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view comments powered by <a href="http://disqus.com/?ref_noscript">Disqus</a>.</noscript>
+</section>
+
+    </section>
+
+        </main>
+        <footer class="row middle-xs center-xs">
+            
+            <div class="col-xs-3 col-md-2"><a href="https://github.com/tomanistor">GitHub</a></div>
+            
+            
+            <div class="col-xs-3 col-md-2"><a href="https://linkedin.com/in/tomanistor">LinkedIn</a></div>
+            
+            
+            <div class="col-xs-3 col-md-2"><a href="https://twitter.com/TomaNistor">Twitter</a></div>
+            
+            
+            
+            <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+            
+            <script src="https://tomanistor.com/scripts/main-95f95e59.js" type="text/javascript"></script>
+            
+            <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script>
+        </footer>
+    </body>
+</html>
+

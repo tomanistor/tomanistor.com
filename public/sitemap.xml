@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://tomanistor.com/blog/starting-with-vuejs/</loc>
+    <lastmod>2017-07-09T23:23:29-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/about/</loc>
+    <lastmod>2017-06-28T12:36:41-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/cache-bust-that-asset/</loc>
+    <lastmod>2017-06-20T13:00:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/big-list-of-free-javascript-books/</loc>
+    <lastmod>2017-05-07T14:46:09-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/shell-script-to-clear-cloudflare-cache/</loc>
+    <lastmod>2017-05-05T16:03:45-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/hugo-workflow/</loc>
+    <lastmod>2017-04-28T11:32:36-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/hugo-site-is-launched/</loc>
+    <lastmod>2017-03-30T02:28:01-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/starting-with-hugo/</loc>
+    <lastmod>2017-03-13T23:03:31-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/blog/</loc>
+    <lastmod>2017-07-09T23:23:29-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tomanistor.com/</loc>
+    <lastmod>2017-07-09T23:23:29-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
