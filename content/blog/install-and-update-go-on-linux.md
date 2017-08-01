@@ -64,14 +64,14 @@ $ tar -C /usr/local -xzf go1.8.3.linux-amd64.tar.gz
 
 Change `go1.8.3.linux-amd64.tar.gz` to the file you downloaded.
 
-## 4. Check the Path
+### 4. Check the Path
 The PATH environment variable doesn't need to be modified again but it doesn't hurt to check that it still contains `/usr/local/go/bin`.
 
 ```console
 $ echo $PATH | grep "/usr/local/go/bin"
 ```
 
-## 5. Check the Installation
+### 5. Check the Installation
 Lastly, check the installation by requesting the Go version number. It should print the updated Go version you have just freshly installed.
 
 ```console
