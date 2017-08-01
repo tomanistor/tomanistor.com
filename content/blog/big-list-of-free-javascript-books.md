@@ -41,6 +41,7 @@ If you have a resource to add to this list, please [let me know](/#contact)!
 - [Speaking JavaScript](http://speakingjs.com/es5/) by Dr. Axel Rauschmayer
 - [Thinking in JavaScript](https://www.packtpub.com/packt/free-ebook/thinking-in-javascript) by Aravind Shenoy*
 - [The JavaScript Tutorial](http://javascript.info/) by Ilya Kantor
+- [The JavaScript Way](https://github.com/bpesquet/thejsway) by Baptiste Pesquet
 - [The Problem with Native JavaScript APIs](http://chimera.labs.oreilly.com/books/1234000001655) by Nicholas C. Zakas
 - [Understanding ECMAScript 6](https://leanpub.com/understandinges6/read/) by Nicholas C. Zakas
 - [What You Need to Know About JavaScript](https://www.packtpub.com/packt/free-ebook/what-you-need-know-about-javascript) by Gabriel Cánepa*
