@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
-    <lastBuildDate>Mon, 31 Jul 2017 21:48:33 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 11 Aug 2017 23:21:07 -0700</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Const, Let, and Var</title>
+      <link>https://tomanistor.com/blog/const-let-and-var/</link>
+      <pubDate>Fri, 11 Aug 2017 23:21:07 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/const-let-and-var/</guid>
+      <description>One of the very first things I noticed when I took up JavaScript ECMAScript 2015, or more commonly known as ES6, were the new types of variable declarations. Whereas I had previously only used var to declare a variable, I could now declare variables using let and const.
+But how are let and const different from var? And in what situations are they each appropriate to use?
+Scope Each of the the three variable declarations deal with different levels of scope: global, function, and block level scopes.</description>
+    </item>
     
     <item>
       <title>Install and Update Go on Linux</title>

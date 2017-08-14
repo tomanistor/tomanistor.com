@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tomanistor.com/blog/const-let-and-var/</loc>
+    <lastmod>2017-08-11T23:21:07-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tomanistor.com/blog/install-and-update-go-on-linux/</loc>
     <lastmod>2017-07-31T21:48:33-07:00</lastmod>
   </url>
@@ -49,13 +54,13 @@
   
   <url>
     <loc>https://tomanistor.com/blog/</loc>
-    <lastmod>2017-07-31T21:48:33-07:00</lastmod>
+    <lastmod>2017-08-11T23:21:07-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tomanistor.com/</loc>
-    <lastmod>2017-07-31T21:48:33-07:00</lastmod>
+    <lastmod>2017-08-11T23:21:07-07:00</lastmod>
     <priority>0</priority>
   </url>
   
