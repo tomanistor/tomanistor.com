@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
-    <lastBuildDate>Fri, 11 Aug 2017 23:21:07 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 16 Sep 2017 13:09:33 -0700</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>My First Vue.js App</title>
+      <link>https://tomanistor.com/blog/my-first-vuejs-app/</link>
+      <pubDate>Sat, 16 Sep 2017 13:09:33 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/my-first-vuejs-app/</guid>
+      <description>A little while ago, I spent some time researching which frontend JavaScript framework or library I would learn next. The primary criteria was ease of learning, ease of use, and popularity (community support and career usefulness). I chose to start with Vue.js.
+My method of learning was by reading the Vue.js documentation and following Ayo Isaiah&amp;rsquo;s tutorial for developing a to-do list application. The former was very helpful in introducing me to concepts and the latter was even more helpful in explaining those concepts in practice.</description>
+    </item>
     
     <item>
       <title>Const, Let, and Var</title>

@@ -14,11 +14,11 @@
         <title>
             
             
-                Const, Let, and Var | Toma Nistor
+                My First Vue.js App | Toma Nistor
             
         </title>
 
-        <meta name="title" content="Const, Let, and Var | Toma Nistor">
+        <meta name="title" content="My First Vue.js App | Toma Nistor">
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -28,7 +28,7 @@
         <meta name="referrer" content="no-referrer-when-downgrade">
         <meta name="generator" content="">
         <base href="https://tomanistor.com">
-        <meta name="description" content="The differences between const, let, and var in JavaScript ECMAScript 2015 or ES6, how they affect scope, and when to use them.">
+        <meta name="description" content="This was my experience building an app with Vue.js">
         
         <meta name="author" content="Toma Nistor">
         
@@ -36,11 +36,11 @@
         <meta name="twitter:site" content="@TomaNistor">
         <meta name="twitter:creator" content="@TomaNistor">
         
-        <meta property="og:title" content="Const, Let, and Var | Toma Nistor">
+        <meta property="og:title" content="My First Vue.js App | Toma Nistor">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://tomanistor.com">
         <meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png">
-        <meta name="og:description" content="The differences between const, let, and var in JavaScript ECMAScript 2015 or ES6, how they affect scope, and when to use them.">
+        <meta name="og:description" content="This was my experience building an app with Vue.js">
         
 
         
@@ -63,7 +63,7 @@
         <meta name="theme-color" content="#FFF">
         
 
-        <link rel="canonical" href="https://tomanistor.com/blog/const-let-and-var/">
+        <link rel="canonical" href="https://tomanistor.com/blog/my-first-vuejs-app/">
         
         <link rel="stylesheet" href="https://tomanistor.com/styles/main-9b200bbc.css" type="text/css">
         <style>
@@ -131,142 +131,113 @@ ga('send', 'pageview');
 
     <section class="container">
         <section class="content">
-            <h1> Const, Let, and Var </h1>
+            <h1> My First Vue.js App </h1>
 
             <div class="sub-header">
-                August 2017 · 5 minute read
+                September 2017 · 4 minute read
             </div>
 
             <div class="entry-content">
                 
 
-<p><img src="images/blog/javascript-logo.png" alt="JavaScript ES6" /></p>
+<p><img src="images/blog/vuejs-logo.png" alt="Vue.js" /></p>
 
-<p>One of the very first things I noticed when I took up JavaScript ECMAScript 2015, or more commonly known as ES6, were the new types of variable declarations. Whereas I had previously only used <code>var</code> to declare a variable, I could now declare variables using <code>let</code> and <code>const</code>.</p>
+<p>A little while ago, I spent some time researching which frontend JavaScript framework or library I would learn next. The primary criteria was ease of learning, ease of use, and popularity (community support and career usefulness). I chose to <a href="content/blog/starting-with-vuejs.md">start with Vue.js</a>.</p>
 
-<p>But how are <code>let</code> and <code>const</code> different from <code>var</code>? And in what situations are they each appropriate to use?</p>
+<p>My method of learning was by reading the <a href="https://vuejs.org/">Vue.js documentation</a> and following <a href="https://ayoisaiah.com/vuejs-todolist-app/">Ayo Isaiah&rsquo;s tutorial</a> for developing a to-do list application. The former was very helpful in introducing me to concepts and the latter was even more helpful in explaining those concepts in practice.</p>
 
-<h2 id="scope">Scope</h2>
+<p><a href="https://tomanistor.com/to-do-list">Here</a> is my To Do List app. And down below is how it went and what I&rsquo;ve learned in the process.</p>
 
-<p>Each of the the three variable declarations deal with different levels of scope: <strong>global</strong>, <strong>function</strong>, and <strong>block</strong> level scopes. <code>const</code> is used on the global scope level, <code>let</code> is used on the function scope level, and <code>var</code> is used on the block scope level.</p>
+<p><a href="https://tomanistor.com/to-do-list"><img src="to-do-list/images/to-do-list-screenshot.jpg" alt="To Do List App" /></a></p>
 
-<h3 id="global-level-scope">Global Level Scope</h3>
+<h2 id="vue-js-setup">Vue.js Setup</h2>
 
-<p>On the global level, variables are accessible anywhere inside the script, including inside any child scopes like functions and blocks. These variables are usually the ones declared at the very top of a script.</p>
+<p>The most hands-off way to use Vue.js is to add a script tag linking to the Vue.js CDN file in the footer the HTML body. During development, it&rsquo;s best to use <code>https://unpkg.com/vue</code> since it contains warnings and is best for debugging. When deploying, this should be linked to the minified and gzipped script that is stripped of warnings and is considerably smaller.</p>
 
-<pre><code class="language-js">var number = 3; //  Global level
-console.log(number) // Returns 3
+<pre><code class="language-html">&lt;!-- Use https://unpkg.com/vue for development and minified version for production --&gt;
+&lt;script src=&quot;https://unpkg.com/vue&quot;&gt;&lt;/script&gt;
+&lt;!-- &lt;script src=&quot;https://vuejs.org/js/vue.min.js&quot;&gt;&lt;/script&gt; --&gt;
 </code></pre>
 
-<h3 id="function-level-scope">Function Level Scope</h3>
+<p>All other script links that depend on Vue.js come after Vue.js script tag.</p>
 
-<p>On the function level, variables are accessible inside of functions and their child scopes but not anywhere outside of the function. You would not be able to access a function level scope on the global level.</p>
+<p>Other methods of installation include using the <a href="https://www.npmjs.com/package/vue">vue npm package</a> or scaffolding an app with <a href="https://github.com/vuejs/vue-cli">vue-cli</a>.</p>
 
-<pre><code class="language-js">function addOne() {
-  var number = 3; // Function level
-  if (number = 3 ) {
-    number = number + 1;
-    console.log(number); // Returns 4
+<h2 id="vue-instance">Vue Instance</h2>
+
+<p>Vue.js apps are started off by creating a new Vue instance, which is a function that takes in an options object. Some of these options include <code>el</code>, <code>data</code>, and <code>methods</code>. There are <a href="https://vuejs.org/v2/api/#Options-Data">many more</a>. Developing with the Vue.js library is essentially configuring all of these options to get your app to do what you want it to do.</p>
+
+<pre><code class="language-js">new Vue({
+  el: #el-id; // ID of the HTML element
+  data: {
+    // Data values will go here
+  },
+  methods: {
+    // Methods will go here
   }
-  console.log(number); // Returns 4
-}
-console.log(number); // Returns undefined
+  // Other options can be listed here
+});
 </code></pre>
 
-<p>As you can see in this example, the variable <code>number</code> is defined on both the function level and the child block level but not on the global level.</p>
+<h3 id="el">el</h3>
 
-<h3 id="block-level-scope">Block Level Scope</h3>
+<p>The <code>el</code> key inside of the options object is used to bind the Vue instance to an HTML element via the <code>id</code> attribute, so that anything inside of that element can be connected to the Vue instance.</p>
 
-<p>The block level is essentially anything in between two curly braces <code>{ block level scope }</code>. Variables declared inside of the block level with <code>var</code> are <em>not</em> only accessible inside of this block.</p>
+<h3 id="data">data</h3>
 
-<pre><code class="language-js">function addOne() {
-  var number = 3; // Function level
-  if (number = 3 ) {
-    sum = number + 1; // Block level
-    console.log(sum); // Returns 4
-  }
-  console.log(sum) // Returns 4
-}
-console.log(sum) // Returns undefined
+<p>This is an object inside of the options object that that holds values for the app in Vue&rsquo;s reactivity system. When a <code>data</code> value changes here in the model, the view will react to the change and render it in the view.</p>
+
+<h3 id="methods">methods</h3>
+
+<p>This is another object inside of the options object. The <code>methods</code> object is where functions are created that can be called on inside of the app.</p>
+
+<h2 id="vue-templating">Vue Templating</h2>
+
+<p>Vue.js includes some pretty cool templating that I enjoyed more than React&rsquo;s JSX. The template syntax is HTML based and uses double mustache braces. It&rsquo;s very similar to Angular.js&rsquo;s template syntax.</p>
+
+<p>Data from the Vue instance is bound to HTML elements in the view using the template syntax. When the app&rsquo;s state changes, Vue re-renders just the DOM elements needed to display those changes.</p>
+
+<p>Here&rsquo;s an example how a data value would be rendered with the templating syntax:</p>
+
+<pre><code class="language-html">&lt;div id=&quot;demo&quot;&gt;
+  &lt;p&gt;
+    {{ text }}
+  &lt;/p&gt;
+&lt;/div&gt;
 </code></pre>
 
-<p>In this example, we stored the value of <code>number + 1</code> in a new variable called <code>sum</code> on the block level yet it&rsquo;s still somehow accessible on the function level outside of the block. This is because JavaScript does not have block level scope with <code>var</code>.</p>
-
-<h2 id="var">Var</h2>
-
-<p>The original variable declaration in JavaScript was <code>var</code>. With it, you could assign a value to a variable to store it and use later. However, as we saw above, <code>var</code> is weak. <code>var</code> cannot give us block level scope.</p>
-
-<p>So this is where we turn to ES6&rsquo;s new <code>let</code> and <code>const</code> signals.</p>
-
-<h2 id="let">Let</h2>
-
-<p>The way to create block level scope in JavaScript is with <code>let</code>. With <code>let</code>, variables declared within statement or expression will only be defined inside of that block and not its parent function.</p>
-
-<pre><code class="language-js">var apple = &quot;apple&quot;;
-var orange = &quot;orange&quot;;
-
-if (apple != orange) {
-  var apple = &quot;crispy&quot;;
-  let orange = &quot;juicy&quot;;
-
-  console.log(apple); // Returns crispy
-  console.log(orange); // Returns juicy
-}
-
-console.log(apple); // Returns crispy
-console.log(orange); // Returns orange
+<pre><code class="language-js">  new Vue({
+    el: &quot;#demo&quot;,
+    data: {
+      text: &quot;This text will show in the view.&quot;
+    }
+  });
 </code></pre>
 
-<p>In this example, we see that we changed the values of both fruits inside of the if statement using <code>var</code> for <code>apple</code> and <code>let</code> for <code>orange</code>. When we used <code>var</code>, the value for <code>apple</code> changed outside of the block level also. However, when we used <code>let</code> for <code>orange</code> the value of <code>orange</code> changed only inside of the if statement but remained what it was initially outside of that statement.</p>
+<h2 id="two-way-data-binding">Two-Way Data Binding</h2>
 
-<p>For this reason, <code>let</code> is the best signal for declaring variables that should have a block level scope and/or are frequently reassigned, like in loops and algorithms.</p>
+<p>My To Do List app was built with two-way data binding. This means that a value can be manipulated in the model and is simultaneously updated in the view, and vice-versa. Vue.js can do this with form input and textarea elements when binding a data value with the <code>v-model</code> directive.</p>
 
-<h2 id="const">Const</h2>
+<p>For an example, check out my <a href="https://tomanistor.com/to-do-list">To Do List app</a> which shows the value changing in both the view and the model.</p>
 
-<p>Like <code>let</code> but unlike <code>var</code>, <code>const</code> can have block level scope. However, unlike <code>let</code>, variables cannot be reassigned and recycled throughout your code. For this reason, <code>const</code> variables must be assigned a value when initialized whereas <code>let</code> and <code>var</code> variables can be initialized without value.</p>
+<h2 id="initial-thoughts">Initial Thoughts</h2>
 
-<pre><code class="language-js">const fruit; // Attempt to intialize const variable without value will throw and error
-const fruit = &quot;apples&quot;;
-const fruit = &quot;oranges&quot;; // Attempt to reassign const variable will throw an error
-</code></pre>
+<p>Ayo&rsquo;s tutorial for building a Vue.js app is phenomenal. It doesn&rsquo;t just drag you through from start to finish expecting you to copy and paste code until it works. He actually explains important concepts and helps you understand new concepts each step of the way.</p>
 
-<p>Variable declared with <code>const</code> can still be mutable. This means that array values and object keys and object values are not protected and can still be changed.</p>
+<p>Completing the app left me satisfied with both what I had constructed and what I had learned. Overall, Vue.js seems fairly straightforward and almost as easy as jQuery to pick up. I was pleased with both how quickly I could put together a working To Do List app and was able to learn in the process.</p>
 
-<pre><code class="language-js">// Declare an object with two key value pairs using const
-const person = {
-  firstName: &quot;Jon&quot;,
-  lastName: &quot;Snow&quot;
-};
+<h2 id="next-step">Next Step</h2>
 
-// Attempt to reassign const variable by adding new key will throw an error
-const person = {
-  firstName: &quot;Jon&quot;,
-  lastName: &quot;Snow&quot;,
-  title: &quot;King in the North&quot;
-};
+<p>My next step is to try out a new Laracasts video series: <a href="https://laracasts.com/series/learn-vue-2-step-by-step">Learn Vue.js 2: Step by Step</a>. It&rsquo;s been called the best way to learn Vue and, best of all, it&rsquo;s free!</p>
 
-// Change key value in object
-person.lastName = &quot;Targaryen&quot;;
-console.log(person.lastName); // Returns Targaryen
-console.log(person); // Returns { firstName: &quot;Jon&quot;, lastName: &quot;Targaryen&quot; }
-
-// Add key value in object
-person.title = &quot;King in the North&quot;;
-console.log(person); // Returns { firstName: &quot;Jon&quot;, lastName: &quot;Targaryen&quot;, title: &quot;King in the North&quot; }
-</code></pre>
-
-<p>Most frequently, I have seen <code>const</code> used when declared as global variables at the beginning of a script. However, <code>const</code> is almost always the ideal way to declare a variable inside of functions. More often than not, you will run into errors or bugs caused by a variable being changed somewhere in the code without you realizing.</p>
-
-<p>It&rsquo;s best to use <code>const</code> to prevent variable reassignments and use <code>let</code> inside of loops and statements where you want to reuse the same variable name.</p>
+<p>The ultimate goal is to build out a Vue.js app and connect it to an API and database. It&rsquo;ll be a big learning experience, as I&rsquo;ll also be using tech I&rsquo;m largely unfamiliar with on the backend. Right now, I&rsquo;m thinking Vue.js, Node.js/Hapi and GraphQL or MongoDB. We&rsquo;ll see how it goes!</p>
 
             </div>
 
             <div class="pagination">
                 
-                    <a href="https://tomanistor.com/blog/install-and-update-go-on-linux/">&laquo; Install and Update Go on Linux</a>
+                    <a href="https://tomanistor.com/blog/const-let-and-var/">&laquo; Const, Let, and Var</a>
                 
-                
-                    <a href="https://tomanistor.com/blog/my-first-vuejs-app/">My First Vue.js App &raquo;</a>
                 
             </div>
         </section>
