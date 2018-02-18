@@ -150,3 +150,8 @@ ol {
 ul li {
   list-style-type: disc;
 }
+
+
+// Show or hide elements
+.show { transition: opacity 400ms; }
+.hide { opacity: 0; }

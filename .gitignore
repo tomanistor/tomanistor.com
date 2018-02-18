@@ -1,7 +1,4 @@
-deployed/
 node_modules/
-/themes/black-and-light/
-
 .gitmodules
 .DS_Store
 hugodeploy.yaml
