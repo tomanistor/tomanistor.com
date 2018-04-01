@@ -19,6 +19,7 @@ disableKinds = ["taxonomy", "taxonomyTerm"] # This theme does not currently use 
     twitter = "TomaNistor"
     linkedin = "tomanistor"
     github = "tomanistor"
+    facebook = ""
     email = "toma@tomanistor.com"
     googleTagManager = "GTM-T94X59P"
     highlightJS = true
