@@ -21,9 +21,9 @@ Wes Bos and Scott Tolinksi's podcast quickly became my favorite and most listene
 Although it's immediately evident that Scott and Wes are React-centric developers, they do a great job of covering other frameworks, technologies, and broad programming topics. They keep each show interesting and I often find myself pausing to take notes on their development tips and suggestions.
 
 ### Suggested Episodes
-* [JavaScript Tooling](https://syntax.fm/show/004/javascript-tooling)
-* [Large Files - CDNs, Image Compression, Video Hosting, and Big Zips](https://syntax.fm/show/033/large-files-cdns-image-compression-video-hosting-and-big-zips)
 * [20 Easy Win Performance Tips](https://syntax.fm/show/038/20-easy-win-performance-tips)
+* [Large Files - CDNs, Image Compression, Video Hosting, and Big Zips](https://syntax.fm/show/033/large-files-cdns-image-compression-video-hosting-and-big-zips)
+* [JavaScript Tooling](https://syntax.fm/show/004/javascript-tooling)
 
 ## Front End Happy Hour
 A podcast that fuses together two web developer hobbies: programming and drinking.
