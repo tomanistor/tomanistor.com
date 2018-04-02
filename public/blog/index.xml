@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
-    <lastBuildDate>Sat, 16 Sep 2017 13:09:33 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 31 Mar 2018 10:54:32 -0700</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>My Favorite Web Development Podcasts</title>
+      <link>https://tomanistor.com/blog/my-favorite-web-development-podcasts/</link>
+      <pubDate>Sat, 31 Mar 2018 10:54:32 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/my-favorite-web-development-podcasts/</guid>
+      <description>These are the top web development podcasts that I listen to each week.
+Syntax Wes Bos and Scott Tolinksi&amp;rsquo;s podcast quickly became my favorite and most listened to web development podcast once it was released. It&amp;rsquo;s the only one on this list that I have listened to in its entirety and new episodes are always at the top of my playlist.
+Syntax is more of a JavaScript and front-end development podcast but covers all sorts of topics from website optimization tips, CSS grid, productivity hacks, JavaScript tooling, static site generators, and freelancing.</description>
+    </item>
     
     <item>
       <title>My First Vue.js App</title>
