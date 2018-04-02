@@ -7,7 +7,11 @@ draft = false
 
 ![Podcast Recording](images/blog/podcast-recording.jpg)
 
-These are the top web development podcasts that I listen to each week.
+Around the time I graduated from my programming bootcamp in March 2017, I started listening to programming podcasts to scratch the itch of continuous learning and to keep myself engaged with the world of web development.
+
+Although I started with just a handful, almost a third of my Podcast Addict app is now filled with them. Some are more specific to a programming niche, tech stack, languages, or frameworks while others are broad and all-encompassing. Some are purely educational while others are conversational and topical to current tech trends.
+
+Here are my top 5 favorite web developer podcasts plus a list of honorable mentions from my playlist.
 
 ## Syntax
 Wes Bos and Scott Tolinksi's podcast quickly became my favorite and most listened to web development podcast once it was released. It's the only one on this list that I have listened to in its entirety and new episodes are always at the top of my playlist.
@@ -33,13 +37,13 @@ The format of the show is pretty amusing — each episode is based around a diff
 * [Maintaining a healthy buzz](http://frontendhappyhour.com/episodes/maintaining-a-healthy-buzz/)
 
 ## Shop Talk Show
-Dave Rupert and Chris Coyier are the stars in [Show Talk Show](http://shoptalkshow.com/), a podcast about front-end web development, design and UX. I like the variety in this show because each week, the hosts present questions from listeners and then answer them. Sometimes, they are joined by guests who give compelling responses of their own.
+Dave Rupert and Chris Coyier are the stars in [Show Talk Show](http://shoptalkshow.com/), a podcast about front-end web development, design, and UX. I like the variety in this show because each week, the hosts present questions from listeners and then answer them. Sometimes, they are joined by guests who give compelling responses of their own.
 
-This show covers a lot of different topics in each episode and they're not all necessarily related to one another. In each episode, I fine that a good handful of questions posed by the developer community are on topics I'm also interested in so this show always keeps my attention. The only qualm I have is that Dace and Chris don't always have the time to allocate to any one topic fully.
+This show covers a lot of different topics in each episode and they're not all necessarily related to one another. In each episode, I find that a good handful of questions posed by the developer community are on topics I'm also interested in so this show always keeps my attention. The only qualm I have is that Dace and Chris don't always have the time to allocate to any one topic fully.
 
 ### Suggested Episodes
 * [JAM Stack with Phil Hawksworth](http://shoptalkshow.com/episodes/303-jam-stack-phil-hawksworth/)
-* [Hangovers]http://shoptalkshow.com/episodes/301-hangovers/()
+* [Hangovers](http://shoptalkshow.com/episodes/301-hangovers/)
 * [Noel.js Holiday Spectacular](http://shoptalkshow.com/episodes/292-noel-js-holiday-spectacular/)
 
 ## Developer Tea
@@ -53,7 +57,7 @@ This is a thought-provoking and educational podcast that helps developers unders
 * [How Our Tools Shape Us](https://spec.fm/podcasts/developer-tea/121705)
 
 ## The Hanselminutes Podcast
-Hosted by Scott Hanselman, [The Hanselminutes Podcast](https://hanselminutes.com/) is one of the podcasts I most recently started listening to. Like many pogramming podcasts, the host interviews many personas from the programming community. Scott brings on many guests that dive into some interesting topics specific to the web but also explores broader though-provoking topics.
+Hosted by Scott Hanselman, [The Hanselminutes Podcast](https://hanselminutes.com/) is one of the podcasts I most recently started listening to. Like many programming podcasts, the host interviews many personas from the programming community. Scott brings on many guests that dive into some interesting topics specific to the web but also explores broader though-provoking topics.
 
 ### Suggested Episodes
 * [Developing Online Identity with Sarah Squire](https://www.hanselminutes.com/621/developing-online-identity-with-sarah-squire)
@@ -90,3 +94,5 @@ On a less regular basis, I listen to the following podcasts when I stumble upon 
 * [Toolsday](https://spec.fm/podcasts/toolsday)
 * [User Error](http://www.jupiterbroadcasting.com/show/error/)
 * [The Web Platform Podcast](https://thewebplatformpodcast.com/)
+
+If you have podcast recommendations, please reach out and let me know what else I should be subscribed to!
