@@ -1,6 +1,6 @@
 title = "Toma Nistor"
 baseURL = "https://tomanistor.com"
-tags = ["portfolio", "web design", "web developer", "ruby on rails", "javascript", "postgres", "San Diego"]
+tags = ["web developer", "San Diego web developer", "ruby on rails developer", "javascript developer", "vuejs developer", "hugo developer", "San Diego", "web developer portfolio"]
 languageCode = "en-US"
 config = "config.toml"
 theme = "osprey"
@@ -9,43 +9,46 @@ googleAnalytics = "UA-70206008-1"
 disableKinds = ["taxonomy", "taxonomyTerm"] # This theme does not currently use "tag" and "category" taxonomies
 
 [Params]
-    tagline = "Toma Nistor"
-    author = "Toma Nistor"
-    description = "Full-stack web developer and UI/UX enthusiast based in San Diego, CA. I enjoy using multiple tools to engineer and build powerful websites and apps."
-    logoBig = "/images/logo/Toma-Nistor-Logo-450px.png"
-    logoSmall = "/images/logo/Toma-Nistor-Logo-150px.png"
-    favicon = "favicon.ico"
-    opengraphImage = "/images/logo/Toma-Nistor-Logo-Banner-Dark.png"
-    twitter = "TomaNistor"
-    linkedin = "tomanistor"
-    github = "tomanistor"
-    facebook = ""
-    email = "toma@tomanistor.com"
-    googleTagManager = "GTM-T94X59P"
-    highlightJS = true
-    copyright = false
-    credit = false
-    customCSS = true
-    cacheBustCSS = true
-    cacheBustJS = true
-    ajaxFormspree = true
+  tagline = "Toma Nistor"
+  author = "Toma Nistor"
+  description = "Full-stack web developer and UI/UX enthusiast based in San Diego, CA. I enjoy using multiple tools to engineer and build powerful websites and apps."
+  logoBig = "/images/logo/Toma-Nistor-Logo-450px.png"
+  logoSmall = "/images/logo/Toma-Nistor-Logo-150px.png"
+  favicon = "favicon.ico"
+  opengraphImage = "/images/logo/Toma-Nistor-Logo-Banner-Dark.png"
+  twitter = "TomaNistor"
+  linkedin = "tomanistor"
+  github = "tomanistor"
+  facebook = ""
+  email = "toma@tomanistor.com"
+  googleTagManager = "GTM-T94X59P"
+  highlightJS = true
+  copyright = false
+  credit = false
+  customCSS = true
+  cacheBustCSS = true
+  cacheBustJS = true
+  # Choose either Formspree contact form or Basin contact form
+  ajaxFormspree = true
+  ajaxFormspreeGold = true
+  ajaxBasin = false
 
 # [permalinks]
 #     gallery = "/" # Redirect gallery index to home page
 
 [[menu.main]]
-    name = "About"
-    url  = "/#about"
-    weight = 1
+  name = "About"
+  url  = "/#about"
+  weight = 1
 [[menu.main]]
-    name = "Work"
-    url  = "/#work"
-    weight = 2
+  name = "Work"
+  url  = "/#work"
+  weight = 2
 [[menu.main]]
-    name = "Blog"
-    url  = "/#blog"
-    weight = 3
+  name = "Blog"
+  url  = "/#blog"
+  weight = 3
 [[menu.main]]
-    name = "Contact"
-    url  = "/#contact"
-    weight = 4
+  name = "Contact"
+  url  = "/#contact"
+  weight = 4
