@@ -1,5 +1,6 @@
 +++
 title = "Big List of Free JavaScript Books"
+slug = "big-list-of-free-javascript-books"
 date = "2017-05-07T14:46:09-07:00"
 description = "A big list of free JavaScript books accessible online categorized by topics and frameworks."
 draft = false

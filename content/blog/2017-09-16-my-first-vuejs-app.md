@@ -1,5 +1,6 @@
 +++
 title = "My First Vue.js App"
+slug = "my-first-vuejs-app"
 date = 2017-09-16T13:09:33-07:00
 description = "This was my experience building an app with Vue.js"
 draft = false

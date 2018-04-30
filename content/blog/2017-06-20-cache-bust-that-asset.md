@@ -1,5 +1,6 @@
 +++
 title = "Cache Bust that Asset"
+slug = "cache-bust-that-asset"
 date = "2017-06-20T13:00:59-07:00"
 description = "How to cache bust your static assets and force web browsers to serve uncached, freshly updated files."
 draft = false

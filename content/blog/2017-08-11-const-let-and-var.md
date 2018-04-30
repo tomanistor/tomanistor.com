@@ -1,5 +1,6 @@
 +++
 title = "Const, Let, and Var"
+slug = "const-let-and-var"
 date = 2017-08-11T23:21:07-07:00
 description = "The differences between const, let, and var in JavaScript ECMAScript 2015 or ES6, how they affect scope, and when to use them."
 draft = false

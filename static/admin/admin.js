@@ -1,9 +1,4 @@
-'use strict';
-
-var _netlifyCms = require('netlify-cms');
-var _netlifyCms2 = _interopRequireDefault(_netlifyCms);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+import CMS from 'netlify-cms'
 
 // Registry is available via the CMS object
-_netlifyCms2.default.registerPreviewTemplate('cms-template', CmsTemplate);
+CMS.registerPreviewTemplate('cms-template', CmsTemplate)

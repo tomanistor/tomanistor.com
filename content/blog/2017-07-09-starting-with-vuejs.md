@@ -1,5 +1,6 @@
 +++
 title = "Starting with Vue.js"
+slug = "starting-with-vuejs"
 date = 2017-07-09T23:23:29-07:00
 description = "My newest journey in web development is now learning Vue.js, a JavaScript library."
 draft = false

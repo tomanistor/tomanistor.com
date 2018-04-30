@@ -1,5 +1,6 @@
 +++
 title = "Hugo Workflow"
+slug = "hugo-workflow"
 date = "2017-04-28T11:32:36-07:00"
 description = "The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio."
 aliases = ["/posts/hugo-workflow", "/post/hugo-workflow"]

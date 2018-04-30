@@ -1,5 +1,6 @@
 +++
 title = "Install and Update Go on Linux"
+slug = "install-and-update-go-on-linux"
 date = 2017-07-31T21:48:33-07:00
 description = "How to install and update Go on a Linux machine."
 draft = false

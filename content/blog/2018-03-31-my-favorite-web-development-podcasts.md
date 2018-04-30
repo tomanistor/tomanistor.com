@@ -1,7 +1,8 @@
 +++
 title = "My Favorite Web Development Podcasts"
+slug = "my-favorite-web-development-podcasts"
 date = 2018-03-31T10:54:32-07:00
-description = ""
+description = "The programming, software engineering, and web development podcasts that I regularly listen to."
 draft = false
 +++
 

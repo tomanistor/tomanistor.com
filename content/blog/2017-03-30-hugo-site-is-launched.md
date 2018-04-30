@@ -1,5 +1,6 @@
 +++
 title = "Hugo Site is Launched"
+slug = "hugo-site-is-launched"
 date = "2017-03-30T02:28:01-07:00"
 description = "This is my first static website built using Hugo. This project is meant to house my portfolio, act as a hub for my online presence, and map out my thoughts."
 aliases = ["/post/starting-with-hugo"]
