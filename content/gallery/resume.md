@@ -6,5 +6,6 @@ alt = "Toma Nistor - San Diego based full stack web developer resume"
 color = "#212121"
 link1 = "resume.pdf"
 link2 = ""
+aliases = ["/resume"]
 draft = false
 +++
