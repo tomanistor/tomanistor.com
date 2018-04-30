@@ -28,6 +28,7 @@
     "gulp-uglify": "^2.1.2"
   },
   "dependencies": {
+    "netlify-cms": "^1.7.0",
     "pump": "^1.0.2"
   }
 }
