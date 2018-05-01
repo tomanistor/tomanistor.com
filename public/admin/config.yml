@@ -2,20 +2,28 @@ backend:
   name: git-gateway
   branch: master
 
+display_url: https://tomanistor.com
+
 publish_mode: editorial_workflow
 media_folder: "static/images/blog"
 public_folder: "/images/blog"
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
 
 collections:
   - name: "blog" # Used in routes, e.g., /admin/collections/blog
     label: "Blog" # Used in the UI
     folder: "content/blog" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
+    format: toml-frontmatter # Save collection with toml frontmatter
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
     fields: # The fields for each document, usually in front matter
       - {label: "Layout", name: "layout", widget: "hidden", default: "blog"}
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Description", name: "description", widget: "string"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Featured Image", name: "image", widget: "image"}
+      - {label: "Featured Image", name: "image", widget: "image", required: "false"}
       - {label: "Body", name: "body", widget: "markdown"}
