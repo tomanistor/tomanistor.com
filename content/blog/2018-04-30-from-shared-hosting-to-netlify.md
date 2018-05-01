@@ -1,3 +1,9 @@
++++
+title = "From Shared Hosting to Netlify"
+slug = "from-shared-hosting-to-netlify"
+description = "I moved my Hugo static site from my old shared host to Netlify."
+date = "2018-05-01T15:12:20-07:00"
++++
 ---
 layout: blog
 title: From Shared Hosting to Netlify
