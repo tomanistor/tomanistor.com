@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
-    <lastBuildDate>Sat, 31 Mar 2018 10:54:32 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 01 May 2018 21:06:32 -0700</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fixing the iOS Mobile Double-Click Link Issue</title>
+      <link>https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/</link>
+      <pubDate>Tue, 01 May 2018 21:06:32 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/</guid>
+      <description>One of my recent site builds came back from a round of QA with a bug present only on mobile iOS devices. It was a set of tab links that required two clicks to function on iPhones and iPads.
+The Bug The buggy tab links had an effect that added a pseudo element to the right of each link indicating when a link was hovered over, in focus, or active.</description>
+    </item>
     
     <item>
       <title>My Favorite Web Development Podcasts</title>
