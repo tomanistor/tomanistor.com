@@ -1,7 +1,7 @@
 +++
 title = "My Favorite Web Development Podcasts"
 slug = "my-favorite-web-development-podcasts"
-date = 2018-03-31T10:54:32-07:00
+date = 2018-03-31T17:54:32.000Z
 description = "The programming, software engineering, and web development podcasts that I regularly listen to."
 draft = false
 +++
@@ -66,7 +66,7 @@ Hosted by Scott Hanselman, [The Hanselminutes Podcast](https://hanselminutes.com
 * [Preparing a city for self-driving cars with Leslie Caceda](https://www.hanselminutes.com/590/preparing-a-city-for-self-driving-cars-with-leslie-caceda)
 
 ## Honorable Mentions
-On a less regular basis, I listen to the following podcasts when I stumble upon episodes with interesting topics.
+Although I can't listen to all podcasts all the time, I have a pretty extensive playlist. Here's everything else I'm subscribed to:
 
 * [A Reponsive Web Design Podcast](https://responsivewebdesign.com/podcast/)
 * [The Bike Shed](http://bikeshed.fm/)
@@ -81,6 +81,7 @@ On a less regular basis, I listen to the following podcasts when I stumble upon 
 * [Does Not Compute](https://spec.fm/podcasts/does-not-compute)
 * [Full Stack Radio](http://www.fullstackradio.com/)
 * [Herding Code](http://herdingcode.com/)
+* [JAMstack Radio](https://www.heavybit.com/library/podcasts/jamstack-radio/)
 * [JavaScript Jabber](https://devchat.tv/js-jabber/)
 * [JS Party](https://changelog.com/jsparty)
 * [Modern Web](https://www.moderndotweb.com/modern-web-podcast)
