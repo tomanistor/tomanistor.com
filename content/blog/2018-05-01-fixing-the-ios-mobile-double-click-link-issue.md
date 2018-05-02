@@ -1,7 +1,7 @@
 +++
 layout = "blog"
 title = "Fixing the iOS Mobile Double-Click Link Issue"
-slug = "fixing-the-mobile-double-click-link-issue"
+slug = "fixing-the-ios-mobile-double-click-link-issue"
 description = "How I worked around the issue of needing to double click links with hover effects on iPhones and iPads."
 date = "2018-05-01T21:06:32-07:00"
 +++
