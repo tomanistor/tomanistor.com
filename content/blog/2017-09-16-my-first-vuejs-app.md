@@ -1,14 +1,14 @@
 +++
 title = "My First Vue.js App"
 slug = "my-first-vuejs-app"
-date = 2017-09-16T13:09:33-07:00
+date = 2017-09-16T20:09:33.000Z
 description = "This was my experience building an app with Vue.js"
 draft = false
 +++
 
 ![Vue.js](images/blog/vuejs-logo.png)
 
-A little while ago, I spent some time researching which frontend JavaScript framework or library I would learn next. The primary criteria was ease of learning, ease of use, and popularity (community support and career usefulness). I chose to [start with Vue.js](content/blog/starting-with-vuejs.md).
+A little while ago, I spent some time researching which frontend JavaScript framework or library I would learn next. The primary criteria was ease of learning, ease of use, and popularity (community support and career usefulness). I chose to [start with Vue.js](/blog/starting-with-vuejs).
 
 My method of learning was by reading the [Vue.js documentation](https://vuejs.org/) and following [Ayo Isaiah's tutorial](https://ayoisaiah.com/vuejs-todolist-app/) for developing a to-do list application. The former was very helpful in introducing me to concepts and the latter was even more helpful in explaining those concepts in practice.
 
