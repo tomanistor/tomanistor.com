@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Toma Nistor</title>
+    <title>Toma Nistor - San Diego Web Developer</title>
     <link>https://tomanistor.com/</link>
-    <description>Recent content on Toma Nistor</description>
+    <description>Recent content on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
@@ -25,7 +25,7 @@ The Bug The buggy tab links had an effect that added a pseudo element to the rig
     <item>
       <title>My Favorite Web Development Podcasts</title>
       <link>https://tomanistor.com/blog/my-favorite-web-development-podcasts/</link>
-      <pubDate>Sat, 31 Mar 2018 10:54:32 -0700</pubDate>
+      <pubDate>Sat, 31 Mar 2018 17:54:32 +0000</pubDate>
       
       <guid>https://tomanistor.com/blog/my-favorite-web-development-podcasts/</guid>
       <description>Around the time I graduated from my programming bootcamp in March 2017, I started listening to programming podcasts to scratch the itch of continuous learning and to keep myself engaged with the world of web development.
@@ -98,7 +98,7 @@ Vanilla JavaScript is Not Enough A lot of advice directed at junior web develope
       <pubDate>Wed, 28 Jun 2017 12:36:41 -0700</pubDate>
       
       <guid>https://tomanistor.com/about/</guid>
-      <description>A San Diego web developer. View my code on GitHub, connect with me on LinkedIn, follow me on Twitter, and check out my work below.</description>
+      <description>A web developer in San Diego, California. let languages = [&#39;javascript&#39;, &#39;ruby&#39;], frameworks = [&#39;vuejs&#39;, &#39;nodejs&#39;, &#39;ruby on rails&#39;], tools = [&#39;gulp&#39;, &#39;webpack&#39;, &#39;hugo&#39;], skillset = languages.concat(frameworks, tools)  View my code on GitHub, connect with me on LinkedIn, follow me on Twitter, and check out my work below.</description>
     </item>
     
     <item>

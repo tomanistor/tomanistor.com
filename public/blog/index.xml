@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on Toma Nistor</title>
+    <title>Blogs on Toma Nistor - San Diego Web Developer</title>
     <link>https://tomanistor.com/blog/</link>
-    <description>Recent content in Blogs on Toma Nistor</description>
+    <description>Recent content in Blogs on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>false</copyright>
@@ -25,7 +25,7 @@ The Bug The buggy tab links had an effect that added a pseudo element to the rig
     <item>
       <title>My Favorite Web Development Podcasts</title>
       <link>https://tomanistor.com/blog/my-favorite-web-development-podcasts/</link>
-      <pubDate>Sat, 31 Mar 2018 10:54:32 -0700</pubDate>
+      <pubDate>Sat, 31 Mar 2018 17:54:32 +0000</pubDate>
       
       <guid>https://tomanistor.com/blog/my-favorite-web-development-podcasts/</guid>
       <description>Around the time I graduated from my programming bootcamp in March 2017, I started listening to programming podcasts to scratch the itch of continuous learning and to keep myself engaged with the world of web development.
