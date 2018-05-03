@@ -32,7 +32,7 @@ Since the design necessitated a hover state, I had to keep reading until I found
 
 It worked. I hid the `::after` pseudo element nested inside the `a` tag with `opacity: 0` and changed it to `opacity: 1` on hover.
 
-```js
+```scss
 a {
   &::after {
     content: " pseudo element";

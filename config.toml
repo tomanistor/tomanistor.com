@@ -1,4 +1,4 @@
-title = "Toma Nistor"
+title = "Toma Nistor - San Diego Web Developer"
 baseURL = "https://tomanistor.com"
 tags = ["web developer", "San Diego web developer", "ruby on rails developer", "javascript developer", "vuejs developer", "hugo developer", "San Diego", "web developer portfolio"]
 languageCode = "en-US"
@@ -16,25 +16,36 @@ disableKinds = ["taxonomy", "taxonomyTerm"] # This theme does not currently use 
   logoSmall = "/images/logo/Toma-Nistor-Logo-150px.png"
   favicon = "favicon.ico"
   opengraphImage = "/images/logo/Toma-Nistor-Logo-Banner-Dark.png"
+  email = "toma@tomanistor.com"
+  googleTagManager = "GTM-T94X59P"
+  customCSS = true
+
+  # Social media links in footer
   twitter = "TomaNistor"
   linkedin = "tomanistor"
   github = "tomanistor"
   facebook = ""
-  email = "toma@tomanistor.com"
-  googleTagManager = "GTM-T94X59P"
-  highlightJS = true
+
+  # Copyright and theme author credit in footer
   copyright = false
   credit = false
-  customCSS = true
+
+  # Cache busting of static resources (additional set up required)
   cacheBustCSS = true
   cacheBustJS = true
+
+  # Code highlighting with highlight.js
+  highlightJS = true
+  highlightJSStyle = "" # For custom highlight.js styles, add your /path/to/styles/default.css
+  highlightJSScript = "/scripts/highlight.pack.js" # For custom highlight.js languages config, add your /path/to/highlight.pack.js
+
   # Choose either Formspree contact form or Basin contact form
   ajaxFormspree = true
-  ajaxFormspreeGold = true
+  ajaxFormspreeGold = true # If you have a paid Formspree account and want an AJAX form
   ajaxBasin = false
 
 # [permalinks]
-#     gallery = "/" # Redirect gallery index to home page
+#   gallery = "/" # Redirect gallery index to home page
 
 [[menu.main]]
   name = "About"
