@@ -1,3 +1,3 @@
 User-agent: *
 
-Sitemap:  https://tomanistor.com/index.xml
+Sitemap: https://tomanistor.com/index.xml

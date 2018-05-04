@@ -4,7 +4,6 @@ backend:
 
 display_url: https://tomanistor.com
 
-publish_mode: editorial_workflow
 media_folder: "static/images/blog"
 public_folder: "/images/blog"
 
