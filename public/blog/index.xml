@@ -35,7 +35,7 @@ Although I started with just a handful, almost a third of my Podcast Addict app 
     <item>
       <title>My First Vue.js App</title>
       <link>https://tomanistor.com/blog/my-first-vuejs-app/</link>
-      <pubDate>Sat, 16 Sep 2017 13:09:33 -0700</pubDate>
+      <pubDate>Sat, 16 Sep 2017 20:09:33 +0000</pubDate>
       
       <guid>https://tomanistor.com/blog/my-first-vuejs-app/</guid>
       <description>A little while ago, I spent some time researching which frontend JavaScript framework or library I would learn next. The primary criteria was ease of learning, ease of use, and popularity (community support and career usefulness). I chose to start with Vue.js.
