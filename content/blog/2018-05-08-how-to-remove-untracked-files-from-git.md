@@ -6,6 +6,8 @@ description = "How to use git clean to remove local untracked files from git."
 image = "/images/blog/notebook-paper.jpg"
 draft = false
 +++
+![Notebook with crumpled paper](/images/blog/notebook-paper.jpg)
+
 Untracked files are files in the git repository's working tree that are not present in the git index. These are new files that were not present in the previous snapshot of the repository.
 
 When you don't want to stage and commit these files, `git clean` is a useful way to permanently remove all or a selection of your untracked files in git.
@@ -42,6 +44,8 @@ $ git clean -d
 
 The `-d` flag removes untracked directories along with untracked files. If you want to remove entire untracked folders in git, this flag is necessary.
 
+### Interactive Mode
+
 ```bash
 $ git clean -i
 ```
@@ -64,8 +68,10 @@ Interactive mode for `git clean` is activated with the `-i` or `--interactive` f
 ```bash
 $ git clean -idf
 ```
+
 This is an example of the command I use regularly. By attaching multiple flags, I enable git clean interactive mode, enable the deletion of untracked directories, and force the clean command. In interactive mode, I most often select `1: clean` if I know I want to delete all untracked files and directories or I'll more carefully refine my selections with `3: select by numbers` or `4: ask each`.
 
 ## References
+
 * [Git Documentation](https://git-scm.com/docs/git-clean)
 * [Atlassian Git Tutorial](https://www.atlassian.com/git/tutorials/undoing-changes/git-clean)
