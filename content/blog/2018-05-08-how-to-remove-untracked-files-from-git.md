@@ -3,6 +3,7 @@ title = "How to Remove Untracked Files from Git"
 slug = "how-to-remove-untracked-files-from-git"
 date = "2018-05-08T10:36:02-07:00"
 description = "How to use git clean to remove local untracked files from git."
+image = "/images/blog/notebook-paper.jpg"
 draft = false
 +++
 Untracked files are files in the git repository's working tree that are not present in the git index. These are new files that were not present in the previous snapshot of the repository.
