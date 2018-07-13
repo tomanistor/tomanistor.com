@@ -15,7 +15,7 @@ $ git commit --amend
 
 This will open up your editor to edit your commit message. But if your prefer to do it all on one line in your terminal, you can type it in directly like this:
 
-```console
+```shell
 $ git commit --amend -m "Type your new commit message"
 ```
 
