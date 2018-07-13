@@ -9,13 +9,13 @@ If you're like me, on more than one occasion you've typed out your commit messag
 
 Here's a quick way to amend your last commit message if you have already entered your commit message in the terminal but have not yet pushed your local branch to the remote branch.
 
-```bash
-$ git commit --amend
+```shell
+git commit --amend
 ```
 
 This will open up your editor to edit your commit message. But if your prefer to do it all on one line in your terminal, you can type it in directly like this:
 
-```bash
+```shell
 git commit --amend -m "Type your new commit message"
 ```
 
