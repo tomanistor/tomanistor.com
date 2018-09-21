@@ -8,8 +8,8 @@ draft = false
 
 ```js
 let languages = ['javascript', 'ruby'],
-    frameworks = ['vuejs', 'nodejs', 'ruby on rails'],
-    tools = ['gulp', 'webpack', 'hugo'],
+    frameworks = ['ruby on rails', 'vuejs'],
+    tools = ['hugo', 'gulp', 'nodejs', 'webpack'],
     skillset = languages.concat(frameworks, tools)
 ```
 
