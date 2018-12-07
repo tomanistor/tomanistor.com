@@ -6,11 +6,32 @@
     <description>Recent content on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>false</copyright>
-    <lastBuildDate>Tue, 01 May 2018 21:06:32 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 06 Jul 2018 13:44:09 -0700</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How To Change Most Recent Commit Message</title>
+      <link>https://tomanistor.com/blog/how-to-change-most-recent-commit-message/</link>
+      <pubDate>Fri, 06 Jul 2018 13:44:09 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/how-to-change-most-recent-commit-message/</guid>
+      <description>If you&amp;rsquo;re like me, on more than one occasion you&amp;rsquo;ve typed out your commit message and noticed a nasty typo after the fact.
+Here&amp;rsquo;s a quick way to amend your last commit message if you have already entered your commit message in the terminal but have not yet pushed your local branch to the remote branch.
+$ git commit --amend  This will open up your editor to edit your commit message.</description>
+    </item>
+    
+    <item>
+      <title>How to Remove Untracked Files from Git</title>
+      <link>https://tomanistor.com/blog/how-to-remove-untracked-files-from-git/</link>
+      <pubDate>Tue, 08 May 2018 10:36:02 -0700</pubDate>
+      
+      <guid>https://tomanistor.com/blog/how-to-remove-untracked-files-from-git/</guid>
+      <description>Untracked files are files in the git repository&amp;rsquo;s working tree that are not present in the git index. These are new files that were not present in the previous snapshot of the repository.
+When you don&amp;rsquo;t want to stage and commit these files, git clean is a useful way to permanently remove all or a selection of your untracked files in git.
+This is what untracked files look like when using git status</description>
+    </item>
     
     <item>
       <title>Fixing the iOS Mobile Double-Click Link Issue</title>
@@ -98,7 +119,7 @@ Vanilla JavaScript is Not Enough A lot of advice directed at junior web develope
       <pubDate>Wed, 28 Jun 2017 12:36:41 -0700</pubDate>
       
       <guid>https://tomanistor.com/about/</guid>
-      <description>A web developer in San Diego, California. let languages = [&#39;javascript&#39;, &#39;ruby&#39;], frameworks = [&#39;vuejs&#39;, &#39;nodejs&#39;, &#39;ruby on rails&#39;], tools = [&#39;gulp&#39;, &#39;webpack&#39;, &#39;hugo&#39;], skillset = languages.concat(frameworks, tools)  View my code on GitHub, connect with me on LinkedIn, follow me on Twitter, and check out my work below.</description>
+      <description>A web developer in San Diego, California. let languages = [&#39;javascript&#39;, &#39;ruby&#39;], frameworks = [&#39;ruby on rails&#39;, &#39;vuejs&#39;], tools = [&#39;hugo&#39;, &#39;gulp&#39;, &#39;nodejs&#39;, &#39;webpack&#39;], skillset = languages.concat(frameworks, tools)  View my code on GitHub, connect with me on LinkedIn, follow me on Twitter, and check out my work below.</description>
     </item>
     
     <item>

@@ -12,9 +12,9 @@
   
 
   <title>
-    Hugo Site is Launched | Toma Nistor - San Diego Web Developer</title>
+    How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer</title>
 
-  <meta name="title" content="Hugo Site is Launched | Toma Nistor - San Diego Web Developer">
+  <meta name="title" content="How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer">
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -26,7 +26,7 @@
   <base href="https://tomanistor.com">
 
   
-    <meta name="description" content="This is my first static website built using Hugo. This project is meant to house my portfolio, act as a hub for my online presence, and map out my thoughts.">
+    <meta name="description" content="How to use git clean to remove local untracked files from git.">
   
 
   
@@ -39,7 +39,7 @@
     <meta name="twitter:creator" content="@TomaNistor">
   
 
-  <meta property="og:title" content="Hugo Site is Launched | Toma Nistor - San Diego Web Developer">
+  <meta property="og:title" content="How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tomanistor.com">
 
@@ -48,7 +48,7 @@
   
 
   
-    <meta name="og:description" content="This is my first static website built using Hugo. This project is meant to house my portfolio, act as a hub for my online presence, and map out my thoughts.">
+    <meta name="og:description" content="How to use git clean to remove local untracked files from git.">
   
 
   
@@ -56,7 +56,7 @@
     <meta name="theme-color" content="#FFF">
   
 
-  <link rel="canonical" href="https://tomanistor.com/blog/hugo-site-is-launched/">
+  <link rel="canonical" href="https://tomanistor.com/blog/how-to-remove-untracked-files-from-git/">
 
   
 
@@ -147,52 +147,90 @@ if (!doNotTrack) {
 
       <section class="container">
           <section class="content">
-              <h1> Hugo Site is Launched </h1>
+              <h1> How to Remove Untracked Files from Git </h1>
 
               <div class="sub-header">
-                  March 30, 2017 · 2 minute read
+                  May 8, 2018 · 3 minute read
               </div>
 
               <article class="entry-content">
                   
 
-<p>My new portfolio has officially been launched! This is my first static website built using Hugo. In my <a href="blog/starting-with-hugo">previous post</a>, I mapped out a few broad objectives for this project.</p>
+<p><img src="https://tomanistor.com/images/blog/notebook-paper.jpg" alt="Notebook with crumpled paper" /></p>
 
-<p>Let&rsquo;s take a look at the completed goals from a short while ago and review.</p>
+<p>Untracked files are files in the git repository&rsquo;s working tree that are not present in the git index. These are new files that were not present in the previous snapshot of the repository.</p>
 
-<h2 id="objectives">Objectives</h2>
+<p>When you don&rsquo;t want to stage and commit these files, <code>git clean</code> is a useful way to permanently remove all or a selection of your untracked files in git.</p>
+
+<p>This is what untracked files look like when using <code>git status</code></p>
+
+<pre><code class="language-bash">Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+
+	index.html
+	style.css
+</code></pre>
+
+<h2 id="git-clean">git clean</h2>
+
+<p>While commands like <code>git reset</code> and <code>git checkout</code> can be used to undo changes to files already present in the git tracking index,  <code>git clean</code> is used to remove new and untracked files from the working directory.</p>
+
+<pre><code class="language-bash">$ git clean -f
+</code></pre>
+
+<p>As a safety precaution, <code>git clean</code> does not operated unless the <code>-f</code> or <code>--force</code> flag is attached to the command, or the <code>clean.requireForce</code> git configuration option is set to false. By default this setting is set to true.</p>
+
+<pre><code class="language-bash">$ git clean -n
+</code></pre>
+
+<p>As another safety precaution, the <code>-n</code> or <code>--dry-run</code> flag simulates and shows what would have been removed without removing anything</p>
+
+<pre><code class="language-bash">$ git clean -d
+</code></pre>
+
+<p>The <code>-d</code> flag removes untracked directories along with untracked files. If you want to remove entire untracked folders in git, this flag is necessary.</p>
+
+<h3 id="interactive-mode">Interactive Mode</h3>
+
+<pre><code class="language-bash">$ git clean -i
+</code></pre>
+
+<p>Interactive mode for <code>git clean</code> is activated with the <code>-i</code> or <code>--interactive</code> flag. This will display prompt with a list of subcommands that allow you to be very selective with what untracked files you want to remove.</p>
+
+<pre><code class="language-bash">*** Commands ***
+    1: clean                2: filter by pattern    3: select by numbers
+    4: ask each             5: quit                 6: help
+</code></pre>
+
+<ol>
+<li><strong>clean</strong>: cleans files and directories.</li>
+<li><strong>filter by pattern</strong>: displays a prompt that allows you to input space-separated patterns for filtering out files and directories from being removed. For example, inputting <code>*.html</code> will exclude all <code>.html</code> files from deletion.</li>
+<li><strong>select by numbers</strong>: displays a prompt with the untracked files and folders listed by number. You can select specific numbers or ranges of numbers from the list to delete by separating with whitespace or comma, such as <code>1,4,6-9</code>.</li>
+<li><strong>ask each</strong>: displays each untracked item individually with a prompt asking if you&rsquo;d like to delete it.</li>
+<li><strong>quit</strong>: quits git clean interactive mode without deleting anything.</li>
+<li><strong>help</strong>: displays the git clean interactive mode help screen</li>
+</ol>
+
+<pre><code class="language-bash">$ git clean -idf
+</code></pre>
+
+<p>This is an example of the command I use regularly. By attaching multiple flags, I enable git clean interactive mode, enable the deletion of untracked directories, and force the clean command. In interactive mode, I most often select <code>1: clean</code> if I know I want to delete all untracked files and directories or I&rsquo;ll more carefully refine my selections with <code>3: select by numbers</code> or <code>4: ask each</code>.</p>
+
+<h2 id="references">References</h2>
 
 <ul>
-<li><del>Create portfolio to display work</del></li>
-<li><del>Create blog to jot down my progress and help others along the way</del></li>
-<li><del>Implement design with SCSS</del></li>
-<li><del>Design new Hugo theme and distribute for others to used</del></li>
+<li><a href="https://git-scm.com/docs/git-clean">Git Documentation</a></li>
+<li><a href="https://www.atlassian.com/git/tutorials/undoing-changes/git-clean">Atlassian Git Tutorial</a></li>
 </ul>
-
-<h2 id="create-portfolio">Create Portfolio</h2>
-
-<p>The portfolio has been created and published in place of my old portfolio site. Currently, projects are displayed under the &ldquo;Work&rdquo; section on the index page. The index page was constructed as a one-page template to display a hero header, gallery of web projects, a list of the 10 latest blog posts, and a contact form.</p>
-
-<h2 id="create-blog">Create Blog</h2>
-
-<p>The blog post links on the index page lead to their own individual pages. The majority of the blog was based off of the <a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Hugo Black and Light Theme</a> by David Hamp-Gonsalves. Overall, it was a well-constructed, minimalist, text-only theme without any scripts or clutter. The blog has been slightly redesigned but there is a bit more customization work to be done.</p>
-
-<h2 id="use-scss">Use SCSS</h2>
-
-<p>My first major challenge was figuring out how to use <a href="http://sass-lang.com/">SCSS</a> outside of a Ruby on Rails project, since my previous installations of SASS were as easy as typing <code>gem install sass</code> in the terminal. Luckily, I found a fantastically thorough tutorial by Dan Bahrami: <a href="http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/">Building a production website with Hugo and GulpJS</a>. This also marked my first exposure to <a href="https://nodejs.org/en/">Node.js</a>.</p>
-
-<h2 id="design-distribute-hugo-theme">Design &amp; Distribute Hugo Theme</h2>
-
-<p>While the theme I&rsquo;ve constructed is fine to publish now and use myself, there is a ways to go to clean it up and optimize it before distributing to the Hugo community. This will be the most challenging objective that I still need to complete and requires more studying of Hugo and the correct syntax. However, I&rsquo;m very close to finishing the design portion of the theme!</p>
 
               </article>
 
               <div class="pagination">
                   
-                      <a href="https://tomanistor.com/blog/starting-with-hugo/">&laquo; Starting with Hugo</a>
+                      <a href="https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/">&laquo; Fixing the iOS Mobile Double-Click Link Issue</a>
                   
                   
-                      <a href="https://tomanistor.com/blog/hugo-workflow/">Hugo Workflow &raquo;</a>
+                      <a href="https://tomanistor.com/blog/how-to-change-most-recent-commit-message/">How To Change Most Recent Commit Message &raquo;</a>
                   
               </div>
           </section>

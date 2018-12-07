@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     <url>
+      <loc>https://tomanistor.com/blog/how-to-change-most-recent-commit-message/</loc>
+      <lastmod>2018-07-06T13:44:09-07:00</lastmod>
+    </url>
+  
+    <url>
+      <loc>https://tomanistor.com/blog/how-to-remove-untracked-files-from-git/</loc>
+      <lastmod>2018-05-08T10:36:02-07:00</lastmod>
+    </url>
+  
+    <url>
       <loc>https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/</loc>
       <lastmod>2018-05-01T21:06:32-07:00</lastmod>
     </url>
@@ -69,13 +79,13 @@
   
     <url>
       <loc>https://tomanistor.com/blog/</loc>
-      <lastmod>2018-05-01T21:06:32-07:00</lastmod>
+      <lastmod>2018-07-06T13:44:09-07:00</lastmod>
       <priority>0</priority>
     </url>
   
     <url>
       <loc>https://tomanistor.com/</loc>
-      <lastmod>2018-05-01T21:06:32-07:00</lastmod>
+      <lastmod>2018-07-06T13:44:09-07:00</lastmod>
       <priority>0</priority>
     </url>
   
