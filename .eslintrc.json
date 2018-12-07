@@ -1,10 +1,14 @@
 {
   "extends": "standard",
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": 5
   },
   "rules": {
-    "indent": ["error", 2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }],
+    "indent": ["error", 2, {
+      "ArrayExpression": 1,
+      "ObjectExpression": 1,
+      "VariableDeclarator": { "var": 2, "let": 2, "const": 3 }
+    }],
     "no-multi-spaces": ["error", { "exceptions": { "ImportDeclaration": true, "VariableDeclarator": true } }],
     "one-var": ["error", "consecutive"],
     "space-before-function-paren": ["error", "never"]

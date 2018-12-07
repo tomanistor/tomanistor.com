@@ -43,7 +43,7 @@ enableRobotsTXT = true
 
   # Choose either Formspree contact form or Basin contact form
   ajaxFormspree = true
-  ajaxFormspreeGold = true # If you have a paid Formspree account and want an AJAX form
+  ajaxFormspreeGold = true
   ajaxBasin = false
 
 # [permalinks]
