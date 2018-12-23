@@ -5,6 +5,7 @@ import uglify       from 'gulp-uglify'
 import hash         from 'gulp-hash'
 import del          from 'del'
 import pump         from 'pump'
+import htmlmin      from 'gulp-htmlmin'
 
 const staticDir  = 'themes/osprey/static/',
       scriptsDir = `${staticDir}scripts/`,
@@ -47,10 +48,23 @@ gulp.task('scss', (cb) => {
   )
 })
 
+// Minify HTML
+gulp.task('html', (cb) => {
+  pump([
+    gulp.src(['./public/**/*.html']),
+    htmlmin({
+      collapseWhitespace: true,
+      removeComments: true
+    }),
+    gulp.dest('./public')
+  ], cb)
+})
+
 // Watch scripts and styles folders for changes
-gulp.task('watch', ['js', 'scss'], () => {
+gulp.task('watch', ['js', 'scss', 'html'], () => {
   gulp.watch(`${scriptsDir}src/*.js`, ['js']),
   gulp.watch(`${stylesDir}scss/*.scss`, ['scss'])
+  gulp.watch(`./public/**/*.html`, ['html'])
 })
 
 // Set watch as default task
