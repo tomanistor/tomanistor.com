@@ -1,8 +1,82 @@
-<!DOCTYPE html><html lang="en-US"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+  
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-T94X59P');</script><title>Install and Update Go on Linux | Toma Nistor - San Diego Web Developer</title><meta name="title" content="Install and Update Go on Linux | Toma Nistor - San Diego Web Developer"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="chrome=1"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer-when-downgrade"><meta name="generator" content=""><base href="https://tomanistor.com"><meta name="description" content="How to install and update Go on a Linux machine."><meta name="author" content="Toma Nistor"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@TomaNistor"><meta name="twitter:creator" content="@TomaNistor"><meta property="og:title" content="Install and Update Go on Linux | Toma Nistor - San Diego Web Developer"><meta property="og:type" content="website"><meta property="og:url" content="https://tomanistor.com"><meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png"><meta name="og:description" content="How to install and update Go on a Linux machine."><link rel="icon" type="image/png" sizes="16x16" href="favicon.ico"><meta name="theme-color" content="#FFF"><link rel="canonical" href="https://tomanistor.com/blog/install-and-update-go-on-linux/"><link rel="stylesheet" href="https://tomanistor.com/styles/main-bc6eebee.min.css" type="text/css"><style>nav{box-shadow:none;}</style><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"><script type="application/javascript">var doNotTrack = false;
+    })(window,document,'script','dataLayer','GTM-T94X59P');</script>
+    
+  
+
+  <title>
+    Install and Update Go on Linux | Toma Nistor - San Diego Web Developer</title>
+
+  <meta name="title" content="Install and Update Go on Linux | Toma Nistor - San Diego Web Developer">
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <meta name="generator" content="">
+  <base href="https://tomanistor.com">
+
+  
+    <meta name="description" content="How to install and update Go on a Linux machine.">
+  
+
+  
+    <meta name="author" content="Toma Nistor">
+  
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TomaNistor">
+    <meta name="twitter:creator" content="@TomaNistor">
+  
+
+  <meta property="og:title" content="Install and Update Go on Linux | Toma Nistor - San Diego Web Developer">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tomanistor.com">
+
+  
+    <meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png">
+  
+
+  
+    <meta name="og:description" content="How to install and update Go on a Linux machine.">
+  
+
+  
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
+    <meta name="theme-color" content="#FFF">
+  
+
+  <link rel="canonical" href="https://tomanistor.com/blog/install-and-update-go-on-linux/">
+
+  
+
+  <link rel="stylesheet" href="https://tomanistor.com/styles/main-bc6eebee.min.css" type="text/css">
+
+  
+    <style>nav{box-shadow:none;}</style>
+
+  
+
+  
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    
+  
+
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -11,16 +85,170 @@ if (!doNotTrack) {
 	ga('create', 'UA-70206008-1', 'auto');
 	
 	ga('send', 'pageview');
-}</script></head><body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T94X59P" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><nav class="row middle-xs center-xs"><div class="col-xs-6 col-sm-1 logo"><a href="https://tomanistor.com#"><img src="https://tomanistor.com/images/logo/Toma-Nistor-Logo-150px.png" alt="Toma Nistor - San Diego Web Developer"></a></div><div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#about">About</a></h3></div><div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#work">Work</a></h3></div><div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#blog">Blog</a></h3></div><div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#contact">Contact</a></h3></div><div class="col-xs-6 col-sm-1 nav-toggle"><a href="" class="nav-icon" onclick="return false"><img src="https://tomanistor.com/images/icon-menu.png" alt="Open Menu"><img src="https://tomanistor.com/images/icon-x.png" alt="Close Menu" style="display: none;"></a></div></nav><section class="nav-full row middle-xs center-xs"><div class="col-xs-12"><div class="row middle-xs center-xs"><div class="col-xs-12"><h1><a href="https://tomanistor.com/#about">About</a></h1></div><div class="col-xs-12"><h1><a href="https://tomanistor.com/#work">Work</a></h1></div><div class="col-xs-12"><h1><a href="https://tomanistor.com/#blog">Blog</a></h1></div><div class="col-xs-12"><h1><a href="https://tomanistor.com/#contact">Contact</a></h1></div></div></div></section><main><section class="container"><section class="content"><h1>Install and Update Go on Linux</h1><div class="sub-header">July 31, 2017 · 2 minute read</div><article class="entry-content"><p>This is the easiest way to install Google&rsquo;s GoLang (Go programming language) on a Linux machine and then perform an update when a new Go version is released.</p><p><img src="https://tomanistor.com/images/blog/golang-gopher-aviator.png" alt="GoLang Gopher"></p><h2 id="install-go">Install Go</h2><p>Installing Go is as simple as downloading a binary archive file and extracting the contents in the right location on your machine.</p><h3 id="1-download-go">1. Download Go</h3><p>First, visit the Go <a href="https://golang.org/dl/">downloads</a> page and download the binary suitable for your machine.</p><h3 id="2-extract-archive-file">2. Extract Archive File</h3><p>Go into your downloads folder and extract the newly downloaded archive file into the <code>/usr/local</code> directory.</p><pre><code class="language-console">$ cd Downloads/
+}
+</script>
+
+  
+</head>
+
+  <body>
+    
+  
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T94X59P"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  
+
+
+
+
+<nav class="row middle-xs center-xs">
+  <div class="col-xs-6 col-sm-1 logo">
+    <a href="https://tomanistor.com#"><img src="https://tomanistor.com/images/logo/Toma-Nistor-Logo-150px.png" alt="Toma Nistor - San Diego Web Developer"></a>
+  </div>
+    
+      <div class="col-xs-3 col-sm-2">
+        <h3><a href="https://tomanistor.com/#about">About</a></h3>
+      </div>
+    
+      <div class="col-xs-3 col-sm-2">
+        <h3><a href="https://tomanistor.com/#work">Work</a></h3>
+      </div>
+    
+      <div class="col-xs-3 col-sm-2">
+        <h3><a href="https://tomanistor.com/#blog">Blog</a></h3>
+      </div>
+    
+      <div class="col-xs-3 col-sm-2">
+        <h3><a href="https://tomanistor.com/#contact">Contact</a></h3>
+      </div>
+    
+  <div class="col-xs-6 col-sm-1 nav-toggle">
+      <a href="" class="nav-icon" onclick="return false"><img src="https://tomanistor.com/images/icon-menu.png" alt="Open Menu"><img src="https://tomanistor.com/images/icon-x.png" alt="Close Menu" style="display: none;"></a>
+  </div>
+</nav>
+
+<section class="nav-full row middle-xs center-xs">
+  <div class="col-xs-12">
+    <div class="row middle-xs center-xs">
+      
+        <div class="col-xs-12"><h1><a href="https://tomanistor.com/#about">About</a></h1></div>
+      
+        <div class="col-xs-12"><h1><a href="https://tomanistor.com/#work">Work</a></h1></div>
+      
+        <div class="col-xs-12"><h1><a href="https://tomanistor.com/#blog">Blog</a></h1></div>
+      
+        <div class="col-xs-12"><h1><a href="https://tomanistor.com/#contact">Contact</a></h1></div>
+      
+    </div>
+  </div>
+</section>
+
+    <main>
+
+      <section class="container">
+          <section class="content">
+              <h1> Install and Update Go on Linux </h1>
+
+              <div class="sub-header">
+                  July 31, 2017 · 2 minute read
+              </div>
+
+              <article class="entry-content">
+                  
+
+<p>This is the easiest way to install Google&rsquo;s GoLang (Go programming language) on a Linux machine and then perform an update when a new Go version is released.</p>
+
+<p><img src="https://tomanistor.com/images/blog/golang-gopher-aviator.png" alt="GoLang Gopher" /></p>
+
+<h2 id="install-go">Install Go</h2>
+
+<p>Installing Go is as simple as downloading a binary archive file and extracting the contents in the right location on your machine.</p>
+
+<h3 id="1-download-go">1. Download Go</h3>
+
+<p>First, visit the Go <a href="https://golang.org/dl/">downloads</a> page and download the binary suitable for your machine.</p>
+
+<h3 id="2-extract-archive-file">2. Extract Archive File</h3>
+
+<p>Go into your downloads folder and extract the newly downloaded archive file into the <code>/usr/local</code> directory.</p>
+
+<pre><code class="language-console">$ cd Downloads/
 $ tar -C /usr/local -xzf go1.8.linux-amd64.tar.gz
-</code></pre><p>Change <code>go1.8.linux-amd64.tar.gz</code> to the file you downloaded.</p><h3 id="3-add-path">3. Add Path</h3><p>Add <code>/usr/local/go/bin</code> to the PATH environment variable.</p><pre><code class="language-console">$ export PATH=$PATH:/usr/local/go/bin
-</code></pre><h3 id="4-check-installation">4. Check Installation</h3><p>Finally, check the installation by requesting the Go version number. It should print the Go version you have just installed.</p><pre><code class="language-console">$ go version
-</code></pre><p><img src="https://tomanistor.com/images/blog/golang-gopher-dance.png" alt="GoLang Gopher"></p><h2 id="update-go">Update Go</h2><p>Updating Go is as simple as removing the old Go binary on your machine and repeating the install process with a new version of Go.</p><h3 id="1-delete-go">1. Delete Go</h3><p>Delete the Go binary directory that was created during the installation process.</p><pre><code class="language-console">$ sudo rm -rf /usr/local/go
-</code></pre><h3 id="2-download-new-go-version">2. Download new Go Version</h3><p>Revisit the Go <a href="https://golang.org/dl/">downloads</a> page and download the newest Go binary suitable for your machine.</p><h3 id="3-extract-archive-file">3. Extract Archive File</h3><p>Go into your downloads folder and extract the new archive file into the <code>/usr/local</code> directory.</p><pre><code class="language-console">$ cd Downloads/
+</code></pre>
+
+<p>Change <code>go1.8.linux-amd64.tar.gz</code> to the file you downloaded.</p>
+
+<h3 id="3-add-path">3. Add Path</h3>
+
+<p>Add <code>/usr/local/go/bin</code> to the PATH environment variable.</p>
+
+<pre><code class="language-console">$ export PATH=$PATH:/usr/local/go/bin
+</code></pre>
+
+<h3 id="4-check-installation">4. Check Installation</h3>
+
+<p>Finally, check the installation by requesting the Go version number. It should print the Go version you have just installed.</p>
+
+<pre><code class="language-console">$ go version
+</code></pre>
+
+<p><img src="https://tomanistor.com/images/blog/golang-gopher-dance.png" alt="GoLang Gopher" /></p>
+
+<h2 id="update-go">Update Go</h2>
+
+<p>Updating Go is as simple as removing the old Go binary on your machine and repeating the install process with a new version of Go.</p>
+
+<h3 id="1-delete-go">1. Delete Go</h3>
+
+<p>Delete the Go binary directory that was created during the installation process.</p>
+
+<pre><code class="language-console">$ sudo rm -rf /usr/local/go
+</code></pre>
+
+<h3 id="2-download-new-go-version">2. Download new Go Version</h3>
+
+<p>Revisit the Go <a href="https://golang.org/dl/">downloads</a> page and download the newest Go binary suitable for your machine.</p>
+
+<h3 id="3-extract-archive-file">3. Extract Archive File</h3>
+
+<p>Go into your downloads folder and extract the new archive file into the <code>/usr/local</code> directory.</p>
+
+<pre><code class="language-console">$ cd Downloads/
 $ tar -C /usr/local -xzf go1.8.3.linux-amd64.tar.gz
-</code></pre><p>Change <code>go1.8.3.linux-amd64.tar.gz</code> to the file you downloaded.</p><h3 id="4-check-the-path">4. Check the Path</h3><p>The PATH environment variable doesn&rsquo;t need to be modified again but it doesn&rsquo;t hurt to check that it still contains <code>/usr/local/go/bin</code>.</p><pre><code class="language-console">$ echo $PATH | grep &quot;/usr/local/go/bin&quot;
-</code></pre><h3 id="5-check-the-installation">5. Check the Installation</h3><p>Lastly, check the installation by requesting the Go version number. It should print the updated Go version you have just freshly installed.</p><pre><code class="language-console">$ go version
-</code></pre></article><div class="pagination"><a href="https://tomanistor.com/blog/starting-with-vuejs/">&laquo; Starting with Vue.js</a> <a href="https://tomanistor.com/blog/const-let-and-var/">Const, Let, and Var &raquo;</a></div></section><br><section class="disqus"><div id="disqus_thread"></div><script type="text/javascript">(function() {
+</code></pre>
+
+<p>Change <code>go1.8.3.linux-amd64.tar.gz</code> to the file you downloaded.</p>
+
+<h3 id="4-check-the-path">4. Check the Path</h3>
+
+<p>The PATH environment variable doesn&rsquo;t need to be modified again but it doesn&rsquo;t hurt to check that it still contains <code>/usr/local/go/bin</code>.</p>
+
+<pre><code class="language-console">$ echo $PATH | grep &quot;/usr/local/go/bin&quot;
+</code></pre>
+
+<h3 id="5-check-the-installation">5. Check the Installation</h3>
+
+<p>Lastly, check the installation by requesting the Go version number. It should print the updated Go version you have just freshly installed.</p>
+
+<pre><code class="language-console">$ go version
+</code></pre>
+
+              </article>
+
+              <div class="pagination">
+                  
+                      <a href="https://tomanistor.com/blog/starting-with-vuejs/">&laquo; Starting with Vue.js</a>
+                  
+                  
+                      <a href="https://tomanistor.com/blog/const-let-and-var/">Const, Let, and Var &raquo;</a>
+                  
+              </div>
+          </section>
+          <br>
+          <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    (function() {
       
       
       if (window.location.hostname == "localhost")
@@ -29,4 +257,44 @@ $ tar -C /usr/local -xzf go1.8.3.linux-amd64.tar.gz
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
       dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();</script><noscript>Please enable JavaScript to view comments powered by <a href="http://disqus.com/?ref_noscript">Disqus</a>.</noscript></section></section></main><footer class="row middle-xs center-xs"><div class="col-xs-3 col-md-2"><a target="_blank" href="https://github.com/tomanistor">GitHub</a></div><div class="col-xs-3 col-md-2"><a target="_blank" href="https://linkedin.com/in/tomanistor">LinkedIn</a></div><div class="col-xs-3 col-md-2"><a target="_blank" href="https://twitter.com/TomaNistor">Twitter</a></div></footer><script src="https://tomanistor.com/scripts/highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script><script src="https://tomanistor.com/scripts/main-c040f8f0.min.js" type="text/javascript"></script></body></html>
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view comments powered by <a href="http://disqus.com/?ref_noscript">Disqus</a>.</noscript>
+</section>
+
+      </section>
+
+    </main>
+    <footer class="row middle-xs center-xs">
+
+  
+  
+  
+    <div class="col-xs-3 col-md-2"><a target="_blank" href="https://github.com/tomanistor">GitHub</a></div>
+  
+
+  
+    <div class="col-xs-3 col-md-2"><a target="_blank" href="https://linkedin.com/in/tomanistor">LinkedIn</a></div>
+  
+
+  
+    <div class="col-xs-3 col-md-2"><a target="_blank" href="https://twitter.com/TomaNistor">Twitter</a></div>
+  
+
+  
+
+</footer>
+
+    
+  
+    <script src="https://tomanistor.com/scripts/highlight.pack.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+  <script src="https://tomanistor.com/scripts/main-c040f8f0.min.js" type="text/javascript"></script>
+
+
+  </body>
+</html>

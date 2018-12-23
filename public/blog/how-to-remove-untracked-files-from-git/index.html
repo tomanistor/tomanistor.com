@@ -1,8 +1,82 @@
-<!DOCTYPE html><html lang="en-US"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+  
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-T94X59P');</script><title>How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer</title><meta name="title" content="How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="chrome=1"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer-when-downgrade"><meta name="generator" content=""><base href="https://tomanistor.com"><meta name="description" content="How to use git clean to remove local untracked files from git."><meta name="author" content="Toma Nistor"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@TomaNistor"><meta name="twitter:creator" content="@TomaNistor"><meta property="og:title" content="How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer"><meta property="og:type" content="website"><meta property="og:url" content="https://tomanistor.com"><meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png"><meta name="og:description" content="How to use git clean to remove local untracked files from git."><link rel="icon" type="image/png" sizes="16x16" href="favicon.ico"><meta name="theme-color" content="#FFF"><link rel="canonical" href="https://tomanistor.com/blog/how-to-remove-untracked-files-from-git/"><link rel="stylesheet" href="https://tomanistor.com/styles/main-bc6eebee.min.css" type="text/css"><style>nav{box-shadow:none;}</style><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"><script type="application/javascript">var doNotTrack = false;
+    })(window,document,'script','dataLayer','GTM-T94X59P');</script>
+    
+  
+
+  <title>
+    How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer</title>
+
+  <meta name="title" content="How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer">
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <meta name="generator" content="">
+  <base href="https://tomanistor.com">
+
+  
+    <meta name="description" content="How to use git clean to remove local untracked files from git.">
+  
+
+  
+    <meta name="author" content="Toma Nistor">
+  
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TomaNistor">
+    <meta name="twitter:creator" content="@TomaNistor">
+  
+
+  <meta property="og:title" content="How to Remove Untracked Files from Git | Toma Nistor - San Diego Web Developer">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tomanistor.com">
+
+  
+    <meta property="og:image" content="https://tomanistor.com/images/logo/Toma-Nistor-Logo-Banner-Dark.png">
+  
+
+  
+    <meta name="og:description" content="How to use git clean to remove local untracked files from git.">
+  
+
+  
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
+    <meta name="theme-color" content="#FFF">
+  
+
+  <link rel="canonical" href="https://tomanistor.com/blog/how-to-remove-untracked-files-from-git/">
+
+  
+
+  <link rel="stylesheet" href="https://tomanistor.com/styles/main-bc6eebee.min.css" type="text/css">
+
+  
+    <style>nav{box-shadow:none;}</style>
+
+  
+
+  
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    
+  
+
+  
+    
+<script type="application/javascript">
+var doNotTrack = false;
 if (!doNotTrack) {
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -11,20 +85,160 @@ if (!doNotTrack) {
 	ga('create', 'UA-70206008-1', 'auto');
 	
 	ga('send', 'pageview');
-}</script></head><body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T94X59P" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><nav class="row middle-xs center-xs"><div class="col-xs-6 col-sm-1 logo"><a href="https://tomanistor.com#"><img src="https://tomanistor.com/images/logo/Toma-Nistor-Logo-150px.png" alt="Toma Nistor - San Diego Web Developer"></a></div><div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#about">About</a></h3></div><div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#work">Work</a></h3></div><div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#blog">Blog</a></h3></div><div class="col-xs-3 col-sm-2"><h3><a href="https://tomanistor.com/#contact">Contact</a></h3></div><div class="col-xs-6 col-sm-1 nav-toggle"><a href="" class="nav-icon" onclick="return false"><img src="https://tomanistor.com/images/icon-menu.png" alt="Open Menu"><img src="https://tomanistor.com/images/icon-x.png" alt="Close Menu" style="display: none;"></a></div></nav><section class="nav-full row middle-xs center-xs"><div class="col-xs-12"><div class="row middle-xs center-xs"><div class="col-xs-12"><h1><a href="https://tomanistor.com/#about">About</a></h1></div><div class="col-xs-12"><h1><a href="https://tomanistor.com/#work">Work</a></h1></div><div class="col-xs-12"><h1><a href="https://tomanistor.com/#blog">Blog</a></h1></div><div class="col-xs-12"><h1><a href="https://tomanistor.com/#contact">Contact</a></h1></div></div></div></section><main><section class="container"><section class="content"><h1>How to Remove Untracked Files from Git</h1><div class="sub-header">May 8, 2018 · 3 minute read</div><article class="entry-content"><p><img src="https://tomanistor.com/images/blog/notebook-paper.jpg" alt="Notebook with crumpled paper"></p><p>Untracked files are files in the git repository&rsquo;s working tree that are not present in the git index. These are new files that were not present in the previous snapshot of the repository.</p><p>When you don&rsquo;t want to stage and commit these files, <code>git clean</code> is a useful way to permanently remove all or a selection of your untracked files in git.</p><p>This is what untracked files look like when using <code>git status</code></p><pre><code class="language-bash">Untracked files:
+}
+</script>
+
+  
+</head>
+
+  <body>
+    
+  
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T94X59P"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  
+
+
+
+
+<nav class="row middle-xs center-xs">
+  <div class="col-xs-6 col-sm-1 logo">
+    <a href="https://tomanistor.com#"><img src="https://tomanistor.com/images/logo/Toma-Nistor-Logo-150px.png" alt="Toma Nistor - San Diego Web Developer"></a>
+  </div>
+    
+      <div class="col-xs-3 col-sm-2">
+        <h3><a href="https://tomanistor.com/#about">About</a></h3>
+      </div>
+    
+      <div class="col-xs-3 col-sm-2">
+        <h3><a href="https://tomanistor.com/#work">Work</a></h3>
+      </div>
+    
+      <div class="col-xs-3 col-sm-2">
+        <h3><a href="https://tomanistor.com/#blog">Blog</a></h3>
+      </div>
+    
+      <div class="col-xs-3 col-sm-2">
+        <h3><a href="https://tomanistor.com/#contact">Contact</a></h3>
+      </div>
+    
+  <div class="col-xs-6 col-sm-1 nav-toggle">
+      <a href="" class="nav-icon" onclick="return false"><img src="https://tomanistor.com/images/icon-menu.png" alt="Open Menu"><img src="https://tomanistor.com/images/icon-x.png" alt="Close Menu" style="display: none;"></a>
+  </div>
+</nav>
+
+<section class="nav-full row middle-xs center-xs">
+  <div class="col-xs-12">
+    <div class="row middle-xs center-xs">
+      
+        <div class="col-xs-12"><h1><a href="https://tomanistor.com/#about">About</a></h1></div>
+      
+        <div class="col-xs-12"><h1><a href="https://tomanistor.com/#work">Work</a></h1></div>
+      
+        <div class="col-xs-12"><h1><a href="https://tomanistor.com/#blog">Blog</a></h1></div>
+      
+        <div class="col-xs-12"><h1><a href="https://tomanistor.com/#contact">Contact</a></h1></div>
+      
+    </div>
+  </div>
+</section>
+
+    <main>
+
+      <section class="container">
+          <section class="content">
+              <h1> How to Remove Untracked Files from Git </h1>
+
+              <div class="sub-header">
+                  May 8, 2018 · 3 minute read
+              </div>
+
+              <article class="entry-content">
+                  
+
+<p><img src="https://tomanistor.com/images/blog/notebook-paper.jpg" alt="Notebook with crumpled paper" /></p>
+
+<p>Untracked files are files in the git repository&rsquo;s working tree that are not present in the git index. These are new files that were not present in the previous snapshot of the repository.</p>
+
+<p>When you don&rsquo;t want to stage and commit these files, <code>git clean</code> is a useful way to permanently remove all or a selection of your untracked files in git.</p>
+
+<p>This is what untracked files look like when using <code>git status</code></p>
+
+<pre><code class="language-bash">Untracked files:
   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
 
 	index.html
 	style.css
-</code></pre><h2 id="git-clean">git clean</h2><p>While commands like <code>git reset</code> and <code>git checkout</code> can be used to undo changes to files already present in the git tracking index, <code>git clean</code> is used to remove new and untracked files from the working directory.</p><pre><code class="language-bash">$ git clean -f
-</code></pre><p>As a safety precaution, <code>git clean</code> does not operated unless the <code>-f</code> or <code>--force</code> flag is attached to the command, or the <code>clean.requireForce</code> git configuration option is set to false. By default this setting is set to true.</p><pre><code class="language-bash">$ git clean -n
-</code></pre><p>As another safety precaution, the <code>-n</code> or <code>--dry-run</code> flag simulates and shows what would have been removed without removing anything</p><pre><code class="language-bash">$ git clean -d
-</code></pre><p>The <code>-d</code> flag removes untracked directories along with untracked files. If you want to remove entire untracked folders in git, this flag is necessary.</p><h3 id="interactive-mode">Interactive Mode</h3><pre><code class="language-bash">$ git clean -i
-</code></pre><p>Interactive mode for <code>git clean</code> is activated with the <code>-i</code> or <code>--interactive</code> flag. This will display prompt with a list of subcommands that allow you to be very selective with what untracked files you want to remove.</p><pre><code class="language-bash">*** Commands ***
+</code></pre>
+
+<h2 id="git-clean">git clean</h2>
+
+<p>While commands like <code>git reset</code> and <code>git checkout</code> can be used to undo changes to files already present in the git tracking index,  <code>git clean</code> is used to remove new and untracked files from the working directory.</p>
+
+<pre><code class="language-bash">$ git clean -f
+</code></pre>
+
+<p>As a safety precaution, <code>git clean</code> does not operated unless the <code>-f</code> or <code>--force</code> flag is attached to the command, or the <code>clean.requireForce</code> git configuration option is set to false. By default this setting is set to true.</p>
+
+<pre><code class="language-bash">$ git clean -n
+</code></pre>
+
+<p>As another safety precaution, the <code>-n</code> or <code>--dry-run</code> flag simulates and shows what would have been removed without removing anything</p>
+
+<pre><code class="language-bash">$ git clean -d
+</code></pre>
+
+<p>The <code>-d</code> flag removes untracked directories along with untracked files. If you want to remove entire untracked folders in git, this flag is necessary.</p>
+
+<h3 id="interactive-mode">Interactive Mode</h3>
+
+<pre><code class="language-bash">$ git clean -i
+</code></pre>
+
+<p>Interactive mode for <code>git clean</code> is activated with the <code>-i</code> or <code>--interactive</code> flag. This will display prompt with a list of subcommands that allow you to be very selective with what untracked files you want to remove.</p>
+
+<pre><code class="language-bash">*** Commands ***
     1: clean                2: filter by pattern    3: select by numbers
     4: ask each             5: quit                 6: help
-</code></pre><ol><li><strong>clean</strong>: cleans files and directories.</li><li><strong>filter by pattern</strong>: displays a prompt that allows you to input space-separated patterns for filtering out files and directories from being removed. For example, inputting <code>*.html</code> will exclude all <code>.html</code> files from deletion.</li><li><strong>select by numbers</strong>: displays a prompt with the untracked files and folders listed by number. You can select specific numbers or ranges of numbers from the list to delete by separating with whitespace or comma, such as <code>1,4,6-9</code>.</li><li><strong>ask each</strong>: displays each untracked item individually with a prompt asking if you&rsquo;d like to delete it.</li><li><strong>quit</strong>: quits git clean interactive mode without deleting anything.</li><li><strong>help</strong>: displays the git clean interactive mode help screen</li></ol><pre><code class="language-bash">$ git clean -idf
-</code></pre><p>This is an example of the command I use regularly. By attaching multiple flags, I enable git clean interactive mode, enable the deletion of untracked directories, and force the clean command. In interactive mode, I most often select <code>1: clean</code> if I know I want to delete all untracked files and directories or I&rsquo;ll more carefully refine my selections with <code>3: select by numbers</code> or <code>4: ask each</code>.</p><h2 id="references">References</h2><ul><li><a href="https://git-scm.com/docs/git-clean">Git Documentation</a></li><li><a href="https://www.atlassian.com/git/tutorials/undoing-changes/git-clean">Atlassian Git Tutorial</a></li></ul></article><div class="pagination"><a href="https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/">&laquo; Fixing the iOS Mobile Double-Click Link Issue</a> <a href="https://tomanistor.com/blog/how-to-change-most-recent-commit-message/">How To Change Most Recent Commit Message &raquo;</a></div></section><br><section class="disqus"><div id="disqus_thread"></div><script type="text/javascript">(function() {
+</code></pre>
+
+<ol>
+<li><strong>clean</strong>: cleans files and directories.</li>
+<li><strong>filter by pattern</strong>: displays a prompt that allows you to input space-separated patterns for filtering out files and directories from being removed. For example, inputting <code>*.html</code> will exclude all <code>.html</code> files from deletion.</li>
+<li><strong>select by numbers</strong>: displays a prompt with the untracked files and folders listed by number. You can select specific numbers or ranges of numbers from the list to delete by separating with whitespace or comma, such as <code>1,4,6-9</code>.</li>
+<li><strong>ask each</strong>: displays each untracked item individually with a prompt asking if you&rsquo;d like to delete it.</li>
+<li><strong>quit</strong>: quits git clean interactive mode without deleting anything.</li>
+<li><strong>help</strong>: displays the git clean interactive mode help screen</li>
+</ol>
+
+<pre><code class="language-bash">$ git clean -idf
+</code></pre>
+
+<p>This is an example of the command I use regularly. By attaching multiple flags, I enable git clean interactive mode, enable the deletion of untracked directories, and force the clean command. In interactive mode, I most often select <code>1: clean</code> if I know I want to delete all untracked files and directories or I&rsquo;ll more carefully refine my selections with <code>3: select by numbers</code> or <code>4: ask each</code>.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="https://git-scm.com/docs/git-clean">Git Documentation</a></li>
+<li><a href="https://www.atlassian.com/git/tutorials/undoing-changes/git-clean">Atlassian Git Tutorial</a></li>
+</ul>
+
+              </article>
+
+              <div class="pagination">
+                  
+                      <a href="https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/">&laquo; Fixing the iOS Mobile Double-Click Link Issue</a>
+                  
+                  
+                      <a href="https://tomanistor.com/blog/how-to-change-most-recent-commit-message/">How To Change Most Recent Commit Message &raquo;</a>
+                  
+              </div>
+          </section>
+          <br>
+          <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    (function() {
       
       
       if (window.location.hostname == "localhost")
@@ -33,4 +247,44 @@ if (!doNotTrack) {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
       dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();</script><noscript>Please enable JavaScript to view comments powered by <a href="http://disqus.com/?ref_noscript">Disqus</a>.</noscript></section></section></main><footer class="row middle-xs center-xs"><div class="col-xs-3 col-md-2"><a target="_blank" href="https://github.com/tomanistor">GitHub</a></div><div class="col-xs-3 col-md-2"><a target="_blank" href="https://linkedin.com/in/tomanistor">LinkedIn</a></div><div class="col-xs-3 col-md-2"><a target="_blank" href="https://twitter.com/TomaNistor">Twitter</a></div></footer><script src="https://tomanistor.com/scripts/highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script><script src="https://tomanistor.com/scripts/main-c040f8f0.min.js" type="text/javascript"></script></body></html>
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view comments powered by <a href="http://disqus.com/?ref_noscript">Disqus</a>.</noscript>
+</section>
+
+      </section>
+
+    </main>
+    <footer class="row middle-xs center-xs">
+
+  
+  
+  
+    <div class="col-xs-3 col-md-2"><a target="_blank" href="https://github.com/tomanistor">GitHub</a></div>
+  
+
+  
+    <div class="col-xs-3 col-md-2"><a target="_blank" href="https://linkedin.com/in/tomanistor">LinkedIn</a></div>
+  
+
+  
+    <div class="col-xs-3 col-md-2"><a target="_blank" href="https://twitter.com/TomaNistor">Twitter</a></div>
+  
+
+  
+
+</footer>
+
+    
+  
+    <script src="https://tomanistor.com/scripts/highlight.pack.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+  <script src="https://tomanistor.com/scripts/main-c040f8f0.min.js" type="text/javascript"></script>
+
+
+  </body>
+</html>

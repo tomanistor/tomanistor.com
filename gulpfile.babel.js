@@ -5,7 +5,6 @@ import uglify       from 'gulp-uglify'
 import hash         from 'gulp-hash'
 import del          from 'del'
 import pump         from 'pump'
-import htmlmin      from 'gulp-htmlmin'
 
 const staticDir  = 'themes/osprey/static/',
       scriptsDir = `${staticDir}scripts/`,
@@ -24,9 +23,7 @@ gulp.task('js', (cb) => {
     gulp.dest(scriptsDir),
     hash.manifest('cachedAssets.json'), // Create hash map
     gulp.dest('data/') // Put hash map in data folder
-  ],
-  cb
-  )
+  ], cb)
 })
 
 // Compile and minify SCSS files to CSS
@@ -43,20 +40,6 @@ gulp.task('scss', (cb) => {
     gulp.dest(stylesDir),
     hash.manifest('cachedAssets.json'), // Create hash map
     gulp.dest('data/') // Put hash map in data folder
-  ],
-  cb
-  )
-})
-
-// Minify HTML
-gulp.task('html', (cb) => {
-  pump([
-    gulp.src(['./public/**/*.html']),
-    htmlmin({
-      collapseWhitespace: true,
-      removeComments: true
-    }),
-    gulp.dest('./public')
   ], cb)
 })
 
@@ -64,7 +47,6 @@ gulp.task('html', (cb) => {
 gulp.task('watch', ['js', 'scss', 'html'], () => {
   gulp.watch(`${scriptsDir}src/*.js`, ['js']),
   gulp.watch(`${stylesDir}scss/*.scss`, ['scss'])
-  gulp.watch(`./public/**/*.html`, ['html'])
 })
 
 // Set watch as default task

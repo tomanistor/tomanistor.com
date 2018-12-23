@@ -13,4 +13,4 @@ Static portfolio website showcasing my web development and graphic design work. 
 * [FlexBox Grid](https://github.com/kristoferjoseph/flexboxgrid): grid system based off of CSS3 flexbox
 * [Gulp.js](https://github.com/gulpjs/gulp): automated build system used for enhancing workflow (compressing, minifying, and cachebusting static assets)
 * [FormSpree](https://github.com/formspree/formspree): simple HTML-only form for static sites
-* [HugoDeploy](https://github.com/mindok/hugodeploy): FTP deployment tool for Hugo
+* [Netlify](https://www.netlify.com): CDN, CMS, and continuous deployment host for static websites
