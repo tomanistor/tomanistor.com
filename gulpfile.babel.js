@@ -44,7 +44,7 @@ gulp.task('scss', (cb) => {
 })
 
 // Watch scripts and styles folders for changes
-gulp.task('watch', ['js', 'scss', 'html'], () => {
+gulp.task('watch', ['js', 'scss'], () => {
   gulp.watch(`${scriptsDir}src/*.js`, ['js']),
   gulp.watch(`${stylesDir}scss/*.scss`, ['scss'])
 })
