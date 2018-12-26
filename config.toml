@@ -7,7 +7,7 @@ theme = "osprey"
 canonifyURLS = true
 googleAnalytics = "UA-70206008-1"
 disqusShortname = "tomanistor"
-disableKinds = ["taxonomy", "taxonomyTerm"] # This theme does not currently use "tag" and "category" taxonomies
+# disableKinds = ["taxonomy", "taxonomyTerm"] # This theme does not currently use "tag" and "category" taxonomies
 enableRobotsTXT = true
 
 [Params]
