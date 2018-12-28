@@ -2,90 +2,90 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Galleries on Toma Nistor - San Diego Web Developer</title>
-    <link>/gallery/</link>
+    <link>https://tomanistor.com/gallery/</link>
     <description>Recent content in Galleries on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sat, 10 Mar 2018 11:28:02 -0800</lastBuildDate>
     
-	<atom:link href="/gallery/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tomanistor.com/gallery/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Vertis Green Hills</title>
-      <link>/gallery/vertis-green-hills/</link>
+      <link>https://tomanistor.com/gallery/vertis-green-hills/</link>
       <pubDate>Sat, 10 Mar 2018 11:28:02 -0800</pubDate>
       
-      <guid>/gallery/vertis-green-hills/</guid>
+      <guid>https://tomanistor.com/gallery/vertis-green-hills/</guid>
       <description> Summary Vertis Green Hills is a Southern Land Company residential community made up of luxury apartments with onsite dining and shopping in Nashville, TN. I developed the site in late 2017 while the property was finishing construction and anticipated for opening in 2018.
 Tools  Foundation jQuery Ruby on Rails  </description>
     </item>
     
     <item>
       <title>Miniflix</title>
-      <link>/gallery/miniflix/</link>
+      <link>https://tomanistor.com/gallery/miniflix/</link>
       <pubDate>Thu, 06 Jul 2017 15:55:00 -0700</pubDate>
       
-      <guid>/gallery/miniflix/</guid>
+      <guid>https://tomanistor.com/gallery/miniflix/</guid>
       <description> Summary Miniflix is an experiment in building a React app with Create React App and Auth0. I built a single-page app with a user login system that serves videos through Cloudinary.
 Tools  Auth0 Bootstrap Cloudinary Create React App React  </description>
     </item>
     
     <item>
       <title>My Resume</title>
-      <link>/gallery/resume/</link>
+      <link>https://tomanistor.com/gallery/resume/</link>
       <pubDate>Wed, 17 May 2017 14:28:01 -0700</pubDate>
       
-      <guid>/gallery/resume/</guid>
+      <guid>https://tomanistor.com/gallery/resume/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Osprey</title>
-      <link>/gallery/osprey/</link>
+      <link>https://tomanistor.com/gallery/osprey/</link>
       <pubDate>Wed, 17 May 2017 14:27:42 -0700</pubDate>
       
-      <guid>/gallery/osprey/</guid>
+      <guid>https://tomanistor.com/gallery/osprey/</guid>
       <description> Summary Osprey is an open source Hugo theme that I designed and developed to use for my own portfolio site. I have been maintaining and improving it with the support of the Hugo community on GitHub since 2017.
 Tools  Basin Disqus Formspree FlexBox Grid Gulp.js Hugo  </description>
     </item>
     
     <item>
       <title>Rhino Linings Corporation SPF</title>
-      <link>/gallery/rhino-linings-corporation-spf/</link>
+      <link>https://tomanistor.com/gallery/rhino-linings-corporation-spf/</link>
       <pubDate>Wed, 10 May 2017 21:47:41 -0700</pubDate>
       
-      <guid>/gallery/rhino-linings-corporation-spf/</guid>
+      <guid>https://tomanistor.com/gallery/rhino-linings-corporation-spf/</guid>
       <description> Summary Rhino Linings Spray Foam Insulation, newly formed division of Rhino Linings Corporation, required a corporate website that could reach both consumers and clients. Using Wordpress, I built a site that served as a valuable marking asset.
 Tools  Wordpress  </description>
     </item>
     
     <item>
       <title>Rugged Fellows Guide</title>
-      <link>/gallery/rugged-fellows-guide/</link>
+      <link>https://tomanistor.com/gallery/rugged-fellows-guide/</link>
       <pubDate>Wed, 10 May 2017 21:47:19 -0700</pubDate>
       
-      <guid>/gallery/rugged-fellows-guide/</guid>
+      <guid>https://tomanistor.com/gallery/rugged-fellows-guide/</guid>
       <description> Summary Rugged Fellows Guide is a lifestyle blog created as a personal project to experiment with the Wordpress platform, web design, digital marketing, and SEO fundamentals. Within the first 6 months, the site generated as many as 30,000 sessions per day.
 Tools  Wordpress  </description>
     </item>
     
     <item>
       <title>LEARN academy</title>
-      <link>/gallery/learn-academy/</link>
+      <link>https://tomanistor.com/gallery/learn-academy/</link>
       <pubDate>Wed, 10 May 2017 21:35:17 -0700</pubDate>
       
-      <guid>/gallery/learn-academy/</guid>
+      <guid>https://tomanistor.com/gallery/learn-academy/</guid>
       <description> Summary LEARN academy is a full-stack web development bootcamp in San Diego, CA. The website required optimization in terms of speed and organic search engine rankings. Assets were optimized, page loading speed improved, and pages were restructured according to modern SEO standards so that content could be properly crawled by search engines.
 Tools  Google PageSpeed Insights Google Search Console Ruby on Rails  </description>
     </item>
     
     <item>
       <title>VolunteerUp</title>
-      <link>/gallery/volunteerup/</link>
+      <link>https://tomanistor.com/gallery/volunteerup/</link>
       <pubDate>Tue, 09 May 2017 00:56:44 -0700</pubDate>
       
-      <guid>/gallery/volunteerup/</guid>
+      <guid>https://tomanistor.com/gallery/volunteerup/</guid>
       <description> Summary VolunteerUp is a Ruby on Rails app that connects volunteers with non-profit organizations. It was built in a 2-week sprint on a team of 7 developers as a final project during the LEARN Academy full-stack Ruby on Rails course. My primary involvement was developing the component for searching and filtering organizations and events within the application as well as some UI/UX guidance.
 Tools  Kaminari Filteriffic Ruby on Rails  </description>
     </item>
