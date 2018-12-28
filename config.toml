@@ -1,5 +1,5 @@
 title = "Toma Nistor - San Diego Web Developer"
-baseURL = "https://tomanistor.com"
+baseURL = "/"
 tags = ["web developer", "San Diego web developer", "ruby on rails developer", "javascript developer", "vuejs developer", "hugo developer", "San Diego", "web developer portfolio"]
 languageCode = "en-US"
 config = "config.toml"

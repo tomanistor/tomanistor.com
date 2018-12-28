@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Toma Nistor - San Diego Web Developer</title>
-    <link>https://tomanistor.com/</link>
+    <link>/</link>
     <description>Recent content on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 06 Jul 2018 13:44:09 -0700</lastBuildDate>
     
-	<atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>How To Change Most Recent Commit Message</title>
-      <link>https://tomanistor.com/blog/how-to-change-most-recent-commit-message/</link>
+      <link>/blog/how-to-change-most-recent-commit-message/</link>
       <pubDate>Fri, 06 Jul 2018 13:44:09 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/how-to-change-most-recent-commit-message/</guid>
+      <guid>/blog/how-to-change-most-recent-commit-message/</guid>
       <description>If you&amp;rsquo;re like me, on more than one occasion you&amp;rsquo;ve typed out your commit message and noticed a nasty typo after the fact.
 Here&amp;rsquo;s a quick way to amend your last commit message if you have already entered your commit message in the terminal but have not yet pushed your local branch to the remote branch.
 $ git commit --amend  This will open up your editor to edit your commit message.</description>
@@ -24,10 +24,10 @@ $ git commit --amend  This will open up your editor to edit your commit message.
     
     <item>
       <title>How to Remove Untracked Files from Git</title>
-      <link>https://tomanistor.com/blog/how-to-remove-untracked-files-from-git/</link>
+      <link>/blog/how-to-remove-untracked-files-from-git/</link>
       <pubDate>Tue, 08 May 2018 10:36:02 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/how-to-remove-untracked-files-from-git/</guid>
+      <guid>/blog/how-to-remove-untracked-files-from-git/</guid>
       <description>Untracked files are files in the git repository&amp;rsquo;s working tree that are not present in the git index. These are new files that were not present in the previous snapshot of the repository.
 When you don&amp;rsquo;t want to stage and commit these files, git clean is a useful way to permanently remove all or a selection of your untracked files in git.
 This is what untracked files look like when using git status</description>
@@ -35,50 +35,50 @@ This is what untracked files look like when using git status</description>
     
     <item>
       <title>Fixing the iOS Mobile Double-Click Link Issue</title>
-      <link>https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/</link>
+      <link>/blog/fixing-the-ios-mobile-double-click-link-issue/</link>
       <pubDate>Tue, 01 May 2018 21:06:32 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/</guid>
+      <guid>/blog/fixing-the-ios-mobile-double-click-link-issue/</guid>
       <description>One of my recent site builds came back from a round of QA with a bug present only on mobile iOS devices. It was a set of tab links that required two clicks to function on iPhones and iPads.
 The Bug The buggy tab links had an effect that added a pseudo element to the right of each link indicating when a link was hovered over, in focus, or active.</description>
     </item>
     
     <item>
       <title>My Favorite Web Development Podcasts</title>
-      <link>https://tomanistor.com/blog/my-favorite-web-development-podcasts/</link>
+      <link>/blog/my-favorite-web-development-podcasts/</link>
       <pubDate>Sat, 31 Mar 2018 17:54:32 +0000</pubDate>
       
-      <guid>https://tomanistor.com/blog/my-favorite-web-development-podcasts/</guid>
+      <guid>/blog/my-favorite-web-development-podcasts/</guid>
       <description>Around the time I graduated from my programming bootcamp in March 2017, I started listening to programming podcasts to scratch the itch of continuous learning and to keep myself engaged with the world of web development.
 Although I started with just a handful, almost a third of my Podcast Addict app is now filled with them. Some are more specific to a programming niche, tech stack, languages, or frameworks while others are broad and all-encompassing.</description>
     </item>
     
     <item>
       <title>Vertis Green Hills</title>
-      <link>https://tomanistor.com/gallery/vertis-green-hills/</link>
+      <link>/gallery/vertis-green-hills/</link>
       <pubDate>Sat, 10 Mar 2018 11:28:02 -0800</pubDate>
       
-      <guid>https://tomanistor.com/gallery/vertis-green-hills/</guid>
+      <guid>/gallery/vertis-green-hills/</guid>
       <description> Summary Vertis Green Hills is a Southern Land Company residential community made up of luxury apartments with onsite dining and shopping in Nashville, TN. I developed the site in late 2017 while the property was finishing construction and anticipated for opening in 2018.
 Tools  Foundation jQuery Ruby on Rails  </description>
     </item>
     
     <item>
       <title>My First Vue.js App</title>
-      <link>https://tomanistor.com/blog/my-first-vuejs-app/</link>
+      <link>/blog/my-first-vuejs-app/</link>
       <pubDate>Sat, 16 Sep 2017 20:09:33 +0000</pubDate>
       
-      <guid>https://tomanistor.com/blog/my-first-vuejs-app/</guid>
+      <guid>/blog/my-first-vuejs-app/</guid>
       <description>A little while ago, I spent some time researching which frontend JavaScript framework or library I would learn next. The primary criteria was ease of learning, ease of use, and popularity (community support and career usefulness). I chose to start with Vue.js.
 My method of learning was by reading the Vue.js documentation and following Ayo Isaiah&amp;rsquo;s tutorial for developing a to-do list application. The former was very helpful in introducing me to concepts and the latter was even more helpful in explaining those concepts in practice.</description>
     </item>
     
     <item>
       <title>Const, Let, and Var</title>
-      <link>https://tomanistor.com/blog/const-let-and-var/</link>
+      <link>/blog/const-let-and-var/</link>
       <pubDate>Fri, 11 Aug 2017 23:21:07 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/const-let-and-var/</guid>
+      <guid>/blog/const-let-and-var/</guid>
       <description>One of the very first things I noticed when I took up JavaScript ECMAScript 2015, or more commonly known as ES6, were the new types of variable declarations. Whereas I had previously only used var to declare a variable, I could now declare variables using let and const.
 But how are let and const different from var? And in what situations are they each appropriate to use?
 Scope Each of the the three variable declarations deal with different levels of scope: global, function, and block level scopes.</description>
@@ -86,10 +86,10 @@ Scope Each of the the three variable declarations deal with different levels of 
     
     <item>
       <title>Install and Update Go on Linux</title>
-      <link>https://tomanistor.com/blog/install-and-update-go-on-linux/</link>
+      <link>/blog/install-and-update-go-on-linux/</link>
       <pubDate>Mon, 31 Jul 2017 21:48:33 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/install-and-update-go-on-linux/</guid>
+      <guid>/blog/install-and-update-go-on-linux/</guid>
       <description>This is the easiest way to install Google&amp;rsquo;s GoLang (Go programming language) on a Linux machine and then perform an update when a new Go version is released.
 Install Go Installing Go is as simple as downloading a binary archive file and extracting the contents in the right location on your machine.
 1. Download Go First, visit the Go downloads page and download the binary suitable for your machine.</description>
@@ -97,107 +97,107 @@ Install Go Installing Go is as simple as downloading a binary archive file and e
     
     <item>
       <title>Starting with Vue.js</title>
-      <link>https://tomanistor.com/blog/starting-with-vuejs/</link>
+      <link>/blog/starting-with-vuejs/</link>
       <pubDate>Sun, 09 Jul 2017 23:23:29 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/starting-with-vuejs/</guid>
+      <guid>/blog/starting-with-vuejs/</guid>
       <description>Lately, I&amp;rsquo;ve been a little indecisive on which JavaScript framework or library to dive into next. Based on all of the job descriptions I&amp;rsquo;ve been plowing through, any front-end and even most full-stack web development roles require proficiency with a number of different JavaScript frameworks.
 Vanilla JavaScript is Not Enough A lot of advice directed at junior web developers that I&amp;rsquo;ve come across online stresses the importance of mastering JavaScript before attempting to level up with frameworks.</description>
     </item>
     
     <item>
       <title>Miniflix</title>
-      <link>https://tomanistor.com/gallery/miniflix/</link>
+      <link>/gallery/miniflix/</link>
       <pubDate>Thu, 06 Jul 2017 15:55:00 -0700</pubDate>
       
-      <guid>https://tomanistor.com/gallery/miniflix/</guid>
+      <guid>/gallery/miniflix/</guid>
       <description> Summary Miniflix is an experiment in building a React app with Create React App and Auth0. I built a single-page app with a user login system that serves videos through Cloudinary.
 Tools  Auth0 Bootstrap Cloudinary Create React App React  </description>
     </item>
     
     <item>
       <title>I&#39;m Toma Nistor</title>
-      <link>https://tomanistor.com/about/</link>
+      <link>/about/</link>
       <pubDate>Wed, 28 Jun 2017 12:36:41 -0700</pubDate>
       
-      <guid>https://tomanistor.com/about/</guid>
+      <guid>/about/</guid>
       <description>A web developer in San Diego, California. let languages = [&#39;javascript&#39;, &#39;ruby&#39;], frameworks = [&#39;ruby on rails&#39;, &#39;vuejs&#39;], tools = [&#39;hugo&#39;, &#39;gulp&#39;, &#39;nodejs&#39;, &#39;webpack&#39;], skillset = languages.concat(frameworks, tools)  View my code on GitHub, connect with me on LinkedIn, follow me on Twitter, and check out my work below.</description>
     </item>
     
     <item>
       <title>Cache Bust that Asset</title>
-      <link>https://tomanistor.com/blog/cache-bust-that-asset/</link>
+      <link>/blog/cache-bust-that-asset/</link>
       <pubDate>Tue, 20 Jun 2017 13:00:59 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/cache-bust-that-asset/</guid>
+      <guid>/blog/cache-bust-that-asset/</guid>
       <description>Static assets like CSS, JavaScript, and image files are normally cached for long periods of time with expiry periods of a few weeks or months after being served to a user&amp;rsquo;s web browser. Caching is used to speed up a website or application by once downloading a file and storing a cached version of it in the browser. When a user moves from page to page on a website or revisits the same site in the future, the cached file is served automatically without wasting any time loading the same file.</description>
     </item>
     
     <item>
       <title>My Resume</title>
-      <link>https://tomanistor.com/gallery/resume/</link>
+      <link>/gallery/resume/</link>
       <pubDate>Wed, 17 May 2017 14:28:01 -0700</pubDate>
       
-      <guid>https://tomanistor.com/gallery/resume/</guid>
+      <guid>/gallery/resume/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Osprey</title>
-      <link>https://tomanistor.com/gallery/osprey/</link>
+      <link>/gallery/osprey/</link>
       <pubDate>Wed, 17 May 2017 14:27:42 -0700</pubDate>
       
-      <guid>https://tomanistor.com/gallery/osprey/</guid>
+      <guid>/gallery/osprey/</guid>
       <description> Summary Osprey is an open source Hugo theme that I designed and developed to use for my own portfolio site. I have been maintaining and improving it with the support of the Hugo community on GitHub since 2017.
 Tools  Basin Disqus Formspree FlexBox Grid Gulp.js Hugo  </description>
     </item>
     
     <item>
       <title>Rhino Linings Corporation SPF</title>
-      <link>https://tomanistor.com/gallery/rhino-linings-corporation-spf/</link>
+      <link>/gallery/rhino-linings-corporation-spf/</link>
       <pubDate>Wed, 10 May 2017 21:47:41 -0700</pubDate>
       
-      <guid>https://tomanistor.com/gallery/rhino-linings-corporation-spf/</guid>
+      <guid>/gallery/rhino-linings-corporation-spf/</guid>
       <description> Summary Rhino Linings Spray Foam Insulation, newly formed division of Rhino Linings Corporation, required a corporate website that could reach both consumers and clients. Using Wordpress, I built a site that served as a valuable marking asset.
 Tools  Wordpress  </description>
     </item>
     
     <item>
       <title>Rugged Fellows Guide</title>
-      <link>https://tomanistor.com/gallery/rugged-fellows-guide/</link>
+      <link>/gallery/rugged-fellows-guide/</link>
       <pubDate>Wed, 10 May 2017 21:47:19 -0700</pubDate>
       
-      <guid>https://tomanistor.com/gallery/rugged-fellows-guide/</guid>
+      <guid>/gallery/rugged-fellows-guide/</guid>
       <description> Summary Rugged Fellows Guide is a lifestyle blog created as a personal project to experiment with the Wordpress platform, web design, digital marketing, and SEO fundamentals. Within the first 6 months, the site generated as many as 30,000 sessions per day.
 Tools  Wordpress  </description>
     </item>
     
     <item>
       <title>LEARN academy</title>
-      <link>https://tomanistor.com/gallery/learn-academy/</link>
+      <link>/gallery/learn-academy/</link>
       <pubDate>Wed, 10 May 2017 21:35:17 -0700</pubDate>
       
-      <guid>https://tomanistor.com/gallery/learn-academy/</guid>
+      <guid>/gallery/learn-academy/</guid>
       <description> Summary LEARN academy is a full-stack web development bootcamp in San Diego, CA. The website required optimization in terms of speed and organic search engine rankings. Assets were optimized, page loading speed improved, and pages were restructured according to modern SEO standards so that content could be properly crawled by search engines.
 Tools  Google PageSpeed Insights Google Search Console Ruby on Rails  </description>
     </item>
     
     <item>
       <title>VolunteerUp</title>
-      <link>https://tomanistor.com/gallery/volunteerup/</link>
+      <link>/gallery/volunteerup/</link>
       <pubDate>Tue, 09 May 2017 00:56:44 -0700</pubDate>
       
-      <guid>https://tomanistor.com/gallery/volunteerup/</guid>
+      <guid>/gallery/volunteerup/</guid>
       <description> Summary VolunteerUp is a Ruby on Rails app that connects volunteers with non-profit organizations. It was built in a 2-week sprint on a team of 7 developers as a final project during the LEARN Academy full-stack Ruby on Rails course. My primary involvement was developing the component for searching and filtering organizations and events within the application as well as some UI/UX guidance.
 Tools  Kaminari Filteriffic Ruby on Rails  </description>
     </item>
     
     <item>
       <title>Big List of Free JavaScript Books</title>
-      <link>https://tomanistor.com/blog/big-list-of-free-javascript-books/</link>
+      <link>/blog/big-list-of-free-javascript-books/</link>
       <pubDate>Sun, 07 May 2017 14:46:09 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/big-list-of-free-javascript-books/</guid>
+      <guid>/blog/big-list-of-free-javascript-books/</guid>
       <description>This is a big list of free JavaScript books and resources that can all be found online. The list is categorized by different JavaScript frameworks and ordered alphabetically. Some of the reading materials require registration or your email but are otherwise still free for consumption.
 If you have a resource to add to this list, please let me know!
 * Registration required
@@ -206,20 +206,20 @@ JavaScript  Basic JavaScript for the Impatient Programmer by Dr.</description>
     
     <item>
       <title>Shell Script to Clear CloudFlare Cache</title>
-      <link>https://tomanistor.com/blog/shell-script-to-clear-cloudflare-cache/</link>
+      <link>/blog/shell-script-to-clear-cloudflare-cache/</link>
       <pubDate>Fri, 05 May 2017 16:03:45 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/shell-script-to-clear-cloudflare-cache/</guid>
+      <guid>/blog/shell-script-to-clear-cloudflare-cache/</guid>
       <description>CloudFlare is a free content delivery network (CDN) that helps deliver static content quickly and efficiently throughout the world. Caching and serving static content through dependable CDNs like CloudFlare, MaxCDN, or AWS CloudFront can help speed up your website drastically.
  A CDN is essentially a network of geographically dispersed servers. Each CDN node (also called Edge Servers) caches the static content of a site like the images, CSS/JS files and other structural components.</description>
     </item>
     
     <item>
       <title>Hugo Workflow</title>
-      <link>https://tomanistor.com/blog/hugo-workflow/</link>
+      <link>/blog/hugo-workflow/</link>
       <pubDate>Fri, 28 Apr 2017 11:32:36 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/hugo-workflow/</guid>
+      <guid>/blog/hugo-workflow/</guid>
       <description>The Hugo workflow is fairly simple and straightforward. This is the workflow I use to update and operate this blog and portfolio.
 Inside of your Hugo project folder, the public/ folder is generated with all of your static site files once hugo is run in the terminal.
 Purge and Serve To generate a new public/ folder, just remove the existing one and run the server. All updates you have made to your content and theme are now available in the new public/ folder and visible on the live server.</description>
@@ -227,10 +227,10 @@ Purge and Serve To generate a new public/ folder, just remove the existing one a
     
     <item>
       <title>Hugo Site is Launched</title>
-      <link>https://tomanistor.com/blog/hugo-site-is-launched/</link>
+      <link>/blog/hugo-site-is-launched/</link>
       <pubDate>Thu, 30 Mar 2017 02:28:01 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/hugo-site-is-launched/</guid>
+      <guid>/blog/hugo-site-is-launched/</guid>
       <description>My new portfolio has officially been launched! This is my first static website built using Hugo. In my previous post, I mapped out a few broad objectives for this project.
 Let&amp;rsquo;s take a look at the completed goals from a short while ago and review.
 Objectives  Create portfolio to display work Create blog to jot down my progress and help others along the way Implement design with SCSS Design new Hugo theme and distribute for others to used  Create Portfolio The portfolio has been created and published in place of my old portfolio site.</description>
@@ -238,10 +238,10 @@ Objectives  Create portfolio to display work Create blog to jot down my progress
     
     <item>
       <title>Starting with Hugo</title>
-      <link>https://tomanistor.com/blog/starting-with-hugo/</link>
+      <link>/blog/starting-with-hugo/</link>
       <pubDate>Mon, 13 Mar 2017 23:03:31 -0700</pubDate>
       
-      <guid>https://tomanistor.com/blog/starting-with-hugo/</guid>
+      <guid>/blog/starting-with-hugo/</guid>
       <description>I&amp;rsquo;m finally ditching Wordpress and testing out new waters with Hugo, the static site generator written in Go. Go is a speedy programming language developed by Google.
 During this new chapter of my career as a web developer, I&amp;rsquo;ll be moving away from dynamically generated site builders and constructing my new portfolio from the ground up in order to practice and refine my web developing skills with JavaScript, Go, and SCSS.</description>
     </item>
