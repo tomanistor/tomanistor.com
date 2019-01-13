@@ -59,6 +59,8 @@ Within the for loop, the index of each element was used to multiply by `7.5` to 
 
 The `cssRules` string contained the rules for all `section::before` pseudo-elements. These were then appended inside of a `style` tag to the head of the page, which rendered like this:
 
-`<style>.section-1::before{content:'Tab 1';left:7.5vw;}.section-2::before{content:'Tab 2';left:15vw;}.section-3::before{content:'Tab 3';left:22.5vw;}.section-4::before{content:'Tab 4';left:30vw;}.section-5::before{content:'Tab 5';left:37.5vw;}.section-6::before{content:'Tab 6';left:45vw;}.section-7::before{content:'Tab 7';left:52.5vw;}.section-8::before{content:'Tab 8';left:60vw;}.section-9::before{content:'Tab 9';left:67.5vw;}.section-10::before{content:'Tab 10';left:75vw;}</style>`
+```js
+<style>.section-1::before{content:'Tab 1';left:7.5vw;}.section-2::before{content:'Tab 2';left:15vw;}.section-3::before{content:'Tab 3';left:22.5vw;}.section-4::before{content:'Tab 4';left:30vw;}.section-5::before{content:'Tab 5';left:37.5vw;}.section-6::before{content:'Tab 6';left:45vw;}.section-7::before{content:'Tab 7';left:52.5vw;}.section-8::before{content:'Tab 8';left:60vw;}.section-9::before{content:'Tab 9';left:67.5vw;}.section-10::before{content:'Tab 10';left:75vw;}</style>
+```
 
 It might have taken me a little longer to figure out how to generate this design element programmatically instead of just individually typing each pseudo-elements's different properties, but I'm pleased with the outcome, the challenge this small hurdle posed, and the knowledge gained along the way.
