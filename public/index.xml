@@ -6,10 +6,20 @@
     <description>Recent content on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 06 Jul 2018 13:44:09 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 12 Jan 2019 19:59:16 -0800</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Selecting and Modifying CSS Pseudo-Elements with JavaScript</title>
+      <link>https://tomanistor.com/blog/selecting-and-modifying-css-pseudo-elements-with-javascript/</link>
+      <pubDate>Sat, 12 Jan 2019 19:59:16 -0800</pubDate>
+      
+      <guid>https://tomanistor.com/blog/selecting-and-modifying-css-pseudo-elements-with-javascript/</guid>
+      <description>Since they&amp;rsquo;re not part of the DOM, CSS pseudo-elements can&amp;rsquo;t be selected and edited with JavaScript the same way as traditional elements on a page. I ended up going a different route by selecting the regular elements, creating CSS rules for their pseudo elements, and injecting those them into the page.
+The Design One of my recent projects involved creating 10 sections that follow a similar layout. Each section was distinguished by a numbered tab that was incrementally offset to the right of the previous section&amp;rsquo;s tab.</description>
+    </item>
     
     <item>
       <title>How To Change Most Recent Commit Message</title>
