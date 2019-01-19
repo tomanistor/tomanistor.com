@@ -6,10 +6,31 @@
     <description>Recent content on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sat, 19 Jan 2019 01:29:37 -0800</lastBuildDate>
+    <lastBuildDate>Sat, 19 Jan 2019 02:51:54 -0800</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Amp Residential</title>
+      <link>https://tomanistor.com/gallery/amp-residential/</link>
+      <pubDate>Sat, 19 Jan 2019 02:51:54 -0800</pubDate>
+      
+      <guid>https://tomanistor.com/gallery/amp-residential/</guid>
+      <description>Summary One of my largest projects came in the fall of 2018 with AMP Residential, a property management company whose goal was to launch an entire suite of websites for a portfolio of 30+ multifamily properties. A theme requiring extensive customization capabilities to fit the different needs of all properties and their websites was needed.
+The design was challenging because of several offset elements that needed repositioning and resizing for different viewports and many sections demanded conditionality to fit the content of each site, but it was a fun puzzle to solve.</description>
+    </item>
+    
+    <item>
+      <title>Morada Plano</title>
+      <link>https://tomanistor.com/gallery/morada-plano/</link>
+      <pubDate>Sat, 19 Jan 2019 02:03:27 -0800</pubDate>
+      
+      <guid>https://tomanistor.com/gallery/morada-plano/</guid>
+      <description> Summary Morada Plano is a luxury apartment complex located in the Plano Arts District and Historic Downtown Plano. In the summer of 2018, I developed another custom property site for Southern Land Company.
+For this build, I implemented new UX features requested by the client and designer like parallax scrolling, SVG animations, counter animations, and an Instagram feed.
+Tools  Foundation jQuery Ruby on Rails ScrollMagic  </description>
+    </item>
     
     <item>
       <title>Avenue5 Residential</title>
