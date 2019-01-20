@@ -75,7 +75,7 @@ if (!doNotTrack) {
 
   
 
-  <link rel="stylesheet" href="https://tomanistor.com/styles/main-ffca48cf.min.css" type="text/css">
+  <link rel="stylesheet" href="https://tomanistor.com/styles/main-f0fe55cc.min.css" type="text/css">
 
   
     <style>nav{box-shadow:none;}</style>
@@ -167,13 +167,13 @@ if (!doNotTrack) {
 
 <p>A user can manually clear their browser&rsquo;s cache if they know how (with a hard refresh or through the browser&rsquo;s settings) and they choose to do so, but serving updated assets shouldn&rsquo;t be left at the whim of a user. Cache busting is a web developer&rsquo;s responsibility.</p>
 
-<h2 id="what-is-cache-busting">What is Cache Busting?</h2>
+<h2 id="what-is-cache-busting:4e51a217914fa8829616b477bfb1f665">What is Cache Busting?</h2>
 
 <p><strong>Cache busting is the forced clearing of files cached in a web browser.</strong> When cached assets are cleared, the cache is effectively reset and assets must be downloaded again via HTTP request when a user visits the same site again. The browser doesn&rsquo;t need to wait for the end of assets&rsquo; expiry period or the user clearing the cache.</p>
 
 <p>Sure, the file needs to be downloaded again, which may temporarily slow down your site a bit. But the important thing is that cache busting forces browsers to serve your updated files so users experience the newest and most up-to-date version of your web app.</p>
 
-<h2 id="how-is-cache-busting-done">How is Cache Busting Done?</h2>
+<h2 id="how-is-cache-busting-done:4e51a217914fa8829616b477bfb1f665">How is Cache Busting Done?</h2>
 
 <p>One effective way to cache bust old files is to &ldquo;fingerprint&rdquo; them. A browser will serve the same, old, previously downloaded version of <code>main.css</code> regardless of file updates because it only looks for the file name in an HTTP request. The browser notices that it has a cached version of the file requested for the site and serves it to the user.</p>
 
@@ -181,7 +181,7 @@ if (!doNotTrack) {
 
 <p>So in short, the cache is &ldquo;busted&rdquo; because we trick the browser into serving updated assets by adding unique fingerprints file names to distinguish between different versions. The old, outdated assets remain cached by the browser but aren&rsquo;t touched because they&rsquo;re no longer linked on the website and thus no longer requested by the user visiting the site.</p>
 
-<h2 id="cache-busting-tools">Cache Busting Tools</h2>
+<h2 id="cache-busting-tools:4e51a217914fa8829616b477bfb1f665">Cache Busting Tools</h2>
 
 <p>Fingerprinting CSS or JS files can be done manually by renaming files and updated links, but that&rsquo;s probably the least optimal way of going about it. For this reason, many programming language frameworks and tools do the dirty work for us.</p>
 
@@ -189,7 +189,7 @@ if (!doNotTrack) {
 
 <p>On this Hugo static site, I use <a href="http://gulpjs.com/">Gulp.js</a> and <a href="https://www.npmjs.com/package/gulp-hash">gulp-hash</a> in order to automatically add a random hash to my CSS and JS file names any time there is an update. These two guides by <a href="https://www.hughgrigg.com/posts/gulp-asset-versioning-hugo-data-files/">Hugh Grigg</a> and <a href="http://danbahrami.io/articles/building-a-production-website-with-hugo-and-gulp-js/#cache-busting:c9938300a3bdba2018b469c2485ca2b6">Dan Bahrami</a> provide good instructions on setting up cache busting for a Hugo site with the Gulp.js pipeline and gulp-hash.</p>
 
-<h2 id="fingerprinting-image-files-and-seo">Fingerprinting Image Files and SEO</h2>
+<h2 id="fingerprinting-image-files-and-seo:4e51a217914fa8829616b477bfb1f665">Fingerprinting Image Files and SEO</h2>
 
 <p>What about image files? They&rsquo;re static assets too and images may also be updated or changed from time to time. From an SEO standpoint though, is it a good idea to add gibberish in hash form to the file name <em>and</em> force search engines to re-index a image files?</p>
 

@@ -75,7 +75,7 @@ if (!doNotTrack) {
 
   
 
-  <link rel="stylesheet" href="https://tomanistor.com/styles/main-ffca48cf.min.css" type="text/css">
+  <link rel="stylesheet" href="https://tomanistor.com/styles/main-f0fe55cc.min.css" type="text/css">
 
   
     <style>nav{box-shadow:none;}</style>
@@ -167,11 +167,11 @@ if (!doNotTrack) {
 
 <p>But how are <code>let</code> and <code>const</code> different from <code>var</code>? And in what situations are they each appropriate to use?</p>
 
-<h2 id="scope">Scope</h2>
+<h2 id="scope:3da4bc76e8cac72e59146977c77aea11">Scope</h2>
 
 <p>Each of the the three variable declarations deal with different levels of scope: <strong>global</strong>, <strong>function</strong>, and <strong>block</strong> level scopes. <code>const</code> is used on the global scope level, <code>let</code> is used on the function scope level, and <code>var</code> is used on the block scope level.</p>
 
-<h3 id="global-level-scope">Global Level Scope</h3>
+<h3 id="global-level-scope:3da4bc76e8cac72e59146977c77aea11">Global Level Scope</h3>
 
 <p>On the global level, variables are accessible anywhere inside the script, including inside any child scopes like functions and blocks. These variables are usually the ones declared at the very top of a script.</p>
 
@@ -179,7 +179,7 @@ if (!doNotTrack) {
 console.log(number) // Returns 3
 </code></pre>
 
-<h3 id="function-level-scope">Function Level Scope</h3>
+<h3 id="function-level-scope:3da4bc76e8cac72e59146977c77aea11">Function Level Scope</h3>
 
 <p>On the function level, variables are accessible inside of functions and their child scopes but not anywhere outside of the function. You would not be able to access a function level scope on the global level.</p>
 
@@ -196,7 +196,7 @@ console.log(number); // Returns undefined
 
 <p>As you can see in this example, the variable <code>number</code> is defined on both the function level and the child block level but not on the global level.</p>
 
-<h3 id="block-level-scope">Block Level Scope</h3>
+<h3 id="block-level-scope:3da4bc76e8cac72e59146977c77aea11">Block Level Scope</h3>
 
 <p>The block level is essentially anything in between two curly braces <code>{ block level scope }</code>. Variables declared inside of the block level with <code>var</code> are <em>not</em> only accessible inside of this block.</p>
 
@@ -213,13 +213,13 @@ console.log(sum) // Returns undefined
 
 <p>In this example, we stored the value of <code>number + 1</code> in a new variable called <code>sum</code> on the block level yet it&rsquo;s still somehow accessible on the function level outside of the block. This is because JavaScript does not have block level scope with <code>var</code>.</p>
 
-<h2 id="var">Var</h2>
+<h2 id="var:3da4bc76e8cac72e59146977c77aea11">Var</h2>
 
 <p>The original variable declaration in JavaScript was <code>var</code>. With it, you could assign a value to a variable to store it and use later. However, as we saw above, <code>var</code> is weak. <code>var</code> cannot give us block level scope.</p>
 
 <p>So this is where we turn to ES6&rsquo;s new <code>let</code> and <code>const</code> signals.</p>
 
-<h2 id="let">Let</h2>
+<h2 id="let:3da4bc76e8cac72e59146977c77aea11">Let</h2>
 
 <p>The way to create block level scope in JavaScript is with <code>let</code>. With <code>let</code>, variables declared within statement or expression will only be defined inside of that block and not its parent function.</p>
 
@@ -242,7 +242,7 @@ console.log(orange); // Returns orange
 
 <p>For this reason, <code>let</code> is the best signal for declaring variables that should have a block level scope and/or are frequently reassigned, like in loops and algorithms.</p>
 
-<h2 id="const">Const</h2>
+<h2 id="const:3da4bc76e8cac72e59146977c77aea11">Const</h2>
 
 <p>Like <code>let</code> but unlike <code>var</code>, <code>const</code> can have block level scope. However, unlike <code>let</code>, variables cannot be reassigned and recycled throughout your code. For this reason, <code>const</code> variables must be assigned a value when initialized whereas <code>let</code> and <code>var</code> variables can be initialized without value.</p>
 

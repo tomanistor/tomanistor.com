@@ -75,7 +75,7 @@ if (!doNotTrack) {
 
   
 
-  <link rel="stylesheet" href="https://tomanistor.com/styles/main-ffca48cf.min.css" type="text/css">
+  <link rel="stylesheet" href="https://tomanistor.com/styles/main-f0fe55cc.min.css" type="text/css">
 
   
     <style>nav{box-shadow:none;}</style>
@@ -165,7 +165,7 @@ if (!doNotTrack) {
 
 <p>Since they&rsquo;re not part of the DOM, CSS pseudo-elements can&rsquo;t be selected and edited with JavaScript the same way as traditional elements on a page. I ended up going a different route by selecting the regular elements, creating CSS rules for their pseudo elements, and injecting those them into the page.</p>
 
-<h2 id="the-design">The Design</h2>
+<h2 id="the-design:40a220f2aa75f51e5b1f438cb92aeee8">The Design</h2>
 
 <p>One of my recent projects involved creating 10 sections that follow a similar layout. Each section was distinguished by a numbered tab that was incrementally offset to the right of the previous section&rsquo;s tab.</p>
 
@@ -173,7 +173,7 @@ if (!doNotTrack) {
 
 <p><img src="https://tomanistor.com/images/blog/tabs.png" alt="Sketch of tabs" /></p>
 
-<h2 id="the-problem">The Problem</h2>
+<h2 id="the-problem:40a220f2aa75f51e5b1f438cb92aeee8">The Problem</h2>
 
 <p>In the stylesheets, I added the base styles of each section and their pseudo-element tabs.</p>
 
@@ -188,7 +188,7 @@ if (!doNotTrack) {
 
 <p>However, I quickly came to find that it wasn&rsquo;t possible to target <em>and</em> manipulate pseudo-elements as they&rsquo;re not part of the DOM.</p>
 
-<h2 id="the-solution">The Solution</h2>
+<h2 id="the-solution:40a220f2aa75f51e5b1f438cb92aeee8">The Solution</h2>
 
 <p>With a little help from some <a href="https://stackoverflow.com/questions/5041494/selecting-and-manipulating-css-pseudo-elements-such-as-before-and-after-usin">Stack</a> <a href="https://stackoverflow.com/questions/21032481/change-the-style-of-before-and-after-pseudo-elements">Overflow</a> threads, I learned that the best solution for my situation was to loop through each of my <code>section</code> elements, create CSS rules for each pseudo-element, and then insert the rules inside a <code>style</code> tag in the head of the site.</p>
 

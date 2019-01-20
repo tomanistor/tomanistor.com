@@ -52,6 +52,9 @@ enableRobotsTXT = true
 # [permalinks]
 #   gallery = "/" # Redirect gallery index to home page
 
+[blackfriday]
+  plainIDAnchors = false
+
 [[menu.main]]
   name = "About"
   url  = "/#about"
