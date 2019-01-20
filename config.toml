@@ -46,6 +46,9 @@ enableRobotsTXT = true
   ajaxFormspreeGold = true
   ajaxBasin = false
 
+  # Lazy loading with lazysizes
+  lazyloading = true
+
 # [permalinks]
 #   gallery = "/" # Redirect gallery index to home page
 
