@@ -1,8 +1,8 @@
 +++
-title = "Show a List of Git Conflicts"
-slug = "show-a-list-of-git-conflicts"
+title = "Displaying a List of Git Conflicts"
+slug = "displaying-a-list-of-git-conflicts"
 date = "2019-03-05T21:12:00-08:00"
-description = "How to set up a git alias that can display a list of files with merge conflicts when attempting a git merge."
+description = "How to set up a git alias that can show a list of files with merge conflicts in the terminal when attempting a git merge."
 draft = false
 +++
 Working in a large code base with many other developers can lead to instances of merge conflicts. Merge conflicts happen when two branches modify the same lines of code and git can't resolve which changes to keep.
