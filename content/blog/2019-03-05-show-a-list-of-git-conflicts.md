@@ -1,7 +1,7 @@
 +++
 title = "Show a List of Git Conflicts"
 slug = "show-a-list-of-git-conflicts"
-date = "2019-03-05T21:12:03-08:00"
+date = "Invalid date"
 description = "How to set up a git alias that can display a list of files with merge conflicts when attempting a git merge."
 draft = false
 +++
