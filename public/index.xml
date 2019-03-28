@@ -6,10 +6,20 @@
     <description>Recent content on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sat, 19 Jan 2019 02:51:54 -0800</lastBuildDate>
+    <lastBuildDate>Tue, 05 Mar 2019 21:12:00 -0800</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Displaying a List of Git Conflicts</title>
+      <link>https://tomanistor.com/blog/displaying-a-list-of-git-conflicts/</link>
+      <pubDate>Tue, 05 Mar 2019 21:12:00 -0800</pubDate>
+      
+      <guid>https://tomanistor.com/blog/displaying-a-list-of-git-conflicts/</guid>
+      <description>Working in a large code base with many other developers can lead to instances of merge conflicts. Merge conflicts happen when two branches modify the same lines of code and git can&amp;rsquo;t resolve which changes to keep.
+Typically, git is pretty good with merging distinctly separate work together up to this point, when merge conflicts arise and require human intervention. When that happens, git will alert you in the terminal with a message that looks like this:</description>
+    </item>
     
     <item>
       <title>Amp Residential</title>

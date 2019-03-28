@@ -27,9 +27,9 @@ if (!doNotTrack) {
   
 
   <title>
-    I&#39;m Toma Nistor | Toma Nistor - San Diego Web Developer</title>
+    Displaying a List of Git Conflicts | Toma Nistor - San Diego Web Developer</title>
 
-  <meta name="title" content="I&#39;m Toma Nistor | Toma Nistor - San Diego Web Developer">
+  <meta name="title" content="Displaying a List of Git Conflicts | Toma Nistor - San Diego Web Developer">
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -41,7 +41,7 @@ if (!doNotTrack) {
   <base href="https://tomanistor.com">
 
   
-    <meta name="description" content="Full-stack web developer and UI/UX enthusiast based in San Diego, CA. I enjoy using multiple tools to engineer and build powerful websites and apps.">
+    <meta name="description" content="How to set up a git alias that can show a list of files with merge conflicts in the terminal when attempting a git merge.">
   
 
   
@@ -54,7 +54,7 @@ if (!doNotTrack) {
     <meta name="twitter:creator" content="@TomaNistor">
   
 
-  <meta property="og:title" content="I&#39;m Toma Nistor | Toma Nistor - San Diego Web Developer">
+  <meta property="og:title" content="Displaying a List of Git Conflicts | Toma Nistor - San Diego Web Developer">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tomanistor.com">
 
@@ -63,7 +63,7 @@ if (!doNotTrack) {
   
 
   
-    <meta property="og:description" content="Full-stack web developer and UI/UX enthusiast based in San Diego, CA. I enjoy using multiple tools to engineer and build powerful websites and apps.">
+    <meta name="og:description" content="How to set up a git alias that can show a list of files with merge conflicts in the terminal when attempting a git merge.">
   
 
   
@@ -71,7 +71,7 @@ if (!doNotTrack) {
     <meta name="theme-color" content="#FFF">
   
 
-  <link rel="canonical" href="https://tomanistor.com/about/">
+  <link rel="canonical" href="https://tomanistor.com/blog/displaying-a-list-of-git-conflicts/">
 
   
 
@@ -152,28 +152,56 @@ if (!doNotTrack) {
 
       <section class="container">
         <section class="content">
-          <h1> I&#39;m Toma Nistor </h1>
+          <h1> Displaying a List of Git Conflicts </h1>
 
           <div class="sub-header">
-            June 28, 2017 · 1 minute read
+            March 5, 2019 · 2 minute read
           </div>
 
           <article class="entry-content">
             
 
-<h3 id="a-web-developer-in-san-diego-california:6083a88ee3411b0d17ce02d738f69d47">A <strong>web developer</strong> in San Diego, California.</h3>
+<p>Working in a large code base with many other developers can lead to instances of merge conflicts. Merge conflicts happen when two branches modify the same lines of code and git can&rsquo;t resolve which changes to keep.</p>
 
-<pre><code class="language-js">let languages = ['javascript', 'ruby'],
-    frameworks = ['ruby on rails', 'vuejs'],
-    tools = ['hugo', 'gulp', 'nodejs', 'webpack'],
-    skillset = languages.concat(frameworks, tools)
+<p>Typically, git is pretty good with merging distinctly separate work together up to this point, when merge conflicts arise and require human intervention. When that happens, git will alert you in the terminal with a message that looks like this:</p>
+
+<pre><code class="language-bash">$ git merge feature-branch
+Auto-merging app.js
+CONFLICT (content): Merge conflict in app.js
+Auto-merging header.js
+CONFLICT (content): Merge conflict in header.js
+Auto-merging menu.js
+CONFLICT (content): Merge conflict in menu.js
+Automatic merge failed; fix conflicts and then commit the result.
 </code></pre>
 
-<p>View my code on <a href="https://github.com/tomanistor">GitHub</a>, connect with me on <a href="https://linkedin.com/in/tomanistor">LinkedIn</a>, follow me on <a href="https://twitter.com/tomanistor">Twitter</a>, and check out my work below.</p>
+<p>With one to two merge conflicts, they may be easy to find and resolve. At times, I&rsquo;ve had to merge a newer branch into a much older branch which resulted in hundreds of file changes. Most of the merge was smooth, but there were conflicts in about a dozen files that required manual merging.</p>
+
+<p>Although my editor certainly aids me in finding the correct files, I wanted to display an output of all the files that showed a <code>CONFLICT</code> during the merge right in my terminal. With a little advice from <a href="https://stackoverflow.com/questions/3065650/whats-the-simplest-way-to-get-a-list-of-conflicted-files">Stack Overflow</a>, I used <code>git diff</code> to print out a filtered list of all the files that were unmerged (<code>--name-only</code> shows only the names of files and <code>--diff-filter=U</code> shows only unmerged files).</p>
+
+<pre><code class="language-bash">$ git diff --name-only --diff-filter=U
+</code></pre>
+
+<h2 id="set-up-an-alias:2569a5a05c54ee4561cc5eeb0dabf8e9">Set Up an Alias</h2>
+
+<p>To go a step further, I took this command and gave it a global git alias so that I wouldn&rsquo;t have to keep typing it all out each time since I&rsquo;ll be using it frequently enough.</p>
+
+<pre><code class="language-bash">$ git config --global alias.conflicts &quot;diff --name-only --diff-filter=U&quot;
+</code></pre>
+
+<p>Now, with a git alias called <code>conflicts</code>, I can just type <code>git conflicts</code> to display a list of files with merge conflicts. When I have three files with merge conflicts, I can list them off like this:</p>
+
+<pre><code class="language-bash">$ git conflicts
+app.js
+header.js
+menu.js
+</code></pre>
 
           </article>
 
           <div class="pagination">
+            
+              <a href="https://tomanistor.com/blog/selecting-and-modifying-css-pseudo-elements-with-javascript/">&laquo; Selecting and Modifying CSS Pseudo-Elements with JavaScript</a>
             
             
           </div>
