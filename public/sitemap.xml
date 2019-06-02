@@ -1,10 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     <url>
+      <loc>https://tomanistor.com/blog/</loc>
+      <lastmod>2019-03-05T21:12:00-08:00</lastmod>
+      <priority>0</priority>
+    </url>
+  
+    <url>
       <loc>https://tomanistor.com/blog/displaying-a-list-of-git-conflicts/</loc>
       <lastmod>2019-03-05T21:12:00-08:00</lastmod>
+    </url>
+  
+    <url>
+      <loc>https://tomanistor.com/</loc>
+      <lastmod>2019-03-05T21:12:00-08:00</lastmod>
+      <priority>0</priority>
     </url>
   
     <url>
@@ -88,24 +99,12 @@
     </url>
   
     <url>
-      <loc>https://tomanistor.com/blog/</loc>
-      <lastmod>2019-03-05T21:12:00-08:00</lastmod>
-      <priority>0</priority>
-    </url>
-  
-    <url>
       <loc>https://tomanistor.com/categories/</loc>
       <priority>0</priority>
     </url>
   
     <url>
       <loc>https://tomanistor.com/tags/</loc>
-      <priority>0</priority>
-    </url>
-  
-    <url>
-      <loc>https://tomanistor.com/</loc>
-      <lastmod>2019-03-05T21:12:00-08:00</lastmod>
       <priority>0</priority>
     </url>
   
