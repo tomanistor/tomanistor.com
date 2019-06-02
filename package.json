@@ -1,16 +1,16 @@
 {
   "name": "tomanistor.com",
-  "version": "1.0.0",
-  "description": "Personal portfolio website",
+  "version": "1.1.0",
+  "description": "Personal portfolio website of Toma Nistor",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "hugo server -p 3000 & gulp"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tomanistor/tomanistor.com.git"
   },
-  "keywords": [],
+  "keywords": ["static site", "jamstack", "portfolio", "hugo"],
   "author": "Toma Nistor",
   "license": "ISC",
   "bugs": {
