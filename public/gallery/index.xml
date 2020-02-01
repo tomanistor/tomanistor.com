@@ -6,10 +6,20 @@
     <description>Recent content in Galleries on Toma Nistor - San Diego Web Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sat, 19 Jan 2019 02:51:54 -0800</lastBuildDate>
+    <lastBuildDate>Sat, 01 Feb 2020 13:15:47 -0800</lastBuildDate>
     
 	<atom:link href="https://tomanistor.com/gallery/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Lincoln Property Company</title>
+      <link>https://tomanistor.com/gallery/lincoln-property-company/</link>
+      <pubDate>Sat, 01 Feb 2020 13:15:47 -0800</pubDate>
+      
+      <guid>https://tomanistor.com/gallery/lincoln-property-company/</guid>
+      <description>Summary Lincoln Property Company is the second largest property management company in the US with over 184,000 units under management. In late 2018, I developed an interactive infographic that presents the current state of consumer trends and behaviors in an easily digestible manner.
+The infographic displays digital marketing statistics about sourced from a variety of sources. The information is displayed with eye-catching animations that are initiated by a user&amp;rsquo;s scroll behavior.</description>
+    </item>
     
     <item>
       <title>Amp Residential</title>
