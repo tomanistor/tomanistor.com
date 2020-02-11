@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on Toma Nistor - San Diego Web Developer</title>
@@ -39,7 +39,7 @@ The Design One of my recent projects involved creating 10 sections that follow a
       <guid>https://tomanistor.com/blog/how-to-change-most-recent-commit-message/</guid>
       <description>If you&amp;rsquo;re like me, on more than one occasion you&amp;rsquo;ve typed out your commit message and noticed a nasty typo after the fact.
 Here&amp;rsquo;s a quick way to amend your last commit message if you have already entered your commit message in the terminal but have not yet pushed your local branch to the remote branch.
-$ git commit --amend  This will open up your editor to edit your commit message.</description>
+$ git commit --amend This will open up your editor to edit your commit message.</description>
     </item>
     
     <item>
@@ -60,7 +60,7 @@ This is what untracked files look like when using git status</description>
       
       <guid>https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/</guid>
       <description>One of my recent site builds came back from a round of QA with a bug present only on mobile iOS devices. It was a set of tab links that required two clicks to function on iPhones and iPads.
-The Bug The buggy tab links had an effect that added a pseudo element to the right of each link indicating when a link was hovered over, in focus, or active.</description>
+The Bug The buggy tab links had an effect that added a pseudo element to the right of each link indicating when a link was hovered over, in focus, or active. These tab links worked as just as expected on Chrome, Firefox, and desktop Safari: one single click would activate and display a new tab panel.</description>
     </item>
     
     <item>
@@ -102,7 +102,8 @@ Scope Each of the the three variable declarations deal with different levels of 
       <guid>https://tomanistor.com/blog/install-and-update-go-on-linux/</guid>
       <description>This is the easiest way to install Google&amp;rsquo;s GoLang (Go programming language) on a Linux machine and then perform an update when a new Go version is released.
 Install Go Installing Go is as simple as downloading a binary archive file and extracting the contents in the right location on your machine.
-1. Download Go First, visit the Go downloads page and download the binary suitable for your machine.</description>
+1. Download Go First, visit the Go downloads page and download the binary suitable for your machine.
+2. Extract Archive File Go into your downloads folder and extract the newly downloaded archive file into the /usr/local directory.</description>
     </item>
     
     <item>
