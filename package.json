@@ -10,7 +10,12 @@
     "type": "git",
     "url": "git+https://github.com/tomanistor/tomanistor.com.git"
   },
-  "keywords": ["static site", "jamstack", "portfolio", "hugo"],
+  "keywords": [
+    "static site",
+    "jamstack",
+    "portfolio",
+    "hugo"
+  ],
   "author": "Toma Nistor",
   "license": "ISC",
   "bugs": {
