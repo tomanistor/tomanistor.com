@@ -107,7 +107,7 @@ if (!doNotTrack) {
 
 <nav class="row middle-xs center-xs">
   <div class="col-xs-6 col-sm-1 logo">
-    <a href="https://tomanistor.com/#"><img data-src="https://tomanistor.com/images/logo/toma-nistor-logo.svg" class="lazyload" lazyload="on" alt="Toma Nistor - San Diego Web Developer"></a>
+    <a href="https://tomanistor.com/#"><img data-src="/images/logo/toma-nistor-logo.svg" class="lazyload" lazyload="on" alt="Toma Nistor - San Diego Web Developer"></a>
   </div>
     
       <div class="col-xs-3 col-sm-2">
@@ -128,8 +128,8 @@ if (!doNotTrack) {
     
   <div class="col-xs-6 col-sm-1 nav-toggle">
       <a href="" class="nav-icon" onclick="return false">
-        <img data-src="https://tomanistor.com/images/icon-menu.png" class="lazyload" lazyload="on" alt="Open Menu">
-        <img data-src="https://tomanistor.com/images/icon-x.png" class="lazyload" lazyload="on" alt="Close Menu" style="display: none;">
+        <img data-src="/images/icon-menu.png" class="lazyload" lazyload="on" alt="Open Menu">
+        <img data-src="/images/icon-x.png" class="lazyload" lazyload="on" alt="Close Menu" style="display: none;">
       </a>
   </div>
 </nav>
@@ -161,30 +161,55 @@ if (!doNotTrack) {
             </div>
 
           <article class="entry-content">
-            <p><img src="https://tomanistor.com/images/blog/notebook-paper.jpg" alt="Notebook with crumpled paper"></p>
+            
+
+<p><img src="https://tomanistor.com/images/blog/notebook-paper.jpg" alt="Notebook with crumpled paper" /></p>
+
 <p>Untracked files are files in the git repository&rsquo;s working tree that are not present in the git index. These are new files that were not present in the previous snapshot of the repository.</p>
+
 <p>When you don&rsquo;t want to stage and commit these files, <code>git clean</code> is a useful way to permanently remove all or a selection of your untracked files in git.</p>
+
 <p>This is what untracked files look like when using <code>git status</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Untracked files:
-  <span style="color:#f92672">(</span>use <span style="color:#e6db74">&#34;git add &lt;file&gt;...&#34;</span> to include in what will be committed<span style="color:#f92672">)</span>
+
+<pre><code class="language-bash">Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
 
 	index.html
 	style.css
-</code></pre></div><h2 id="git-clean">git clean</h2>
+</code></pre>
+
+<h2 id="git-clean:8ba718deec4a27e5e19e8264be252471">git clean</h2>
+
 <p>While commands like <code>git reset</code> and <code>git checkout</code> can be used to undo changes to files already present in the git tracking index,  <code>git clean</code> is used to remove new and untracked files from the working directory.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clean -f
-</code></pre></div><p>As a safety precaution, <code>git clean</code> does not operated unless the <code>-f</code> or <code>--force</code> flag is attached to the command, or the <code>clean.requireForce</code> git configuration option is set to false. By default this setting is set to true.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clean -n
-</code></pre></div><p>As another safety precaution, the <code>-n</code> or <code>--dry-run</code> flag simulates and shows what would have been removed without removing anything</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clean -d
-</code></pre></div><p>The <code>-d</code> flag removes untracked directories along with untracked files. If you want to remove entire untracked folders in git, this flag is necessary.</p>
-<h3 id="interactive-mode">Interactive Mode</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clean -i
-</code></pre></div><p>Interactive mode for <code>git clean</code> is activated with the <code>-i</code> or <code>--interactive</code> flag. This will display prompt with a list of subcommands that allow you to be very selective with what untracked files you want to remove.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">*** Commands ***
-    1: clean                2: filter by pattern    3: <span style="color:#66d9ef">select</span> by numbers
+
+<pre><code class="language-bash">$ git clean -f
+</code></pre>
+
+<p>As a safety precaution, <code>git clean</code> does not operated unless the <code>-f</code> or <code>--force</code> flag is attached to the command, or the <code>clean.requireForce</code> git configuration option is set to false. By default this setting is set to true.</p>
+
+<pre><code class="language-bash">$ git clean -n
+</code></pre>
+
+<p>As another safety precaution, the <code>-n</code> or <code>--dry-run</code> flag simulates and shows what would have been removed without removing anything</p>
+
+<pre><code class="language-bash">$ git clean -d
+</code></pre>
+
+<p>The <code>-d</code> flag removes untracked directories along with untracked files. If you want to remove entire untracked folders in git, this flag is necessary.</p>
+
+<h3 id="interactive-mode:8ba718deec4a27e5e19e8264be252471">Interactive Mode</h3>
+
+<pre><code class="language-bash">$ git clean -i
+</code></pre>
+
+<p>Interactive mode for <code>git clean</code> is activated with the <code>-i</code> or <code>--interactive</code> flag. This will display prompt with a list of subcommands that allow you to be very selective with what untracked files you want to remove.</p>
+
+<pre><code class="language-bash">*** Commands ***
+    1: clean                2: filter by pattern    3: select by numbers
     4: ask each             5: quit                 6: help
-</code></pre></div><ol>
+</code></pre>
+
+<ol>
 <li><strong>clean</strong>: cleans files and directories.</li>
 <li><strong>filter by pattern</strong>: displays a prompt that allows you to input space-separated patterns for filtering out files and directories from being removed. For example, inputting <code>*.html</code> will exclude all <code>.html</code> files from deletion.</li>
 <li><strong>select by numbers</strong>: displays a prompt with the untracked files and folders listed by number. You can select specific numbers or ranges of numbers from the list to delete by separating with whitespace or comma, such as <code>1,4,6-9</code>.</li>
@@ -192,9 +217,14 @@ if (!doNotTrack) {
 <li><strong>quit</strong>: quits git clean interactive mode without deleting anything.</li>
 <li><strong>help</strong>: displays the git clean interactive mode help screen</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clean -idf
-</code></pre></div><p>This is an example of the command I use regularly. By attaching multiple flags, I enable git clean interactive mode, enable the deletion of untracked directories, and force the clean command. In interactive mode, I most often select <code>1: clean</code> if I know I want to delete all untracked files and directories or I&rsquo;ll more carefully refine my selections with <code>3: select by numbers</code> or <code>4: ask each</code>.</p>
-<h2 id="references">References</h2>
+
+<pre><code class="language-bash">$ git clean -idf
+</code></pre>
+
+<p>This is an example of the command I use regularly. By attaching multiple flags, I enable git clean interactive mode, enable the deletion of untracked directories, and force the clean command. In interactive mode, I most often select <code>1: clean</code> if I know I want to delete all untracked files and directories or I&rsquo;ll more carefully refine my selections with <code>3: select by numbers</code> or <code>4: ask each</code>.</p>
+
+<h2 id="references:8ba718deec4a27e5e19e8264be252471">References</h2>
+
 <ul>
 <li><a href="https://git-scm.com/docs/git-clean">Git Documentation</a></li>
 <li><a href="https://www.atlassian.com/git/tutorials/undoing-changes/git-clean">Atlassian Git Tutorial</a></li>
@@ -267,7 +297,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#FEC800">
-            <img data-src="https://tomanistor.com/images/reach-for-the-heart.png" class="lazyload" alt="Reach for the Heart">
+            <img data-src="/images/reach-for-the-heart.png" class="lazyload" alt="Reach for the Heart">
           </div>
         </div>
 
@@ -275,11 +305,18 @@ if (!doNotTrack) {
           <h2>Reach for the Heart</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:d57d0843bf3b2ae284d20fee20176588">Summary</h3>
+
 <p>Reach for the Heart is the website behind a heart valve disease awareness campaign. The site presents the user with information about heart valve disease, how to recognize symptoms, and how to get a full diagnosis and treatment if the disease is present.</p>
+
 <p>One of the main features of the site is the interactive questionnaire in which a user can answer a few questions about themselves or on behalf of a loved one to help recognize the presence of heart valve disease. A personalized discussion guide PDF is then generated based on the user&rsquo;s answers which can help start a conversation with a doctor.</p>
+
 <p>Extensive accessibility considerations were put into the project to help ensure that elderly and disabled users could effortlessly navigate the site and read the information. Search engine optimization and tracking through Google Tag Manager was implemented to help gather data about how users were interacting with the website and what type of improvements could be made to help users reach necessary information.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:d57d0843bf3b2ae284d20fee20176588">Tools</h3>
+
 <ul>
 <li>JavaScript</li>
 <li>PHP</li>
@@ -302,6 +339,58 @@ if (!doNotTrack) {
   
   
 
+  <div id="modal-5bda" class="modal">
+
+    
+    <div class="modal-box">
+      <span class="close">&times;</span>
+      <div class="modal-container">
+
+        <div class="modal-header">
+          <div class="modal-header-img-container" style="background-color:#FFFFFF">
+            <img data-src="/images/cason-lane-strategic-communications.png" class="lazyload" alt="Cason Lane Strategic Communications">
+          </div>
+        </div>
+
+        <div class="modal-content">
+          <h2>Cason Lane Communications</h2>
+
+          <article class="entry-content">
+            
+
+<h3 id="summary:5bda0ffde17d5b414b714052419fce34">Summary</h3>
+
+<p>Cason Lane needed a revamped digital calling card for his business communications consultancy. Main client concerns included site rendering speed, search engine optimization, security, and a new design that maintained the recognizable brand image.</p>
+
+<p>A transition was made from a slow-loading and clunky Wordpress theme to a modern and clean custom site design that was developed with Hugo, a static site generator. Swapping the unnecessarily heavyweight Wordpress CMS along with its slow-loading database and plethora of plugins for a static site greatly helped reduce page load speeds from 20+ seconds to under 1 or 2 seconds. Without a database, the site no longer had to make dynamic requests to load and display content quickly. Removing the database also eliminated the main security vulnerability.</p>
+
+<p>The site was redesigned from scratch by my friend, <a href="https://www.johnlauejr.com/">John Laue</a>, based on client needs. Since the whole site was being built up from scratch, no bloat from unnecessary Wordpress themes or excess plugins was added to create the look and functionality desired. With SEO in mind from the beginning and with site speed being of utmost importance, best practices were applied in sync with content to bring the client&rsquo;s web presence to the front page of Google.</p>
+
+<h3 id="tools:5bda0ffde17d5b414b714052419fce34">Tools</h3>
+
+<ul>
+<li>Hugo</li>
+<li>Foundation</li>
+<li>JavaScript</li>
+<li>Animate on Scroll</li>
+<li>Webpack</li>
+</ul>
+
+          </article>
+
+          <h3><a href="https://www.casonlane.com">View</a></h3>
+          
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  
+  
+
   <div id="modal-8d18" class="modal">
 
     
@@ -311,7 +400,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#334E6C">
-            <img data-src="https://tomanistor.com/images/lincoln-property-company.png" class="lazyload" alt="Lincoln Property Company">
+            <img data-src="/images/lincoln-property-company.png" class="lazyload" alt="Lincoln Property Company">
           </div>
         </div>
 
@@ -319,10 +408,16 @@ if (!doNotTrack) {
           <h2>Lincoln Property Company</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:8d185ea955a7d560e4a52d0b510d51de">Summary</h3>
+
 <p>Lincoln Property Company is the second largest property management company in the US with over 184,000 units under management. In late 2018, I developed an interactive infographic that presents the current state of consumer trends and behaviors in an easily digestible manner.</p>
+
 <p>The infographic displays digital marketing statistics about sourced from a variety of sources. The information is displayed with eye-catching animations that are initiated by a user&rsquo;s scroll behavior.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:8d185ea955a7d560e4a52d0b510d51de">Tools</h3>
+
 <ul>
 <li>Foundation</li>
 <li>jQuery</li>
@@ -356,7 +451,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#eff1f6">
-            <img data-src="https://tomanistor.com/images/amp-residential.png" class="lazyload" alt="Amp Residential">
+            <img data-src="/images/amp-residential.png" class="lazyload" alt="Amp Residential">
           </div>
         </div>
 
@@ -364,11 +459,18 @@ if (!doNotTrack) {
           <h2>Amp Residential</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:2797e7cd698b992fbb6652a773be0d6c">Summary</h3>
+
 <p>One of my largest projects came in the fall of 2018 with AMP Residential, a property management company whose goal was to launch an entire suite of websites for a portfolio of 30+ multifamily properties. A theme requiring extensive customization capabilities to fit the different needs of all properties and their websites was needed.</p>
+
 <p>The design was challenging because of several offset elements that needed repositioning and resizing for different viewports and many sections demanded conditionality to fit the content of each site, but it was a fun puzzle to solve. It&rsquo;s become a favorite build of mine.</p>
+
 <p>Some of the sites built with this theme include <a href="https://www.ampresidential.com/riverfront-towers-detroit-mi">RiverFront Towers</a>, <a href="https://www.ampresidential.com/stone-ridge-indianapolis-in/">Stone Ridge Apartments</a>, and <a href="https://www.ampresidential.com/woodland-creek-kentwood-mi/">Woodland Creek Apartments</a>.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:2797e7cd698b992fbb6652a773be0d6c">Tools</h3>
+
 <ul>
 <li>Foundation</li>
 <li>jQuery</li>
@@ -399,7 +501,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#4c4b4b">
-            <img data-src="https://tomanistor.com/images/morada-plano.png" class="lazyload" alt="Morada Plano">
+            <img data-src="/images/morada-plano.png" class="lazyload" alt="Morada Plano">
           </div>
         </div>
 
@@ -407,10 +509,16 @@ if (!doNotTrack) {
           <h2>Morada Plano</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:0138655019351d06639af78ee0b0695b">Summary</h3>
+
 <p>Morada Plano is a luxury apartment complex located in the Plano Arts District and Historic Downtown Plano. In the summer of 2018, I developed another custom property site for Southern Land Company.</p>
+
 <p>For this build, I implemented new UX features requested by the client and designer like parallax scrolling, SVG animations, counter animations, and an Instagram feed.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:0138655019351d06639af78ee0b0695b">Tools</h3>
+
 <ul>
 <li>Foundation</li>
 <li>jQuery</li>
@@ -442,7 +550,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#FFFFFF">
-            <img data-src="https://tomanistor.com/images/avenue5-residential.png" class="lazyload" alt="Avenue5 Residential">
+            <img data-src="/images/avenue5-residential.png" class="lazyload" alt="Avenue5 Residential">
           </div>
         </div>
 
@@ -450,10 +558,16 @@ if (!doNotTrack) {
           <h2>Avenue5 Residential</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:d3b7150ccc377ef8cc8044be1ac3149b">Summary</h3>
+
 <p>Avenue5 Residential is a multifamily property management company with 40,000 units and 200 properties across the United States. Although they sustained a large online presence, a number of their properties websites were in need of fresh, updated design and functionality. In early 2018, I developed a custom site theme that was applied to a number of websites under their portfolio of properties that was moved to a Ruby on Rails platform.</p>
+
 <p>Two of the property sites undergoing transformation included <a href="https://www.liveatbouldercanyon.com/boulder-canyon-west-jordan-ut/">Boulder Canyon</a> and <a href="https://www.liveatcanyonview.com/canyon-view-orem-ut/">Canyon View</a>.</p>
-<h3 id="test">Tools</h3>
+
+<h3 id="test:d3b7150ccc377ef8cc8044be1ac3149b">Tools</h3>
+
 <ul>
 <li>Foundation</li>
 <li>jQuery</li>
@@ -484,7 +598,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#6EC9C2">
-            <img data-src="https://tomanistor.com/images/vertis-green-hills.png" class="lazyload" alt="Vertis Green Hills">
+            <img data-src="/images/vertis-green-hills.png" class="lazyload" alt="Vertis Green Hills">
           </div>
         </div>
 
@@ -492,9 +606,14 @@ if (!doNotTrack) {
           <h2>Vertis Green Hills</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:524b81cb4e07d1c546a9a6b209129d60">Summary</h3>
+
 <p>Vertis Green Hills is a Southern Land Company residential community made up of luxury apartments with onsite dining and shopping in Nashville, TN. I developed the site in late 2017 while the property was finishing construction and anticipated for opening in 2018.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:524b81cb4e07d1c546a9a6b209129d60">Tools</h3>
+
 <ul>
 <li>Foundation</li>
 <li>jQuery</li>
@@ -525,7 +644,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#ffd54f">
-            <img data-src="https://tomanistor.com/images/miniflix.png" class="lazyload" alt="Miniflix - small video uploading, viewing, and sharing app built with React">
+            <img data-src="/images/miniflix.png" class="lazyload" alt="Miniflix - small video uploading, viewing, and sharing app built with React">
           </div>
         </div>
 
@@ -533,9 +652,14 @@ if (!doNotTrack) {
           <h2>Miniflix</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:cbef403bf8b32f83c3a5499686fa4919">Summary</h3>
+
 <p>Miniflix is an experiment in building a React app with Create React App and Auth0. I built a single-page app with a user login system that serves videos through Cloudinary.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:cbef403bf8b32f83c3a5499686fa4919">Tools</h3>
+
 <ul>
 <li>Auth0</li>
 <li>Bootstrap</li>
@@ -568,7 +692,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#212121">
-            <img data-src="https://tomanistor.com/images/logo/toma-nistor-logo-white-450px.png" class="lazyload" alt="Toma Nistor - San Diego based full stack web developer resume">
+            <img data-src="/images/logo/toma-nistor-logo-white-450px.png" class="lazyload" alt="Toma Nistor - San Diego based full stack web developer resume">
           </div>
         </div>
 
@@ -601,7 +725,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#F7F7F7">
-            <img data-src="https://tomanistor.com/images/osprey.png" class="lazyload" alt="Osprey - clean, simple, and minimalist one-page Hugo theme for portfolios with a blog">
+            <img data-src="/images/osprey.png" class="lazyload" alt="Osprey - clean, simple, and minimalist one-page Hugo theme for portfolios with a blog">
           </div>
         </div>
 
@@ -609,9 +733,14 @@ if (!doNotTrack) {
           <h2>Osprey</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:df0b22f4f374b0b2f689b37339468d5d">Summary</h3>
+
 <p>Osprey is an open source Hugo theme that I designed and developed to use for my own portfolio site. I have been maintaining and improving it with the support of the Hugo community on GitHub since 2017.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:df0b22f4f374b0b2f689b37339468d5d">Tools</h3>
+
 <ul>
 <li><a href="https://usebasin.com/">Basin</a></li>
 <li><a href="https://disqus.com">Disqus</a></li>
@@ -645,7 +774,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#222">
-            <img data-src="https://tomanistor.com/images/rhino-linings-spray-foam.png" class="lazyload" alt="Rhino Linings Corporation - spray foam insulation division website">
+            <img data-src="/images/rhino-linings-spray-foam.png" class="lazyload" alt="Rhino Linings Corporation - spray foam insulation division website">
           </div>
         </div>
 
@@ -653,9 +782,14 @@ if (!doNotTrack) {
           <h2>Rhino Linings Corporation SPF</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:d52560453228962c5c6e08a99a1a3e16">Summary</h3>
+
 <p>Rhino Linings Spray Foam Insulation, newly formed division of Rhino Linings Corporation, required a corporate website that could reach both consumers and clients. Using Wordpress, I built a site that served as a valuable marking asset.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:d52560453228962c5c6e08a99a1a3e16">Tools</h3>
+
 <ul>
 <li>Wordpress</li>
 </ul>
@@ -684,7 +818,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#263248">
-            <img data-src="https://tomanistor.com/images/rugged-fellows-guide.png" class="lazyload" alt="Rugged Fellows Guide - men&#39;s lifestyle Wordpress blog">
+            <img data-src="/images/rugged-fellows-guide.png" class="lazyload" alt="Rugged Fellows Guide - men&#39;s lifestyle Wordpress blog">
           </div>
         </div>
 
@@ -692,9 +826,14 @@ if (!doNotTrack) {
           <h2>Rugged Fellows Guide</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:f54ebfb17cd411e9ca65de70aac93344">Summary</h3>
+
 <p>Rugged Fellows Guide is a lifestyle blog created as a personal project to experiment with the Wordpress platform, web design, digital marketing, and SEO fundamentals. Within the first 6 months, the site generated as many as 30,000 sessions per day.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:f54ebfb17cd411e9ca65de70aac93344">Tools</h3>
+
 <ul>
 <li>Wordpress</li>
 </ul>
@@ -723,7 +862,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#7ac143">
-            <img data-src="https://tomanistor.com/images/learn-academy-coding-bootcamp.png" class="lazyload" alt="LEARN academy - San Diego coding bootcamp Ruby on Rails website">
+            <img data-src="/images/learn-academy-coding-bootcamp.png" class="lazyload" alt="LEARN academy - San Diego coding bootcamp Ruby on Rails website">
           </div>
         </div>
 
@@ -731,9 +870,14 @@ if (!doNotTrack) {
           <h2>LEARN academy</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:5b6d7ac63781e503d7210058fbbf64c7">Summary</h3>
+
 <p>LEARN academy is a full-stack web development bootcamp in San Diego, CA. The website required optimization in terms of speed and organic search engine rankings. Assets were optimized, page loading speed improved, and pages were restructured according to modern SEO standards so that content could be properly crawled by search engines.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:5b6d7ac63781e503d7210058fbbf64c7">Tools</h3>
+
 <ul>
 <li>Google PageSpeed Insights</li>
 <li>Google Search Console</li>
@@ -764,7 +908,7 @@ if (!doNotTrack) {
 
         <div class="modal-header">
           <div class="modal-header-img-container" style="background-color:#EFEFEF">
-            <img data-src="https://tomanistor.com/images/volunteerup.png" class="lazyload" alt="VolunteerUP - Ruby on Rails app for non-profit organizations and volunteers">
+            <img data-src="/images/volunteerup.png" class="lazyload" alt="VolunteerUP - Ruby on Rails app for non-profit organizations and volunteers">
           </div>
         </div>
 
@@ -772,9 +916,14 @@ if (!doNotTrack) {
           <h2>VolunteerUp</h2>
 
           <article class="entry-content">
-            <h3 id="summary">Summary</h3>
+            
+
+<h3 id="summary:8b68d1ca0840aa3ed28c88dcaf8ec1fa">Summary</h3>
+
 <p>VolunteerUp is a Ruby on Rails app that connects volunteers with non-profit organizations. It was built in a 2-week sprint on a team of 7 developers as a final project during the LEARN Academy full-stack Ruby on Rails course. My primary involvement was developing the component for searching and filtering organizations and events within the application as well as some UI/UX guidance.</p>
-<h3 id="tools">Tools</h3>
+
+<h3 id="tools:8b68d1ca0840aa3ed28c88dcaf8ec1fa">Tools</h3>
+
 <ul>
 <li>Kaminari</li>
 <li>Filteriffic</li>

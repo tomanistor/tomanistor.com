@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Toma Nistor - San Diego Web Developer</title>
@@ -19,6 +19,16 @@
       <guid>https://tomanistor.com/gallery/reach-for-the-heart/</guid>
       <description>Summary Reach for the Heart is the website behind a heart valve disease awareness campaign. The site presents the user with information about heart valve disease, how to recognize symptoms, and how to get a full diagnosis and treatment if the disease is present.
 One of the main features of the site is the interactive questionnaire in which a user can answer a few questions about themselves or on behalf of a loved one to help recognize the presence of heart valve disease.</description>
+    </item>
+    
+    <item>
+      <title>Cason Lane Communications</title>
+      <link>https://tomanistor.com/gallery/cason-lane-strategic-communications/</link>
+      <pubDate>Sat, 01 Feb 2020 17:08:00 -0800</pubDate>
+      
+      <guid>https://tomanistor.com/gallery/cason-lane-strategic-communications/</guid>
+      <description>Summary Cason Lane needed a revamped digital calling card for his business communications consultancy. Main client concerns included site rendering speed, search engine optimization, security, and a new design that maintained the recognizable brand image.
+A transition was made from a slow-loading and clunky Wordpress theme to a modern and clean custom site design that was developed with Hugo, a static site generator. Swapping the unnecessarily heavyweight Wordpress CMS along with its slow-loading database and plethora of plugins for a static site greatly helped reduce page load speeds from 20+ seconds to under 1 or 2 seconds.</description>
     </item>
     
     <item>
@@ -57,7 +67,7 @@ The design was challenging because of several offset elements that needed reposi
       <pubDate>Sat, 19 Jan 2019 02:03:27 -0800</pubDate>
       
       <guid>https://tomanistor.com/gallery/morada-plano/</guid>
-      <description>Summary Morada Plano is a luxury apartment complex located in the Plano Arts District and Historic Downtown Plano. In the summer of 2018, I developed another custom property site for Southern Land Company.
+      <description> Summary Morada Plano is a luxury apartment complex located in the Plano Arts District and Historic Downtown Plano. In the summer of 2018, I developed another custom property site for Southern Land Company.
 For this build, I implemented new UX features requested by the client and designer like parallax scrolling, SVG animations, counter animations, and an Instagram feed.
 Tools  Foundation jQuery Ruby on Rails ScrollMagic  </description>
     </item>
@@ -89,7 +99,7 @@ The Design One of my recent projects involved creating 10 sections that follow a
       <guid>https://tomanistor.com/blog/how-to-change-most-recent-commit-message/</guid>
       <description>If you&amp;rsquo;re like me, on more than one occasion you&amp;rsquo;ve typed out your commit message and noticed a nasty typo after the fact.
 Here&amp;rsquo;s a quick way to amend your last commit message if you have already entered your commit message in the terminal but have not yet pushed your local branch to the remote branch.
-$ git commit --amend This will open up your editor to edit your commit message.</description>
+$ git commit --amend  This will open up your editor to edit your commit message.</description>
     </item>
     
     <item>
@@ -110,7 +120,7 @@ This is what untracked files look like when using git status</description>
       
       <guid>https://tomanistor.com/blog/fixing-the-ios-mobile-double-click-link-issue/</guid>
       <description>One of my recent site builds came back from a round of QA with a bug present only on mobile iOS devices. It was a set of tab links that required two clicks to function on iPhones and iPads.
-The Bug The buggy tab links had an effect that added a pseudo element to the right of each link indicating when a link was hovered over, in focus, or active. These tab links worked as just as expected on Chrome, Firefox, and desktop Safari: one single click would activate and display a new tab panel.</description>
+The Bug The buggy tab links had an effect that added a pseudo element to the right of each link indicating when a link was hovered over, in focus, or active.</description>
     </item>
     
     <item>
@@ -129,7 +139,7 @@ Although I started with just a handful, almost a third of my Podcast Addict app 
       <pubDate>Sat, 10 Mar 2018 11:28:02 -0800</pubDate>
       
       <guid>https://tomanistor.com/gallery/vertis-green-hills/</guid>
-      <description>Summary Vertis Green Hills is a Southern Land Company residential community made up of luxury apartments with onsite dining and shopping in Nashville, TN. I developed the site in late 2017 while the property was finishing construction and anticipated for opening in 2018.
+      <description> Summary Vertis Green Hills is a Southern Land Company residential community made up of luxury apartments with onsite dining and shopping in Nashville, TN. I developed the site in late 2017 while the property was finishing construction and anticipated for opening in 2018.
 Tools  Foundation jQuery Ruby on Rails  </description>
     </item>
     
@@ -162,8 +172,7 @@ Scope Each of the the three variable declarations deal with different levels of 
       <guid>https://tomanistor.com/blog/install-and-update-go-on-linux/</guid>
       <description>This is the easiest way to install Google&amp;rsquo;s GoLang (Go programming language) on a Linux machine and then perform an update when a new Go version is released.
 Install Go Installing Go is as simple as downloading a binary archive file and extracting the contents in the right location on your machine.
-1. Download Go First, visit the Go downloads page and download the binary suitable for your machine.
-2. Extract Archive File Go into your downloads folder and extract the newly downloaded archive file into the /usr/local directory.</description>
+1. Download Go First, visit the Go downloads page and download the binary suitable for your machine.</description>
     </item>
     
     <item>
@@ -182,7 +191,7 @@ Vanilla JavaScript is Not Enough A lot of advice directed at junior web develope
       <pubDate>Thu, 06 Jul 2017 15:55:00 -0700</pubDate>
       
       <guid>https://tomanistor.com/gallery/miniflix/</guid>
-      <description>Summary Miniflix is an experiment in building a React app with Create React App and Auth0. I built a single-page app with a user login system that serves videos through Cloudinary.
+      <description> Summary Miniflix is an experiment in building a React app with Create React App and Auth0. I built a single-page app with a user login system that serves videos through Cloudinary.
 Tools  Auth0 Bootstrap Cloudinary Create React App React  </description>
     </item>
     
@@ -192,7 +201,7 @@ Tools  Auth0 Bootstrap Cloudinary Create React App React  </description>
       <pubDate>Wed, 28 Jun 2017 12:36:41 -0700</pubDate>
       
       <guid>https://tomanistor.com/about/</guid>
-      <description>A web developer in San Diego, California. let languages = [&amp;#39;javascript&amp;#39;, &amp;#39;ruby&amp;#39;], frameworks = [&amp;#39;ruby on rails&amp;#39;, &amp;#39;vuejs&amp;#39;], tools = [&amp;#39;hugo&amp;#39;, &amp;#39;gulp&amp;#39;, &amp;#39;nodejs&amp;#39;, &amp;#39;webpack&amp;#39;], skillset = languages.concat(frameworks, tools) View my code on GitHub, connect with me on LinkedIn, follow me on Twitter, and check out my work below.</description>
+      <description>A web developer in San Diego, California. let languages = [&#39;javascript&#39;, &#39;ruby&#39;], frameworks = [&#39;ruby on rails&#39;, &#39;vuejs&#39;], tools = [&#39;hugo&#39;, &#39;gulp&#39;, &#39;nodejs&#39;, &#39;webpack&#39;], skillset = languages.concat(frameworks, tools)  View my code on GitHub, connect with me on LinkedIn, follow me on Twitter, and check out my work below.</description>
     </item>
     
     <item>
@@ -219,7 +228,7 @@ Tools  Auth0 Bootstrap Cloudinary Create React App React  </description>
       <pubDate>Wed, 17 May 2017 14:27:42 -0700</pubDate>
       
       <guid>https://tomanistor.com/gallery/osprey/</guid>
-      <description>Summary Osprey is an open source Hugo theme that I designed and developed to use for my own portfolio site. I have been maintaining and improving it with the support of the Hugo community on GitHub since 2017.
+      <description> Summary Osprey is an open source Hugo theme that I designed and developed to use for my own portfolio site. I have been maintaining and improving it with the support of the Hugo community on GitHub since 2017.
 Tools  Basin Disqus Formspree FlexBox Grid Gulp.js Hugo  </description>
     </item>
     
@@ -229,7 +238,7 @@ Tools  Basin Disqus Formspree FlexBox Grid Gulp.js Hugo  </description>
       <pubDate>Wed, 10 May 2017 21:47:41 -0700</pubDate>
       
       <guid>https://tomanistor.com/gallery/rhino-linings-corporation-spf/</guid>
-      <description>Summary Rhino Linings Spray Foam Insulation, newly formed division of Rhino Linings Corporation, required a corporate website that could reach both consumers and clients. Using Wordpress, I built a site that served as a valuable marking asset.
+      <description> Summary Rhino Linings Spray Foam Insulation, newly formed division of Rhino Linings Corporation, required a corporate website that could reach both consumers and clients. Using Wordpress, I built a site that served as a valuable marking asset.
 Tools  Wordpress  </description>
     </item>
     
@@ -239,7 +248,7 @@ Tools  Wordpress  </description>
       <pubDate>Wed, 10 May 2017 21:47:19 -0700</pubDate>
       
       <guid>https://tomanistor.com/gallery/rugged-fellows-guide/</guid>
-      <description>Summary Rugged Fellows Guide is a lifestyle blog created as a personal project to experiment with the Wordpress platform, web design, digital marketing, and SEO fundamentals. Within the first 6 months, the site generated as many as 30,000 sessions per day.
+      <description> Summary Rugged Fellows Guide is a lifestyle blog created as a personal project to experiment with the Wordpress platform, web design, digital marketing, and SEO fundamentals. Within the first 6 months, the site generated as many as 30,000 sessions per day.
 Tools  Wordpress  </description>
     </item>
     
@@ -249,7 +258,7 @@ Tools  Wordpress  </description>
       <pubDate>Wed, 10 May 2017 21:35:17 -0700</pubDate>
       
       <guid>https://tomanistor.com/gallery/learn-academy/</guid>
-      <description>Summary LEARN academy is a full-stack web development bootcamp in San Diego, CA. The website required optimization in terms of speed and organic search engine rankings. Assets were optimized, page loading speed improved, and pages were restructured according to modern SEO standards so that content could be properly crawled by search engines.
+      <description> Summary LEARN academy is a full-stack web development bootcamp in San Diego, CA. The website required optimization in terms of speed and organic search engine rankings. Assets were optimized, page loading speed improved, and pages were restructured according to modern SEO standards so that content could be properly crawled by search engines.
 Tools  Google PageSpeed Insights Google Search Console Ruby on Rails  </description>
     </item>
     
@@ -259,7 +268,7 @@ Tools  Google PageSpeed Insights Google Search Console Ruby on Rails  </descript
       <pubDate>Tue, 09 May 2017 00:56:44 -0700</pubDate>
       
       <guid>https://tomanistor.com/gallery/volunteerup/</guid>
-      <description>Summary VolunteerUp is a Ruby on Rails app that connects volunteers with non-profit organizations. It was built in a 2-week sprint on a team of 7 developers as a final project during the LEARN Academy full-stack Ruby on Rails course. My primary involvement was developing the component for searching and filtering organizations and events within the application as well as some UI/UX guidance.
+      <description> Summary VolunteerUp is a Ruby on Rails app that connects volunteers with non-profit organizations. It was built in a 2-week sprint on a team of 7 developers as a final project during the LEARN Academy full-stack Ruby on Rails course. My primary involvement was developing the component for searching and filtering organizations and events within the application as well as some UI/UX guidance.
 Tools  Kaminari Filteriffic Ruby on Rails  </description>
     </item>
     
