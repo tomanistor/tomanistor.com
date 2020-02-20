@@ -1,6 +1,6 @@
 +++
 title = "Cason Lane Communications"
-date = 2020-02-10T17:08:00-08:00
+date = 2020-02-01T17:08:00-08:00
 image = "cason-lane-strategic-communications.png"
 alt = "Cason Lane Strategic Communications"
 color = "#FFFFFF"
