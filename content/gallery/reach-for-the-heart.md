@@ -9,7 +9,7 @@ link2 = ""
 category = ["Health Awareness Website"]
 tag = ["Web Development", "SEO"]
 projectDate = "Summer 2019"
-draft = false
+draft = true
 +++
 
 ### Summary
