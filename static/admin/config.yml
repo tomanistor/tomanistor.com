@@ -3,6 +3,7 @@ backend:
   branch: master
 
 display_url: https://tomanistor.com
+logo_url: https://tomanistor.com/images/logo/toma-nistor-logo.svg
 
 publish_mode: editorial_workflow
 media_folder: "static/images/blog"
