@@ -1,7 +1,7 @@
 +++
 title = "Using currentColor for More Concise CSS"
 slug = "using-currentcolor-for-more-concise-css"
-date = 2020-10-14T05:26:16.833Z
+date = 2020-10-14T06:34:14.978Z
 description = "The currentColor value in CSS allows us to style more concisely by leveraging color as a variable."
 draft = false
 +++
