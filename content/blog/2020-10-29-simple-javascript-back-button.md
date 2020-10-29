@@ -8,12 +8,12 @@ draft = false
 The `window.history` object can be used to manipulate a browser's session history. Session history is localized to each specific browser tab. This means that we can also traverse between pages stored in a tab's `window.history` object.
 
 To go back one page:
-```javascript
+```js
 history.back();
 ```
 
 Or:
-```javascript
+```js
 history.go(-1);
 ```
 
