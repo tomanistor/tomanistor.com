@@ -27,7 +27,7 @@
     "babel-preset-env": "^1.7.0",
     "del": "^3.0.0",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^3.1.1",
+    "gulp-autoprefixer": "^8.0.0",
     "gulp-hash": "^4.1.1",
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "^2.1.2"
