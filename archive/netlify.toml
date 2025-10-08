@@ -4,6 +4,7 @@ publish = "archive/public"
 
 [build.environment]
 DISABLE_AUTO_INSTALL = "true"
+SKIP_DEPENDENCY_INSTALL = "true"
 
 [context.production.environment]
 HUGO_ENV = "production"
