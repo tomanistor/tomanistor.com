@@ -1,20 +1,17 @@
 [build]
-command = "wget https://github.com/gohugoio/hugo/releases/download/v0.50/hugo_extended_0.50_Linux-64bit.tar.gz && tar -xzf hugo_extended_0.50_Linux-64bit.tar.gz && ./hugo --gc --minify"
-publish = "archive/public"
-
-[build.environment]
-DISABLE_AUTO_INSTALL = "true"
-SKIP_DEPENDENCY_INSTALL = "true"
+publish = "public"
+command = "hugo --gc --minify"
 
 [context.production.environment]
+HUGO_VERSION = "0.50"
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 
 [context.deploy-preview]
-command = "wget https://github.com/gohugoio/hugo/releases/download/v0.50/hugo_extended_0.50_Linux-64bit.tar.gz && tar -xzf hugo_extended_0.50_Linux-64bit.tar.gz && ./hugo -b $DEPLOY_PRIME_URL"
+command = "hugo -b $DEPLOY_PRIME_URL"
 
 [context.branch-deploy]
-command = "wget https://github.com/gohugoio/hugo/releases/download/v0.50/hugo_extended_0.50_Linux-64bit.tar.gz && tar -xzf hugo_extended_0.50_Linux-64bit.tar.gz && ./hugo -b $DEPLOY_PRIME_URL"
+command = "hugo -b $DEPLOY_PRIME_URL"
 
 [[plugins]]
 package = "netlify-plugin-a11y"
