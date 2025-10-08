@@ -2,8 +2,10 @@
 command = "wget https://github.com/gohugoio/hugo/releases/download/v0.50/hugo_extended_0.50_Linux-64bit.tar.gz && tar -xzf hugo_extended_0.50_Linux-64bit.tar.gz && ./hugo --gc --minify"
 publish = "archive/public"
 
+[build.environment]
+DISABLE_AUTO_INSTALL = "true"
+
 [context.production.environment]
-HUGO_VERSION = "0.50"
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 
