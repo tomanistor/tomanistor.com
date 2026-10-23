@@ -1,7 +1,20 @@
 <script lang="ts">
 	import logo from '$lib/assets/logo/toma-nistor-logo.svg';
+	import JungleLoader from '$lib/components/JungleLoader.svelte';
+	import JungleScene from '$lib/components/JungleScene.svelte';
+
+	let ready = $state(false);
 </script>
 
-<main class="flex flex-col items-center justify-center h-screen">
-	<img src={logo} alt="Toma Nistor - San Diego Software Engineer" class="w-1/2 h-1/2" />
-</main>
+<h1 class="sr-only">Toma Nistor – San Diego Software Engineer</h1>
+
+<JungleScene onready={() => (ready = true)} />
+<JungleLoader done={ready} />
+
+<noscript>
+	<img
+		src={logo}
+		alt="Toma Nistor - San Diego Software Engineer"
+		class="fixed left-1/2 top-1/2 z-[2001] w-[min(50vw,57vh)] -translate-x-1/2 -translate-y-1/2 scale-[0.818]"
+	/>
+</noscript>
