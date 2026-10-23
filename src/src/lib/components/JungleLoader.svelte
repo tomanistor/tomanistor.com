@@ -34,9 +34,14 @@
 	let logoTransform = $state(`translate(-50%, -50%) scale(${zoomAt(LOGO_DIST, 0).toFixed(4)})`);
 
 	onMount(() => {
-		// Match the scene logo's starting size, including after a restored scroll position.
-		const s = scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
-		logoTransform = `translate(-50%, -50%) scale(${zoomAt(LOGO_DIST, smoothstep(s)).toFixed(4)})`;
+		// Track the scene logo's size at the current scroll, including a restored position or a
+		// visitor scrolling while it loads, so the hand-off doesn't jump.
+		const syncLogo = () => {
+			const s = scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
+			logoTransform = `translate(-50%, -50%) scale(${zoomAt(LOGO_DIST, smoothstep(s)).toFixed(4)})`;
+		};
+		syncLogo();
+		addEventListener('scroll', syncLogo, { passive: true });
 
 		const animations = EDGES.map(({ axis, from, spread }, i) => {
 			const timing = spread ? SPREAD : OPEN;
@@ -51,6 +56,7 @@
 			);
 		});
 		animations[animations.length - 1].finished.then(() => (filled = true));
+		return () => removeEventListener('scroll', syncLogo);
 	});
 
 	// Lift the cover only once the logo is full and the scene is ready, so nothing moves at the hand-off.

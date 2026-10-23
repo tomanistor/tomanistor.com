@@ -29,7 +29,10 @@
 			backSharp,
 			backSoft
 		});
-		scene.ready.then(() => onready?.());
+		// Hand off even if the leaves couldn't be prepared, so the loader never strands the visitor.
+		scene.ready
+			.catch((error) => console.error('Jungle scene failed to start', error))
+			.finally(() => onready?.());
 		return () => scene.destroy();
 	});
 </script>
@@ -38,7 +41,7 @@
 	<div
 		bind:this={stage}
 		data-jungle-stage
-		class="sticky top-0 h-lvh w-full overflow-hidden bg-white [contain:strict]"
+		class="sticky top-0 h-lvh w-full overflow-hidden bg-white perspective-[1400px] [contain:strict]"
 	>
 		<div
 			bind:this={shade}

@@ -2,6 +2,7 @@ import { page } from '@vitest/browser/context';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleLoader from './JungleLoader.svelte';
+import { LOGO_DIST, smoothstep, zoomAt } from '$lib/jungle/camera';
 import Page from '../../routes/+page.svelte';
 
 const loaderEl = () => document.querySelector<HTMLElement>('[data-jungle-loader]');
@@ -65,6 +66,22 @@ describe('JungleLoader', () => {
 		expect(loaderEl()).not.toBeNull();
 		await screen.rerender({ done: true });
 		await vi.waitFor(() => expect(loaderEl()).toBeNull(), { timeout: 2000 });
+	});
+
+	it('keeps the logo sized to the scroll position while loading', async () => {
+		render(JungleLoader, { done: false });
+		const spacer = document.createElement('div');
+		spacer.dataset.spacer = '';
+		spacer.style.height = '5000px';
+		document.body.append(spacer);
+		scrollTo(0, 2000);
+		const f = scrollY / (document.documentElement.scrollHeight - innerHeight);
+		const scale = zoomAt(LOGO_DIST, smoothstep(f)).toFixed(4);
+		await vi.waitFor(() =>
+			expect(loaderEl()!.querySelector<HTMLElement>('[data-logo-box]')!.style.transform).toContain(
+				`scale(${scale})`
+			)
+		);
 	});
 
 	it('matches the scene logo at a restored scroll position', async () => {

@@ -45,6 +45,20 @@ describe('JungleScene', () => {
 		expect(leafImages(stage).every((img) => !img.dataset.key!.startsWith('12|'))).toBe(true);
 	});
 
+	it('still reports ready when preparing the leaves fails', async () => {
+		vi.spyOn(HTMLCanvasElement.prototype, 'toBlob').mockImplementation(function (callback) {
+			callback(null);
+		});
+		const report = vi.spyOn(console, 'error').mockImplementation(() => {});
+		await renderReady();
+		expect(report).toHaveBeenCalledWith('Jungle scene failed to start', expect.any(Error));
+	});
+
+	it('uses the reference 3D perspective so leaf tilt is visible', async () => {
+		const { stage } = await renderReady();
+		expect(getComputedStyle(stage).perspective).toBe('1400px');
+	});
+
 	it('keeps leaf count and arrangement across a resize', async () => {
 		const { stage } = await renderReady();
 		const before = leafImages(stage).map((img) => img.dataset.key);
