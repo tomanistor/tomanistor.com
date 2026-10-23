@@ -46,13 +46,13 @@
 		<div
 			bind:this={shade}
 			aria-hidden="true"
-			class="pointer-events-none absolute -inset-[40%]"
+			class="pointer-events-none absolute -inset-[40%] will-change-transform"
 		></div>
 		<img
 			bind:this={logo}
 			src={logoSrc}
 			alt="Toma Nistor - San Diego Software Engineer"
-			class="absolute left-1/2 top-1/2 w-[min(50vw,57vh)]"
+			class="absolute left-1/2 top-1/2 w-[min(50vw,57vh)] will-change-transform"
 			style:transform={startTransform}
 		/>
 		<canvas bind:this={deepSharp} aria-hidden="true" class="{layerClass} z-[1]"></canvas>

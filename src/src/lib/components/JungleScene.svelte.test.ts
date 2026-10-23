@@ -59,6 +59,14 @@ describe('JungleScene', () => {
 		expect(getComputedStyle(stage).perspective).toBe('1400px');
 	});
 
+	it('moves the logo and shade on their own layers so parallax never repaints them', async () => {
+		const { stage } = await renderReady();
+		const shade = stage.querySelector<HTMLElement>(':scope > div')!;
+		const logo = stage.querySelector<HTMLElement>(':scope > img')!;
+		expect(getComputedStyle(shade).willChange).toBe('transform');
+		expect(getComputedStyle(logo).willChange).toBe('transform');
+	});
+
 	it('keeps leaf count and arrangement across a resize', async () => {
 		const { stage } = await renderReady();
 		const before = leafImages(stage).map((img) => img.dataset.key);
