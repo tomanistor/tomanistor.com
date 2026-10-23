@@ -63,6 +63,33 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 		}
 	});
 
+	it("clears the logo across the leafy bush's full width", () => {
+		// The bush is a wide cluster, about 2.2× the width of a single blade.
+		const { safeW, safeH } = logoSafeZone(v);
+		const blade = [
+			[0, 0.3],
+			[0.2, 0.42],
+			[0.4, 0.46],
+			[0.6, 0.42],
+			[0.8, 0.3],
+			[1, 0.05]
+		];
+		for (const leaf of laidOut(v).filter((l) => l.sprite.src.includes('leafy-bush'))) {
+			const dir1 = rotate(leaf.dir0!, leaf.swing / DEG);
+			const perp = [-dir1[1], dir1[0]];
+			for (const [f, lat] of blade) {
+				for (const side of [-1, 1]) {
+					const reach = leaf.len! * lat * 2.2 * side;
+					const x =
+						leaf.anchor![0] + leaf.n![0] * leaf.pull! + dir1[0] * leaf.len! * f + perp[0] * reach;
+					const y =
+						leaf.anchor![1] + leaf.n![1] * leaf.pull! + dir1[1] * leaf.len! * f + perp[1] * reach;
+					expect(Math.abs(x) < safeW && Math.abs(y) < safeH).toBe(false);
+				}
+			}
+		}
+	});
+
 	it('caps inset leaf travel at 8% of vmin unless rooted at the edge', () => {
 		for (const leaf of laidOut(v).filter((l) => l.role === 'core')) {
 			const z0 = zoomAt(leaf.dist, 0);

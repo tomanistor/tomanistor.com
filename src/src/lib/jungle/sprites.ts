@@ -15,7 +15,8 @@ type Point = [number, number];
 // downsized, so they are scaled by `naturalWidth / coordWidth` when drawn. `base` is where the blade
 // meets its stem, `tip` the far end of its midrib, and `stemEnd` marks a plant with a visible stem,
 // which may only grow from off-screen. `size` is the plant's natural midrib length relative to a
-// monstera; `hi` marks photos sharp enough for near layers.
+// monstera; `hi` marks photos sharp enough for near layers. `girth` widens the blade outline used
+// to keep parted leaves clear of the logo, for plants much wider than a single blade.
 export type Sprite = {
 	src: string;
 	coordWidth: number;
@@ -26,6 +27,7 @@ export type Sprite = {
 	size: number;
 	weight: number;
 	hi?: boolean;
+	girth?: number;
 };
 
 const sheet = (s: Omit<Sprite, 'src' | 'coordWidth' | 'size' | 'weight'>): Sprite => ({
@@ -77,7 +79,8 @@ export const SPRITES: readonly Sprite[] = [
 		base: [500, 575],
 		tip: [560, 40],
 		size: 0.8,
-		weight: 1
+		weight: 1,
+		girth: 2.2
 	}),
 	plant({
 		src: fern,

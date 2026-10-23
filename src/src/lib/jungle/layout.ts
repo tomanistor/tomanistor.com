@@ -73,6 +73,7 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 		);
 		const dir1 = rotate(dir0, leaf.swing / DEG);
 		const perp: Point = [-dir1[1], dir1[0]];
+		const girth = leaf.sprite.girth ?? 1;
 		// Perspective: further layers look smaller, but gently, so the jungle reads as one scene.
 		const length = leaf.sprite.size * unit * leaf.scale * Math.pow(1 / leaf.dist, 0.6);
 		// Far enough off-screen that cursor parallax never drags a stem into view.
@@ -86,13 +87,14 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 					: [p[0] + n[0] * offEdge, p[1] + n[1] * offEdge];
 			const anchor: Point = [start[0] / z0, start[1] / z0];
 			const out = inset > 0 ? normalize(start) : n;
+			// A wide plant is checked at both its blade width and its full width, so the logo can't
+			// slip between the sample points.
+			const widths = girth > 1 ? [-girth, -1, 1, girth] : [-1, 1];
 			const hits = (pull: number) =>
 				BLADE.some(([f, lat]) =>
-					[-1, 1].some((side) => {
-						const x =
-							anchor[0] + out[0] * pull + dir1[0] * length * f + perp[0] * length * lat * side;
-						const y =
-							anchor[1] + out[1] * pull + dir1[1] * length * f + perp[1] * length * lat * side;
+					widths.some((w) => {
+						const x = anchor[0] + out[0] * pull + dir1[0] * length * f + perp[0] * length * lat * w;
+						const y = anchor[1] + out[1] * pull + dir1[1] * length * f + perp[1] * length * lat * w;
 						return Math.abs(x) < safeW && Math.abs(y) < safeH;
 					})
 				);
