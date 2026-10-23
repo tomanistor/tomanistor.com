@@ -103,3 +103,11 @@ test('the deployed homepage is prerendered with the heading and the logo', () =>
 	expect(html).toContain('Toma Nistor – San Diego Software Engineer</h1>');
 	expect(html).toContain('<noscript>');
 });
+
+test('the page does not bounce when scrolled past its ends', async ({ page }) => {
+	await page.goto('/');
+	const overscroll = await page.evaluate(() =>
+		[document.documentElement, document.body].map((el) => getComputedStyle(el).overscrollBehaviorY)
+	);
+	expect(overscroll).toEqual(['none', 'none']);
+});
