@@ -1,10 +1,5 @@
 import { expect, test } from '@playwright/test';
-import {
-	logoPixelShare,
-	scrollTo,
-	waitForScene,
-	whiteFractionInEdgeBand
-} from './measure';
+import { logoPixelShare, scrollTo, waitForScene, whiteFractionInEdgeBand } from './measure';
 
 test.describe.configure({ timeout: 180000 });
 
