@@ -126,6 +126,41 @@ describe('JungleScene', () => {
 		}
 	});
 
+	it('ignores size changes while the tab is hidden if the size is back on return', async () => {
+		await renderReady();
+		const revoke = vi.spyOn(URL, 'revokeObjectURL');
+		let hidden = true;
+		vi.spyOn(document, 'visibilityState', 'get').mockImplementation(() =>
+			hidden ? 'hidden' : 'visible'
+		);
+		vi.spyOn(document, 'hidden', 'get').mockImplementation(() => hidden);
+		document.dispatchEvent(new Event('visibilitychange'));
+		await page.viewport(800, 600);
+		await new Promise((r) => setTimeout(r, 1500));
+		await page.viewport(1440, 900);
+		hidden = false;
+		document.dispatchEvent(new Event('visibilitychange'));
+		await new Promise((r) => setTimeout(r, 1500));
+		expect(revoke).not.toHaveBeenCalled();
+	});
+
+	it('rebuilds on return to the tab if the size really changed', async () => {
+		await renderReady();
+		const revoke = vi.spyOn(URL, 'revokeObjectURL');
+		let hidden = true;
+		vi.spyOn(document, 'visibilityState', 'get').mockImplementation(() =>
+			hidden ? 'hidden' : 'visible'
+		);
+		vi.spyOn(document, 'hidden', 'get').mockImplementation(() => hidden);
+		document.dispatchEvent(new Event('visibilitychange'));
+		await page.viewport(1280, 800);
+		await new Promise((r) => setTimeout(r, 500));
+		expect(revoke).not.toHaveBeenCalled();
+		hidden = false;
+		document.dispatchEvent(new Event('visibilitychange'));
+		await vi.waitFor(() => expect(revoke).toHaveBeenCalled(), { timeout: 5000 });
+	});
+
 	it('keeps leaf count and arrangement across a resize', async () => {
 		const { stage } = await renderReady();
 		const before = leafImages(stage).map((img) => img.dataset.key);

@@ -229,13 +229,15 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	}
 
 	function onResize() {
+		clearTimeout(resizeTimer);
+		// Background tabs can be given a temporary size; only the size on return matters.
+		if (document.hidden) return;
 		const next = measure();
 		// Browsers also fire resize when nothing changed, e.g. on returning to a tab.
 		if (next.width === viewport.width && next.height === viewport.height) return;
 		// On phones the toolbar showing or hiding changes only the height; rebuilding then would
 		// stall the scroll it happens during.
 		if (coarsePointer.matches && next.width === viewport.width) return;
-		clearTimeout(resizeTimer);
 		resizeTimer = setTimeout(relayout, 150);
 	}
 
@@ -275,6 +277,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		for (const leaf of live) leaf.t = leafTarget(leaf, s);
 		addEventListener('pointermove', onPointerMove);
 		addEventListener('resize', onResize);
+		document.addEventListener('visibilitychange', onResize);
 		await new Promise<void>((resolve) => {
 			running = true;
 			frameId = requestAnimationFrame((now) => {
@@ -293,6 +296,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			clearTimeout(resizeTimer);
 			removeEventListener('pointermove', onPointerMove);
 			removeEventListener('resize', onResize);
+			document.removeEventListener('visibilitychange', onResize);
 			for (const img of elements.values()) img.remove();
 			for (const url of urls) URL.revokeObjectURL(url);
 		}
