@@ -1,11 +1,4 @@
-import {
-	bakeAll,
-	bitmapMegabytes,
-	canvasToObjectUrl,
-	paintLayer,
-	releaseBitmaps,
-	toObjectUrls
-} from './bake';
+import { bakeAll, bitmapMegabytes, paintLayer, releaseBitmaps, toObjectUrls } from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, smoothstep, zoomAt } from './camera';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, shadeGradient, type Viewport } from './layout';
@@ -16,10 +9,10 @@ export type SceneElements = {
 	stage: HTMLElement;
 	logo: HTMLElement;
 	shade: HTMLElement;
-	deepSharp: HTMLImageElement;
-	deepSoft: HTMLImageElement;
-	backSharp: HTMLImageElement;
-	backSoft: HTMLImageElement;
+	deepSharp: HTMLCanvasElement;
+	deepSoft: HTMLCanvasElement;
+	backSharp: HTMLCanvasElement;
+	backSoft: HTMLCanvasElement;
 };
 
 const SEED = 11;
@@ -91,66 +84,59 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		layoutLeaves(leaves, next);
 		const bitmaps = bakeAll(leaves, images, devicePixelRatio || 1);
 		const liveKeys = [...new Set(live.map((l) => l.key!))];
-		// The far layers are painted on hidden canvases and shown as images: Chrome drops canvas
-		// contents in background tabs and is slow to restore them, which flashed white on return.
-		const canvases = Array.from({ length: 4 }, () => document.createElement('canvas'));
-		const [deepSharp, deepSoft, backSharp, backSoft] = canvases;
-		paintLayer(
-			deepSharp,
-			deepSoft,
-			leaves.filter((l) => l.role === 'deep'),
-			bitmaps,
-			next,
-			0.75,
-			0.35,
-			1.2,
-			3
-		);
-		paintLayer(
-			backSharp,
-			backSoft,
-			leaves.filter((l) => l.role === 'backing'),
-			bitmaps,
-			next,
-			1,
-			0.5,
-			0.5,
-			1.6
-		);
-		const memoryMb =
-			bitmapMegabytes(liveKeys, bitmaps) +
-			Math.round(canvases.reduce((sum, c) => sum + c.width * c.height * 4, 0) / 1048576);
 		const target = snapshot();
 		restore(current);
 
-		const [byKey, layerUrls] = await Promise.all([
-			toObjectUrls(liveKeys, bitmaps),
-			Promise.all(canvases.map((c, i) => canvasToObjectUrl(c, `layer ${i}`)))
-		]);
-		releaseBitmaps(bitmaps);
-		for (const c of canvases) c.width = 0;
-		const created = [...byKey.values(), ...layerUrls];
-		// Decode before swapping, so nothing shows blank while its new image loads.
+		const byKey = await toObjectUrls(liveKeys, bitmaps);
+		// Decode before swapping, so no leaf shows blank while its new image loads.
 		await Promise.allSettled(
-			created.map((url) => {
+			[...byKey.values()].map((url) => {
 				const img = new Image();
 				img.src = url;
 				return img.decode();
 			})
 		);
 		if (destroyed || run !== generation) {
-			for (const url of created) URL.revokeObjectURL(url);
+			releaseBitmaps(bitmaps);
+			for (const url of byKey.values()) URL.revokeObjectURL(url);
 			return;
 		}
 
 		restore(target);
 		viewport = next;
-		els.stage.dataset.bitmapMb = String(memoryMb);
-		for (const url of urls) URL.revokeObjectURL(url);
-		urls = created;
-		[els.deepSharp, els.deepSoft, els.backSharp, els.backSoft].forEach(
-			(img, i) => (img.src = layerUrls[i])
+		paintLayer(
+			els.deepSharp,
+			els.deepSoft,
+			leaves.filter((l) => l.role === 'deep'),
+			bitmaps,
+			viewport,
+			0.75,
+			0.35,
+			1.2,
+			3
 		);
+		paintLayer(
+			els.backSharp,
+			els.backSoft,
+			leaves.filter((l) => l.role === 'backing'),
+			bitmaps,
+			viewport,
+			1,
+			0.5,
+			0.5,
+			1.6
+		);
+		const layerBytes = [els.deepSharp, els.deepSoft, els.backSharp, els.backSoft].reduce(
+			(sum, c) => sum + c.width * c.height * 4,
+			0
+		);
+		els.stage.dataset.bitmapMb = String(
+			bitmapMegabytes(liveKeys, bitmaps) + Math.round(layerBytes / 1048576)
+		);
+		releaseBitmaps(bitmaps);
+
+		for (const url of urls) URL.revokeObjectURL(url);
+		urls = [...byKey.values()];
 		for (const leaf of live) {
 			const img = elements.get(leaf)!;
 			img.src = byKey.get(leaf.key!)!;
@@ -229,15 +215,13 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	}
 
 	function onResize() {
-		clearTimeout(resizeTimer);
-		// Background tabs can be given a temporary size; only the size on return matters.
-		if (document.hidden) return;
 		const next = measure();
 		// Browsers also fire resize when nothing changed, e.g. on returning to a tab.
 		if (next.width === viewport.width && next.height === viewport.height) return;
 		// On phones the toolbar showing or hiding changes only the height; rebuilding then would
 		// stall the scroll it happens during.
 		if (coarsePointer.matches && next.width === viewport.width) return;
+		clearTimeout(resizeTimer);
 		resizeTimer = setTimeout(relayout, 150);
 	}
 
@@ -277,7 +261,6 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		for (const leaf of live) leaf.t = leafTarget(leaf, s);
 		addEventListener('pointermove', onPointerMove);
 		addEventListener('resize', onResize);
-		document.addEventListener('visibilitychange', onResize);
 		await new Promise<void>((resolve) => {
 			running = true;
 			frameId = requestAnimationFrame((now) => {
@@ -296,7 +279,6 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			clearTimeout(resizeTimer);
 			removeEventListener('pointermove', onPointerMove);
 			removeEventListener('resize', onResize);
-			document.removeEventListener('visibilitychange', onResize);
 			for (const img of elements.values()) img.remove();
 			for (const url of urls) URL.revokeObjectURL(url);
 		}

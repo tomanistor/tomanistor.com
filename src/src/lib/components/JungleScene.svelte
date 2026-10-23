@@ -9,15 +9,15 @@
 	let stage: HTMLElement;
 	let logo: HTMLElement;
 	let shade: HTMLElement;
-	let deepSharp: HTMLImageElement;
-	let deepSoft: HTMLImageElement;
-	let backSharp: HTMLImageElement;
-	let backSoft: HTMLImageElement;
+	let deepSharp: HTMLCanvasElement;
+	let deepSoft: HTMLCanvasElement;
+	let backSharp: HTMLCanvasElement;
+	let backSoft: HTMLCanvasElement;
 
 	// The logo's size at the top of the page, before the scene takes over its transform.
 	const startTransform = `translate(-50%, -50%) scale(${zoomAt(LOGO_DIST, 0).toFixed(4)})`;
 	const layerClass =
-		'pointer-events-none absolute -left-1/4 -top-1/4 h-[150%] w-[150%] max-w-none select-none will-change-transform';
+		'pointer-events-none absolute -left-1/4 -top-1/4 h-[150%] w-[150%] will-change-transform';
 
 	onMount(() => {
 		const scene = createJungleScene({
@@ -55,10 +55,10 @@
 			class="absolute left-1/2 top-1/2 w-[min(50vw,57vh)] will-change-transform"
 			style:transform={startTransform}
 		/>
-		<img bind:this={deepSharp} data-layer alt="" aria-hidden="true" class="{layerClass} z-[1]" />
-		<img bind:this={deepSoft} data-layer alt="" aria-hidden="true" class="{layerClass} z-[1]" />
-		<img bind:this={backSharp} data-layer alt="" aria-hidden="true" class="{layerClass} z-[2]" />
-		<img bind:this={backSoft} data-layer alt="" aria-hidden="true" class="{layerClass} z-[2]" />
+		<canvas bind:this={deepSharp} aria-hidden="true" class="{layerClass} z-[1]"></canvas>
+		<canvas bind:this={deepSoft} aria-hidden="true" class="{layerClass} z-[1]"></canvas>
+		<canvas bind:this={backSharp} aria-hidden="true" class="{layerClass} z-[2]"></canvas>
+		<canvas bind:this={backSoft} aria-hidden="true" class="{layerClass} z-[2]"></canvas>
 		<!-- A lens vignette over the whole scene, above every leaf; clear well before the logo. -->
 		<div
 			data-vignette

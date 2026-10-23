@@ -115,52 +115,6 @@ describe('JungleScene', () => {
 		}
 	});
 
-	it('shows the far layers as decoded images, not canvases Chrome hibernates in background tabs', async () => {
-		const { stage } = await renderReady();
-		expect(stage.querySelectorAll('canvas')).toHaveLength(0);
-		const layers = [...stage.querySelectorAll<HTMLImageElement>('img[data-layer]')];
-		expect(layers).toHaveLength(4);
-		for (const img of layers) {
-			expect(img.src).toMatch(/^blob:/);
-			expect(img.naturalWidth).toBeGreaterThan(0);
-		}
-	});
-
-	it('ignores size changes while the tab is hidden if the size is back on return', async () => {
-		await renderReady();
-		const revoke = vi.spyOn(URL, 'revokeObjectURL');
-		let hidden = true;
-		vi.spyOn(document, 'visibilityState', 'get').mockImplementation(() =>
-			hidden ? 'hidden' : 'visible'
-		);
-		vi.spyOn(document, 'hidden', 'get').mockImplementation(() => hidden);
-		document.dispatchEvent(new Event('visibilitychange'));
-		await page.viewport(800, 600);
-		await new Promise((r) => setTimeout(r, 1500));
-		await page.viewport(1440, 900);
-		hidden = false;
-		document.dispatchEvent(new Event('visibilitychange'));
-		await new Promise((r) => setTimeout(r, 1500));
-		expect(revoke).not.toHaveBeenCalled();
-	});
-
-	it('rebuilds on return to the tab if the size really changed', async () => {
-		await renderReady();
-		const revoke = vi.spyOn(URL, 'revokeObjectURL');
-		let hidden = true;
-		vi.spyOn(document, 'visibilityState', 'get').mockImplementation(() =>
-			hidden ? 'hidden' : 'visible'
-		);
-		vi.spyOn(document, 'hidden', 'get').mockImplementation(() => hidden);
-		document.dispatchEvent(new Event('visibilitychange'));
-		await page.viewport(1280, 800);
-		await new Promise((r) => setTimeout(r, 500));
-		expect(revoke).not.toHaveBeenCalled();
-		hidden = false;
-		document.dispatchEvent(new Event('visibilitychange'));
-		await vi.waitFor(() => expect(revoke).toHaveBeenCalled(), { timeout: 5000 });
-	});
-
 	it('keeps leaf count and arrangement across a resize', async () => {
 		const { stage } = await renderReady();
 		const before = leafImages(stage).map((img) => img.dataset.key);
