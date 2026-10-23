@@ -55,10 +55,55 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 
 	const scroll = () => scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
 
+	// Geometry the frame loop reads; a rebuild computes new values off to the side and swaps them in
+	// together with the new images, so leaves never draw new positions with old image offsets.
+	const GEOMETRY = [
+		'anchor',
+		'n',
+		'pull',
+		'dir0',
+		'len',
+		'rot0',
+		'cssPerPx',
+		'key',
+		'box',
+		'origin'
+	] as const;
+	const snapshot = () => leaves.map((leaf) => GEOMETRY.map((k) => leaf[k]));
+	const restore = (saved: ReturnType<typeof snapshot>) =>
+		leaves.forEach((leaf, i) =>
+			GEOMETRY.forEach((k, j) => ((leaf as Record<string, unknown>)[k] = saved[i][j]))
+		);
+
+	let generation = 0;
+	let running = false;
 	async function relayout() {
-		viewport = measure();
-		layoutLeaves(leaves, viewport);
+		const run = ++generation;
+		const next = measure();
+		const current = snapshot();
+		layoutLeaves(leaves, next);
 		const bitmaps = bakeAll(leaves, images, devicePixelRatio || 1);
+		const liveKeys = [...new Set(live.map((l) => l.key!))];
+		const target = snapshot();
+		restore(current);
+
+		const byKey = await toObjectUrls(liveKeys, bitmaps);
+		// Decode before swapping, so no leaf shows blank while its new image loads.
+		await Promise.allSettled(
+			[...byKey.values()].map((url) => {
+				const img = new Image();
+				img.src = url;
+				return img.decode();
+			})
+		);
+		if (destroyed || run !== generation) {
+			releaseBitmaps(bitmaps);
+			for (const url of byKey.values()) URL.revokeObjectURL(url);
+			return;
+		}
+
+		restore(target);
+		viewport = next;
 		paintLayer(
 			els.deepSharp,
 			els.deepSoft,
@@ -81,8 +126,6 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			0.5,
 			1.6
 		);
-		const liveKeys = [...new Set(live.map((l) => l.key!))];
-		const byKey = await toObjectUrls(liveKeys, bitmaps);
 		const layerBytes = [els.deepSharp, els.deepSoft, els.backSharp, els.backSoft].reduce(
 			(sum, c) => sum + c.width * c.height * 4,
 			0
@@ -91,7 +134,6 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			bitmapMegabytes(liveKeys, bitmaps) + Math.round(layerBytes / 1048576)
 		);
 		releaseBitmaps(bitmaps);
-		if (destroyed) return [...byKey.values()].forEach((url) => URL.revokeObjectURL(url));
 
 		for (const url of urls) URL.revokeObjectURL(url);
 		urls = [...byKey.values()];
@@ -105,10 +147,13 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			lastStyle.delete(img);
 		}
 		els.shade.style.background = shadeGradient(viewport);
+		// On a rebuild, draw the new layout now, in the same frame as the new images. The first
+		// layout is drawn by start(), once the camera has been set to the current scroll.
+		if (running) frame(performance.now(), false);
 	}
 
 	let last = performance.now();
-	function frame(now: number) {
+	function frame(now: number, schedule = true) {
 		const dt = Math.min(0.05, (now - last) / 1000);
 		last = now;
 		const s = scroll();
@@ -159,7 +204,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			...viewport
 		};
 		for (const leaf of live) setStyle(elements.get(leaf)!, 'transform', stepLeaf(leaf, input, dt));
-		frameId = requestAnimationFrame(frame);
+		if (schedule) frameId = requestAnimationFrame((t) => frame(t));
 	}
 
 	function onPointerMove(e: PointerEvent) {
@@ -171,6 +216,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 
 	function onResize() {
 		const next = measure();
+		// Browsers also fire resize when nothing changed, e.g. on returning to a tab.
+		if (next.width === viewport.width && next.height === viewport.height) return;
 		// On phones the toolbar showing or hiding changes only the height; rebuilding then would
 		// stall the scroll it happens during.
 		if (coarsePointer.matches && next.width === viewport.width) return;
@@ -215,6 +262,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		addEventListener('pointermove', onPointerMove);
 		addEventListener('resize', onResize);
 		await new Promise<void>((resolve) => {
+			running = true;
 			frameId = requestAnimationFrame((now) => {
 				last = now;
 				frame(now);
