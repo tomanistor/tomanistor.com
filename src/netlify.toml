@@ -1,7 +1,8 @@
 # Lives in the app's base directory (src/), which is where Netlify reads it from.
 [build]
   command = "pnpm build"
-  publish = "build"
+  # Unlike `command`, Netlify resolves this from the repo root, not the base directory.
+  publish = "src/build"
 
 [build.environment]
   NODE_VERSION = "24"
