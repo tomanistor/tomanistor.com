@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`mulberry32 > matches the reference sequence 1`] = `
+[
+  "0.511587",
+  "0.529946",
+  "0.608119",
+]
+`;
