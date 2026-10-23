@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jungle reveal — spike v19</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fff; }
+  .scroller { height: 300vh; }
+  .stage {
+    position: sticky; top: 0;
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    background: #fff;
+    contain: strict;
+    perspective: 1400px;
+  }
+  .shade {
+    position: absolute; inset: -40%;
+    pointer-events: none;
+  }
+  .logo {
+    position: absolute; left: 50%; top: 50%;
+    width: min(50vw, 57vh);
+    transform: translate(-50%, -50%);
+  }
+  .layer {
+    position: absolute; left: -25%; top: -25%;
+    width: 150%; height: 150%;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+  .leaf {
+    position: absolute; left: 0; top: 0;
+    max-width: none;
+    will-change: transform;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hint {
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+    z-index: 1000; font: 500 12px/1 system-ui, sans-serif; letter-spacing: .14em;
+    text-transform: uppercase; color: #fff; background: rgba(20,40,25,.55);
+    padding: 8px 12px; border-radius: 999px; backdrop-filter: blur(6px);
+    transition: opacity .3s;
+  }
+  .loader {
+    position: fixed; inset: 0; z-index: 2000;
+    background: #fff;
+    transition: opacity 0.9s ease;
+  }
+  .loader.done { opacity: 0; pointer-events: none; }
+  /* Sits exactly where the scene's logo starts, so the hand-off only adds the leaves. */
+  .loader-logo {
+    position: absolute; left: 50%; top: 50%;
+    width: min(50vw, 57vh);
+    aspect-ratio: 225 / 197;
+    overflow: hidden;
+  }
+  .loader-logo img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+  }
+  /* The fill: the logo is only ever drawn inside a window, so the unfilled part simply isn't
+     there. Each of the window's four edges is a clipping box that slides in from one side while
+     its child slides back by the same amount, keeping the logo still. It's all transform, so the
+     compositor runs it smoothly while the page is busy. */
+  .loader-window {
+    position: absolute; inset: 0;
+    will-change: transform;
+  }
+  .loader-window.edge { overflow: hidden; }
+  .hud {
+    position: fixed; right: 12px; top: 12px; z-index: 1000;
+    font: 12px/1.4 ui-monospace, monospace; color: #234; background: rgba(255,255,255,.85);
+    padding: 6px 10px; border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="scroller">
+  <div class="stage" id="stage">
+    <div class="shade" id="shade"></div>
+    <img class="logo" id="logo" src="/files/logo.svg" alt="TN logo">
+    <canvas class="layer" id="deep-sharp" style="z-index: 1"></canvas>
+    <canvas class="layer" id="deep-soft" style="z-index: 1"></canvas>
+    <canvas class="layer" id="back-sharp" style="z-index: 2"></canvas>
+    <canvas class="layer" id="back-soft" style="z-index: 2"></canvas>
+  </div>
+</div>
+<div class="loader" id="loader">
+  <div class="loader-logo" id="loader-logo">
+    <div class="loader-window edge" id="edge-top"><div class="loader-window">
+      <div class="loader-window edge" id="edge-bottom"><div class="loader-window">
+        <div class="loader-window edge" id="edge-left"><div class="loader-window">
+          <div class="loader-window edge" id="edge-right"><div class="loader-window">
+            <img src="/files/logo.svg" alt="">
+          </div></div>
+        </div></div>
+      </div></div>
+    </div></div>
+  </div>
+</div>
+<div class="hint" id="hint">Scroll to part the leaves</div>
+<div class="hud" id="hud">spike v19 · 0%</div>
+
+<script>
+// Each leaf image: its crop box [x, y, w, h], plus where the blade meets its stem (base)
+// and the far end of its midrib (tip), both relative to the crop. `size` is the plant's
+// natural midrib length relative to a monstera, so species keep believable proportions.
+// `stemEnd` marks a plant with a visible stem; those only grow from off-screen so the stem is never seen. `hi` marks the
+// high-resolution photos sharp enough for near layers; `weight` biases the mix.
+// Coordinates are in the original image's pixels; the files shipped are downsized from those.
+const coordWidth = (src) => (src === SHEET ? 2000 : 1800);
+const SHEET = '/files/leaves.webp';
+const SPRITES = [
+  { src: SHEET, crop: [50, 75, 540, 555],    base: [260, 468], tip: [303, 52],  size: 0.9, weight: 1 },
+  { src: SHEET, crop: [640, 50, 645, 585],   base: [439, 219], tip: [46, 466],  stemEnd: [612, 484], size: 0.9, weight: 1 },
+  { src: SHEET, crop: [1380, 70, 540, 560],  base: [324, 131], tip: [228, 525], stemEnd: [457, 62],  size: 0.9, weight: 1 },
+  { src: SHEET, crop: [75, 680, 520, 645],   base: [252, 427], tip: [252, 24],  stemEnd: [232, 609], size: 0.9, weight: 1 },
+  { src: SHEET, crop: [660, 625, 640, 700],  base: [252, 442], tip: [536, 26],  stemEnd: [120, 672], size: 0.9, weight: 1 },
+  { src: SHEET, crop: [1330, 720, 600, 600], base: [343, 173], tip: [253, 501], size: 0.9, weight: 1 },
+  { src: SHEET, crop: [80, 1415, 495, 500],  base: [258, 306], tip: [250, 38],  size: 0.9, weight: 1 },
+  { src: SHEET, crop: [670, 1330, 720, 660], base: [340, 421], tip: [340, 29],  stemEnd: [326, 596], size: 0.9, weight: 1 },
+  { src: SHEET, crop: [1430, 1410, 490, 575], base: [233, 402], tip: [269, 43], size: 0.9, weight: 1 },
+  // Lady palm: fan of fronds around a centre, stem trailing off bottom-left.
+  { src: '/files/leaf-n1.webp', crop: [0, 94, 1798, 1704],    base: [847, 862],  tip: [1335, 230], stemEnd: [197, 1700], size: 0.75, weight: 1.3, hi: true },
+  // Fan palm.
+  { src: '/files/leaf-n2.webp', crop: [146, 46, 1508, 1378],  base: [764, 950],  tip: [764, 21],   stemEnd: [764, 1378], size: 0.85, weight: 1.3, hi: true },
+  // Leafy bush seen from above; its stems meet under the leaves.
+  { src: '/files/leaf-n4.webp', crop: [348, 60, 1104, 1080],  base: [500, 575],  tip: [560, 40],   size: 0.8, weight: 1, hi: true },
+  // Fern spray.
+  { src: '/files/leaf-n5.webp', crop: [130, 172, 1506, 1514], base: [930, 1186], tip: [702, 41],   stemEnd: [992, 1508], size: 1, weight: 1.3, hi: true },
+  // Dark monstera.
+  { src: '/files/leaf-n6.webp', crop: [70, 94, 1658, 1612],   base: [841, 341],  tip: [591, 1591], size: 1, weight: 2, hi: true },
+  // Monstera with stem.
+  { src: '/files/leaf-n7.webp', crop: [372, 136, 1054, 1508], base: [535, 1069], tip: [393, 16],   stemEnd: [550, 1508], size: 1, weight: 2, hi: true },
+  // Banana leaf.
+  { src: '/files/leaf-n9.webp', crop: [326, 96, 1304, 1596],  base: [196, 1330], tip: [1300, 16],  stemEnd: [70, 1590],  size: 1.3, weight: 1.5, hi: true },
+  // Calathea-style ribbed leaf.
+  { src: '/files/leaf-n8.webp', crop: [430, 75, 890, 1575],   base: [413, 1397], tip: [586, 13],   stemEnd: [353, 1551], size: 0.8, weight: 1.5, hi: true },
+];
+
+function mulberry32(a) {
+  return () => {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rand = mulberry32(11);
+const between = (a, b) => a + (b - a) * rand();
+const DEG = 180 / Math.PI;
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const density = Math.min(1, Math.max(0.45, (innerWidth * innerHeight) / (1440 * 900)));
+
+// Near layers are drawn large, so they only use the high-resolution photos. Leaves set inside
+// the scene would show their stems, so they only use plants without one.
+function pickSprite(depth, role) {
+  const inside = role === 'core' || role === 'deep';
+  const pool = SPRITES.filter((s) =>
+    (s.hi || (role !== 'foreground' && depth < 0.55)) && !(inside && s.stemEnd));
+  let r = rand() * pool.reduce((sum, s) => sum + s.weight, 0);
+  return pool.find((s) => (r -= s.weight) < 0) || pool[pool.length - 1];
+}
+
+// Camera model: every layer sits at a distance from the camera (1 = nearest regular
+// leaf). The camera starts pulled back by DOLLY and moves in as you scroll, so near
+// layers grow a lot, far layers barely, and the logo (furthest back) least of all.
+const DOLLY = 0.8;
+const DEPTH_SPREAD = 2.2;
+const LOGO_DIST = 1 + DEPTH_SPREAD + 0.4;
+// The far layers barely move, so each is painted once into a single image that zooms as a whole.
+const DEEP_DIST = 9;
+const BACK_DIST = 7;
+const isFar = (leaf) => leaf.role === 'deep' || leaf.role === 'backing';
+const zoomAt = (dist, cam) => dist / (dist + DOLLY * (1 - cam));
+
+// Frame leaves grow from just outside the screen edge, so their stems are never in view.
+// Core leaves are stemless blades tucked in closer, under the front layers, to cover the logo.
+// inset: how far in from the edge a core leaf's base sits (fraction of edge→centre).
+// The backing layer sits furthest back, where the zoom barely moves it, and hardly parts,
+// so the screen edges stay covered all the way through. grow lengthens its leaves to reach in.
+// The deep layer is a dim, out-of-focus mass spread across the whole leafy area so no gap reads as empty.
+const GROUPS = [
+  { role: 'deep',       count: 140, jitter: 40, swing: [2, 5],   depth: [0, 0.1], grow: 1.3, dist: [8, 10], inset: [0.05, 0.28], defocus: 0 },
+  { role: 'backing',    count: 200, jitter: 30, swing: [3, 8],   depth: [0, 0.2], grow: 1.4, dist: [6, 8], defocus: 0 },
+  { role: 'frame',      count: 120, jitter: 34, swing: [10, 24], depth: [0, 1] },
+  { role: 'core',       count: 26,  jitter: 30, swing: [18, 34], depth: [0.25, 0.6], inset: [0.22, 0.55] },
+  // Cover leaves reach across the logo at the start and clear it by swinging aside on their stem.
+  { role: 'core',       count: 14,  jitter: 22, swing: [38, 55], depth: [0.6, 0.85], inset: [0.3, 0.45] },
+  { role: 'foreground', count: 6,   jitter: 26, swing: [20, 34], depth: [1, 1], dist: [0.45, 0.6] },
+];
+
+const leaves = [];
+for (const g of GROUPS) {
+  const count = Math.max(2, Math.round(g.count * density));
+  for (let i = 0; i < count; i++) {
+    const depth = between(...g.depth);
+    const jitter = between(-g.jitter, g.jitter);
+    leaves.push({
+      role: g.role,
+      sprite: pickSprite(depth, g.role),
+      // Stratified around the perimeter so no stretch of edge is left bare.
+      u: (i + between(0.15, 0.85)) / count,
+      inset: g.inset ? between(...g.inset) : 0,
+      defocus: g.defocus,
+      scale: between(0.85, 1.15) * (g.grow || 1),
+      jitter,
+      // Parting pushes each leaf further the way it already leans.
+      swing: between(...g.swing) * (Math.abs(jitter) > 4 ? Math.sign(jitter) : rand() < 0.5 ? -1 : 1),
+      depth,
+      dist: g.dist ? between(...g.dist) : 1 + (1 - depth) * DEPTH_SPREAD,
+      foreground: g.role === 'foreground',
+      flip: rand() < 0.5 ? -1 : 1,
+      swayAmp: between(0.25, 0.7),
+      swayPeriod: between(12, 35),
+      swayOffset: between(0, 35),
+      swayPhase: between(0, Math.PI * 2),
+      lag: between(-0.06, 0.06),
+      stiffness: between(12, 22),
+      flutter: between(3, 7) * (rand() < 0.5 ? -1 : 1),
+      tiltAxis: between(0, Math.PI * 2),
+      t: 0,
+      v: 0,
+      brush: { t: 0, v: 0 },
+    });
+  }
+}
+leaves.sort((a, b) => b.dist - a.dist);
+
+const stage = document.getElementById('stage');
+const logo = document.getElementById('logo');
+const shade = document.getElementById('shade');
+const deepSharp = document.getElementById('deep-sharp');
+const deepSoft = document.getElementById('deep-soft');
+const backSharp = document.getElementById('back-sharp');
+const backSoft = document.getElementById('back-soft');
+const hint = document.getElementById('hint');
+const hud = document.getElementById('hud');
+const images = new Map([...new Set(SPRITES.map((s) => s.src))].map((src) => {
+  const img = new Image();
+  img.src = src;
+  return [src, img];
+}));
+
+const SHADOW_PAD = 0.12;
+const MAX_CANVAS = 2200;
+
+// Leaves that look alike share one bitmap: same plant, same depth band, same focus.
+const kindOf = (leaf) => (isFar(leaf) ? 'far' : leaf.foreground ? 'fg' : 'mid');
+const bandOf = (leaf) => (kindOf(leaf) === 'mid' ? Math.round(leaf.depth * 3) / 3 : kindOf(leaf) === 'fg' ? 1 : 0.1);
+const keyOf = (leaf) => `${SPRITES.indexOf(leaf.sprite)}|${kindOf(leaf)}|${bandOf(leaf)}`;
+
+// Bake a plant once: cropped, shaded by depth, with its drop shadow and focus drawn in.
+// Out-of-focus leaves are baked at low resolution, since the blur hides it.
+function bake(leaf, cssPerPx) {
+  const { crop: [x, y, w, h], base, src } = leaf.sprite;
+  const img = images.get(src);
+  const k = img.naturalWidth / coordWidth(src);
+  const kind = kindOf(leaf), depth = bandOf(leaf);
+  const cssW = w * cssPerPx, cssH = h * cssPerPx;
+  const want = kind === 'fg' ? 0.5 : kind === 'far' ? 1 : Math.min(devicePixelRatio || 1, 1.5);
+  const res = Math.min(want, MAX_CANVAS / Math.max(cssW, cssH));
+  const lw = Math.round(cssW * res), lh = Math.round(cssH * res);
+  const pad = Math.round(Math.max(lw, lh) * SHADOW_PAD);
+
+  const shaded = document.createElement('canvas');
+  shaded.width = lw; shaded.height = lh;
+  const sc = shaded.getContext('2d');
+  sc.drawImage(img, x * k, y * k, w * k, h * k, 0, 0, lw, lh);
+  sc.globalCompositeOperation = 'source-atop';
+  sc.fillStyle = `rgba(4, 22, 10, ${(0.45 * (1 - depth)).toFixed(3)})`;
+  sc.fillRect(0, 0, lw, lh);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = lw + pad * 2; canvas.height = lh + pad * 2;
+  const ctx = canvas.getContext('2d');
+  const blur = (6 + 18 * depth + (kind === 'fg' ? 20 : 0)) * res;
+  // Depth of field: the middle layers are in focus, the leaves nearest the lens are soft.
+  // The far layers get their blur as a whole, later.
+  const defocus = kind === 'fg' ? 7 : kind === 'far' ? 0 : Math.max(0, (0.35 - depth) / 0.35) * 1.5;
+  if (defocus > 0) ctx.filter = `blur(${(defocus * res).toFixed(1)}px)`;
+  ctx.shadowColor = `rgba(5, 25, 10, ${(0.25 + 0.3 * depth).toFixed(2)})`;
+  ctx.shadowBlur = blur;
+  ctx.shadowOffsetY = blur * 0.5;
+  ctx.drawImage(shaded, pad, pad);
+  shaded.width = 0;
+
+  return {
+    canvas,
+    cssPerPx,
+    box: [canvas.width / res, canvas.height / res],
+    origin: [pad / res + base[0] * cssPerPx, pad / res + base[1] * cssPerPx],
+  };
+}
+
+const toBlob = (canvas) => new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.9));
+
+// Point on the viewport edge (relative to centre) at perimeter fraction u, with its outward normal.
+function perimeterPoint(u, hw, hh) {
+  const sides = [2 * hw, 2 * hh, 2 * hw, 2 * hh];
+  let d = u * (sides[0] + sides[1] + sides[2] + sides[3]);
+  if (d < sides[0]) return { p: [-hw + d, -hh], n: [0, -1], e: hh };
+  d -= sides[0];
+  if (d < sides[1]) return { p: [hw, -hh + d], n: [1, 0], e: hw };
+  d -= sides[1];
+  if (d < sides[2]) return { p: [hw - d, hh], n: [0, 1], e: hh };
+  d -= sides[2];
+  return { p: [-hw, hh - d], n: [-1, 0], e: hw };
+}
+
+// How far a layer slides with the cursor: strongly for leaves near the lens, barely for the backdrop.
+const parallaxAt = (dist, vmin) => vmin * 0.035 * Math.pow(1 / dist, 1.4);
+
+const rotate = ([x, y], a) => [x * Math.cos(a) - y * Math.sin(a), x * Math.sin(a) + y * Math.cos(a)];
+const normalize = ([x, y]) => { const l = Math.hypot(x, y) || 1; return [x / l, y / l]; };
+
+let vw, vh;
+let leafUrls = [];
+let bakeStats = null;
+async function layout() {
+  vw = innerWidth; vh = innerHeight;
+  const hw = vw / 2, hh = vh / 2;
+  const vmin = Math.min(vw, vh);
+  const logoW = Math.min(vw * 0.5, vh * 0.57);
+  const safeW = logoW / 2 + vmin * 0.07, safeH = (logoW * 197) / 225 / 2 + vmin * 0.07;
+  const margin = vmin * 0.03;
+  // A monstera at the nearest regular layer is this long; everything else scales from it.
+  const unit = 0.55 * Math.max(vmin, 0.62 * Math.max(vw, vh));
+
+  for (const leaf of leaves) {
+    const { p, n } = perimeterPoint(leaf.u, hw, hh);
+    const z0 = zoomAt(leaf.dist, 0);
+    const inward = [-n[0], -n[1]];
+    const toCentre = normalize([-p[0], -p[1]]);
+    const dir0 = rotate(normalize([inward[0] * 0.6 + toCentre[0] * 0.4, inward[1] * 0.6 + toCentre[1] * 0.4]), leaf.jitter / DEG);
+    const dir1 = rotate(dir0, leaf.swing / DEG);
+    // Perspective: further layers look smaller, but gently, so the jungle reads as one scene.
+    const length = leaf.sprite.size * unit * leaf.scale * Math.pow(1 / leaf.dist, 0.6);
+
+    // Frame anchors sit off-screen by enough that cursor parallax never drags a stem into view;
+    // inset leaves are stemless and sit inside. Both are placed in world space so they land
+    // there with the starting zoom.
+    const offEdge = margin + parallaxAt(leaf.dist, vmin) * 1.2;
+    const perp = [-dir1[1], dir1[0]];
+    const place = (inset) => {
+      const start = inset > 0
+        ? [p[0] * (1 - inset), p[1] * (1 - inset)]
+        : [p[0] + n[0] * offEdge, p[1] + n[1] * offEdge];
+      const anchor = [start[0] / z0, start[1] / z0];
+      const out = inset > 0 ? normalize(start) : n;
+      // Pull back far enough that the parted leaf clears the logo.
+      let pull = between(0.01, 0.05) * vmin;
+      const hits = () => [[0, 0.3], [0.2, 0.42], [0.4, 0.46], [0.6, 0.42], [0.8, 0.3], [1, 0.05]].some(([f, lat]) =>
+        [-1, 1].some((side) => {
+          const x = anchor[0] + out[0] * pull + dir1[0] * length * f + perp[0] * length * lat * side;
+          const y = anchor[1] + out[1] * pull + dir1[1] * length * f + perp[1] * length * lat * side;
+          return Math.abs(x) < safeW && Math.abs(y) < safeH;
+        }));
+      for (let i = 0; i < 120 && hits(); i++) pull += vmin * 0.02;
+      return { anchor, out, pull };
+    };
+    // A plant can only lean aside so far: inset leaves that would have to slide a long way
+    // to clear the logo are rooted further out instead.
+    let inset = leaf.inset;
+    let placed = place(inset);
+    while (inset > 0.02 && placed.pull > vmin * 0.08) {
+      inset = Math.max(0.02, inset - 0.03);
+      placed = place(inset);
+    }
+    const { anchor, out } = placed;
+    // Leaves right by the lens sweep out of frame as the camera pushes through them.
+    const pull = placed.pull + (leaf.foreground ? vmin * 0.2 : 0);
+
+    const { base, tip } = leaf.sprite;
+    const mid = [(tip[0] - base[0]) * leaf.flip, tip[1] - base[1]];
+    leaf.cssPerPx = length / Math.hypot(mid[0], mid[1]);
+    leaf.key = keyOf(leaf);
+    leaf.anchor = anchor;
+    leaf.n = out;
+    leaf.pull = pull;
+    leaf.dir0 = dir0;
+    leaf.len = length;
+    leaf.rot0 = Math.atan2(dir0[1], dir0[0]) * DEG - Math.atan2(mid[1], mid[0]) * DEG;
+  }
+
+  // Bake each shared bitmap at the largest size any of its leaves needs; smaller leaves scale it down.
+  const largest = new Map();
+  for (const leaf of leaves) {
+    const prev = largest.get(leaf.key);
+    if (!prev || prev.cssPerPx < leaf.cssPerPx) largest.set(leaf.key, leaf);
+  }
+  const bakes = new Map([...largest].map(([key, leaf]) => [key, bake(leaf, leaf.cssPerPx)]));
+  for (const leaf of leaves) {
+    const b = bakes.get(leaf.key);
+    const s = leaf.cssPerPx / b.cssPerPx;
+    leaf.box = [b.box[0] * s, b.box[1] * s];
+    leaf.origin = [b.origin[0] * s, b.origin[1] * s];
+  }
+
+  // Far layers: sharp copy at the end-of-scroll focus, soft copy at the start; they cross-fade.
+  paintLayer(deepSharp, deepSoft, leaves.filter((leaf) => leaf.role === 'deep'), bakes, 0.75, 0.35, 1.2, 3);
+  paintLayer(backSharp, backSoft, leaves.filter((leaf) => leaf.role === 'backing'), bakes, 1, 0.5, 0.5, 1.6);
+
+  const liveKeys = [...new Set(live.map((leaf) => leaf.key))];
+  const urls = new Map(await Promise.all(liveKeys.map(async (key) =>
+    [key, URL.createObjectURL(await toBlob(bakes.get(key).canvas))])));
+  for (const url of leafUrls) URL.revokeObjectURL(url);
+  leafUrls = [...urls.values()];
+  bakeStats = {
+    bitmaps: liveKeys.length,
+    mb: Math.round(liveKeys.reduce((sum, key) => sum + bakes.get(key).canvas.width * bakes.get(key).canvas.height * 4, 0) / 1048576),
+  };
+  for (const b of bakes.values()) b.canvas.width = 0;
+
+  for (const leaf of live) {
+    leaf.el.src = urls.get(leaf.key);
+    leaf.el.style.width = `${leaf.box[0]}px`;
+    leaf.el.style.height = `${leaf.box[1]}px`;
+    leaf.el.style.transformOrigin = `${leaf.origin[0]}px ${leaf.origin[1]}px`;
+    leaf.el.lastStyle = null;
+  }
+
+  // Deep shadow under the foliage: clear around the logo, darkening toward the edges,
+  // so gaps between leaves read as depth rather than empty page.
+  shade.style.background =
+    `radial-gradient(ellipse ${(safeW * 1.3).toFixed(0)}px ${(safeH * 1.35).toFixed(0)}px at 50% 50%, ` +
+    'rgba(12, 36, 20, 0) 72%, rgba(12, 36, 20, 0.25) 88%, rgba(10, 30, 17, 0.45) 100%)';
+}
+
+// Paint a far layer's leaves, fully parted, into a canvas half again the size of the screen,
+// so it still covers the edges while the camera starts pulled back. It is painted twice:
+// sharp and soft, each blurred once here rather than on every frame.
+function paintLayer(sharp, soft, group, bakes, sharpRes, softRes, sharpBlur, softBlur) {
+  const full = document.createElement('canvas');
+  full.width = Math.round(vw * 1.5 * sharpRes);
+  full.height = Math.round(vh * 1.5 * sharpRes);
+  const ctx = full.getContext('2d');
+  ctx.setTransform(sharpRes, 0, 0, sharpRes, vw * 0.75 * sharpRes, vh * 0.75 * sharpRes);
+  for (const leaf of group) {
+    ctx.save();
+    ctx.translate(leaf.anchor[0] + leaf.n[0] * leaf.pull, leaf.anchor[1] + leaf.n[1] * leaf.pull);
+    ctx.rotate((leaf.rot0 + leaf.swing) / DEG);
+    ctx.scale(leaf.flip, 1);
+    ctx.drawImage(bakes.get(leaf.key).canvas, -leaf.origin[0], -leaf.origin[1], leaf.box[0], leaf.box[1]);
+    ctx.restore();
+  }
+  for (const [canvas, res, blur] of [[sharp, sharpRes, sharpBlur], [soft, softRes, softBlur]]) {
+    canvas.width = Math.round(vw * 1.5 * res);
+    canvas.height = Math.round(vh * 1.5 * res);
+    const c = canvas.getContext('2d');
+    c.filter = `blur(${(blur * res).toFixed(2)}px)`;
+    c.drawImage(full, 0, 0, canvas.width, canvas.height);
+  }
+  full.width = 0;
+}
+
+function scrollFraction() {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+}
+
+const smoothstep = (t) => t * t * (3 - 2 * t);
+const clamp01 = (t) => Math.min(1, Math.max(0, t));
+
+// Front leaves part first, back leaves follow, so the layers separate.
+function leafTarget(leaf, scroll) {
+  const delay = clamp01((1 - leaf.depth) * 0.3 + leaf.lag);
+  return smoothstep(clamp01((scroll - delay) / (1 - delay)));
+}
+
+function spring(state, target, k, zeta, dt) {
+  const c = 2 * Math.sqrt(k) * zeta;
+  for (let i = 0, h = dt / 2; i < 2; i++) {
+    state.v += (k * (target - state.t) - c * state.v) * h;
+    state.t += state.v * h;
+  }
+}
+
+const TAU = Math.PI * 2;
+const camera = { t: 0, v: 0 };
+// Cursor parallax: layers slide against the pointer, nearer ones further, so the scene has volume.
+const pointer = { x: 0, y: 0, px: null, py: null };
+const look = { x: { t: 0, v: 0 }, y: { t: 0, v: 0 } };
+addEventListener('pointermove', (e) => {
+  if (e.pointerType !== 'mouse' || reducedMotion.matches) return;
+  pointer.x = (e.clientX / innerWidth) * 2 - 1;
+  pointer.y = (e.clientY / innerHeight) * 2 - 1;
+  pointer.px = e.clientX;
+  pointer.py = e.clientY;
+});
+let lastPx = null, lastPy = null;
+
+function setStyle(el, prop, value) {
+  if (el.lastStyle?.[prop] === value) return;
+  (el.lastStyle ??= {})[prop] = value;
+  el.style[prop] = value;
+}
+
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  const scroll = scrollFraction();
+  // Everything glides without overshoot; leaves differ only in how quickly they follow.
+  spring(camera, smoothstep(scroll), 16, 1, dt);
+  const cam = camera.t;
+  const time = now / 1000;
+  spring(look.x, pointer.x, 6, 1, dt);
+  spring(look.y, pointer.y, 6, 1, dt);
+  const vmin = Math.min(vw, vh);
+  const cx = vw / 2, cy = vh / 2;
+
+  // Brushing: a cursor sweeping outward from the logo nudges the leaves it passes, like a hand
+  // easing foliage aside. Moving back toward the centre leaves them be.
+  let sweep = 0, radial = [0, 0];
+  if (pointer.px !== null && lastPx !== null) {
+    const mx = pointer.px - lastPx, my = pointer.py - lastPy;
+    radial = normalize([pointer.px - cx, pointer.py - cy]);
+    sweep = Math.min(60, Math.max(0, mx * radial[0] + my * radial[1]));
+  }
+  lastPx = pointer.px;
+  lastPy = pointer.py;
+
+  const logoShift = parallaxAt(LOGO_DIST, vmin);
+  setStyle(logo, 'transform',
+    `translate(calc(-50% + ${(-look.x.t * logoShift).toFixed(1)}px), calc(-50% + ${(-look.y.t * logoShift).toFixed(1)}px)) ` +
+    `scale(${zoomAt(LOGO_DIST, cam).toFixed(4)})`);
+
+  // Focus pull: the far layers sharpen as the camera moves in, by fading out their soft copy.
+  const softness = (1 - cam).toFixed(3);
+  for (const [layer, dist] of [[deepSharp, DEEP_DIST], [deepSoft, DEEP_DIST], [backSharp, BACK_DIST], [backSoft, BACK_DIST]]) {
+    setStyle(layer, 'transform',
+      `translate(${(-look.x.t * parallaxAt(dist, vmin)).toFixed(1)}px, ${(-look.y.t * parallaxAt(dist, vmin)).toFixed(1)}px) scale(${zoomAt(dist, cam).toFixed(4)})`);
+  }
+  setStyle(deepSoft, 'opacity', softness);
+  setStyle(backSoft, 'opacity', softness);
+
+  const shadeZoom = zoomAt(2, cam), shadeShift = parallaxAt(2, vmin);
+  setStyle(shade, 'transform',
+    `translate(${(-look.x.t * shadeShift).toFixed(1)}px, ${(-look.y.t * shadeShift).toFixed(1)}px) scale(${shadeZoom.toFixed(4)})`);
+  const calm = reducedMotion.matches;
+
+  for (const leaf of live) {
+    spring(leaf, leafTarget(leaf, scroll), leaf.stiffness, 1, dt);
+    const t = leaf.t;
+    const zoom = zoomAt(leaf.dist, cam);
+    const out = leaf.pull * t;
+    const parallax = parallaxAt(leaf.dist, vmin);
+    let ax = cx + (leaf.anchor[0] + leaf.n[0] * out) * zoom - look.x.t * parallax;
+    let ay = cy + (leaf.anchor[1] + leaf.n[1] * out) * zoom - look.y.t * parallax;
+
+    if (sweep > 0) {
+      const blade = rotate(leaf.dir0, (leaf.swing * t) / DEG);
+      const reach = leaf.len * zoom;
+      const dx = pointer.px - (ax + blade[0] * reach * 0.5);
+      const dy = pointer.py - (ay + blade[1] * reach * 0.5);
+      const radius = reach * 0.55 + vmin * 0.06;
+      const near = Math.max(0, 1 - Math.hypot(dx, dy) / radius);
+      // Tip the blade away from whichever side the hand passes on.
+      const side = blade[0] * dy - blade[1] * dx > 0 ? -1 : 1;
+      leaf.brush.v += sweep * Math.pow(near, 1.5) * side * 0.055;
+    }
+    spring(leaf.brush, 0, 9, 0.85, dt);
+    const brushed = Math.tanh(leaf.brush.t);
+    const give = Math.abs(brushed) * vmin * 0.01;
+    ax += leaf.n[0] * give;
+    ay += leaf.n[1] * give;
+    // Still most of the time; now and then this one leaf stirs for a couple of seconds.
+    const cycle = (time + leaf.swayOffset) % leaf.swayPeriod;
+    const stir = calm ? 0 : Math.exp(-(((cycle - leaf.swayPeriod / 2) / 0.8) ** 2));
+    const sway = Math.sin(time * 1.1 * TAU + leaf.swayPhase) * stir * leaf.swayAmp;
+    // Movement speed reads as wind: leaves flutter and tip while they swing aside.
+    const gust = calm ? 0 : Math.max(-1, Math.min(1, leaf.v * 1.5));
+    const rot = leaf.rot0 + leaf.swing * t + sway + gust * leaf.flutter * 0.35 + brushed * 5;
+    const tilt = gust * leaf.flutter * 0.6;
+    setStyle(leaf.el, 'transform',
+      `translate3d(${(ax - leaf.origin[0]).toFixed(1)}px, ${(ay - leaf.origin[1]).toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg) ` +
+      `rotate3d(${Math.cos(leaf.tiltAxis).toFixed(3)}, ${Math.sin(leaf.tiltAxis).toFixed(3)}, 0, ${tilt.toFixed(2)}deg) ` +
+      `scale(${(zoom * leaf.flip).toFixed(4)}, ${zoom.toFixed(4)})`);
+  }
+  setStyle(hint, 'opacity', scroll > 0.02 ? '0' : '1');
+  hud.textContent = `spike v19 · ${Math.round(scroll * 100)}% · cam ${Math.round(cam * 100)}%`;
+  requestAnimationFrame(frame);
+}
+
+const live = leaves.filter((leaf) => !isFar(leaf));
+for (const leaf of live) {
+  leaf.el = new Image();
+  leaf.el.className = 'leaf';
+  leaf.el.alt = '';
+  leaf.el.draggable = false;
+}
+
+let resizeTimer;
+addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(layout, 150);
+});
+
+// Hold a plain cover over the scene until every layer is ready, then reveal it all at once.
+const loader = document.getElementById('loader');
+// Match the scene logo's starting size, so the loader's logo is the scene's logo.
+document.getElementById('loader-logo').style.transform =
+  `translate(-50%, -50%) scale(${zoomAt(LOGO_DIST, smoothstep(scrollFraction())).toFixed(4)})`;
+// The logo fills in two movements from its centre point: a column opens up and down, then the
+// fill spreads out to both sides. If loading takes longer, it rests full.
+const OPEN = { delay: 200, duration: 1000, easing: 'cubic-bezier(0.45, 0, 0.25, 1)', fill: 'both' };
+const SPREAD = { delay: 1150, duration: 900, easing: 'cubic-bezier(0.45, 0, 0.25, 1)', fill: 'both' };
+// Slide one window edge from `from` to its resting place, with its child countering the move.
+function slideEdge(id, axis, from, timing) {
+  const edge = document.getElementById(id);
+  const move = (amount) => ({ transform: `translate${axis}(${amount})` });
+  edge.firstElementChild.animate([move(`${-parseFloat(from)}%`), move('0%')], timing);
+  return edge.animate([move(from), move('0%')], timing);
+}
+// The window starts as a line through the centre, 20% wide: top and bottom edges meet in the middle.
+slideEdge('edge-top', 'Y', '50%', OPEN);
+slideEdge('edge-bottom', 'Y', '-50%', OPEN);
+slideEdge('edge-left', 'X', '40%', SPREAD);
+const filling = slideEdge('edge-right', 'X', '-40%', SPREAD);
+
+Promise.all([...images.values()].map((img) => img.decode()))
+  .then(async () => {
+    await layout();
+    await Promise.all(live.map((leaf) => leaf.el.decode()));
+    live.forEach((leaf, i) => {
+      leaf.el.style.zIndex = String(10 + i);
+      stage.appendChild(leaf.el);
+    });
+    const scroll = scrollFraction();
+    camera.t = smoothstep(scroll);
+    for (const leaf of live) leaf.t = leafTarget(leaf, scroll);
+    requestAnimationFrame(async (now) => {
+      frame(now);
+      // Lift the cover only once the logo is full, so nothing moves at the hand-off.
+      await filling.finished;
+      requestAnimationFrame(() => {
+        loader.classList.add('done');
+        loader.addEventListener('transitionend', (e) => e.target === loader && loader.remove());
+      });
+    });
+  });
+</script>
+</body>
+</html>
