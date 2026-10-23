@@ -115,6 +115,17 @@ describe('JungleScene', () => {
 		}
 	});
 
+	it('shows the far layers as decoded images, not canvases Chrome hibernates in background tabs', async () => {
+		const { stage } = await renderReady();
+		expect(stage.querySelectorAll('canvas')).toHaveLength(0);
+		const layers = [...stage.querySelectorAll<HTMLImageElement>('img[data-layer]')];
+		expect(layers).toHaveLength(4);
+		for (const img of layers) {
+			expect(img.src).toMatch(/^blob:/);
+			expect(img.naturalWidth).toBeGreaterThan(0);
+		}
+	});
+
 	it('keeps leaf count and arrangement across a resize', async () => {
 		const { stage } = await renderReady();
 		const before = leafImages(stage).map((img) => img.dataset.key);

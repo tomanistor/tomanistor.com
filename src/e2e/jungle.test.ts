@@ -44,7 +44,8 @@ test('about 80% of the logo is hidden at the start and none at the end', async (
 	const end = await logoPixelShare(page);
 	// Compare against the fully revealed logo with the leaves hidden.
 	await page.addStyleTag({
-		content: 'img[data-key], canvas, [data-jungle-stage] > div { visibility: hidden !important }'
+		content:
+			'img[data-key], img[data-layer], [data-jungle-stage] > div { visibility: hidden !important }'
 	});
 	await page.waitForTimeout(100);
 	const full = await logoPixelShare(page);

@@ -1,4 +1,11 @@
-import { bakeAll, bitmapMegabytes, paintLayer, releaseBitmaps, toObjectUrls } from './bake';
+import {
+	bakeAll,
+	bitmapMegabytes,
+	canvasToObjectUrl,
+	paintLayer,
+	releaseBitmaps,
+	toObjectUrls
+} from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, smoothstep, zoomAt } from './camera';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, shadeGradient, type Viewport } from './layout';
@@ -9,10 +16,10 @@ export type SceneElements = {
 	stage: HTMLElement;
 	logo: HTMLElement;
 	shade: HTMLElement;
-	deepSharp: HTMLCanvasElement;
-	deepSoft: HTMLCanvasElement;
-	backSharp: HTMLCanvasElement;
-	backSoft: HTMLCanvasElement;
+	deepSharp: HTMLImageElement;
+	deepSoft: HTMLImageElement;
+	backSharp: HTMLImageElement;
+	backSoft: HTMLImageElement;
 };
 
 const SEED = 11;
@@ -84,59 +91,66 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		layoutLeaves(leaves, next);
 		const bitmaps = bakeAll(leaves, images, devicePixelRatio || 1);
 		const liveKeys = [...new Set(live.map((l) => l.key!))];
-		const target = snapshot();
-		restore(current);
-
-		const byKey = await toObjectUrls(liveKeys, bitmaps);
-		// Decode before swapping, so no leaf shows blank while its new image loads.
-		await Promise.allSettled(
-			[...byKey.values()].map((url) => {
-				const img = new Image();
-				img.src = url;
-				return img.decode();
-			})
-		);
-		if (destroyed || run !== generation) {
-			releaseBitmaps(bitmaps);
-			for (const url of byKey.values()) URL.revokeObjectURL(url);
-			return;
-		}
-
-		restore(target);
-		viewport = next;
+		// The far layers are painted on hidden canvases and shown as images: Chrome drops canvas
+		// contents in background tabs and is slow to restore them, which flashed white on return.
+		const canvases = Array.from({ length: 4 }, () => document.createElement('canvas'));
+		const [deepSharp, deepSoft, backSharp, backSoft] = canvases;
 		paintLayer(
-			els.deepSharp,
-			els.deepSoft,
+			deepSharp,
+			deepSoft,
 			leaves.filter((l) => l.role === 'deep'),
 			bitmaps,
-			viewport,
+			next,
 			0.75,
 			0.35,
 			1.2,
 			3
 		);
 		paintLayer(
-			els.backSharp,
-			els.backSoft,
+			backSharp,
+			backSoft,
 			leaves.filter((l) => l.role === 'backing'),
 			bitmaps,
-			viewport,
+			next,
 			1,
 			0.5,
 			0.5,
 			1.6
 		);
-		const layerBytes = [els.deepSharp, els.deepSoft, els.backSharp, els.backSoft].reduce(
-			(sum, c) => sum + c.width * c.height * 4,
-			0
-		);
-		els.stage.dataset.bitmapMb = String(
-			bitmapMegabytes(liveKeys, bitmaps) + Math.round(layerBytes / 1048576)
-		);
-		releaseBitmaps(bitmaps);
+		const memoryMb =
+			bitmapMegabytes(liveKeys, bitmaps) +
+			Math.round(canvases.reduce((sum, c) => sum + c.width * c.height * 4, 0) / 1048576);
+		const target = snapshot();
+		restore(current);
 
+		const [byKey, layerUrls] = await Promise.all([
+			toObjectUrls(liveKeys, bitmaps),
+			Promise.all(canvases.map((c, i) => canvasToObjectUrl(c, `layer ${i}`)))
+		]);
+		releaseBitmaps(bitmaps);
+		for (const c of canvases) c.width = 0;
+		const created = [...byKey.values(), ...layerUrls];
+		// Decode before swapping, so nothing shows blank while its new image loads.
+		await Promise.allSettled(
+			created.map((url) => {
+				const img = new Image();
+				img.src = url;
+				return img.decode();
+			})
+		);
+		if (destroyed || run !== generation) {
+			for (const url of created) URL.revokeObjectURL(url);
+			return;
+		}
+
+		restore(target);
+		viewport = next;
+		els.stage.dataset.bitmapMb = String(memoryMb);
 		for (const url of urls) URL.revokeObjectURL(url);
-		urls = [...byKey.values()];
+		urls = created;
+		[els.deepSharp, els.deepSoft, els.backSharp, els.backSoft].forEach(
+			(img, i) => (img.src = layerUrls[i])
+		);
 		for (const leaf of live) {
 			const img = elements.get(leaf)!;
 			img.src = byKey.get(leaf.key!)!;

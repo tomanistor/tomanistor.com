@@ -138,25 +138,24 @@ export function paintLayer(
 	full.width = 0;
 }
 
+export function canvasToObjectUrl(canvas: HTMLCanvasElement, name: string): Promise<string> {
+	return new Promise((resolve, reject) =>
+		canvas.toBlob(
+			(b) => (b ? resolve(URL.createObjectURL(b)) : reject(new Error(`Could not encode ${name}`))),
+			'image/webp',
+			0.9
+		)
+	);
+}
+
 export async function toObjectUrls(
 	keys: string[],
 	bitmaps: Map<string, Bitmap>
 ): Promise<Map<string, string>> {
-	const blobs = await Promise.all(
-		keys.map(
-			(key) =>
-				new Promise<Blob>((resolve, reject) =>
-					bitmaps
-						.get(key)!
-						.canvas.toBlob(
-							(b) => (b ? resolve(b) : reject(new Error(`Could not encode ${key}`))),
-							'image/webp',
-							0.9
-						)
-				)
-		)
+	const urls = await Promise.all(
+		keys.map((key) => canvasToObjectUrl(bitmaps.get(key)!.canvas, key))
 	);
-	return new Map(keys.map((key, i) => [key, URL.createObjectURL(blobs[i])]));
+	return new Map(keys.map((key, i) => [key, urls[i]]));
 }
 
 export function bitmapMegabytes(keys: string[], bitmaps: Map<string, Bitmap>): number {
