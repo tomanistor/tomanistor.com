@@ -90,12 +90,12 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 		}
 	});
 
-	it('caps inset leaf travel at 8% of vmin unless rooted at the edge', () => {
+	it('caps inset leaf travel at 14% of vmin unless rooted at the edge', () => {
 		for (const leaf of laidOut(v).filter((l) => l.role === 'core')) {
 			const z0 = zoomAt(leaf.dist, 0);
 			const [x, y] = leaf.anchor!.map((c) => c * z0);
 			const atEdge = Math.max(Math.abs(x) / (v.width / 2), Math.abs(y) / (v.height / 2)) >= 0.97;
-			expect(leaf.pull! <= vmin * 0.08 || atEdge).toBe(true);
+			expect(leaf.pull! <= vmin * 0.14 || atEdge).toBe(true);
 		}
 	});
 

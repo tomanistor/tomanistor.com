@@ -17,7 +17,7 @@ export async function scrollTo(page: Page, fraction: number): Promise<void> {
 async function pixelShare(
 	page: Page,
 	region: 'edge-band' | 'all',
-	test: 'white' | 'logo',
+	test: 'white' | 'logo' | 'open',
 	band = 0.15
 ): Promise<number> {
 	const png = (await page.screenshot({ scale: 'css' })).toString('base64');
@@ -43,10 +43,10 @@ async function pixelShare(
 					if (region === 'edge-band' && r <= 1 - band) continue;
 					const i = (y * width + x) * 4;
 					const [red, green, blue] = [data[i], data[i + 1], data[i + 2]];
-					const pass =
-						test === 'white'
-							? red > 232 && green > 232 && blue > 232
-							: Math.abs(red - 33) <= 8 && Math.abs(green - 33) <= 8 && Math.abs(blue - 33) <= 8;
+					const white = red > 232 && green > 232 && blue > 232;
+					const logo =
+						Math.abs(red - 33) <= 8 && Math.abs(green - 33) <= 8 && Math.abs(blue - 33) <= 8;
+					const pass = test === 'white' ? white : test === 'logo' ? logo : white || logo;
 					total++;
 					if (pass) hits++;
 				}
@@ -84,3 +84,6 @@ export async function frameStats(page: Page): Promise<{ medianMs: number; worstM
 		return { medianMs: d[d.length >> 1], worstMs: d[d.length - 1] };
 	});
 }
+
+// Share of the screen that is open clearing: white page or the logo, not leaves.
+export const openShare = (page: Page) => pixelShare(page, 'all', 'open');

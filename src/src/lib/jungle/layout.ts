@@ -31,7 +31,7 @@ const BLADE: readonly Point[] = [
 export function logoSafeZone(v: Viewport): { safeW: number; safeH: number } {
 	const vmin = Math.min(v.width, v.height);
 	const logoW = Math.min(v.width * 0.5, v.height * 0.57);
-	return { safeW: logoW / 2 + vmin * 0.07, safeH: (logoW * 197) / 225 / 2 + vmin * 0.07 };
+	return { safeW: logoW / 2 + vmin * 0.13, safeH: (logoW * 197) / 225 / 2 + vmin * 0.13 };
 }
 
 // Point on the viewport edge (relative to centre) at perimeter fraction u, with its outward normal.
@@ -107,7 +107,7 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 		// clear the logo is rooted further out instead.
 		let inset = leaf.inset;
 		let placed = place(inset);
-		while (inset > 0.02 && placed.pull > vmin * 0.08) {
+		while (inset > 0.02 && placed.pull > vmin * 0.14) {
 			inset = Math.max(0.02, inset - 0.03);
 			placed = place(inset);
 		}

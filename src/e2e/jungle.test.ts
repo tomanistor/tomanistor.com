@@ -1,6 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
-import { logoPixelShare, scrollTo, waitForScene, whiteFractionInEdgeBand } from './measure';
+import {
+	logoPixelShare,
+	openShare,
+	scrollTo,
+	waitForScene,
+	whiteFractionInEdgeBand
+} from './measure';
 
 test.describe.configure({ timeout: 180000 });
 
@@ -110,4 +116,12 @@ test('the page does not bounce when scrolled past its ends', async ({ page }) =>
 		[document.documentElement, document.body].map((el) => getComputedStyle(el).overscrollBehaviorY)
 	);
 	expect(overscroll).toEqual(['none', 'none']);
+});
+
+test('leaves a wide clearing around the logo at the end', async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	await page.goto('/');
+	await waitForScene(page);
+	await scrollTo(page, 1);
+	expect(await openShare(page)).toBeGreaterThanOrEqual(0.28);
 });

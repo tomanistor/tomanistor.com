@@ -59,5 +59,11 @@
 		<canvas bind:this={deepSoft} aria-hidden="true" class="{layerClass} z-[1]"></canvas>
 		<canvas bind:this={backSharp} aria-hidden="true" class="{layerClass} z-[2]"></canvas>
 		<canvas bind:this={backSoft} aria-hidden="true" class="{layerClass} z-[2]"></canvas>
+		<!-- A lens vignette over the whole scene, above every leaf; clear well before the logo. -->
+		<div
+			data-vignette
+			aria-hidden="true"
+			class="pointer-events-none absolute inset-0 z-[500] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(8,26,14,0.35)_100%)]"
+		></div>
 	</div>
 </div>

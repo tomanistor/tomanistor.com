@@ -67,6 +67,16 @@ describe('JungleScene', () => {
 		expect(getComputedStyle(logo).willChange).toBe('transform');
 	});
 
+	it('darkens the edges with a vignette above every leaf', async () => {
+		const { stage } = await renderReady();
+		const vignette = stage.querySelector<HTMLElement>('[data-vignette]')!;
+		const style = getComputedStyle(vignette);
+		const topLeaf = Math.max(...leafImages(stage).map((img) => Number(img.style.zIndex)));
+		expect(Number(style.zIndex)).toBeGreaterThan(topLeaf);
+		expect(style.pointerEvents).toBe('none');
+		expect(style.backgroundImage).toContain('radial-gradient');
+	});
+
 	it('keeps leaf count and arrangement across a resize', async () => {
 		const { stage } = await renderReady();
 		const before = leafImages(stage).map((img) => img.dataset.key);
