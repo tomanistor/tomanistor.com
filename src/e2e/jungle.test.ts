@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 import { logoPixelShare, scrollTo, waitForScene, whiteFractionInEdgeBand } from './measure';
 
@@ -93,4 +94,12 @@ test('the scene appears all at once', async ({ page }) => {
 		expected: Number(document.querySelector<HTMLElement>('[data-jungle-stage]')!.dataset.leaves)
 	}));
 	expect(shown).toBe(expected);
+});
+
+// Checks the file Netlify deploys: `vite preview` serves SvelteKit's own prerendered copy instead,
+// which would hide a build step that overwrites it.
+test('the deployed homepage is prerendered with the heading and the logo', () => {
+	const html = readFileSync('build/index.html', 'utf8');
+	expect(html).toContain('Toma Nistor – San Diego Software Engineer</h1>');
+	expect(html).toContain('<noscript>');
 });
