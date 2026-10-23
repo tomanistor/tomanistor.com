@@ -4,7 +4,7 @@
   publish = "build"
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
   # Netlify's default pnpm reads pnpm-workspace.yaml as a workspace definition and fails the install;
   # pnpm 12 reads it as settings. Keep in step with `packageManager` in package.json.
   PNPM_VERSION = "12.5.1"
