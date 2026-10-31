@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleLoader from './JungleLoader.svelte';
 import { LOGO_DIST, smoothstep, zoomAt } from '$lib/jungle/camera';
+import { scrollFraction } from '$lib/jungle/motion';
 import Page from '../../routes/+page.svelte';
 
 const loaderEl = () => document.querySelector<HTMLElement>('[data-jungle-loader]');
@@ -92,13 +93,13 @@ describe('JungleLoader', () => {
 		scrollTo(0, 2000);
 		render(Page);
 		const loaderLogo = loaderEl()!.querySelector('[data-logo-box]')!;
-		const sceneLogo = document.querySelector('[data-jungle-stage] > img')!;
-		await vi.waitFor(() => expect(sceneLogo.getAttribute('style')).toContain('calc'), {
-			timeout: 10000
-		});
-		expect(loaderLogo.getBoundingClientRect().width).toBeCloseTo(
-			sceneLogo.getBoundingClientRect().width,
-			0
-		);
+		const stage = document.querySelector<HTMLElement>('[data-jungle-stage]')!;
+		// The scene draws its logo into the canvas, at the camera's position for the current scroll.
+		const s = scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
+		expect(s).toBeGreaterThan(0.1);
+		const sceneWidth =
+			Math.min(stage.clientWidth * 0.5, stage.clientHeight * 0.57) *
+			zoomAt(LOGO_DIST, smoothstep(s));
+		expect(loaderLogo.getBoundingClientRect().width).toBeCloseTo(sceneWidth, 0);
 	});
 });
