@@ -67,7 +67,7 @@ function paintLogo(img: HTMLImageElement, width: number): HTMLCanvasElement {
 export async function createJungleRenderer(): Promise<JungleRenderer> {
 	const logoImg = new Image();
 	logoImg.src = logoSrc;
-	const [{ Application, BlurFilter, Container, RenderTexture, Sprite, Texture }] =
+	const [{ Application, BlurFilter, Container, RenderTexture, Sprite, Texture, TexturePool }] =
 		await Promise.all([import('pixi.js'), logoImg.decode()]);
 	const app = new Application();
 	// The baked canvases are released once uploaded, so the GPU copy must never be collected.
@@ -175,6 +175,8 @@ export async function createJungleRenderer(): Promise<JungleRenderer> {
 					{ sprite: new Sprite(softTexture), dist, soft: true }
 				];
 			});
+			// The blur passes leave scratch textures pooled; nothing filters again until the next build.
+			TexturePool.clear(true);
 			for (const { sprite } of far) {
 				sprite.anchor.set(0.5);
 				app.stage.addChild(sprite);
