@@ -153,3 +153,39 @@ export async function screenshotDiff(page: Page, a: Buffer, b: Buffer): Promise<
 
 // Share of the screen that is open clearing: white page or the logo, not leaves.
 export const openShare = (page: Page) => pixelShare(page, { kind: 'all' }, 'open');
+
+// Number of separate runs of open rows down the centre strip (x 0.48..0.52). A row is open when at
+// least half its sampled pixels are white or logo; rows are sampled every 2px.
+export async function openRuns(page: Page): Promise<number> {
+	const png = (await page.screenshot({ scale: 'css' })).toString('base64');
+	return page.evaluate(async (png) => {
+		const img = new Image();
+		img.src = `data:image/png;base64,${png}`;
+		await img.decode();
+		const canvas = document.createElement('canvas');
+		canvas.width = img.naturalWidth;
+		canvas.height = img.naturalHeight;
+		const ctx = canvas.getContext('2d')!;
+		ctx.drawImage(img, 0, 0);
+		const { data, width, height } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		let runs = 0;
+		let wasOpen = false;
+		for (let y = 0; y < height; y += 2) {
+			let open = 0;
+			let total = 0;
+			for (let x = Math.ceil(width * 0.48); x < width * 0.52; x += 2) {
+				const i = (y * width + x) * 4;
+				const [red, green, blue] = [data[i], data[i + 1], data[i + 2]];
+				const white = red > 232 && green > 232 && blue > 232;
+				const logo =
+					Math.abs(red - 33) <= 8 && Math.abs(green - 33) <= 8 && Math.abs(blue - 33) <= 8;
+				total++;
+				if (white || logo) open++;
+			}
+			const isOpen = open / total >= 0.5;
+			if (isOpen && !wasOpen) runs++;
+			wasOpen = isOpen;
+		}
+		return runs;
+	}, png);
+}

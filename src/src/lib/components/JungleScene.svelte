@@ -39,7 +39,13 @@
 		<div
 			data-vignette
 			aria-hidden="true"
-			class="pointer-events-none absolute inset-0 z-[500] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(8,26,14,0.35)_100%)]"
+			class="pointer-events-none absolute inset-0 z-[500] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(8,26,14,0.35)_100%)] opacity-[calc(1_-_var(--open,0))]"
+		></div>
+		<!-- Once the arch opens, the vignette moves to the top and the sides, leaving the bottom clear. -->
+		<div
+			data-vignette="arch"
+			aria-hidden="true"
+			class="pointer-events-none absolute inset-0 z-[500] bg-[linear-gradient(to_bottom,rgba(8,26,14,0.35),transparent_25%),linear-gradient(to_right,rgba(8,26,14,0.35),transparent_25%,transparent_75%,rgba(8,26,14,0.35))] opacity-[var(--open,0)]"
 		></div>
 	</div>
 </div>

@@ -3,7 +3,7 @@ import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
 import { textureMegabytes, type Bitmap } from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
-import { DEG, openingZone, type Viewport } from './layout';
+import { archZone, DEG, openingZone, type Viewport } from './layout';
 import { logoPose, logoWidth } from './phases';
 import type { LeafPose } from './motion';
 
@@ -62,6 +62,34 @@ function paintShade(v: Viewport): HTMLCanvasElement {
 	return canvas;
 }
 
+// Clear inside `archZone`, then darkening with the oval's colour stops over a short distance.
+function paintArchShade(v: Viewport): HTMLCanvasElement {
+	const { cy, half, rTop } = archZone(v);
+	const canvas = document.createElement('canvas');
+	canvas.width = Math.round(v.width * 1.8 * SHADE_RES);
+	canvas.height = Math.round(v.height * 1.8 * SHADE_RES);
+	const ctx = canvas.getContext('2d')!;
+	const image = ctx.createImageData(canvas.width, canvas.height);
+	const fade = half * 0.3;
+	for (let py = 0; py < canvas.height; py++) {
+		const y = (py + 0.5 - canvas.height / 2) / SHADE_RES;
+		for (let px = 0; px < canvas.width; px++) {
+			const x = (px + 0.5 - canvas.width / 2) / SHADE_RES;
+			const outside =
+				y >= cy ? Math.abs(x) - half : (Math.hypot(x / half, (y - cy) / rTop) - 1) * half;
+			const t = Math.min(Math.max(outside / fade, 0), 1);
+			const i = (py * canvas.width + px) * 4;
+			const deep = Math.max((t - 0.57) / 0.43, 0);
+			image.data[i] = 12 - 2 * deep;
+			image.data[i + 1] = 36 - 6 * deep;
+			image.data[i + 2] = 20 - 3 * deep;
+			image.data[i + 3] = (t < 0.57 ? (t / 0.57) * 0.25 : 0.25 + deep * 0.2) * 255;
+		}
+	}
+	ctx.putImageData(image, 0, 0);
+	return canvas;
+}
+
 function paintLogo(img: HTMLImageElement, width: number): HTMLCanvasElement {
 	const canvas = document.createElement('canvas');
 	canvas.width = Math.round(width);
@@ -99,6 +127,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 
 	let owned: (Texture | RenderTexture)[] = [];
 	let shade: Sprite;
+	let archShade: Sprite;
 	let logo: Sprite;
 	let logoScale = 1;
 	let far: { sprite: Sprite; dist: number; soft: boolean; drop: number }[] = [];
@@ -171,19 +200,24 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 			app.renderer.resize(v.width, v.height, resolution);
 
 			const shadeCanvas = paintShade(v);
+			const archCanvas = paintArchShade(v);
 			const logoW = logoWidth(v);
 			const logoCanvas = paintLogo(logoImg, logoW * resolution);
 			shade = new Sprite(upload(shadeCanvas));
+			archShade = new Sprite(upload(archCanvas));
 			logo = new Sprite(upload(logoCanvas));
 			logoScale = logoW / logoCanvas.width;
 			textureMb =
 				megabytes(shadeCanvas.width, shadeCanvas.height) +
+				megabytes(archCanvas.width, archCanvas.height) +
 				megabytes(logoCanvas.width, logoCanvas.height);
 			shadeCanvas.width = 0;
+			archCanvas.width = 0;
 			logoCanvas.width = 0;
 			shade.anchor.set(0.5);
+			archShade.anchor.set(0.5);
 			logo.anchor.set(0.5);
-			app.stage.addChild(shade, logo);
+			app.stage.addChild(shade, archShade, logo);
 
 			// Each far layer is baked in two parts: the leaves that stay, and those that drop out of the
 			// arch together as it opens.
@@ -233,6 +267,9 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 				sprite.scale.set(zoomAt(dist, cam) * scale);
 			};
 			place(shade, 2, 1 / SHADE_RES);
+			place(archShade, 2, 1 / SHADE_RES);
+			shade.alpha = 1 - open;
+			archShade.alpha = open;
 			const pose = logoPose(cam, open, viewport);
 			place(logo, LOGO_DIST, 1);
 			logo.y += pose.dy;

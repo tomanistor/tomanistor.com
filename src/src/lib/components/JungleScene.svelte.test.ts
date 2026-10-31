@@ -75,13 +75,18 @@ describe('JungleScene', () => {
 		expect(stage.querySelectorAll('canvas')).toHaveLength(1);
 	});
 
-	it('darkens the edges with a vignette above the canvas', async () => {
+	it('darkens the edges with two vignettes above the canvas', async () => {
 		const { stage } = await renderReady();
-		const vignette = getComputedStyle(stage.querySelector('[data-vignette]')!);
 		const canvas = getComputedStyle(stage.querySelector('canvas')!);
-		expect(Number(vignette.zIndex)).toBeGreaterThan(Number(canvas.zIndex));
-		expect(vignette.pointerEvents).toBe('none');
-		expect(vignette.backgroundImage).toContain('radial-gradient');
+		const vignettes = [...stage.querySelectorAll('[data-vignette]')].map((el) =>
+			getComputedStyle(el)
+		);
+		expect(vignettes).toHaveLength(2);
+		for (const vignette of vignettes) {
+			expect(Number(vignette.zIndex)).toBeGreaterThan(Number(canvas.zIndex));
+			expect(vignette.pointerEvents).toBe('none');
+			expect(vignette.backgroundImage).toContain('gradient');
+		}
 	});
 
 	it('ignores a resize event when the size has not changed', async () => {

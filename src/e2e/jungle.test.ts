@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 import {
 	logoPixelShare,
+	openRuns,
 	openShare,
 	regionShare,
 	screenshotDiff,
@@ -15,6 +16,8 @@ test.describe.configure({ timeout: 180000 });
 
 const stageMb = (page: import('@playwright/test').Page) =>
 	page.locator('[data-jungle-stage]').evaluate((el) => Number((el as HTMLElement).dataset.gpuMb));
+
+const BOTTOM_MIDDLE = { x0: 0.3, y0: 0.75, x1: 0.7, y1: 1 };
 
 for (const [width, height] of [
 	[1440, 900],
@@ -42,6 +45,14 @@ for (const [width, height] of [
 				`at ${fraction * 100}%`
 			).toBeLessThanOrEqual(0.0005);
 		}
+	});
+
+	test(`leaves the bottom middle pure white when open at ${width}×${height}`, async ({ page }) => {
+		await page.setViewportSize({ width, height });
+		await page.goto('/');
+		await waitForScene(page);
+		await scrollTo(page, 1);
+		expect(await regionShare(page, BOTTOM_MIDDLE, 'pure')).toBe(1);
 	});
 
 	test(`keeps leaves in both bottom corners when open at ${width}×${height}`, async ({ page }) => {
@@ -154,6 +165,46 @@ test('leaves a wide clearing around the logo at the end of the reveal', async ({
 	await waitForScene(page);
 	await scrollTo(page, 0.5);
 	expect(await openShare(page)).toBeGreaterThanOrEqual(0.39);
+});
+
+for (const [width, height] of [
+	[1440, 900],
+	[390, 844]
+]) {
+	test(`opens as one arch, never a figure 8 at ${width}×${height}`, async ({ page }) => {
+		test.setTimeout(300000);
+		await page.setViewportSize({ width, height });
+		await page.goto('/');
+		await waitForScene(page);
+		for (const fraction of [0.6, 0.75, 0.9, 1]) {
+			await scrollTo(page, fraction);
+			expect(await openRuns(page), `at ${fraction * 100}%`).toBe(1);
+		}
+	});
+}
+
+test('starts open when reloaded at the end', async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	await page.goto('/');
+	await waitForScene(page);
+	await scrollTo(page, 1);
+	await page.reload();
+	await waitForScene(page);
+	expect(await regionShare(page, BOTTOM_MIDDLE, 'pure')).toBe(1);
+});
+
+test('stays open across a resize', async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	await page.goto('/');
+	await waitForScene(page);
+	await scrollTo(page, 1);
+	const stage = page.locator('[data-jungle-stage]');
+	const before = Number(await stage.getAttribute('data-generation'));
+	await page.setViewportSize({ width: 1280, height: 800 });
+	await expect
+		.poll(async () => Number(await stage.getAttribute('data-generation')))
+		.toBeGreaterThan(before);
+	expect(await regionShare(page, BOTTOM_MIDDLE, 'pure')).toBe(1);
 });
 
 for (const losses of [1, 2]) {

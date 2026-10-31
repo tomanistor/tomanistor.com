@@ -83,6 +83,9 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		};
 		const poses = live.map((leaf) => leafPose(leaf, input, dt));
 		renderer!.draw({ cam: camera.t, open: opening.t, look: input.look, poses });
+		const openCss = String(Math.round(opening.t * 1000) / 1000);
+		if (els.stage.style.getPropertyValue('--open') !== openCss)
+			els.stage.style.setProperty('--open', openCss);
 		const drawn = String(poses.length);
 		if (els.stage.dataset.drawn !== drawn) els.stage.dataset.drawn = drawn;
 		if (schedule) frameId = requestAnimationFrame((t) => frame(t));
