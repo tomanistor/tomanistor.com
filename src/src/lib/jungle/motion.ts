@@ -75,7 +75,7 @@ export function leafPose(leaf: Leaf, f: FrameInput, dt: number): LeafPose {
 	spring(leaf, leafTarget(leaf, f.scroll), leaf.stiffness, 1, dt);
 	const t = leaf.t;
 	const zoom = zoomAt(leaf.dist, f.cam);
-	const out = leaf.pull! * t;
+	const out = leaf.pull! * t + (leaf.exit ?? 0) * f.open;
 	const parallax = parallaxAt(leaf.dist, vmin);
 	let ax = f.width / 2 + (anchor[0] + n[0] * out) * zoom - f.look.x * parallax;
 	let ay = f.height / 2 + (anchor[1] + n[1] * out) * zoom - f.look.y * parallax;

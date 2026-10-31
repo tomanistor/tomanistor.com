@@ -1,6 +1,6 @@
 import { parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
-import { logoWidth } from './phases';
+import { LOGO_REST_DY, LOGO_REST_SCALE, logoWidth } from './phases';
 import { SPRITES } from './sprites';
 
 export type Viewport = { width: number; height: number };
@@ -29,6 +29,16 @@ const BLADE: readonly Point[] = [
 	[1, 0.05]
 ];
 
+// Points around the ellipse inscribed in a photo's crop, as fractions of the crop. Leaves fill
+// most of it; the corners are mostly bare.
+const PHOTO_EDGE: readonly Point[] = Array.from(
+	{ length: 16 },
+	(_, i): Point => [
+		0.5 + 0.5 * Math.cos((i * Math.PI) / 8),
+		0.5 + 0.5 * Math.sin((i * Math.PI) / 8)
+	]
+);
+
 export function logoSafeZone(v: Viewport): { safeW: number; safeH: number } {
 	const vmin = Math.min(v.width, v.height);
 	const logoW = logoWidth(v);
@@ -43,6 +53,27 @@ export function openingZone(v: Viewport): { safeW: number; safeH: number } {
 	const { safeW, safeH } = logoSafeZone(v);
 	return { safeW: safeW * OPEN_WIDEN, safeH: safeH * OPEN_WIDEN };
 }
+
+// Centre-relative px at cam 1, keyed to the resting logo. The opening: above the bottom of the
+// screen, |x| < half, and either below cy or inside the top half-ellipse.
+export type Arch = { cy: number; half: number; rTop: number; bottom: number };
+
+export function archZone(v: Viewport): Arch {
+	const vmin = Math.min(v.width, v.height);
+	const w = logoWidth(v) * LOGO_REST_SCALE;
+	const h = (w * 197) / 225;
+	return {
+		cy: LOGO_REST_DY * v.height,
+		half: Math.min(w / 2 + 0.13 * vmin + 0.22 * vmin, 0.34 * v.width),
+		rTop: h / 2 + 0.13 * vmin,
+		bottom: v.height / 2
+	};
+}
+
+export const inArch = (x: number, y: number, a: Arch): boolean =>
+	y < a.bottom &&
+	Math.abs(x) < a.half &&
+	(y >= a.cy || (x / a.half) ** 2 + ((y - a.cy) / a.rTop) ** 2 < 1);
 
 // Point on the viewport edge (relative to centre) at perimeter fraction u, with its outward normal.
 function perimeterPoint(u: number, hw: number, hh: number): { p: Point; n: Point } {
@@ -69,6 +100,7 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 	const vmin = Math.min(v.width, v.height);
 	const clear = logoSafeZone(v);
 	const open = openingZone(v);
+	const arch = archZone(v);
 	const margin = vmin * 0.03;
 	// A monstera at the nearest regular layer is this long; everything else scales from it.
 	const unit = 0.55 * Math.max(vmin, 0.62 * Math.max(v.width, v.height));
@@ -90,6 +122,31 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 		// Far enough off-screen that cursor parallax never drags a stem into view.
 		const offEdge = margin + parallaxAt(leaf.dist, vmin) * 1.2;
 
+		const { base, tip, crop } = leaf.sprite;
+		const mid: Point = [(tip[0] - base[0]) * leaf.flip, tip[1] - base[1]];
+		// The photo's outline, in blade lengths along and across the midrib. Some blades spread well
+		// past the samples below, and the bottom of the arch must end up blank. The outline is
+		// generous, so it is only held below the arch's centre: above it, a far leaf would have to
+		// fall through the clearing to get out.
+		const m2 = mid[0] ** 2 + mid[1] ** 2;
+		const photo = PHOTO_EDGE.map(([fx, fy]): Point => {
+			const q: Point = [(fx * crop[2] - base[0]) * leaf.flip, fy * crop[3] - base[1]];
+			return [(q[0] * mid[0] + q[1] * mid[1]) / m2, (q[1] * mid[0] - q[0] * mid[1]) / m2];
+		});
+
+		// A wide plant is checked at both its blade width and its full width, so the logo can't slip
+		// between the sample points.
+		const widths = girth > 1 ? [-girth, -1, 1, girth] : [-1, 1];
+		const touches = (root: Point, inside: (x: number, y: number) => boolean) =>
+			BLADE.some(([f, lat]) =>
+				widths.some((w) =>
+					inside(
+						root[0] + dir1[0] * length * f + perp[0] * length * lat * w,
+						root[1] + dir1[1] * length * f + perp[1] * length * lat * w
+					)
+				)
+			);
+
 		// Anchors are in world space, placed so they land on screen where intended at the starting zoom.
 		const place = (inset: number, zone: { safeW: number; safeH: number }) => {
 			const start: Point =
@@ -98,16 +155,10 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 					: [p[0] + n[0] * offEdge, p[1] + n[1] * offEdge];
 			const anchor: Point = [start[0] / z0, start[1] / z0];
 			const out = inset > 0 ? normalize(start) : n;
-			// A wide plant is checked at both its blade width and its full width, so the logo can't
-			// slip between the sample points.
-			const widths = girth > 1 ? [-girth, -1, 1, girth] : [-1, 1];
 			const hits = (pull: number) =>
-				BLADE.some(([f, lat]) =>
-					widths.some((w) => {
-						const x = anchor[0] + out[0] * pull + dir1[0] * length * f + perp[0] * length * lat * w;
-						const y = anchor[1] + out[1] * pull + dir1[1] * length * f + perp[1] * length * lat * w;
-						return Math.abs(x) < zone.safeW && Math.abs(y) < zone.safeH;
-					})
+				touches(
+					[anchor[0] + out[0] * pull, anchor[1] + out[1] * pull],
+					(x, y) => Math.abs(x) < zone.safeW && Math.abs(y) < zone.safeH
 				);
 			let pull = leaf.retract * vmin;
 			for (let i = 0; i < 120 && hits(pull); i++) pull += vmin * 0.02;
@@ -125,12 +176,31 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 
 		placed = place(inset, open);
 
-		const { base, tip } = leaf.sprite;
-		const mid: Point = [(tip[0] - base[0]) * leaf.flip, tip[1] - base[1]];
 		leaf.anchor = placed.anchor;
 		leaf.n = placed.out;
 		// Leaves right by the lens sweep out of frame as the camera pushes through them.
 		leaf.pull = placed.pull + (leaf.foreground ? vmin * 0.2 : 0);
+		// The arch opens by moving leaves out along their way out; a far layer is baked flat, so its
+		// leaves can only drop out through the bottom together.
+		const parted: Point = [
+			placed.anchor[0] + placed.out[0] * leaf.pull,
+			placed.anchor[1] + placed.out[1] * leaf.pull
+		];
+		const away: Point = isFar(leaf) ? [0, 1] : placed.out;
+		const inside = (x: number, y: number) => inArch(x, y, arch);
+		const blocked = (exit: number) => {
+			const root: Point = [parted[0] + away[0] * exit, parted[1] + away[1] * exit];
+			return (
+				touches(root, inside) ||
+				photo.some(([f, lat]) => {
+					const y = root[1] + dir1[1] * length * f + perp[1] * length * lat;
+					return y >= arch.cy && inside(root[0] + dir1[0] * length * f + perp[0] * length * lat, y);
+				})
+			);
+		};
+		let exit = 0;
+		for (let i = 0; i < 500 && blocked(exit); i++) exit += vmin * 0.02;
+		leaf.exit = exit;
 		leaf.dir0 = dir0;
 		leaf.len = length;
 		leaf.rot0 = Math.atan2(dir0[1], dir0[0]) * DEG - Math.atan2(mid[1], mid[0]) * DEG;

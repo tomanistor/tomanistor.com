@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { zoomAt } from './camera';
 import { generateLeaves, isFar, type Leaf } from './leaves';
-import { layoutLeaves, logoSafeZone, openingZone, type Viewport } from './layout';
+import { archZone, inArch, layoutLeaves, logoSafeZone, openingZone, type Viewport } from './layout';
 
 const VIEWPORTS: Viewport[] = [
 	{ width: 1440, height: 900 },
@@ -15,11 +15,50 @@ const rotate = ([x, y]: [number, number], a: number): [number, number] => [
 	x * Math.sin(a) + y * Math.cos(a)
 ];
 
+const BLADE = [
+	[0, 0.3],
+	[0.2, 0.42],
+	[0.4, 0.46],
+	[0.6, 0.42],
+	[0.8, 0.3],
+	[1, 0.05]
+];
+
 function laidOut(v: Viewport): Leaf[] {
 	const leaves = generateLeaves(11, 1);
 	layoutLeaves(leaves, v);
 	return leaves;
 }
+
+describe('archZone', () => {
+	it('opens around the resting logo at 1440×900', () => {
+		const a = archZone({ width: 1440, height: 900 });
+		expect(Math.abs(a.half - 486)).toBeLessThanOrEqual(3);
+		expect(Math.abs(a.cy - a.rTop - -321)).toBeLessThanOrEqual(5);
+		expect(a.bottom).toBe(450);
+	});
+
+	it('keeps a strip of leaves on each side of a phone', () => {
+		expect(archZone({ width: 390, height: 844 }).half).toBe(0.34 * 390);
+	});
+
+	it('stays narrow enough on an ultrawide', () => {
+		expect(Math.abs(archZone({ width: 3440, height: 1440 }).half - 778)).toBeLessThanOrEqual(3);
+	});
+});
+
+describe('inArch', () => {
+	const a = { cy: 0, half: 100, rTop: 50, bottom: 200 };
+	it('is the strip below the centre line and the half-ellipse above it, ending at the bottom', () => {
+		expect(inArch(0, 150, a)).toBe(true);
+		expect(inArch(99, 0, a)).toBe(true);
+		expect(inArch(0, -49, a)).toBe(true);
+		expect(inArch(0, -51, a)).toBe(false);
+		expect(inArch(90, -40, a)).toBe(false);
+		expect(inArch(101, 50, a)).toBe(false);
+		expect(inArch(0, 200, a)).toBe(false);
+	});
+});
 
 describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 	const vmin = Math.min(v.width, v.height);
@@ -58,6 +97,33 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 						dir1[1] * leaf.len! * f +
 						perp[1] * leaf.len! * lat * side;
 					expect(Math.abs(x) < safeW && Math.abs(y) < safeH).toBe(false);
+				}
+			}
+		}
+	});
+
+	it('clears the arch once open', () => {
+		const arch = archZone(v);
+		for (const leaf of laidOut(v)) {
+			const dir1 = rotate(leaf.dir0!, leaf.swing / DEG);
+			const perp = [-dir1[1], dir1[0]];
+			const travel = isFar(leaf) ? leaf.pull! : leaf.pull! + leaf.exit!;
+			const drop = isFar(leaf) ? leaf.exit! : 0;
+			expect(leaf.exit).toBeGreaterThanOrEqual(0);
+			for (const [f, lat] of BLADE) {
+				for (const side of [-1, 1]) {
+					const x =
+						leaf.anchor![0] +
+						leaf.n![0] * travel +
+						dir1[0] * leaf.len! * f +
+						perp[0] * leaf.len! * lat * side;
+					const y =
+						leaf.anchor![1] +
+						leaf.n![1] * travel +
+						drop +
+						dir1[1] * leaf.len! * f +
+						perp[1] * leaf.len! * lat * side;
+					expect(inArch(x, y, arch)).toBe(false);
 				}
 			}
 		}

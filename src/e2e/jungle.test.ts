@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 import {
 	logoPixelShare,
 	openShare,
+	regionShare,
 	screenshotDiff,
 	scrollTo,
 	waitForScene,
@@ -22,13 +23,38 @@ for (const [width, height] of [
 	[390, 844]
 ]) {
 	test(`edges are covered at every scroll position at ${width}×${height}`, async ({ page }) => {
+		// Each settled scroll takes up to half a minute at 3440×1440.
+		test.setTimeout(300000);
 		await page.setViewportSize({ width, height });
 		await page.goto('/');
 		await waitForScene(page);
-		for (const fraction of [0, 0.125, 0.25, 0.375, 0.5, 1]) {
+		for (const fraction of [0, 0.125, 0.25, 0.375, 0.5]) {
 			await scrollTo(page, fraction);
 			expect(await whiteFractionInEdgeBand(page), `at ${fraction * 100}%`).toBeLessThanOrEqual(
 				0.0005
+			);
+		}
+		// Once the arch opens, the bottom edge is open on purpose.
+		for (const fraction of [0.75, 1]) {
+			await scrollTo(page, fraction);
+			expect(
+				await whiteFractionInEdgeBand(page, 0.1, ['top', 'left', 'right']),
+				`at ${fraction * 100}%`
+			).toBeLessThanOrEqual(0.0005);
+		}
+	});
+
+	test(`keeps leaves in both bottom corners when open at ${width}×${height}`, async ({ page }) => {
+		await page.setViewportSize({ width, height });
+		await page.goto('/');
+		await waitForScene(page);
+		await scrollTo(page, 1);
+		for (const rect of [
+			{ x0: 0, y0: 0.85, x1: 0.1, y1: 1 },
+			{ x0: 0.9, y0: 0.85, x1: 1, y1: 1 }
+		]) {
+			expect(await regionShare(page, rect, 'leaf'), JSON.stringify(rect)).toBeGreaterThanOrEqual(
+				0.5
 			);
 		}
 	});

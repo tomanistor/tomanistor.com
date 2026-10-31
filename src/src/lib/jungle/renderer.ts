@@ -101,7 +101,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 	let shade: Sprite;
 	let logo: Sprite;
 	let logoScale = 1;
-	let far: { sprite: Sprite; dist: number; soft: boolean }[] = [];
+	let far: { sprite: Sprite; dist: number; soft: boolean; drop: number }[] = [];
 	let leaves: { sprite: Sprite; box: [number, number] }[] = [];
 	let viewport: Viewport = { width: 0, height: 0 };
 	let textureMb = 0;
@@ -185,13 +185,23 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 			logo.anchor.set(0.5);
 			app.stage.addChild(shade, logo);
 
+			// Each far layer is baked in two parts: the leaves that stay, and those that drop out of the
+			// arch together as it opens.
 			far = FAR.flatMap(({ role, dist, sharp, soft }) => {
 				const group = all.filter((l) => l.role === role);
-				const [sharpTexture, softTexture] = bakeLayer(group, bitmaps, v, [sharp, soft]);
+				const exiting = group.filter((l) => l.exit! > 0);
 				return [
-					{ sprite: new Sprite(sharpTexture), dist, soft: false },
-					{ sprite: new Sprite(softTexture), dist, soft: true }
-				];
+					{ leaves: group.filter((l) => l.exit === 0), drop: 0 },
+					{ leaves: exiting, drop: Math.max(0, ...exiting.map((l) => l.exit!)) }
+				]
+					.filter((part) => part.leaves.length > 0)
+					.flatMap(({ leaves, drop }) => {
+						const [sharpTexture, softTexture] = bakeLayer(leaves, bitmaps, v, [sharp, soft]);
+						return [
+							{ sprite: new Sprite(sharpTexture), dist, soft: false, drop },
+							{ sprite: new Sprite(softTexture), dist, soft: true, drop }
+						];
+					});
 			});
 			// The blur passes leave scratch textures pooled; nothing filters again until the next build.
 			TexturePool.clear(true);
@@ -228,8 +238,9 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 			logo.y += pose.dy;
 			logo.scale.set(pose.scale * logoScale);
 			// Focus pull: the far layers sharpen as the camera moves in, by fading out their soft copy.
-			for (const { sprite, dist, soft } of far) {
+			for (const { sprite, dist, soft, drop } of far) {
 				place(sprite, dist, 1);
+				sprite.y += open * drop * zoomAt(dist, cam);
 				if (soft) sprite.alpha = 1 - cam;
 			}
 			poses.forEach((pose, i) => {

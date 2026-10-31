@@ -48,6 +48,8 @@ export type Leaf = {
 	anchor?: Point;
 	n?: Point;
 	pull?: number;
+	// Extra travel out of the arch once it opens: along `n` for live leaves, straight down for far ones.
+	exit?: number;
 	dir0?: Point;
 	len?: number;
 	rot0?: number;

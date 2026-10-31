@@ -93,6 +93,18 @@ describe('leafPose', () => {
 		expect(leafPose(leaf, input, 1 / 60)).toEqual(leafPose(leaf, input, 1 / 60));
 	});
 
+	it('moves a leaf out by its exit as the arch opens', () => {
+		for (const leaf of liveLeaves().filter((l) => l.exit! > 0)) {
+			const input = frame({ calm: true, scroll: 0.5, cam: 1 });
+			for (let i = 0; i < 600; i++) leafPose(leaf, input, 1 / 60);
+			const shut = leafPose(leaf, input, 1 / 60);
+			const open = leafPose(leaf, { ...input, open: 1 }, 1 / 60);
+			const zoom = zoomAt(leaf.dist, 1);
+			expect(open.x - shut.x).toBeCloseTo(leaf.n![0] * leaf.exit! * zoom, 6);
+			expect(open.y - shut.y).toBeCloseTo(leaf.n![1] * leaf.exit! * zoom, 6);
+		}
+	});
+
 	it('places the origin where the old transform did', () => {
 		for (const leaf of liveLeaves()) {
 			leaf.origin = [37, 52];

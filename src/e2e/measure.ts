@@ -19,17 +19,20 @@ export async function scrollTo(page: Page, fraction: number): Promise<void> {
 	}
 }
 
+export type Edge = 'top' | 'right' | 'bottom' | 'left';
+type Rect = { x0: number; y0: number; x1: number; y1: number };
+type PixelTest = 'white' | 'logo' | 'open' | 'pure' | 'leaf';
+type Region =
+	| { kind: 'all' }
+	| { kind: 'edge-band'; band: number; edges: Edge[] }
+	| { kind: 'rect'; rect: Rect };
+
 // Runs a pixel test over the current viewport screenshot, inside the page, and returns the share of
 // pixels in `region` that pass `test`.
-async function pixelShare(
-	page: Page,
-	region: 'edge-band' | 'all',
-	test: 'white' | 'logo' | 'open',
-	band = 0.15
-): Promise<number> {
+async function pixelShare(page: Page, region: Region, test: PixelTest): Promise<number> {
 	const png = (await page.screenshot({ scale: 'css' })).toString('base64');
 	return page.evaluate(
-		async ({ png, region, test, band }) => {
+		async ({ png, region, test }) => {
 			const img = new Image();
 			img.src = `data:image/png;base64,${png}`;
 			await img.decode();
@@ -39,35 +42,58 @@ async function pixelShare(
 			const ctx = canvas.getContext('2d')!;
 			ctx.drawImage(img, 0, 0);
 			const { data, width, height } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			const inside = (x: number, y: number) => {
+				if (region.kind === 'all') return true;
+				if (region.kind === 'rect') {
+					const { x0, y0, x1, y1 } = region.rect;
+					return x >= x0 * width && x < x1 * width && y >= y0 * height && y < y1 * height;
+				}
+				const near = (d: number, size: number) => d < (region.band * size) / 2;
+				const edges = region.edges;
+				return (
+					(edges.includes('top') && near(y, height)) ||
+					(edges.includes('bottom') && near(height - y, height)) ||
+					(edges.includes('left') && near(x, width)) ||
+					(edges.includes('right') && near(width - x, width))
+				);
+			};
 			let hits = 0;
 			let total = 0;
 			for (let y = 0; y < height; y += 2) {
 				for (let x = 0; x < width; x += 2) {
-					const r = Math.max(
-						Math.abs(x - width / 2) / (width / 2),
-						Math.abs(y - height / 2) / (height / 2)
-					);
-					if (region === 'edge-band' && r <= 1 - band) continue;
+					if (!inside(x, y)) continue;
 					const i = (y * width + x) * 4;
 					const [red, green, blue] = [data[i], data[i + 1], data[i + 2]];
 					const white = red > 232 && green > 232 && blue > 232;
 					const logo =
 						Math.abs(red - 33) <= 8 && Math.abs(green - 33) <= 8 && Math.abs(blue - 33) <= 8;
-					const pass = test === 'white' ? white : test === 'logo' ? logo : white || logo;
+					const pass = {
+						white,
+						logo,
+						open: white || logo,
+						pure: red >= 250 && green >= 250 && blue >= 250,
+						leaf: !(white || logo)
+					}[test];
 					total++;
 					if (pass) hits++;
 				}
 			}
 			return hits / total;
 		},
-		{ png, region, test, band }
+		{ png, region, test }
 	);
 }
 
-export const whiteFractionInEdgeBand = (page: Page, band = 0.15) =>
-	pixelShare(page, 'edge-band', 'white', band);
+const ALL_EDGES: Edge[] = ['top', 'right', 'bottom', 'left'];
 
-export const logoPixelShare = (page: Page) => pixelShare(page, 'all', 'logo');
+export const whiteFractionInEdgeBand = (page: Page, band = 0.15, edges: Edge[] = ALL_EDGES) =>
+	pixelShare(page, { kind: 'edge-band', band, edges }, 'white');
+
+// `rect` is in fractions of the viewport.
+export const regionShare = (page: Page, rect: Rect, test: 'white' | 'pure' | 'open' | 'leaf') =>
+	pixelShare(page, { kind: 'rect', rect }, test);
+
+export const logoPixelShare = (page: Page) => pixelShare(page, { kind: 'all' }, 'logo');
 
 export async function frameStats(page: Page): Promise<{ medianMs: number; worstMs: number }> {
 	return page.evaluate(async () => {
@@ -126,4 +152,4 @@ export async function screenshotDiff(page: Page, a: Buffer, b: Buffer): Promise<
 }
 
 // Share of the screen that is open clearing: white page or the logo, not leaves.
-export const openShare = (page: Page) => pixelShare(page, 'all', 'open');
+export const openShare = (page: Page) => pixelShare(page, { kind: 'all' }, 'open');
