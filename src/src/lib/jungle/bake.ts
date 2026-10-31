@@ -12,6 +12,10 @@ export type Bitmap = {
 
 const SHADOW_PAD = 0.12;
 const MAX_CANVAS = 2200;
+const MAX_RENDER_PIXELS = 8_300_000;
+
+// Bake pixels per CSS pixel; `sharp` caps the device pixel ratio for in-focus mid leaves.
+export const BAKE_RES = { fg: 0.35, far: 0.6, soft: 0.75, sharp: 1.25 };
 
 function context(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
 	return canvas.getContext('2d')!;
@@ -27,7 +31,15 @@ function bake(leaf: Leaf, cssPerPx: number, img: HTMLImageElement, dpr: number):
 	const depth = kind === 'mid' ? Math.round(leaf.depth * 3) / 3 : kind === 'fg' ? 1 : 0.1;
 	const cssW = w * cssPerPx;
 	const cssH = h * cssPerPx;
-	const want = kind === 'fg' ? 0.5 : kind === 'far' ? 1 : Math.min(dpr, 1.5);
+	const defocus = kind === 'fg' ? 7 : kind === 'far' ? 0 : Math.max(0, (0.35 - depth) / 0.35) * 1.5;
+	const want =
+		kind === 'fg'
+			? BAKE_RES.fg
+			: kind === 'far'
+				? BAKE_RES.far
+				: defocus > 0
+					? BAKE_RES.soft
+					: Math.min(dpr, BAKE_RES.sharp);
 	const res = Math.min(want, MAX_CANVAS / Math.max(cssW, cssH));
 	const lw = Math.round(cssW * res);
 	const lh = Math.round(cssH * res);
@@ -47,7 +59,6 @@ function bake(leaf: Leaf, cssPerPx: number, img: HTMLImageElement, dpr: number):
 	canvas.height = lh + pad * 2;
 	const ctx = context(canvas);
 	const shadow = (6 + 18 * depth + (kind === 'fg' ? 20 : 0)) * res;
-	const defocus = kind === 'fg' ? 7 : kind === 'far' ? 0 : Math.max(0, (0.35 - depth) / 0.35) * 1.5;
 	if (defocus > 0) ctx.filter = `blur(${(defocus * res).toFixed(1)}px)`;
 	ctx.shadowColor = `rgba(5, 25, 10, ${(0.25 + 0.3 * depth).toFixed(2)})`;
 	ctx.shadowBlur = shadow;
@@ -165,6 +176,17 @@ export function bitmapMegabytes(keys: string[], bitmaps: Map<string, Bitmap>): n
 		return sum + canvas.width * canvas.height * 4;
 	}, 0);
 	return Math.round(bytes / 1048576);
+}
+
+export function textureMegabytes(bitmaps: Iterable<Bitmap>): number {
+	let bytes = 0;
+	for (const { canvas } of bitmaps) bytes += canvas.width * canvas.height * 4;
+	return bytes / 1048576;
+}
+
+// Caps the canvas backing store so large Retina screens stay within GPU memory.
+export function renderResolution(v: Viewport, dpr: number): number {
+	return Math.max(1, Math.min(dpr, Math.sqrt(MAX_RENDER_PIXELS / (v.width * v.height))));
 }
 
 export function releaseBitmaps(bitmaps: Map<string, Bitmap>): void {

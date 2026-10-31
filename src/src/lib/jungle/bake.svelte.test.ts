@@ -1,5 +1,12 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { bakeAll, bitmapMegabytes, paintLayer, type Bitmap } from './bake';
+import {
+	BAKE_RES,
+	bakeAll,
+	paintLayer,
+	renderResolution,
+	textureMegabytes,
+	type Bitmap
+} from './bake';
 import { generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves } from './layout';
 import { SPRITES } from './sprites';
@@ -33,15 +40,26 @@ describe('bakeAll', () => {
 		expect(new Set(leaves.filter((l) => !isFar(l)).map((l) => l.key)).size).toBeLessThan(60);
 	});
 
-	it('keeps live bitmap memory at dpr 2 under 135MB', () => {
-		const liveKeys = [...new Set(leaves.filter((l) => !isFar(l)).map((l) => l.key!))];
-		expect(bitmapMegabytes(liveKeys, bitmaps)).toBeLessThan(135);
+	it('keeps all texture memory at dpr 2 under 110MB', () => {
+		expect(textureMegabytes(bitmaps.values())).toBeLessThan(110);
 	});
 
-	it('bakes foreground bitmaps at half resolution', () => {
-		for (const leaf of leaves.filter((l) => l.foreground)) {
+	it.each([
+		['foreground', (l: Leaf) => l.foreground, BAKE_RES.fg],
+		['far', (l: Leaf) => isFar(l), BAKE_RES.far]
+	])('bakes %s bitmaps at their reduced resolution', (_, pick, res) => {
+		for (const leaf of leaves.filter(pick)) {
 			const b = bitmaps.get(leaf.key!)!;
-			expect(b.canvas.width).toBeLessThanOrEqual(b.box[0] * 0.5 + 1);
+			expect(b.canvas.width).toBeLessThanOrEqual(b.box[0] * res + 1);
+		}
+	});
+
+	it('bakes soft and sharp mid bitmaps within their caps', () => {
+		for (const leaf of leaves.filter((l) => !l.foreground && !isFar(l))) {
+			const b = bitmaps.get(leaf.key!)!;
+			expect(b.canvas.width).toBeLessThanOrEqual(
+				b.box[0] * Math.max(BAKE_RES.soft, BAKE_RES.sharp) + 1
+			);
 		}
 	});
 
@@ -52,6 +70,18 @@ describe('bakeAll', () => {
 			expect(leaf.box![0]).toBeCloseTo(b.box[0] * s);
 			expect(leaf.origin![1]).toBeCloseTo(b.origin[1] * s);
 		}
+	});
+});
+
+describe('renderResolution', () => {
+	it.each([
+		[1440, 900, 2, 2],
+		[2560, 1340, 2, 1.556],
+		[3440, 1440, 2, 1.295],
+		[390, 844, 3, 3],
+		[7680, 4320, 1, 1]
+	])('%ix%i at dpr %i is %f', (width, height, dpr, expected) => {
+		expect(renderResolution({ width, height }, dpr)).toBeCloseTo(expected, 2);
 	});
 });
 
