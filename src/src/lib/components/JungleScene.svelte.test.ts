@@ -60,6 +60,21 @@ describe('JungleScene', () => {
 		expect(Number(stage.dataset.leaves)).toBeLessThan(all);
 	});
 
+	it('recovers when the context is lost before the first frame', async () => {
+		const observer = new MutationObserver((records) => {
+			for (const node of records.flatMap((r) => [...r.addedNodes])) {
+				if (!(node instanceof HTMLCanvasElement)) continue;
+				observer.disconnect();
+				node.getContext('webgl2')!.getExtension('WEBGL_lose_context')!.loseContext();
+			}
+		});
+		observer.observe(document.body, { childList: true, subtree: true });
+		const { stage } = await renderReady();
+		await vi.waitFor(() => expect(stage.dataset.generation).toBe('2'), { timeout: 5000 });
+		await vi.waitFor(() => expect(stage.dataset.renderer).toBe('webgl'), { timeout: 5000 });
+		expect(stage.querySelectorAll('canvas')).toHaveLength(1);
+	});
+
 	it('darkens the edges with a vignette above the canvas', async () => {
 		const { stage } = await renderReady();
 		const vignette = getComputedStyle(stage.querySelector('[data-vignette]')!);

@@ -64,20 +64,32 @@ function paintLogo(img: HTMLImageElement, width: number): HTMLCanvasElement {
 	return canvas;
 }
 
-export async function createJungleRenderer(): Promise<JungleRenderer> {
+// Rejects if WebGL is unavailable. `onContextLost` fires once the canvas can no longer draw.
+export async function createJungleRenderer(onContextLost: () => void): Promise<JungleRenderer> {
 	const logoImg = new Image();
 	logoImg.src = logoSrc;
-	const [{ Application, BlurFilter, Container, RenderTexture, Sprite, Texture, TexturePool }] =
-		await Promise.all([import('pixi.js'), logoImg.decode()]);
+	const [
+		{ Application, BlurFilter, Container, RenderTexture, Sprite, Texture, TexturePool, Ticker }
+	] = await Promise.all([import('pixi.js'), logoImg.decode()]);
 	const app = new Application();
 	// The baked canvases are released once uploaded, so the GPU copy must never be collected.
-	await app.init({
-		autoStart: false,
-		antialias: false,
-		autoDensity: true,
-		background: 0xffffff,
-		gcActive: false
-	});
+	await app
+		.init({
+			// Without WebGL, PixiJS would quietly fall back to another backend instead of rejecting.
+			preference: ['webgl'],
+			autoStart: false,
+			antialias: false,
+			autoDensity: true,
+			background: 0xffffff,
+			gcActive: false
+		})
+		.catch((error) => {
+			// A renderer that fails partway through starting can't be destroyed, and would keep PixiJS's
+			// global ticker requesting frames forever.
+			Ticker.system.stop();
+			throw error;
+		});
+	app.canvas.addEventListener('webglcontextlost', onContextLost);
 
 	let owned: (Texture | RenderTexture)[] = [];
 	let shade: Sprite;
@@ -226,6 +238,8 @@ export async function createJungleRenderer(): Promise<JungleRenderer> {
 		gpuMegabytes: () => textureMb + megabytes(app.canvas.width, app.canvas.height),
 
 		destroy() {
+			// PixiJS loses the context itself while tearing down.
+			app.canvas.removeEventListener('webglcontextlost', onContextLost);
 			app.destroy(true, { children: true });
 			for (const texture of owned) texture.destroy(true);
 		}

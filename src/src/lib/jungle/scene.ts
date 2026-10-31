@@ -29,6 +29,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	let frameId = 0;
 	let resizeTimer: ReturnType<typeof setTimeout> | undefined;
 	let generation = 0;
+	let resolveReady!: () => void;
+	const ready = new Promise<void>((resolve) => (resolveReady = resolve));
 
 	const camera = { t: 0, v: 0 };
 	const look = { x: { t: 0, v: 0 }, y: { t: 0, v: 0 } };
@@ -100,9 +102,51 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		if (coarsePointer.matches && next.width === viewport.width && sameDpr) return;
 		clearTimeout(resizeTimer);
 		resizeTimer = setTimeout(() => {
-			build();
-			frame(performance.now(), false);
+			if (!renderer) return;
+			try {
+				build();
+				frame(performance.now(), false);
+			} catch (error) {
+				fallBack(error);
+			}
 		}, 150);
+	}
+
+	// Puts a new renderer's canvas on the stage and starts drawing.
+	function show(created: JungleRenderer) {
+		renderer = created;
+		build();
+		created.canvas.className = 'pointer-events-none absolute left-0 top-0 z-0';
+		created.canvas.setAttribute('aria-hidden', 'true');
+		els.stage.prepend(created.canvas);
+		els.stage.dataset.renderer = 'webgl';
+		frameId = requestAnimationFrame((now) => {
+			last = now;
+			frame(now);
+			resolveReady();
+		});
+	}
+
+	// Redraws from the kept images in a new canvas; the leaves keep their layout and motion.
+	function onContextLost() {
+		cancelAnimationFrame(frameId);
+		renderer?.destroy();
+		renderer = undefined;
+		els.stage.dataset.renderer = 'recovering';
+		createJungleRenderer(onContextLost)
+			.then((created) => (destroyed ? created.destroy() : show(created)))
+			.catch(fallBack);
+	}
+
+	// The page is never left blank: anything that stops the scene drawing shows a plain logo.
+	function fallBack(error: unknown) {
+		console.error('Jungle scene failed to start', error);
+		cancelAnimationFrame(frameId);
+		renderer?.destroy();
+		renderer = undefined;
+		els.fallbackLogo.hidden = false;
+		els.stage.dataset.renderer = 'fallback';
+		resolveReady();
 	}
 
 	async function start() {
@@ -115,41 +159,29 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 					return img.decode().then(() => [src, img] as const);
 				})
 			),
-			createJungleRenderer().catch((error) => {
-				els.fallbackLogo.hidden = false;
-				throw error;
-			})
+			createJungleRenderer(onContextLost)
 		]);
 		if (destroyed) return created.destroy();
-		renderer = created;
 		images = new Map(decoded.flatMap((r) => (r.status === 'fulfilled' ? [r.value] : [])));
 		// A plant that fails to load is left out rather than holding up the whole scene.
 		leaves = leaves.filter((l) => images.has(l.sprite.src));
 		live = leaves.filter((l) => !isFar(l));
 		els.stage.dataset.leaves = String(live.length);
 
-		build();
-		renderer.canvas.className = 'pointer-events-none absolute left-0 top-0 z-0';
-		renderer.canvas.setAttribute('aria-hidden', 'true');
-		els.stage.prepend(renderer.canvas);
+		show(created);
 		const s = scroll();
 		camera.t = smoothstep(s);
 		for (const leaf of live) leaf.t = leafTarget(leaf, s);
 		addEventListener('pointermove', onPointerMove);
 		addEventListener('resize', onResize);
-		await new Promise<void>((resolve) => {
-			frameId = requestAnimationFrame((now) => {
-				last = now;
-				frame(now);
-				resolve();
-			});
-		});
 	}
 
+	start().catch(fallBack);
 	return {
-		ready: start(),
+		ready,
 		destroy() {
 			destroyed = true;
+			resolveReady();
 			cancelAnimationFrame(frameId);
 			clearTimeout(resizeTimer);
 			removeEventListener('pointermove', onPointerMove);

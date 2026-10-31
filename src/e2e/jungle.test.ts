@@ -121,3 +121,29 @@ test('leaves a wide clearing around the logo at the end', async ({ page }) => {
 	await scrollTo(page, 1);
 	expect(await openShare(page)).toBeGreaterThanOrEqual(0.28);
 });
+
+for (const losses of [1, 2]) {
+	test(`redraws the same scene after ${losses} GPU context loss(es)`, async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: 'reduce' });
+		await page.setViewportSize({ width: 1440, height: 900 });
+		await page.goto('/');
+		await waitForScene(page);
+		await scrollTo(page, 0.5);
+		// The leaves are still gliding into place for a few seconds after the scroll.
+		await page.waitForTimeout(4000);
+		const before = await page.screenshot();
+		const stage = page.locator('[data-jungle-stage]');
+		for (let i = 0; i < losses; i++) {
+			const generation = Number(await stage.getAttribute('data-generation'));
+			await page
+				.locator('[data-jungle-stage] canvas')
+				.evaluate((canvas: HTMLCanvasElement) =>
+					canvas.getContext('webgl2')!.getExtension('WEBGL_lose_context')!.loseContext()
+				);
+			await expect(stage).toHaveAttribute('data-generation', String(generation + 1));
+			await expect(stage).toHaveAttribute('data-renderer', 'webgl');
+		}
+		await page.waitForTimeout(1000);
+		expect(await screenshotDiff(page, before, await page.screenshot())).toBeLessThanOrEqual(0.01);
+	});
+}
