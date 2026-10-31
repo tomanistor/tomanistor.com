@@ -44,23 +44,26 @@ describe('bakeAll', () => {
 		expect(textureMegabytes(bitmaps.values())).toBeLessThan(110);
 	});
 
-	it.each([
-		['foreground', (l: Leaf) => l.foreground, BAKE_RES.fg],
-		['far', (l: Leaf) => isFar(l), BAKE_RES.far]
-	])('bakes %s bitmaps at their reduced resolution', (_, pick, res) => {
-		for (const leaf of leaves.filter(pick)) {
-			const b = bitmaps.get(leaf.key!)!;
-			expect(b.canvas.width).toBeLessThanOrEqual(b.box[0] * res + 1);
-		}
-	});
+	const midDepth = (l: Leaf) => Math.round(l.depth * 3) / 3;
+	const bakeRes = (l: Leaf) => {
+		const b = bitmaps.get(l.key!)!;
+		return b.canvas.width / b.box[0];
+	};
 
-	it('bakes soft and sharp mid bitmaps within their caps', () => {
-		for (const leaf of leaves.filter((l) => !l.foreground && !isFar(l))) {
-			const b = bitmaps.get(leaf.key!)!;
-			expect(b.canvas.width).toBeLessThanOrEqual(
-				b.box[0] * Math.max(BAKE_RES.soft, BAKE_RES.sharp) + 1
-			);
-		}
+	it.each([
+		['foreground', (l: Leaf) => !!l.foreground, BAKE_RES.fg],
+		['far', (l: Leaf) => isFar(l), BAKE_RES.far],
+		['soft mid', (l: Leaf) => !l.foreground && !isFar(l) && midDepth(l) < 0.35, BAKE_RES.soft],
+		[
+			'sharp mid',
+			(l: Leaf) => !l.foreground && !isFar(l) && midDepth(l) >= 0.35,
+			Math.min(2, BAKE_RES.sharp)
+		]
+	])('bakes %s bitmaps at their resolution', (_, pick, want) => {
+		const group = leaves.filter(pick).map(bakeRes);
+		expect(group.length).toBeGreaterThan(0);
+		for (const res of group) expect(res).toBeLessThanOrEqual(want + 1e-6);
+		expect(Math.max(...group)).toBeCloseTo(want, 2);
 	});
 
 	it('gives every leaf a box and origin scaled from its shared bitmap', () => {
