@@ -11,6 +11,8 @@ import { generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves } from './layout';
 import { SPRITES } from './sprites';
 
+const DPR = 2;
+const MAX_CANVAS = 2200;
 const VIEWPORT = { width: 1440, height: 900 };
 
 let leaves: Leaf[];
@@ -28,7 +30,7 @@ beforeAll(async () => {
 	await Promise.all([...images.values()].map((img) => img.decode()));
 	leaves = generateLeaves(11, 1);
 	layoutLeaves(leaves, VIEWPORT);
-	bitmaps = bakeAll(leaves, images, 2);
+	bitmaps = bakeAll(leaves, images, DPR);
 });
 
 describe('bakeAll', () => {
@@ -45,10 +47,8 @@ describe('bakeAll', () => {
 	});
 
 	const midDepth = (l: Leaf) => Math.round(l.depth * 3) / 3;
-	const bakeRes = (l: Leaf) => {
-		const b = bitmaps.get(l.key!)!;
-		return b.canvas.width / b.box[0];
-	};
+	const clamped = ({ canvas }: Bitmap) =>
+		Math.max(canvas.width, canvas.height) / 1.24 >= MAX_CANVAS - 2;
 
 	it.each([
 		['foreground', (l: Leaf) => !!l.foreground, BAKE_RES.fg],
@@ -57,13 +57,17 @@ describe('bakeAll', () => {
 		[
 			'sharp mid',
 			(l: Leaf) => !l.foreground && !isFar(l) && midDepth(l) >= 0.35,
-			Math.min(2, BAKE_RES.sharp)
+			Math.min(DPR, BAKE_RES.sharp)
 		]
 	])('bakes %s bitmaps at their resolution', (_, pick, want) => {
-		const group = leaves.filter(pick).map(bakeRes);
+		const group = [...new Set(leaves.filter(pick).map((l) => l.key!))];
 		expect(group.length).toBeGreaterThan(0);
-		for (const res of group) expect(res).toBeLessThanOrEqual(want + 1e-6);
-		expect(Math.max(...group)).toBeCloseTo(want, 2);
+		for (const key of group) {
+			const b = bitmaps.get(key)!;
+			const res = b.canvas.width / b.box[0];
+			if (clamped(b)) expect(res).toBeLessThanOrEqual(want + 1e-6);
+			else expect(res).toBeCloseTo(want, 2);
+		}
 	});
 
 	it('gives every leaf a box and origin scaled from its shared bitmap', () => {
