@@ -10,7 +10,7 @@ export type Bitmap = {
 	origin: Point;
 };
 
-const SHADOW_PAD = 0.12;
+export const SHADOW_PAD = 0.12;
 const MAX_CANVAS = 2200;
 const MAX_RENDER_PIXELS = 8_300_000;
 

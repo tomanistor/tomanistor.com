@@ -1,3 +1,4 @@
+import { SHADOW_PAD } from './bake';
 import { parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
 import { LOGO_REST_DY, LOGO_REST_SCALE, logoWidth } from './phases';
@@ -75,6 +76,38 @@ export const inArch = (x: number, y: number, a: Arch): boolean =>
 	Math.abs(x) < a.half &&
 	(y >= a.cy || (x / a.half) ** 2 + ((y - a.cy) / a.rTop) ** 2 < 1);
 
+// Where the page must end up blank once the arch opens: the bottom middle, centre-relative px at
+// cam 1, as [x0, y0, x1, y1], grown by `margin` on every side.
+export function blankZone(v: Viewport, margin = 0): [number, number, number, number] {
+	return [
+		-0.2 * v.width - margin,
+		0.25 * v.height - margin,
+		0.2 * v.width + margin,
+		0.5 * v.height + margin
+	];
+}
+
+// Whether a convex quad (corners in order) overlaps an axis-aligned box, by separating axes.
+function overlaps(quad: Point[], [x0, y0, x1, y1]: readonly number[]): boolean {
+	const box: Point[] = [
+		[x0, y0],
+		[x1, y0],
+		[x1, y1],
+		[x0, y1]
+	];
+	const axes: Point[] = [
+		[1, 0],
+		[0, 1],
+		[quad[0][1] - quad[1][1], quad[1][0] - quad[0][0]],
+		[quad[1][1] - quad[2][1], quad[2][0] - quad[1][0]]
+	];
+	return axes.every(([ax, ay]) => {
+		const a = quad.map(([x, y]) => x * ax + y * ay);
+		const b = box.map(([x, y]) => x * ax + y * ay);
+		return Math.max(...a) > Math.min(...b) && Math.max(...b) > Math.min(...a);
+	});
+}
+
 // Point on the viewport edge (relative to centre) at perimeter fraction u, with its outward normal.
 function perimeterPoint(u: number, hw: number, hh: number): { p: Point; n: Point } {
 	let d = u * 4 * (hw + hh);
@@ -101,6 +134,8 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 	const clear = logoSafeZone(v);
 	const open = openingZone(v);
 	const arch = archZone(v);
+	// Leaves stir a little once parted, so they are held a little further off.
+	const blank = blankZone(v, vmin * 0.02);
 	const margin = vmin * 0.03;
 	// A monstera at the nearest regular layer is this long; everything else scales from it.
 	const unit = 0.55 * Math.max(vmin, 0.62 * Math.max(v.width, v.height));
@@ -124,15 +159,30 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 
 		const { base, tip, crop } = leaf.sprite;
 		const mid: Point = [(tip[0] - base[0]) * leaf.flip, tip[1] - base[1]];
-		// The photo's outline, in blade lengths along and across the midrib. Some blades spread well
-		// past the samples below, and the bottom of the arch must end up blank. The outline is
-		// generous, so it is only held below the arch's centre: above it, a far leaf would have to
-		// fall through the clearing to get out.
+		// Photo pixels (within the crop) in blade lengths along and across the midrib.
 		const m2 = mid[0] ** 2 + mid[1] ** 2;
-		const photo = PHOTO_EDGE.map(([fx, fy]): Point => {
-			const q: Point = [(fx * crop[2] - base[0]) * leaf.flip, fy * crop[3] - base[1]];
+		const toBlade = ([x, y]: Point): Point => {
+			const q: Point = [(x - base[0]) * leaf.flip, y - base[1]];
 			return [(q[0] * mid[0] + q[1] * mid[1]) / m2, (q[1] * mid[0] - q[0] * mid[1]) / m2];
-		});
+		};
+		const at = (root: Point, [f, lat]: Point): Point => [
+			root[0] + dir1[0] * length * f + perp[0] * length * lat,
+			root[1] + dir1[1] * length * f + perp[1] * length * lat
+		];
+		// Some blades spread well past the samples below, and the bottom of the arch must end up
+		// blank. The photo's outline is generous, so it is only held below the arch's centre: above
+		// it, a far leaf would have to fall through the clearing to get out.
+		const photo = PHOTO_EDGE.map(([fx, fy]) => toBlade([fx * crop[2], fy * crop[3]]));
+		// The whole baked bitmap, drop shadow included.
+		const pad = SHADOW_PAD * Math.max(crop[2], crop[3]);
+		const footprint = (
+			[
+				[-pad, -pad],
+				[crop[2] + pad, -pad],
+				[crop[2] + pad, crop[3] + pad],
+				[-pad, crop[3] + pad]
+			] as Point[]
+		).map(toBlade);
 
 		// A wide plant is checked at both its blade width and its full width, so the logo can't slip
 		// between the sample points.
@@ -192,10 +242,14 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 			const root: Point = [parted[0] + away[0] * exit, parted[1] + away[1] * exit];
 			return (
 				touches(root, inside) ||
-				photo.some(([f, lat]) => {
-					const y = root[1] + dir1[1] * length * f + perp[1] * length * lat;
-					return y >= arch.cy && inside(root[0] + dir1[0] * length * f + perp[0] * length * lat, y);
-				})
+				photo.some((point) => {
+					const [x, y] = at(root, point);
+					return y >= arch.cy && inside(x, y);
+				}) ||
+				overlaps(
+					footprint.map((point) => at(root, point)),
+					blank
+				)
 			);
 		};
 		let exit = 0;
