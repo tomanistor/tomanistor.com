@@ -8,6 +8,7 @@ import {
 	waitForScene,
 	whiteFractionInEdgeBand
 } from './measure';
+import { LOGO_REST_SCALE } from '../src/lib/jungle/phases';
 
 test.describe.configure({ timeout: 180000 });
 
@@ -24,7 +25,7 @@ for (const [width, height] of [
 		await page.setViewportSize({ width, height });
 		await page.goto('/');
 		await waitForScene(page);
-		for (const fraction of [0, 0.25, 0.5, 0.75, 1]) {
+		for (const fraction of [0, 0.125, 0.25, 0.375, 0.5, 1]) {
 			await scrollTo(page, fraction);
 			expect(await whiteFractionInEdgeBand(page), `at ${fraction * 100}%`).toBeLessThanOrEqual(
 				0.0005
@@ -33,12 +34,16 @@ for (const [width, height] of [
 	});
 }
 
-test('about 80% of the logo is hidden at the start and none at the end', async ({ page }) => {
+test('about 80% of the logo is hidden at the start, none after the reveal, and it rests smaller', async ({
+	page
+}) => {
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
 	await waitForScene(page);
 	await scrollTo(page, 0);
 	const start = await logoPixelShare(page);
+	await scrollTo(page, 0.5);
+	const revealed = await logoPixelShare(page);
 	await scrollTo(page, 1);
 	const end = await logoPixelShare(page);
 	// Compare against the fully revealed logo with the leaves hidden.
@@ -51,7 +56,10 @@ test('about 80% of the logo is hidden at the start and none at the end', async (
 	const full = await logoPixelShare(page);
 	expect(start / full).toBeGreaterThanOrEqual(0.15);
 	expect(start / full).toBeLessThanOrEqual(0.25);
-	expect(end / full).toBeGreaterThan(0.98);
+	expect(revealed / full).toBeGreaterThan(0.98);
+	// The logo rests at LOGO_REST_SCALE of its width, so its area shrinks by the square.
+	expect(end / full).toBeGreaterThanOrEqual(0.98 * LOGO_REST_SCALE ** 2);
+	expect(end / full).toBeLessThanOrEqual(1.02 * LOGO_REST_SCALE ** 2);
 });
 
 test.describe('at 2x pixel density', () => {
@@ -114,11 +122,11 @@ test('the page does not bounce when scrolled past its ends', async ({ page }) =>
 	expect(overscroll).toEqual(['none', 'none']);
 });
 
-test('leaves a wide clearing around the logo at the end', async ({ page }) => {
+test('leaves a wide clearing around the logo once revealed', async ({ page }) => {
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
 	await waitForScene(page);
-	await scrollTo(page, 1);
+	await scrollTo(page, 0.5);
 	expect(await openShare(page)).toBeGreaterThanOrEqual(0.28);
 });
 

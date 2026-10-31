@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
-	import { LOGO_DIST, smoothstep, zoomAt } from '$lib/jungle/camera';
+	import { camAt, logoPose, openAt } from '$lib/jungle/phases';
 	import { scrollFraction } from '$lib/jungle/motion';
 
 	let { done }: { done: boolean } = $props();
@@ -27,18 +27,25 @@
 	const slide = (axis: Axis, amount: number) => `translate${axis}(${amount}%)`;
 	const windowClass = 'absolute inset-0 will-change-transform';
 
+	function poseTransform(s: number): string {
+		const { scale, dy } = logoPose(camAt(s), openAt(s), { width: innerWidth, height: innerHeight });
+		return `translate(-50%, calc(-50% + ${dy.toFixed(2)}px)) scale(${scale.toFixed(4)})`;
+	}
+
 	const edgeEls: HTMLElement[] = [];
 	let filled = $state(false);
 	let fading = $state(false);
 	let visible = $state(true);
-	let logoTransform = $state(`translate(-50%, -50%) scale(${zoomAt(LOGO_DIST, 0).toFixed(4)})`);
+	let logoTransform = $state(
+		`translate(-50%, -50%) scale(${logoPose(0, 0, { width: 0, height: 0 }).scale.toFixed(4)})`
+	);
 
 	onMount(() => {
 		// Track the scene logo's size at the current scroll, including a restored position or a
 		// visitor scrolling while it loads, so the hand-off doesn't jump.
 		const syncLogo = () => {
 			const s = scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
-			logoTransform = `translate(-50%, -50%) scale(${zoomAt(LOGO_DIST, smoothstep(s)).toFixed(4)})`;
+			logoTransform = poseTransform(s);
 		};
 		syncLogo();
 		addEventListener('scroll', syncLogo, { passive: true });

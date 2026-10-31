@@ -4,9 +4,15 @@ import { textureMegabytes, type Bitmap } from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
 import { DEG, logoSafeZone, type Viewport } from './layout';
+import { logoPose, logoWidth } from './phases';
 import type { LeafPose } from './motion';
 
-export type DrawInput = { cam: number; look: { x: number; y: number }; poses: LeafPose[] };
+export type DrawInput = {
+	cam: number;
+	open: number;
+	look: { x: number; y: number };
+	poses: LeafPose[];
+};
 
 export type JungleRenderer = {
 	canvas: HTMLCanvasElement;
@@ -165,7 +171,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 			app.renderer.resize(v.width, v.height, resolution);
 
 			const shadeCanvas = paintShade(v);
-			const logoW = Math.min(v.width * 0.5, v.height * 0.57);
+			const logoW = logoWidth(v);
 			const logoCanvas = paintLogo(logoImg, logoW * resolution);
 			shade = new Sprite(upload(shadeCanvas));
 			logo = new Sprite(upload(logoCanvas));
@@ -206,7 +212,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 			});
 		},
 
-		draw({ cam, look, poses }) {
+		draw({ cam, open, look, poses }) {
 			const vmin = Math.min(viewport.width, viewport.height);
 			const place = (sprite: Sprite, dist: number, scale: number) => {
 				const shift = parallaxAt(dist, vmin);
@@ -217,7 +223,10 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 				sprite.scale.set(zoomAt(dist, cam) * scale);
 			};
 			place(shade, 2, 1 / SHADE_RES);
-			place(logo, LOGO_DIST, logoScale);
+			const pose = logoPose(cam, open, viewport);
+			place(logo, LOGO_DIST, 1);
+			logo.y += pose.dy;
+			logo.scale.set(pose.scale * logoScale);
 			// Focus pull: the far layers sharpen as the camera moves in, by fading out their soft copy.
 			for (const { sprite, dist, soft } of far) {
 				place(sprite, dist, 1);

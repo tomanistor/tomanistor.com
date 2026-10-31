@@ -9,7 +9,14 @@ export async function scrollTo(page: Page, fraction: number): Promise<void> {
 		(f) => window.scrollTo(0, (document.documentElement.scrollHeight - innerHeight) * f),
 		fraction
 	);
-	await page.waitForTimeout(3500);
+	// Leaves keep stirring without reduced motion, so the scene never settles to an exact match.
+	let previous = await page.screenshot();
+	for (const deadline = Date.now() + 10000; Date.now() < deadline; ) {
+		await page.waitForTimeout(500);
+		const next = await page.screenshot();
+		if ((await screenshotDiff(page, previous, next)) <= 0.002) return;
+		previous = next;
+	}
 }
 
 // Runs a pixel test over the current viewport screenshot, inside the page, and returns the share of

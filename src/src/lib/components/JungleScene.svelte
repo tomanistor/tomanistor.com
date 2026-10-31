@@ -19,7 +19,7 @@
 	});
 </script>
 
-<div class="h-[300lvh]">
+<div class="h-[500lvh]">
 	<div
 		bind:this={stage}
 		data-jungle-stage

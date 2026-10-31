@@ -1,7 +1,7 @@
 import { bakeAll, releaseBitmaps, renderResolution } from './bake';
-import { smoothstep } from './camera';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, type Viewport } from './layout';
+import { camAt, openAt } from './phases';
 import { leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
 import { createJungleRenderer, type JungleRenderer } from './renderer';
 import { SPRITES } from './sprites';
@@ -33,6 +33,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	const ready = new Promise<void>((resolve) => (resolveReady = resolve));
 
 	const camera = { t: 0, v: 0 };
+	const opening = { t: 0, v: 0 };
 	const look = { x: { t: 0, v: 0 }, y: { t: 0, v: 0 } };
 	const pointer = { x: 0, y: 0 };
 	let pointerPx: { x: number; y: number } | null = null;
@@ -59,7 +60,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		last = now;
 		const s = scroll();
 		// Everything glides without overshoot; leaves differ only in how quickly they follow.
-		spring(camera, smoothstep(s), 16, 1, dt);
+		spring(camera, camAt(s), 16, 1, dt);
+		spring(opening, openAt(s), 16, 1, dt);
 		spring(look.x, pointer.x, 6, 1, dt);
 		spring(look.y, pointer.y, 6, 1, dt);
 
@@ -71,6 +73,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		const input = {
 			scroll: s,
 			cam: camera.t,
+			open: opening.t,
 			time: now / 1000,
 			look: { x: look.x.t, y: look.y.t },
 			sweep,
@@ -79,7 +82,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			...viewport
 		};
 		const poses = live.map((leaf) => leafPose(leaf, input, dt));
-		renderer!.draw({ cam: camera.t, look: input.look, poses });
+		renderer!.draw({ cam: camera.t, open: opening.t, look: input.look, poses });
 		const drawn = String(poses.length);
 		if (els.stage.dataset.drawn !== drawn) els.stage.dataset.drawn = drawn;
 		if (schedule) frameId = requestAnimationFrame((t) => frame(t));
@@ -170,7 +173,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 
 		show(created);
 		const s = scroll();
-		camera.t = smoothstep(s);
+		camera.t = camAt(s);
+		opening.t = openAt(s);
 		for (const leaf of live) leaf.t = leafTarget(leaf, s);
 		addEventListener('pointermove', onPointerMove);
 		addEventListener('resize', onResize);

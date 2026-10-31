@@ -1,6 +1,7 @@
 import { clamp01, parallaxAt, smoothstep, zoomAt } from './camera';
 import type { Leaf } from './leaves';
 import { DEG, normalize, rotate } from './layout';
+import { revealAt } from './phases';
 
 const TAU = Math.PI * 2;
 
@@ -12,6 +13,7 @@ type Pointer = { x: number; y: number };
 export type FrameInput = {
 	scroll: number;
 	cam: number;
+	open: number;
 	time: number;
 	look: Pointer;
 	sweep: number;
@@ -41,7 +43,7 @@ export function scrollFraction(
 // Front leaves part first, back leaves follow, so the layers separate.
 export function leafTarget(leaf: Leaf, scroll: number): number {
 	const delay = clamp01((1 - leaf.depth) * 0.3 + leaf.lag);
-	return smoothstep(clamp01((scroll - delay) / (1 - delay)));
+	return smoothstep(clamp01((revealAt(scroll) - delay) / (1 - delay)));
 }
 
 // Only movement away from the centre brushes leaves, like a hand easing foliage aside.

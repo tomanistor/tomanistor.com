@@ -2,7 +2,7 @@ import { page } from '@vitest/browser/context';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleLoader from './JungleLoader.svelte';
-import { LOGO_DIST, smoothstep, zoomAt } from '$lib/jungle/camera';
+import { camAt, logoPose, logoWidth, openAt } from '$lib/jungle/phases';
 import { scrollFraction } from '$lib/jungle/motion';
 import Page from '../../routes/+page.svelte';
 
@@ -77,7 +77,10 @@ describe('JungleLoader', () => {
 		document.body.append(spacer);
 		scrollTo(0, 2000);
 		const f = scrollY / (document.documentElement.scrollHeight - innerHeight);
-		const scale = zoomAt(LOGO_DIST, smoothstep(f)).toFixed(4);
+		const scale = logoPose(camAt(f), openAt(f), {
+			width: innerWidth,
+			height: innerHeight
+		}).scale.toFixed(4);
 		await vi.waitFor(() =>
 			expect(loaderEl()!.querySelector<HTMLElement>('[data-logo-box]')!.style.transform).toContain(
 				`scale(${scale})`
@@ -85,21 +88,24 @@ describe('JungleLoader', () => {
 		);
 	});
 
-	it('matches the scene logo at a restored scroll position', async () => {
-		const spacer = document.createElement('div');
-		spacer.dataset.spacer = '';
-		spacer.style.height = '5000px';
-		document.body.prepend(spacer);
-		scrollTo(0, 2000);
-		render(Page);
-		const loaderLogo = loaderEl()!.querySelector('[data-logo-box]')!;
-		const stage = document.querySelector<HTMLElement>('[data-jungle-stage]')!;
-		// The scene draws its logo into the canvas, at the camera's position for the current scroll.
-		const s = scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
-		expect(s).toBeGreaterThan(0.1);
-		const sceneWidth =
-			Math.min(stage.clientWidth * 0.5, stage.clientHeight * 0.57) *
-			zoomAt(LOGO_DIST, smoothstep(s));
-		expect(loaderLogo.getBoundingClientRect().width).toBeCloseTo(sceneWidth, 0);
-	});
+	for (const target of [0.4, 0.9]) {
+		it(`matches the scene logo at a restored scroll position of ${target}`, async () => {
+			const spacer = document.createElement('div');
+			spacer.dataset.spacer = '';
+			// Tall enough to scroll to the target before the scene's own 500lvh section is rendered.
+			spacer.style.height = '50000px';
+			document.body.prepend(spacer);
+			scrollTo(0, target * (50000 + 5 * innerHeight - innerHeight));
+			render(Page);
+			const loaderLogo = loaderEl()!.querySelector('[data-logo-box]')!;
+			const stage = document.querySelector<HTMLElement>('[data-jungle-stage]')!;
+			// The scene draws its logo into the canvas, at the pose for the current scroll.
+			const s = scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
+			expect(s).toBeCloseTo(target, 1);
+			const sceneWidth =
+				logoPose(camAt(s), openAt(s), { width: stage.clientWidth, height: stage.clientHeight })
+					.scale * logoWidth({ width: stage.clientWidth, height: stage.clientHeight });
+			expect(loaderLogo.getBoundingClientRect().width).toBeCloseTo(sceneWidth, 0);
+		});
+	}
 });

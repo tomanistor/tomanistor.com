@@ -15,6 +15,7 @@ function liveLeaves(): Leaf[] {
 const frame = (over: Partial<FrameInput> = {}): FrameInput => ({
 	scroll: 0,
 	cam: 0,
+	open: 0,
 	time: 0,
 	look: { x: 0, y: 0 },
 	sweep: 0,
@@ -39,6 +40,7 @@ describe('leafTarget', () => {
 	it('is monotonic in scroll and spans 0..1', () => {
 		for (const leaf of generateLeaves(11, 1)) {
 			expect(leafTarget(leaf, 0)).toBe(0);
+			expect(leafTarget(leaf, 0.5)).toBe(1);
 			expect(leafTarget(leaf, 1)).toBe(1);
 			let prev = 0;
 			for (let s = 0; s <= 1.0001; s += 0.05) {

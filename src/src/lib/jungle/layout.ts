@@ -1,5 +1,6 @@
 import { parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
+import { logoWidth } from './phases';
 import { SPRITES } from './sprites';
 
 export type Viewport = { width: number; height: number };
@@ -30,7 +31,7 @@ const BLADE: readonly Point[] = [
 
 export function logoSafeZone(v: Viewport): { safeW: number; safeH: number } {
 	const vmin = Math.min(v.width, v.height);
-	const logoW = Math.min(v.width * 0.5, v.height * 0.57);
+	const logoW = logoWidth(v);
 	return { safeW: logoW / 2 + vmin * 0.13, safeH: (logoW * 197) / 225 / 2 + vmin * 0.13 };
 }
 
