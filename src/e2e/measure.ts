@@ -85,5 +85,38 @@ export async function frameStats(page: Page): Promise<{ medianMs: number; worstM
 	});
 }
 
+// Share of sampled pixels that differ by more than 8 in any channel between two screenshots.
+export async function screenshotDiff(page: Page, a: Buffer, b: Buffer): Promise<number> {
+	return page.evaluate(
+		async (pngs) => {
+			const [first, second] = await Promise.all(
+				pngs.map(async (png) => {
+					const img = new Image();
+					img.src = `data:image/png;base64,${png}`;
+					await img.decode();
+					const canvas = document.createElement('canvas');
+					canvas.width = img.naturalWidth;
+					canvas.height = img.naturalHeight;
+					const ctx = canvas.getContext('2d')!;
+					ctx.drawImage(img, 0, 0);
+					return ctx.getImageData(0, 0, canvas.width, canvas.height);
+				})
+			);
+			const { width, height } = first;
+			let hits = 0;
+			let total = 0;
+			for (let y = 0; y < height; y += 2) {
+				for (let x = 0; x < width; x += 2) {
+					const i = (y * width + x) * 4;
+					total++;
+					if ([0, 1, 2].some((c) => Math.abs(first.data[i + c] - second.data[i + c]) > 8)) hits++;
+				}
+			}
+			return hits / total;
+		},
+		[a.toString('base64'), b.toString('base64')]
+	);
+}
+
 // Share of the screen that is open clearing: white page or the logo, not leaves.
 export const openShare = (page: Page) => pixelShare(page, 'all', 'open');

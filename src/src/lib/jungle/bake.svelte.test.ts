@@ -1,12 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import {
-	BAKE_RES,
-	bakeAll,
-	paintLayer,
-	renderResolution,
-	textureMegabytes,
-	type Bitmap
-} from './bake';
+import { BAKE_RES, bakeAll, renderResolution, textureMegabytes, type Bitmap } from './bake';
 import { generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves } from './layout';
 import { SPRITES } from './sprites';
@@ -89,25 +82,5 @@ describe('renderResolution', () => {
 		[7680, 4320, 1, 1]
 	])('%ix%i at dpr %i is %f', (width, height, dpr, expected) => {
 		expect(renderResolution({ width, height }, dpr)).toBeCloseTo(expected, 2);
-	});
-});
-
-describe('paintLayer', () => {
-	it('paints far layers at 1.5x the viewport at their resolution', () => {
-		const sharp = document.createElement('canvas');
-		const soft = document.createElement('canvas');
-		paintLayer(
-			sharp,
-			soft,
-			leaves.filter((l) => l.role === 'deep'),
-			bitmaps,
-			VIEWPORT,
-			0.75,
-			0.35,
-			1.2,
-			3
-		);
-		expect(sharp.width).toBe(Math.round(1440 * 1.5 * 0.75));
-		expect(soft.height).toBe(Math.round(900 * 1.5 * 0.35));
 	});
 });

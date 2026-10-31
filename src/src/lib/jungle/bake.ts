@@ -1,5 +1,5 @@
 import { isFar, type Leaf } from './leaves';
-import { DEG, type Viewport } from './layout';
+import type { Viewport } from './layout';
 
 type Point = [number, number];
 
@@ -98,84 +98,6 @@ export function bakeAll(
 		leaf.origin = [b.origin[0] * s, b.origin[1] * s];
 	}
 	return bitmaps;
-}
-
-// A far layer's leaves, fully parted, painted into a canvas half again the size of the screen so it
-// still covers the edges while the camera starts pulled back. Painted sharp and soft, each blurred
-// once here rather than on every frame; the scene cross-fades between them.
-export function paintLayer(
-	sharp: HTMLCanvasElement,
-	soft: HTMLCanvasElement,
-	group: Leaf[],
-	bitmaps: Map<string, Bitmap>,
-	v: Viewport,
-	sharpRes: number,
-	softRes: number,
-	sharpBlur: number,
-	softBlur: number
-): void {
-	const full = document.createElement('canvas');
-	full.width = Math.round(v.width * 1.5 * sharpRes);
-	full.height = Math.round(v.height * 1.5 * sharpRes);
-	const ctx = context(full);
-	ctx.setTransform(sharpRes, 0, 0, sharpRes, v.width * 0.75 * sharpRes, v.height * 0.75 * sharpRes);
-	for (const leaf of group) {
-		ctx.save();
-		ctx.translate(
-			leaf.anchor![0] + leaf.n![0] * leaf.pull!,
-			leaf.anchor![1] + leaf.n![1] * leaf.pull!
-		);
-		ctx.rotate((leaf.rot0! + leaf.swing) / DEG);
-		ctx.scale(leaf.flip, 1);
-		ctx.drawImage(
-			bitmaps.get(leaf.key!)!.canvas,
-			-leaf.origin![0],
-			-leaf.origin![1],
-			leaf.box![0],
-			leaf.box![1]
-		);
-		ctx.restore();
-	}
-	for (const [canvas, res, blur] of [
-		[sharp, sharpRes, sharpBlur],
-		[soft, softRes, softBlur]
-	] as const) {
-		canvas.width = Math.round(v.width * 1.5 * res);
-		canvas.height = Math.round(v.height * 1.5 * res);
-		const c = context(canvas);
-		c.filter = `blur(${(blur * res).toFixed(2)}px)`;
-		c.drawImage(full, 0, 0, canvas.width, canvas.height);
-	}
-	full.width = 0;
-}
-
-export async function toObjectUrls(
-	keys: string[],
-	bitmaps: Map<string, Bitmap>
-): Promise<Map<string, string>> {
-	const blobs = await Promise.all(
-		keys.map(
-			(key) =>
-				new Promise<Blob>((resolve, reject) =>
-					bitmaps
-						.get(key)!
-						.canvas.toBlob(
-							(b) => (b ? resolve(b) : reject(new Error(`Could not encode ${key}`))),
-							'image/webp',
-							0.9
-						)
-				)
-		)
-	);
-	return new Map(keys.map((key, i) => [key, URL.createObjectURL(blobs[i])]));
-}
-
-export function bitmapMegabytes(keys: string[], bitmaps: Map<string, Bitmap>): number {
-	const bytes = keys.reduce((sum, key) => {
-		const { canvas } = bitmaps.get(key)!;
-		return sum + canvas.width * canvas.height * 4;
-	}, 0);
-	return Math.round(bytes / 1048576);
 }
 
 export function textureMegabytes(bitmaps: Iterable<Bitmap>): number {

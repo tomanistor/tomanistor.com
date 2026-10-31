@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 import {
 	logoPixelShare,
 	openShare,
+	screenshotDiff,
 	scrollTo,
 	waitForScene,
 	whiteFractionInEdgeBand
@@ -11,9 +12,7 @@ import {
 test.describe.configure({ timeout: 180000 });
 
 const stageMb = (page: import('@playwright/test').Page) =>
-	page
-		.locator('[data-jungle-stage]')
-		.evaluate((el) => Number((el as HTMLElement).dataset.bitmapMb));
+	page.locator('[data-jungle-stage]').evaluate((el) => Number((el as HTMLElement).dataset.gpuMb));
 
 for (const [width, height] of [
 	[1440, 900],
@@ -44,8 +43,10 @@ test('about 80% of the logo is hidden at the start and none at the end', async (
 	const end = await logoPixelShare(page);
 	// Compare against the fully revealed logo with the leaves hidden.
 	await page.addStyleTag({
-		content: 'img[data-key], canvas, [data-jungle-stage] > div { visibility: hidden !important }'
+		content: `canvas, [data-vignette] { visibility: hidden !important }
+			[data-fallback-logo] { transform: translate(-50%, -50%) !important }`
 	});
+	await page.locator('[data-fallback-logo]').evaluate((el) => el.removeAttribute('hidden'));
 	await page.waitForTimeout(100);
 	const full = await logoPixelShare(page);
 	expect(start / full).toBeGreaterThanOrEqual(0.15);
@@ -83,23 +84,18 @@ test('no leaf moves while idle with reduced motion', async ({ page }) => {
 	await page.goto('/');
 	await waitForScene(page);
 	await page.waitForTimeout(2000);
-	const transforms = () =>
-		page
-			.locator('img[data-key]')
-			.evaluateAll((els) => els.map((el) => (el as HTMLElement).style.transform));
-	const before = await transforms();
+	const before = await page.screenshot();
 	await page.waitForTimeout(4000);
-	expect(await transforms()).toEqual(before);
+	expect(await screenshotDiff(page, before, await page.screenshot())).toBe(0);
 });
 
 test('the scene appears all at once', async ({ page }) => {
 	await page.goto('/');
 	await page.waitForSelector('[data-jungle-loader].opacity-0', { timeout: 30000 });
-	const { shown, expected } = await page.evaluate(() => ({
-		shown: document.querySelectorAll('img[data-key]').length,
-		expected: Number(document.querySelector<HTMLElement>('[data-jungle-stage]')!.dataset.leaves)
-	}));
-	expect(shown).toBe(expected);
+	const { drawn, leaves } = await page
+		.locator('[data-jungle-stage]')
+		.evaluate((el) => ({ ...(el as HTMLElement).dataset }));
+	expect(Number(drawn)).toBe(Number(leaves));
 });
 
 // Checks the file Netlify deploys: `vite preview` serves SvelteKit's own prerendered copy instead,
