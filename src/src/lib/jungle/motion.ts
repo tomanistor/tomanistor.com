@@ -56,10 +56,18 @@ export function outwardSweep(
 	return Math.min(60, Math.max(0, (next.x - prev.x) * radial[0] + (next.y - prev.y) * radial[1]));
 }
 
-export function stepLeaf(leaf: Leaf, f: FrameInput, dt: number): string {
+export type LeafPose = {
+	x: number;
+	y: number;
+	rotation: number;
+	scaleX: number;
+	scaleY: number;
+	tilt: number;
+};
+
+export function leafPose(leaf: Leaf, f: FrameInput, dt: number): LeafPose {
 	const anchor = leaf.anchor!;
 	const n = leaf.n!;
-	const origin = leaf.origin!;
 	const vmin = Math.min(f.width, f.height);
 
 	spring(leaf, leafTarget(leaf, f.scroll), leaf.stiffness, 1, dt);
@@ -95,9 +103,5 @@ export function stepLeaf(leaf: Leaf, f: FrameInput, dt: number): string {
 	const rot = leaf.rot0! + leaf.swing * t + sway + gust * leaf.flutter * 0.35 + brushed * 5;
 	const tilt = gust * leaf.flutter * 0.6;
 
-	return (
-		`translate3d(${(ax - origin[0]).toFixed(1)}px, ${(ay - origin[1]).toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg) ` +
-		`rotate3d(${Math.cos(leaf.tiltAxis).toFixed(3)}, ${Math.sin(leaf.tiltAxis).toFixed(3)}, 0, ${tilt.toFixed(2)}deg) ` +
-		`scale(${(zoom * leaf.flip).toFixed(4)}, ${zoom.toFixed(4)})`
-	);
+	return { x: ax, y: ay, rotation: rot, scaleX: zoom * leaf.flip, scaleY: zoom, tilt };
 }

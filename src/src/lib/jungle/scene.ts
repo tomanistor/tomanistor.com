@@ -2,7 +2,14 @@ import { bakeAll, bitmapMegabytes, paintLayer, releaseBitmaps, toObjectUrls } fr
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, smoothstep, zoomAt } from './camera';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, shadeGradient, type Viewport } from './layout';
-import { leafTarget, outwardSweep, scrollFraction, spring, stepLeaf } from './motion';
+import {
+	leafPose,
+	leafTarget,
+	outwardSweep,
+	scrollFraction,
+	spring,
+	type LeafPose
+} from './motion';
 import { SPRITES } from './sprites';
 
 export type SceneElements = {
@@ -18,6 +25,15 @@ export type SceneElements = {
 const SEED = 11;
 const LEAF_CLASS =
 	'pointer-events-none absolute left-0 top-0 max-w-none select-none will-change-transform';
+
+function leafTransform(pose: LeafPose, leaf: Leaf): string {
+	const origin = leaf.origin!;
+	return (
+		`translate3d(${(pose.x - origin[0]).toFixed(1)}px, ${(pose.y - origin[1]).toFixed(1)}px, 0) rotate(${pose.rotation.toFixed(2)}deg) ` +
+		`rotate3d(${Math.cos(leaf.tiltAxis).toFixed(3)}, ${Math.sin(leaf.tiltAxis).toFixed(3)}, 0, ${pose.tilt.toFixed(2)}deg) ` +
+		`scale(${pose.scaleX.toFixed(4)}, ${pose.scaleY.toFixed(4)})`
+	);
+}
 
 export function createJungleScene(els: SceneElements): { ready: Promise<void>; destroy(): void } {
 	const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -203,7 +219,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			calm,
 			...viewport
 		};
-		for (const leaf of live) setStyle(elements.get(leaf)!, 'transform', stepLeaf(leaf, input, dt));
+		for (const leaf of live)
+			setStyle(elements.get(leaf)!, 'transform', leafTransform(leafPose(leaf, input, dt), leaf));
 		if (schedule) frameId = requestAnimationFrame((t) => frame(t));
 	}
 

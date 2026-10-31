@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import { zoomAt } from './camera';
 import { generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves } from './layout';
-import { leafTarget, outwardSweep, spring, stepLeaf, type FrameInput } from './motion';
+import { leafPose, leafTarget, outwardSweep, spring, type FrameInput } from './motion';
 
 const VIEWPORT = { width: 1440, height: 900 };
 
@@ -62,12 +63,13 @@ describe('outwardSweep', () => {
 	});
 });
 
-describe('stepLeaf', () => {
+describe('leafPose', () => {
 	it('adds no idle stir, flutter or tilt when calm', () => {
 		for (const leaf of liveLeaves()) {
-			const a = stepLeaf(leaf, frame({ calm: true, time: 3 }), 1 / 60);
-			const b = stepLeaf(leaf, frame({ calm: true, time: 17 }), 1 / 60);
-			expect(b).toBe(a);
+			const a = leafPose(leaf, frame({ calm: true, time: 3 }), 1 / 60);
+			const b = leafPose(leaf, frame({ calm: true, time: 17 }), 1 / 60);
+			expect(b.rotation).toBe(a.rotation);
+			expect(b.tilt).toBeCloseTo(0);
 		}
 	});
 
@@ -75,16 +77,33 @@ describe('stepLeaf', () => {
 		for (const leaf of liveLeaves()) {
 			for (let i = 0; i < 120; i++) {
 				const [cx, cy] = [720 + leaf.anchor![0], 450 + leaf.anchor![1]];
-				stepLeaf(leaf, frame({ sweep: 60, pointer: { x: cx, y: cy } }), 1 / 60);
-				expect(Math.abs(Math.tanh(leaf.brush.t) * 5)).toBeLessThanOrEqual(5);
+				const pose = leafPose(leaf, frame({ sweep: 60, pointer: { x: cx, y: cy } }), 1 / 60);
+				const resting = leaf.rot0! + leaf.swing * leaf.t;
+				expect(Math.abs(pose.rotation - resting)).toBeLessThanOrEqual(5 + leaf.swayAmp);
 			}
 		}
 	});
 
-	it('returns an identical transform when nothing changes', () => {
+	it('returns an identical pose when nothing changes', () => {
 		const [leaf] = liveLeaves();
 		const input = frame({ calm: true });
-		stepLeaf(leaf, input, 1 / 60);
-		expect(stepLeaf(leaf, input, 1 / 60)).toBe(stepLeaf(leaf, input, 1 / 60));
+		for (let i = 0; i < 600; i++) leafPose(leaf, input, 1 / 60);
+		expect(leafPose(leaf, input, 1 / 60)).toEqual(leafPose(leaf, input, 1 / 60));
+	});
+
+	it('places the origin where the old transform did', () => {
+		for (const leaf of liveLeaves()) {
+			leaf.origin = [37, 52];
+			const input = frame({ calm: true, scroll: 0.4, cam: 0.3 });
+			for (let i = 0; i < 600; i++) leafPose(leaf, input, 1 / 60);
+			const pose = leafPose(leaf, input, 1 / 60);
+			const anchor = leaf.anchor!;
+			const n = leaf.n!;
+			const zoom = zoomAt(leaf.dist, input.cam);
+			const out = leaf.pull! * leaf.t;
+			const ax = input.width / 2 + (anchor[0] + n[0] * out) * zoom;
+			const old = `translate3d(${(ax - leaf.origin[0]).toFixed(1)}px`;
+			expect(`translate3d(${(pose.x - leaf.origin[0]).toFixed(1)}px`).toBe(old);
+		}
 	});
 });
