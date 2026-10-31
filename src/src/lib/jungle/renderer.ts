@@ -3,7 +3,7 @@ import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
 import { textureMegabytes, type Bitmap } from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
-import { DEG, logoSafeZone, type Viewport } from './layout';
+import { DEG, openingZone, type Viewport } from './layout';
 import { logoPose, logoWidth } from './phases';
 import type { LeafPose } from './motion';
 
@@ -40,7 +40,7 @@ const megabytes = (width: number, height: number) => (width * height * 4) / 1048
 
 // Same ellipse as `shadeGradient`, drawn small; it is only ever a soft gradient.
 function paintShade(v: Viewport): HTMLCanvasElement {
-	const { safeW, safeH } = logoSafeZone(v);
+	const { safeW, safeH } = openingZone(v);
 	const canvas = document.createElement('canvas');
 	canvas.width = Math.round(v.width * 1.8 * SHADE_RES);
 	canvas.height = Math.round(v.height * 1.8 * SHADE_RES);

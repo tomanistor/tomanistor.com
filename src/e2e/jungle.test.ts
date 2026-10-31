@@ -122,12 +122,12 @@ test('the page does not bounce when scrolled past its ends', async ({ page }) =>
 	expect(overscroll).toEqual(['none', 'none']);
 });
 
-test('leaves a wide clearing around the logo once revealed', async ({ page }) => {
+test('leaves a wide clearing around the logo at the end of the reveal', async ({ page }) => {
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
 	await waitForScene(page);
 	await scrollTo(page, 0.5);
-	expect(await openShare(page)).toBeGreaterThanOrEqual(0.28);
+	expect(await openShare(page)).toBeGreaterThanOrEqual(0.39);
 });
 
 for (const losses of [1, 2]) {

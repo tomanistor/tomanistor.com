@@ -35,6 +35,15 @@ export function logoSafeZone(v: Viewport): { safeW: number; safeH: number } {
 	return { safeW: logoW / 2 + vmin * 0.13, safeH: (logoW * 197) / 225 / 2 + vmin * 0.13 };
 }
 
+export const OPEN_WIDEN = 1.15;
+
+// Where the leaves must have parted to by the end of the reveal; wider than the zone that merely
+// keeps the logo clear.
+export function openingZone(v: Viewport): { safeW: number; safeH: number } {
+	const { safeW, safeH } = logoSafeZone(v);
+	return { safeW: safeW * OPEN_WIDEN, safeH: safeH * OPEN_WIDEN };
+}
+
 // Point on the viewport edge (relative to centre) at perimeter fraction u, with its outward normal.
 function perimeterPoint(u: number, hw: number, hh: number): { p: Point; n: Point } {
 	let d = u * 4 * (hw + hh);
@@ -58,7 +67,8 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 	const hw = v.width / 2;
 	const hh = v.height / 2;
 	const vmin = Math.min(v.width, v.height);
-	const { safeW, safeH } = logoSafeZone(v);
+	const clear = logoSafeZone(v);
+	const open = openingZone(v);
 	const margin = vmin * 0.03;
 	// A monstera at the nearest regular layer is this long; everything else scales from it.
 	const unit = 0.55 * Math.max(vmin, 0.62 * Math.max(v.width, v.height));
@@ -81,7 +91,7 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 		const offEdge = margin + parallaxAt(leaf.dist, vmin) * 1.2;
 
 		// Anchors are in world space, placed so they land on screen where intended at the starting zoom.
-		const place = (inset: number) => {
+		const place = (inset: number, zone: { safeW: number; safeH: number }) => {
 			const start: Point =
 				inset > 0
 					? [p[0] * (1 - inset), p[1] * (1 - inset)]
@@ -96,7 +106,7 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 					widths.some((w) => {
 						const x = anchor[0] + out[0] * pull + dir1[0] * length * f + perp[0] * length * lat * w;
 						const y = anchor[1] + out[1] * pull + dir1[1] * length * f + perp[1] * length * lat * w;
-						return Math.abs(x) < safeW && Math.abs(y) < safeH;
+						return Math.abs(x) < zone.safeW && Math.abs(y) < zone.safeH;
 					})
 				);
 			let pull = leaf.retract * vmin;
@@ -107,11 +117,13 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 		// A plant can only lean aside so far: an inset leaf that would have to slide a long way to
 		// clear the logo is rooted further out instead.
 		let inset = leaf.inset;
-		let placed = place(inset);
+		let placed = place(inset, clear);
 		while (inset > 0.02 && placed.pull > vmin * 0.14) {
 			inset = Math.max(0.02, inset - 0.03);
-			placed = place(inset);
+			placed = place(inset, clear);
 		}
+
+		placed = place(inset, open);
 
 		const { base, tip } = leaf.sprite;
 		const mid: Point = [(tip[0] - base[0]) * leaf.flip, tip[1] - base[1]];
@@ -130,7 +142,7 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 // Shadow under the foliage: clear around the logo, darkening toward the edges, so gaps between
 // leaves read as depth rather than empty page.
 export function shadeGradient(v: Viewport): string {
-	const { safeW, safeH } = logoSafeZone(v);
+	const { safeW, safeH } = openingZone(v);
 	return (
 		`radial-gradient(ellipse ${(safeW * 1.3).toFixed(0)}px ${(safeH * 1.35).toFixed(0)}px at 50% 50%, ` +
 		'rgba(12, 36, 20, 0) 72%, rgba(12, 36, 20, 0.25) 88%, rgba(10, 30, 17, 0.45) 100%)'

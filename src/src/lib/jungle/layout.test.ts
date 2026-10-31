@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { zoomAt } from './camera';
 import { generateLeaves, isFar, type Leaf } from './leaves';
-import { layoutLeaves, logoSafeZone, type Viewport } from './layout';
+import { layoutLeaves, logoSafeZone, openingZone, type Viewport } from './layout';
 
 const VIEWPORTS: Viewport[] = [
 	{ width: 1440, height: 900 },
@@ -32,8 +32,8 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 		}
 	});
 
-	it('clears the logo safe zone once fully parted', () => {
-		const { safeW, safeH } = logoSafeZone(v);
+	it('clears the opening zone once fully parted', () => {
+		const { safeW, safeH } = openingZone(v);
 		const blade = [
 			[0, 0.3],
 			[0.2, 0.42],
@@ -90,12 +90,12 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 		}
 	});
 
-	it('caps inset leaf travel at 14% of vmin unless rooted at the edge', () => {
+	it('caps inset leaf travel at 28% of vmin unless rooted at the edge', () => {
 		for (const leaf of laidOut(v).filter((l) => l.role === 'core')) {
 			const z0 = zoomAt(leaf.dist, 0);
 			const [x, y] = leaf.anchor!.map((c) => c * z0);
 			const atEdge = Math.max(Math.abs(x) / (v.width / 2), Math.abs(y) / (v.height / 2)) >= 0.97;
-			expect(leaf.pull! <= vmin * 0.14 || atEdge).toBe(true);
+			expect(leaf.pull! <= vmin * 0.28 || atEdge).toBe(true);
 		}
 	});
 
