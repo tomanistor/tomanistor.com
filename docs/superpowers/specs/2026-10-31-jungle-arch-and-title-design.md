@@ -1,7 +1,7 @@
 # Jungle reveal — the arch and the title
 
 Date: 2026-10-31
-Status: draft, awaiting owner review
+Status: approved by owner (2026-10-31)
 Amends: `2026-10-22-jungle-reveal-design.md` (the end state of the scroll, the page length, and the
 "edges covered at every scroll position" guarantee) and builds on
 `2026-10-30-jungle-pixi-renderer-design.md` (the PixiJS renderer, Tasks 1–4 done). Everything else
