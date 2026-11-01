@@ -17,6 +17,28 @@ foliage.
 
 Owner mockups (browser companion, 2026-10-31) settled the end state; see "Final frame" below.
 
+## Amendment (2026-10-31, owner-approved): the title as two lines
+
+Supersedes the single-line title wherever this spec describes it (goal 5, the final frame's title
+line, the reduced-motion and phone decisions, and `titleLayout`'s font rule):
+
+- **Two lines in the one `<h1>`.** "Toma Nistor" on one line, its font sized so the rendered text is
+  as wide as the resting logo (measured from the real text, at every screen size). "San Diego
+  Software Engineer" on the line below, about 40% of the name's font size *(Claude's call)*,
+  centred, `#212121`. The gap from the logo to the name is as before; the subtitle sits close under
+  the name. The `<h1>` still reads "Toma Nistor – San Diego Software Engineer" to search engines and
+  screen readers (e.g. a visually hidden en dash between the lines). `<title>` and the meta
+  description are unchanged.
+- **Sequential, scroll-tied fade-in.** In phase 2 the name fades in while rising about one
+  line-height into place over roughly the middle of the phase; the subtitle starts once the name is
+  about halfway in and finishes as the phase ends *(Claude's call on the windows)*. Scrolling back up
+  reverses it (subtitle out first). Each line rises a short distance rather than travelling up from
+  below the viewport.
+- **Reduced motion:** both lines fade in place, no rise, still in sequence.
+- **No-WebGL and no-JS:** both lines show, following the same rules as the canvas page and the
+  noscript layout respectively.
+- The bottom-middle stays pure white.
+
 ## Goal
 
 Extend the reveal with a second scroll phase that opens the bottom of the screen into an arch,
