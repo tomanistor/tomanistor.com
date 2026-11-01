@@ -161,7 +161,7 @@ describe('JungleScene', () => {
 		expect(frames).not.toHaveBeenCalled();
 	});
 
-	it('a second resize during an in-flight rebuild lands only once at the final size', async () => {
+	it('a second resize during an in-flight rebuild ends at the final size, one generation per landing', async () => {
 		const { stage } = await renderReady();
 		const before = generation(stage);
 		const landed: string[] = [];

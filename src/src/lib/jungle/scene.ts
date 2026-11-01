@@ -45,9 +45,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	let subtitleSize = 0;
 
 	let viewport = measure();
-	let dpr = devicePixelRatio || 1;
 	// What the latest build is for, which a resize is compared against while that build runs.
-	let planned = { ...viewport, dpr };
+	let planned = { ...viewport, dpr: devicePixelRatio || 1 };
 	let leaves = generateLeaves(SEED, densityFor(viewport.width, viewport.height));
 	let live: Leaf[] = [];
 	let images = new Map<string, HTMLImageElement>();
@@ -104,7 +103,6 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		leaves = next;
 		live = leaves.filter((l) => !isFar(l));
 		viewport = v;
-		dpr = nextDpr;
 		fitTitle();
 		els.stage.dataset.gpuMb = String(Math.round(target.gpuMegabytes()));
 		els.stage.dataset.generation = String(++generation);
