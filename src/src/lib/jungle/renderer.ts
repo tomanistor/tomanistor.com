@@ -1,4 +1,4 @@
-import type { RenderTexture, Sprite, Texture } from 'pixi.js';
+import type { Container, RenderTexture, Sprite, Texture } from 'pixi.js';
 import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
 import { textureMegabytes, type Bitmap } from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, zoomAt } from './camera';
@@ -6,6 +6,7 @@ import { isFar, type Leaf } from './leaves';
 import { archZone, DEG, openingZone, type Viewport } from './layout';
 import { logoPose, logoWidth } from './phases';
 import type { LeafPose } from './motion';
+import type { Pace } from './pace';
 
 export type DrawInput = {
 	cam: number;
@@ -16,14 +17,16 @@ export type DrawInput = {
 
 export type JungleRenderer = {
 	canvas: HTMLCanvasElement;
-	// Replaces every texture and sprite for this layout in one go; draws nothing.
+	// Prepares every texture and sprite for this layout in slices, while the current scene still
+	// draws, then swaps them in at once; draws nothing. A build that `pace` stops leaves no trace.
 	build(
 		leaves: Leaf[],
 		bitmaps: Map<string, Bitmap>,
 		v: Viewport,
 		resolution: number,
-		blurScale: number
-	): void;
+		blurScale: number,
+		pace: Pace
+	): Promise<void>;
 	// `poses` are in the order of the live leaves (those not in a far layer).
 	draw(input: DrawInput): void;
 	gpuMegabytes(): number;
@@ -41,6 +44,19 @@ const FAR = [
 		soft: { res: 0.5, blur: 1.6 }
 	}
 ] as const;
+
+type Scene = {
+	root: Container;
+	owned: (Texture | RenderTexture)[];
+	shade: Sprite;
+	archShade: Sprite;
+	logo: Sprite;
+	logoScale: number;
+	far: { sprite: Sprite; dist: number; soft: boolean; drop: number }[];
+	leaves: { sprite: Sprite; box: [number, number] }[];
+	viewport: Viewport;
+	textureMb: number;
+};
 
 const megabytes = (width: number, height: number) => (width * height * 4) / 1048576;
 
@@ -70,7 +86,7 @@ function paintShade(v: Viewport): HTMLCanvasElement {
 }
 
 // Clear inside `archZone`, then darkening with the oval's colour stops over a short distance.
-function paintArchShade(v: Viewport): HTMLCanvasElement {
+async function paintArchShade(v: Viewport, pace: Pace): Promise<HTMLCanvasElement> {
 	const { cy, half, rTop } = archZone(v);
 	const canvas = document.createElement('canvas');
 	canvas.width = Math.round(v.width * 1.8 * SHADE_RES);
@@ -79,6 +95,7 @@ function paintArchShade(v: Viewport): HTMLCanvasElement {
 	const image = ctx.createImageData(canvas.width, canvas.height);
 	const fade = half * 0.3;
 	for (let py = 0; py < canvas.height; py++) {
+		await pace();
 		const y = (py + 0.5 - canvas.height / 2) / SHADE_RES;
 		for (let px = 0; px < canvas.width; px++) {
 			const x = (px + 0.5 - canvas.width / 2) / SHADE_RES;
@@ -132,18 +149,10 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 		});
 	app.canvas.addEventListener('webglcontextlost', onContextLost);
 
-	let owned: (Texture | RenderTexture)[] = [];
-	let shade: Sprite;
-	let archShade: Sprite;
-	let logo: Sprite;
-	let logoScale = 1;
-	let far: { sprite: Sprite; dist: number; soft: boolean; drop: number }[] = [];
-	let leaves: { sprite: Sprite; box: [number, number] }[] = [];
-	let viewport: Viewport = { width: 0, height: 0 };
-	let textureMb = 0;
+	let scene: Scene | undefined;
 
 	// Uploads now, so the canvas can be released as soon as `build` returns.
-	function upload(canvas: HTMLCanvasElement): Texture {
+	function upload(canvas: HTMLCanvasElement, owned: Scene['owned']): Texture {
 		const texture = Texture.from(canvas, true);
 		app.renderer.texture.initSource(texture.source);
 		owned.push(texture);
@@ -153,125 +162,167 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 	// A far layer's leaves, fully parted, rendered once into textures half again the size of the
 	// screen, so they still cover the edges while the camera starts pulled back. Each copy is
 	// blurred here rather than on every frame; `draw` cross-fades between them.
-	function bakeLayer(
+	async function bakeLayer(
 		group: Leaf[],
 		bitmaps: Map<string, Bitmap>,
 		v: Viewport,
 		copies: readonly { res: number; blur: number }[],
-		scale: number
-	): RenderTexture[] {
+		scale: number,
+		owned: Scene['owned'],
+		pace: Pace
+	): Promise<RenderTexture[]> {
 		const layer = new Container();
 		const textures = new Map<string, Texture>();
-		for (const leaf of group) {
-			const key = leaf.key!;
-			if (!textures.has(key)) textures.set(key, Texture.from(bitmaps.get(key)!.canvas, true));
-			const sprite = new Sprite(textures.get(key)!);
-			sprite.anchor.set(leaf.origin![0] / leaf.box![0], leaf.origin![1] / leaf.box![1]);
-			sprite.position.set(
-				v.width * 0.75 + leaf.anchor![0] + leaf.n![0] * leaf.pull!,
-				v.height * 0.75 + leaf.anchor![1] + leaf.n![1] * leaf.pull!
-			);
-			sprite.rotation = (leaf.rot0! + leaf.swing) / DEG;
-			sprite.scale.set(
-				(leaf.flip * leaf.box![0]) / sprite.texture.width,
-				leaf.box![1] / sprite.texture.height
-			);
-			layer.addChild(sprite);
+		try {
+			for (const leaf of group) {
+				const key = leaf.key!;
+				if (!textures.has(key)) {
+					await pace();
+					const texture = Texture.from(bitmaps.get(key)!.canvas, true);
+					textures.set(key, texture);
+					app.renderer.texture.initSource(texture.source);
+				}
+				const sprite = new Sprite(textures.get(key)!);
+				sprite.anchor.set(leaf.origin![0] / leaf.box![0], leaf.origin![1] / leaf.box![1]);
+				sprite.position.set(
+					v.width * 0.75 + leaf.anchor![0] + leaf.n![0] * leaf.pull!,
+					v.height * 0.75 + leaf.anchor![1] + leaf.n![1] * leaf.pull!
+				);
+				sprite.rotation = (leaf.rot0! + leaf.swing) / DEG;
+				sprite.scale.set(
+					(leaf.flip * leaf.box![0]) / sprite.texture.width,
+					leaf.box![1] / sprite.texture.height
+				);
+				layer.addChild(sprite);
+			}
+			const targets: RenderTexture[] = [];
+			for (const { res: base, blur } of copies) {
+				await pace();
+				const res = base * scale;
+				const target = RenderTexture.create({
+					width: v.width * 1.5,
+					height: v.height * 1.5,
+					resolution: res
+				});
+				owned.push(target);
+				const filter = new BlurFilter({ strength: blur * res, quality: 2, resolution: res });
+				layer.filters = [filter];
+				app.renderer.render({ container: layer, target, clear: true });
+				filter.destroy();
+				targets.push(target);
+			}
+			return targets;
+		} finally {
+			layer.destroy({ children: true });
+			for (const texture of textures.values()) texture.destroy(true);
 		}
-		const targets = copies.map(({ res: base, blur }) => {
-			const res = base * scale;
-			const target = RenderTexture.create({
-				width: v.width * 1.5,
-				height: v.height * 1.5,
-				resolution: res
-			});
-			const filter = new BlurFilter({ strength: blur * res, quality: 2, resolution: res });
-			layer.filters = [filter];
-			app.renderer.render({ container: layer, target, clear: true });
-			filter.destroy();
-			owned.push(target);
-			textureMb += megabytes(target.source.pixelWidth, target.source.pixelHeight);
-			return target;
-		});
-		layer.destroy({ children: true });
-		for (const texture of textures.values()) texture.destroy(true);
-		return targets;
 	}
 
 	return {
 		canvas: app.canvas,
 
-		build(all, bitmaps, v, resolution, blurScale) {
-			for (const child of app.stage.removeChildren()) child.destroy();
-			for (const texture of owned) texture.destroy(true);
-			owned = [];
-			viewport = v;
-			app.renderer.resize(v.width, v.height, resolution);
+		async build(all, bitmaps, v, resolution, blurScale, pace) {
+			const owned: Scene['owned'] = [];
+			const root = new Container();
+			try {
+				await pace();
+				const shadeCanvas = paintShade(v);
+				const shade = new Sprite(upload(shadeCanvas, owned));
+				let textureMb = megabytes(shadeCanvas.width, shadeCanvas.height);
+				shadeCanvas.width = 0;
+				const archCanvas = await paintArchShade(v, pace);
+				const archShade = new Sprite(upload(archCanvas, owned));
+				textureMb += megabytes(archCanvas.width, archCanvas.height);
+				archCanvas.width = 0;
+				await pace();
+				const logoW = logoWidth(v);
+				const logoCanvas = paintLogo(logoImg, logoW * resolution);
+				const logo = new Sprite(upload(logoCanvas, owned));
+				const logoScale = logoW / logoCanvas.width;
+				textureMb += megabytes(logoCanvas.width, logoCanvas.height);
+				logoCanvas.width = 0;
+				shade.anchor.set(0.5);
+				archShade.anchor.set(0.5);
+				logo.anchor.set(0.5);
+				root.addChild(shade, archShade, logo);
 
-			const shadeCanvas = paintShade(v);
-			const archCanvas = paintArchShade(v);
-			const logoW = logoWidth(v);
-			const logoCanvas = paintLogo(logoImg, logoW * resolution);
-			shade = new Sprite(upload(shadeCanvas));
-			archShade = new Sprite(upload(archCanvas));
-			logo = new Sprite(upload(logoCanvas));
-			logoScale = logoW / logoCanvas.width;
-			textureMb =
-				megabytes(shadeCanvas.width, shadeCanvas.height) +
-				megabytes(archCanvas.width, archCanvas.height) +
-				megabytes(logoCanvas.width, logoCanvas.height);
-			shadeCanvas.width = 0;
-			archCanvas.width = 0;
-			logoCanvas.width = 0;
-			shade.anchor.set(0.5);
-			archShade.anchor.set(0.5);
-			logo.anchor.set(0.5);
-			app.stage.addChild(shade, archShade, logo);
-
-			// Each far layer is baked in two parts: the leaves that stay, and those that drop out of the
-			// arch together as it opens.
-			far = FAR.flatMap(({ role, dist, sharp, soft }) => {
-				const group = all.filter((l) => l.role === role);
-				const exiting = group.filter((l) => l.exit! > 0);
-				return [
-					{ leaves: group.filter((l) => l.exit === 0), drop: 0 },
-					{ leaves: exiting, drop: Math.max(0, ...exiting.map((l) => l.exit!)) }
-				]
-					.filter((part) => part.leaves.length > 0)
-					.flatMap(({ leaves, drop }) => {
-						const [sharpTexture, softTexture] = bakeLayer(
+				// Each far layer is baked in two parts: the leaves that stay, and those that drop out of
+				// the arch together as it opens.
+				const far: Scene['far'] = [];
+				for (const { role, dist, sharp, soft } of FAR) {
+					const group = all.filter((l) => l.role === role);
+					const exiting = group.filter((l) => l.exit! > 0);
+					const parts = [
+						{ leaves: group.filter((l) => l.exit === 0), drop: 0 },
+						{ leaves: exiting, drop: Math.max(0, ...exiting.map((l) => l.exit!)) }
+					].filter((part) => part.leaves.length > 0);
+					for (const { leaves, drop } of parts) {
+						const copies = await bakeLayer(
 							leaves,
 							bitmaps,
 							v,
 							[sharp, soft],
-							blurScale
+							blurScale,
+							owned,
+							pace
 						);
-						return [
-							{ sprite: new Sprite(sharpTexture), dist, soft: false, drop },
-							{ sprite: new Sprite(softTexture), dist, soft: true, drop }
-						];
-					});
-			});
-			// The blur passes leave scratch textures pooled; nothing filters again until the next build.
-			TexturePool.clear(true);
-			for (const { sprite } of far) {
-				sprite.anchor.set(0.5);
-				app.stage.addChild(sprite);
-			}
+						for (const [i, texture] of copies.entries()) {
+							textureMb += megabytes(texture.source.pixelWidth, texture.source.pixelHeight);
+							const sprite = new Sprite(texture);
+							sprite.anchor.set(0.5);
+							root.addChild(sprite);
+							far.push({ sprite, dist, soft: i === 1, drop });
+						}
+					}
+				}
+				// The blur passes leave scratch textures pooled; nothing filters again until the next build.
+				TexturePool.clear(true);
 
-			const live = all.filter((l) => !isFar(l));
-			const liveBitmaps = new Map(live.map((l) => [l.key!, bitmaps.get(l.key!)!]));
-			const textures = new Map([...liveBitmaps].map(([key, b]) => [key, upload(b.canvas)]));
-			textureMb += textureMegabytes(liveBitmaps.values());
-			leaves = live.map((leaf) => {
-				const sprite = new Sprite(textures.get(leaf.key!)!);
-				sprite.anchor.set(leaf.origin![0] / leaf.box![0], leaf.origin![1] / leaf.box![1]);
-				app.stage.addChild(sprite);
-				return { sprite, box: leaf.box! };
-			});
+				const live = all.filter((l) => !isFar(l));
+				const liveBitmaps = new Map(live.map((l) => [l.key!, bitmaps.get(l.key!)!]));
+				const textures = new Map<string, Texture>();
+				for (const [key, b] of liveBitmaps) {
+					await pace();
+					textures.set(key, upload(b.canvas, owned));
+				}
+				textureMb += textureMegabytes(liveBitmaps.values());
+				const leaves = live.map((leaf) => {
+					const sprite = new Sprite(textures.get(leaf.key!)!);
+					sprite.anchor.set(leaf.origin![0] / leaf.box![0], leaf.origin![1] / leaf.box![1]);
+					root.addChild(sprite);
+					return { sprite, box: leaf.box! };
+				});
+
+				// Swapped in the same slice as the last check, so no frame draws a half-built scene.
+				const old = scene;
+				scene = {
+					root,
+					owned,
+					shade,
+					archShade,
+					logo,
+					logoScale,
+					far,
+					leaves,
+					viewport: v,
+					textureMb
+				};
+				app.renderer.resize(v.width, v.height, resolution);
+				app.stage.addChild(root);
+				if (old) {
+					old.root.destroy({ children: true });
+					for (const texture of old.owned) texture.destroy(true);
+				}
+			} catch (error) {
+				root.destroy({ children: true });
+				for (const texture of owned) texture.destroy(true);
+				TexturePool.clear(true);
+				throw error;
+			}
 		},
 
 		draw({ cam, open, look, poses }) {
+			const { shade, archShade, logo, logoScale, far, leaves, viewport } = scene!;
 			const vmin = Math.min(viewport.width, viewport.height);
 			const place = (sprite: Sprite, dist: number, scale: number) => {
 				const shift = parallaxAt(dist, vmin);
@@ -307,13 +358,13 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 			app.render();
 		},
 
-		gpuMegabytes: () => textureMb + megabytes(app.canvas.width, app.canvas.height),
+		gpuMegabytes: () => (scene?.textureMb ?? 0) + megabytes(app.canvas.width, app.canvas.height),
 
 		destroy() {
 			// PixiJS loses the context itself while tearing down.
 			app.canvas.removeEventListener('webglcontextlost', onContextLost);
 			app.destroy(true, { children: true });
-			for (const texture of owned) texture.destroy(true);
+			for (const texture of scene?.owned ?? []) texture.destroy(true);
 		}
 	};
 }

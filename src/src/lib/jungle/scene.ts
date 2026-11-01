@@ -11,6 +11,7 @@ import {
 	titlePose
 } from './phases';
 import { atRest, leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
+import { pacer, Stale } from './pace';
 import { createJungleRenderer, type JungleRenderer } from './renderer';
 import { SPRITES } from './sprites';
 
@@ -45,6 +46,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 
 	let viewport = measure();
 	let dpr = devicePixelRatio || 1;
+	// What the latest build is for, which a resize is compared against while that build runs.
+	let planned = { ...viewport, dpr };
 	let leaves = generateLeaves(SEED, densityFor(viewport.width, viewport.height));
 	let live: Leaf[] = [];
 	let images = new Map<string, HTMLImageElement>();
@@ -53,6 +56,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	let frameId = 0;
 	let resizeTimer: ReturnType<typeof setTimeout> | undefined;
 	let generation = 0;
+	let builds = 0;
 	let resolveReady!: () => void;
 	const ready = new Promise<void>((resolve) => (resolveReady = resolve));
 	// The title is fitted from the loaded font's metrics; a font that fails to load only leaves the
@@ -70,19 +74,50 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 
 	const scroll = () => scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
 
-	// Lays out, bakes and uploads in one go, so the next frame draws new positions with new textures.
-	function build() {
-		viewport = measure();
-		dpr = devicePixelRatio || 1;
-		layoutLeaves(leaves, viewport);
-		const resolution = renderResolution(viewport, dpr);
-		const blur = blurScale(resolution, dpr);
-		const bitmaps = bakeAll(leaves, images, resolution, blur);
-		renderer!.build(leaves, bitmaps, viewport, resolution, blur);
+	// Lays out, bakes and uploads copies of the leaves in slices, so the page stays responsive and the
+	// current scene draws on unchanged until the new one is swapped in whole. A build that a newer one,
+	// a lost context or `destroy` overtakes throws `Stale` and leaves nothing behind.
+	async function build() {
+		const token = ++builds;
+		const target = renderer!;
+		const wanted = () => token === builds && renderer === target && !destroyed;
+		const pace = pacer(wanted);
+		const v = measure();
+		const nextDpr = devicePixelRatio || 1;
+		planned = { ...v, dpr: nextDpr };
+		const next = leaves.map((leaf) => ({ ...leaf }));
+		for (const leaf of next) {
+			await pace();
+			layoutLeaves([leaf], v);
+		}
+		const resolution = renderResolution(v, nextDpr);
+		const blur = blurScale(resolution, nextDpr);
+		const bitmaps = await bakeAll(next, images, resolution, blur, pace);
+		try {
+			await target.build(next, bitmaps, v, resolution, blur, pace);
+		} finally {
+			releaseBitmaps(bitmaps);
+		}
+		if (!wanted()) throw new Stale();
+		// The leaves kept moving while the build ran.
+		for (const [i, leaf] of leaves.entries()) Object.assign(next[i], { t: leaf.t, v: leaf.v });
+		leaves = next;
+		live = leaves.filter((l) => !isFar(l));
+		viewport = v;
+		dpr = nextDpr;
 		fitTitle();
-		releaseBitmaps(bitmaps);
-		els.stage.dataset.gpuMb = String(Math.round(renderer!.gpuMegabytes()));
+		els.stage.dataset.gpuMb = String(Math.round(target.gpuMegabytes()));
 		els.stage.dataset.generation = String(++generation);
+		if (!target.canvas.isConnected) attach(target);
+	}
+
+	// A build that lost to another is dropped; anything else that fails shows the plain logo.
+	function rebuild(landed = () => {}): Promise<void> {
+		return build()
+			.then(landed)
+			.catch((error) => {
+				if (!(error instanceof Stale)) fallBack(error);
+			});
 	}
 
 	// Sizes each line so its text is as wide as the resting logo, measured from the real text. The
@@ -174,28 +209,26 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 
 	function onResize() {
 		const next = measure();
-		const sameDpr = (devicePixelRatio || 1) === dpr;
+		const sameDpr = (devicePixelRatio || 1) === planned.dpr;
 		// Browsers also fire resize when nothing changed, e.g. on returning to a tab.
-		if (next.width === viewport.width && next.height === viewport.height && sameDpr) return;
+		if (next.width === planned.width && next.height === planned.height && sameDpr) return;
 		// On phones the toolbar showing or hiding changes only the height; rebuilding then would
 		// stall the scroll it happens during.
-		if (coarsePointer.matches && next.width === viewport.width && sameDpr) return;
+		if (coarsePointer.matches && next.width === planned.width && sameDpr) return;
 		clearTimeout(resizeTimer);
 		resizeTimer = setTimeout(() => {
-			if (!renderer) return;
-			try {
-				build();
-				frame(performance.now(), false);
-			} catch (error) {
-				fallBack(error);
-			}
+			if (renderer) rebuild(() => frame(performance.now(), false));
 		}, 150);
 	}
 
-	// Puts a new renderer's canvas on the stage and starts drawing.
-	function show(created: JungleRenderer) {
+	// Builds for a new renderer; its canvas goes on the stage once a build lands.
+	function show(created: JungleRenderer): Promise<void> {
 		renderer = created;
-		build();
+		return rebuild();
+	}
+
+	// Puts a renderer's canvas on the stage and starts drawing.
+	function attach(created: JungleRenderer) {
 		created.canvas.className = 'pointer-events-none absolute left-0 top-0 z-0';
 		created.canvas.setAttribute('aria-hidden', 'true');
 		els.stage.prepend(created.canvas);

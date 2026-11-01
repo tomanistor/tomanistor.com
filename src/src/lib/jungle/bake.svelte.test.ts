@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { bakeAll, renderResolution, type Bitmap } from './bake';
 import { generateLeaves, type Leaf } from './leaves';
 import { layoutLeaves } from './layout';
@@ -6,6 +6,7 @@ import { SPRITES } from './sprites';
 
 let leaves: Leaf[];
 let bitmaps: Map<string, Bitmap>;
+let yields = 0;
 
 beforeAll(async () => {
 	const images = new Map(
@@ -18,7 +19,11 @@ beforeAll(async () => {
 	await Promise.all([...images.values()].map((img) => img.decode()));
 	leaves = generateLeaves(11, 1);
 	layoutLeaves(leaves, { width: 1440, height: 900 });
-	bitmaps = bakeAll(leaves, images, 2, 1);
+	const { scheduler } = globalThis as unknown as { scheduler: { yield(): Promise<void> } };
+	const spy = vi.spyOn(scheduler, 'yield');
+	bitmaps = await bakeAll(leaves, images, 2, 1);
+	yields = spy.mock.calls.length;
+	spy.mockRestore();
 });
 
 describe('bakeAll', () => {
@@ -29,6 +34,10 @@ describe('bakeAll', () => {
 			expect(leaf.box![0]).toBeCloseTo(b.box[0] * s);
 			expect(leaf.origin![1]).toBeCloseTo(b.origin[1] * s);
 		}
+	});
+
+	it('lets the browser in while baking the full set', () => {
+		expect(yields).toBeGreaterThan(0);
 	});
 });
 

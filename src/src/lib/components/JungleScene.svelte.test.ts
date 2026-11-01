@@ -19,6 +19,15 @@ function generation(stage: HTMLElement): number {
 	return value;
 }
 
+// Resolves once the scene's next build has started and handed the main thread back.
+async function rebuildInFlight(width: number, height: number) {
+	const { scheduler } = globalThis as unknown as { scheduler: { yield(): Promise<void> } };
+	const yields = vi.spyOn(scheduler, 'yield');
+	await page.viewport(width, height);
+	await vi.waitFor(() => expect(yields).toHaveBeenCalled(), { timeout: 5000, interval: 1 });
+	yields.mockRestore();
+}
+
 async function settledGeneration(stage: HTMLElement): Promise<number> {
 	let seen = generation(stage);
 	for (;;) {
@@ -137,6 +146,41 @@ describe('JungleScene', () => {
 		const canvas = stage.querySelector('canvas')!;
 		expect([canvas.clientWidth, canvas.clientHeight]).toEqual([1200, 760]);
 		expect(stage.dataset.leaves).toBe(count);
+	});
+
+	it('destroying during an in-flight rebuild leaves no canvas and logs no error', async () => {
+		const { screen } = await renderReady();
+		const errors = vi.spyOn(console, 'error');
+		await rebuildInFlight(1280, 800);
+		screen.unmount();
+		const frames = vi.spyOn(window, 'requestAnimationFrame');
+		await new Promise((r) => setTimeout(r, 1000));
+		expect(screen.container.querySelector('canvas')).toBeNull();
+		expect(document.querySelector('canvas')).toBeNull();
+		expect(errors).not.toHaveBeenCalled();
+		expect(frames).not.toHaveBeenCalled();
+	});
+
+	it('a second resize during an in-flight rebuild lands only once at the final size', async () => {
+		const { stage } = await renderReady();
+		const before = generation(stage);
+		const landed: string[] = [];
+		const observer = new MutationObserver((records) => {
+			for (const record of records) landed.push(record.oldValue!);
+		});
+		observer.observe(stage, {
+			attributeFilter: ['data-generation'],
+			attributeOldValue: true
+		});
+		await rebuildInFlight(1280, 800);
+		await page.viewport(1200, 760);
+		const after = await settledGeneration(stage);
+		observer.disconnect();
+		expect(landed.length).toBeGreaterThanOrEqual(1);
+		expect(after).toBe(before + landed.length);
+		expect(landed.map(Number)).toEqual(landed.map((_, i) => before + i));
+		const canvas = stage.querySelector('canvas')!;
+		expect([canvas.clientWidth, canvas.clientHeight]).toEqual([1200, 760]);
 	});
 
 	it('rebuilds when the pixel ratio changes', async () => {

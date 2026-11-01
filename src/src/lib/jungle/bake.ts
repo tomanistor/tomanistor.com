@@ -1,5 +1,6 @@
 import { isFar, type Leaf } from './leaves';
 import type { Viewport } from './layout';
+import { pacer, type Pace } from './pace';
 
 type Point = [number, number];
 
@@ -82,23 +83,28 @@ function bake(
 }
 
 // One bitmap per bake key, at the largest size any of its leaves needs; smaller leaves scale it down.
-export function bakeAll(
+export async function bakeAll(
 	leaves: Leaf[],
 	images: Map<string, HTMLImageElement>,
 	dpr: number,
-	blurScale: number
-): Map<string, Bitmap> {
+	blurScale: number,
+	pace: Pace = pacer(() => true)
+): Promise<Map<string, Bitmap>> {
 	const largest = new Map<string, Leaf>();
 	for (const leaf of leaves) {
 		const prev = largest.get(leaf.key!);
 		if (!prev || prev.cssPerPx! < leaf.cssPerPx!) largest.set(leaf.key!, leaf);
 	}
-	const bitmaps = new Map(
-		[...largest].map(([key, leaf]) => [
-			key,
-			bake(leaf, leaf.cssPerPx!, images.get(leaf.sprite.src)!, dpr, blurScale)
-		])
-	);
+	const bitmaps = new Map<string, Bitmap>();
+	try {
+		for (const [key, leaf] of largest) {
+			await pace();
+			bitmaps.set(key, bake(leaf, leaf.cssPerPx!, images.get(leaf.sprite.src)!, dpr, blurScale));
+		}
+	} catch (error) {
+		releaseBitmaps(bitmaps);
+		throw error;
+	}
 	for (const leaf of leaves) {
 		const b = bitmaps.get(leaf.key!)!;
 		const s = leaf.cssPerPx! / b.cssPerPx;
