@@ -264,13 +264,3 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 		leaf.key = bakeKey(leaf);
 	}
 }
-
-// Shadow under the foliage: clear around the logo, darkening toward the edges, so gaps between
-// leaves read as depth rather than empty page.
-export function shadeGradient(v: Viewport): string {
-	const { safeW, safeH } = openingZone(v);
-	return (
-		`radial-gradient(ellipse ${(safeW * 1.3).toFixed(0)}px ${(safeH * 1.35).toFixed(0)}px at 50% 50%, ` +
-		'rgba(12, 36, 20, 0) 72%, rgba(12, 36, 20, 0.25) 88%, rgba(10, 30, 17, 0.45) 100%)'
-	);
-}

@@ -44,7 +44,8 @@ const FAR = [
 
 const megabytes = (width: number, height: number) => (width * height * 4) / 1048576;
 
-// Same ellipse as `shadeGradient`, drawn small; it is only ever a soft gradient.
+// Shadow under the foliage: clear around the logo, darkening toward the edges, so gaps between
+// leaves read as depth rather than empty page. Drawn small; it is only ever a soft gradient.
 function paintShade(v: Viewport): HTMLCanvasElement {
 	const { safeW, safeH } = openingZone(v);
 	const canvas = document.createElement('canvas');
