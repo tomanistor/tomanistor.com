@@ -6,7 +6,7 @@ import { isFar, type Leaf } from './leaves';
 import { archZone, DEG, openingZone, type Viewport } from './layout';
 import { logoPose, logoWidth } from './phases';
 import type { LeafPose } from './motion';
-import type { Pace } from './pace';
+import { abandon, type Pace } from './pace';
 
 export type DrawInput = {
 	cam: number;
@@ -173,6 +173,11 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 	): Promise<RenderTexture[]> {
 		const layer = new Container();
 		const textures = new Map<string, Texture>();
+		const discard = () => {
+			layer.destroy({ children: true });
+			for (const texture of textures.values()) texture.destroy(true);
+		};
+		const targets: RenderTexture[] = [];
 		try {
 			for (const leaf of group) {
 				const key = leaf.key!;
@@ -195,7 +200,6 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 				);
 				layer.addChild(sprite);
 			}
-			const targets: RenderTexture[] = [];
 			for (const { res: base, blur } of copies) {
 				await pace();
 				const res = base * scale;
@@ -211,11 +215,11 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 				filter.destroy();
 				targets.push(target);
 			}
-			return targets;
-		} finally {
-			layer.destroy({ children: true });
-			for (const texture of textures.values()) texture.destroy(true);
+		} catch (error) {
+			abandon(error, discard);
 		}
+		discard();
+		return targets;
 	}
 
 	return {
@@ -224,6 +228,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 		async build(all, bitmaps, v, resolution, blurScale, pace) {
 			const owned: Scene['owned'] = [];
 			const root = new Container();
+			let staged: Scene;
 			try {
 				await pace();
 				const shadeCanvas = paintShade(v);
@@ -292,10 +297,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 					root.addChild(sprite);
 					return { sprite, box: leaf.box! };
 				});
-
-				// Swapped in the same slice as the last check, so no frame draws a half-built scene.
-				const old = scene;
-				scene = {
+				staged = {
 					root,
 					owned,
 					shade,
@@ -307,17 +309,23 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 					viewport: v,
 					textureMb
 				};
-				app.renderer.resize(v.width, v.height, resolution);
-				app.stage.addChild(root);
-				if (old) {
-					old.root.destroy({ children: true });
-					for (const texture of old.owned) texture.destroy(true);
-				}
 			} catch (error) {
-				root.destroy({ children: true });
-				for (const texture of owned) texture.destroy(true);
-				TexturePool.clear(true);
-				throw error;
+				abandon(error, () => {
+					root.destroy({ children: true });
+					for (const texture of owned) texture.destroy(true);
+					TexturePool.clear(true);
+				});
+			}
+
+			// Swapped in the same slice as the last check, so no frame draws a half-built scene. Past
+			// here the new scene is live, so nothing that fails may tear it down.
+			const old = scene;
+			scene = staged;
+			app.renderer.resize(v.width, v.height, resolution);
+			app.stage.addChild(root);
+			if (old) {
+				old.root.destroy({ children: true });
+				for (const texture of old.owned) texture.destroy(true);
 			}
 		},
 

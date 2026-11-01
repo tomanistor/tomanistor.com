@@ -8,15 +8,34 @@ export class Stale extends Error {}
 
 export type Pace = () => Promise<void>;
 
+let channel: MessageChannel | undefined;
+const waiting: (() => void)[] = [];
+
 // A setTimeout would be clamped, so without `scheduler.yield` a message round trip lets input in.
+// One channel serves every yield, since messages arrive in the order they were posted.
 export function yieldToMain(): Promise<void> {
 	const scheduler = (globalThis as { scheduler?: Scheduler }).scheduler;
 	if (scheduler?.yield) return scheduler.yield();
+	if (!channel) {
+		channel = new MessageChannel();
+		channel.port1.onmessage = () => waiting.shift()!();
+	}
+	const port = channel.port2;
 	return new Promise((resolve) => {
-		const channel = new MessageChannel();
-		channel.port1.onmessage = () => resolve();
-		channel.port2.postMessage(null);
+		waiting.push(resolve);
+		port.postMessage(null);
 	});
+}
+
+// Undoes a stopped build's work, then rethrows why it stopped: a failing cleanup must neither turn
+// a `Stale` build into an error nor hide the error that stopped it.
+export function abandon(error: unknown, cleanup: () => void): never {
+	try {
+		cleanup();
+	} catch {
+		// `error` is the one that counts.
+	}
+	throw error;
 }
 
 // Awaited between units of work: yields once the slice has run 8ms, and throws `Stale` once

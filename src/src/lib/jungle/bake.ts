@@ -1,6 +1,6 @@
 import { isFar, type Leaf } from './leaves';
 import type { Viewport } from './layout';
-import { pacer, type Pace } from './pace';
+import { abandon, pacer, type Pace } from './pace';
 
 type Point = [number, number];
 
@@ -102,8 +102,7 @@ export async function bakeAll(
 			bitmaps.set(key, bake(leaf, leaf.cssPerPx!, images.get(leaf.sprite.src)!, dpr, blurScale));
 		}
 	} catch (error) {
-		releaseBitmaps(bitmaps);
-		throw error;
+		abandon(error, () => releaseBitmaps(bitmaps));
 	}
 	for (const leaf of leaves) {
 		const b = bitmaps.get(leaf.key!)!;
