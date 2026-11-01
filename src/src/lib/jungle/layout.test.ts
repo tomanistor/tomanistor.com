@@ -52,10 +52,8 @@ describe('archZone', () => {
 		expect(top).toBeLessThanOrEqual(0.15);
 		expect(a.bottom).toBe(v.height / 2);
 		expect(archZone({ width: 390, height: 844 }).half).toBeLessThan(390 / 2);
-		// An ultrawide opens no wider, as a share of the screen, than the calibration frame.
-		expect(archZone({ width: 3440, height: 1440 }).half / 3440).toBeLessThanOrEqual(
-			a.half / v.width
-		);
+		// An ultrawide keeps a quarter of its width in leaves on each side, so it never opens into a void.
+		expect(0.5 - archZone({ width: 3440, height: 1440 }).half / 3440).toBeGreaterThanOrEqual(0.25);
 	});
 });
 
