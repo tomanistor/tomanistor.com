@@ -1,88 +1,129 @@
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/readme/logo-dark-theme.svg">
+  <img src=".github/readme/logo.svg" alt="Toma Nistor logo" width="120">
+</picture>
+
 # tomanistor.com
 
-My personal site. It's a single page: a scroll-driven jungle that parts to reveal my logo, then opens into an arch with my name, title and links underneath.
+My personal site. Scroll through a jungle to find my name.
 
-Live at [tomanistor.com](https://tomanistor.com).
+[**Visit the site**](https://tomanistor.com) &nbsp;·&nbsp; [The old site](https://github.com/tomanistor/tomanistor.com/releases/tag/hugo-site)
 
-## Stack
+![SvelteKit](https://img.shields.io/badge/SvelteKit-2-FF3E00?logo=svelte&logoColor=white)
+![PixiJS](https://img.shields.io/badge/PixiJS-8-E72264)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Netlify](https://img.shields.io/badge/Netlify-hosted-00C7B7?logo=netlify&logoColor=white)
 
-- [SvelteKit 2](https://svelte.dev/docs/kit) with Svelte 5, prerendered to static HTML with `adapter-static`
-- [PixiJS 8](https://pixijs.com) for the scene, drawn into one WebGL canvas
-- [Tailwind CSS 4](https://tailwindcss.com)
-- Inter Tight for the title, bundled from [`@fontsource/inter-tight`](https://fontsource.org/fonts/inter-tight)
-- Vitest and Playwright for tests
-- Hosted on Netlify
+</div>
 
-## Repo layout
+<br>
 
-```
-src/                  the site (SvelteKit app, run everything from here)
-  src/lib/jungle/     the scene: layout, motion, baking, rendering
-  src/lib/components/ JungleScene and JungleLoader
-  src/routes/         the homepage and the 404 page
-  e2e/                Playwright tests
-  static/_redirects   Netlify redirects for the old site's URLs
-docs/superpowers/     design specs and implementation plans
-```
+<table>
+  <tr>
+    <td align="center" width="33%"><img src=".github/readme/start.jpg" alt="The page at the top: dense jungle with the logo peeking through"><br><sub><b>Start</b> · the jungle hides the logo</sub></td>
+    <td align="center" width="33%"><img src=".github/readme/reveal.jpg" alt="Halfway: the leaves have parted around the logo"><br><sub><b>Scroll</b> · the leaves part</sub></td>
+    <td align="center" width="33%"><img src=".github/readme/rest.jpg" alt="The end: an arch of leaves around the logo, name and social links"><br><sub><b>Rest</b> · the arch opens, the name fades in</sub></td>
+  </tr>
+</table>
 
-## How the scene works
+## Quick start
 
-The page is a tall scroll area with a sticky stage on top. Scrolling drives two phases:
-
-1. **Reveal** (first half of the scroll). The leaves part and the camera dollies in until the logo sits in a wide clearing.
-2. **Opening** (second half). The bottom leaves slide out of frame so the clearing becomes an arch, the logo lifts and shrinks to its resting size, then the name, subtitle and social links fade up in sequence.
-
-Everything that moves is a function of scroll, so it all reverses when you scroll back up. The rest is in `src/lib/jungle/`:
-
-- `leaves.ts` and `layout.ts` generate the leaves from a fixed seed and place them for the current viewport, including how far each one moves to clear the opening and the arch.
-- `phases.ts` turns scroll into the two phases and owns the logo, title and footer poses, so the canvas, the loader and the fallback all agree on where things are.
-- `bake.ts` paints each leaf once per layout (shading, drop shadow, depth blur) into a bitmap. Nothing gets re-baked per frame.
-- `renderer.ts` uploads those bitmaps as textures and pre-renders the far background layers into blurred render textures.
-- `scene.ts` runs the frame loop and rebuilds on resize, pixel ratio changes and lost GPU contexts.
-- `pace.ts` splits the bake into ~8ms slices so the main thread stays responsive while the scene builds.
-
-It degrades on purpose:
-
-- Without WebGL, you get a plain logo and title that still follow the scroll.
-- Without JavaScript, a `<noscript>` block shows the final layout.
-- With reduced motion turned on, idle movement stops and the text fades in place instead of rising.
-
-Memory is budgeted per screen size and big screens render at a capped resolution. The targets are in `docs/superpowers/specs/2026-10-30-jungle-pixi-renderer-design.md`.
-
-## Local development
-
-You need Node 20.19.4 (pinned in `src/.tool-versions` for asdf) and pnpm 12.5.1 (pinned in `packageManager`).
+You need Node 20.19.4 and pnpm 12.5.1. Both are pinned (`src/.tool-versions` for asdf, `packageManager` for pnpm).
 
 ```sh
 cd src
 pnpm install
-pnpm dev
+pnpm dev        # http://localhost:5173
 ```
+
+## Commands
+
+Run these from `src/`.
 
 | Command | What it does |
 | --- | --- |
-| `pnpm dev` | Dev server on http://localhost:5173 |
+| `pnpm dev` | Dev server |
 | `pnpm build` | Static build into `src/build` |
-| `pnpm preview` | Serves the build on http://localhost:4173 |
-| `pnpm check` | Type check (svelte-check) |
+| `pnpm preview` | Serves the build on port 4173 |
+| `pnpm check` | Type check |
 | `pnpm lint` | Prettier and ESLint |
-| `pnpm vitest run` | Unit and component tests (component tests run in Chromium) |
-| `pnpm playwright test` | Browser tests against a fresh production build |
+| `pnpm vitest run` | Unit and component tests |
+| `pnpm playwright test` | Browser tests against a production build |
 
-FYI the Playwright tests build the site and start their own server on port 4173, so stop any `pnpm preview` first. On macOS they launch Chromium with `--use-angle=metal` (see `playwright.config.ts`). Headless Chromium otherwise renders WebGL in software, too slowly for the scene to settle.
+> [!NOTE]
+> The Playwright tests start their own server on port 4173, so stop `pnpm preview` first. On macOS they run Chromium with `--use-angle=metal`. Headless Chromium otherwise draws WebGL in software, too slowly for the scene to settle.
+
+## What's inside
+
+| | |
+| --- | --- |
+| **Framework** | SvelteKit 2 and Svelte 5, prerendered to static HTML |
+| **Scene** | PixiJS 8, one WebGL canvas |
+| **Styles** | Tailwind CSS 4, Inter Tight for the title |
+| **Tests** | Vitest and Playwright |
+| **Hosting** | Netlify |
+
+```
+src/
+  src/lib/jungle/      the scene: layout, motion, baking, rendering
+  src/lib/components/  JungleScene and JungleLoader
+  src/routes/          the homepage and the 404 page
+  e2e/                 Playwright tests
+  static/_redirects    redirects for the old site's URLs
+docs/superpowers/      design specs and implementation plans
+```
+
+## How the scene works
+
+Scrolling drives two phases on a sticky stage:
+
+1. **Reveal.** The leaves part and the camera moves in until the logo sits in a wide clearing.
+2. **Opening.** The bottom leaves slide away into an arch, the logo settles, then the name, subtitle and links fade up one after another.
+
+Everything is tied to scroll position, so scrolling back up plays it in reverse.
+
+<details>
+<summary><b>The files behind it</b></summary>
+
+<br>
+
+| File | Job |
+| --- | --- |
+| `leaves.ts`, `layout.ts` | Generate the leaves from a fixed seed and place them for the viewport, including how far each moves to clear the opening and the arch |
+| `phases.ts` | Turns scroll into the two phases and owns the logo, title and footer positions, so the canvas, loader and fallback always agree |
+| `bake.ts` | Paints each leaf once per layout (shading, shadow, depth blur). Nothing re-bakes per frame |
+| `renderer.ts` | Uploads the bitmaps as textures and pre-renders the blurred background layers |
+| `scene.ts` | Runs the frame loop and rebuilds on resize, pixel ratio changes and lost GPU contexts |
+| `pace.ts` | Splits the build into ~8ms slices so the page stays responsive while it loads |
+
+All in `src/src/lib/jungle/`. Memory and frame-time targets per screen size are in `docs/superpowers/specs/2026-10-30-jungle-pixi-renderer-design.md`.
+
+</details>
+
+<details>
+<summary><b>When things aren't ideal</b></summary>
+
+<br>
+
+- **No WebGL:** a plain logo and title that still follow the scroll.
+- **No JavaScript:** a `<noscript>` block shows the final layout.
+- **Reduced motion:** idle movement stops and text fades in place instead of rising.
+- **Lost GPU context:** the scene rebuilds itself from the images it already has.
+
+</details>
 
 ## Deployment
 
-Netlify builds the site from the `src` base directory using `src/netlify.toml` (`pnpm build`, publishing `src/build`). Pushes to `master` deploy to production and every pull request gets a deploy preview.
+Netlify builds from the `src` base directory with `src/netlify.toml`. Pushes to `master` go to production and every pull request gets a deploy preview.
 
-The old Hugo site's URLs (`/about`, `/blog/*`, `/gallery/*`, `/tags/*`, `/categories/*`) redirect to the homepage with a 301, set in `src/static/_redirects`. Anything else that doesn't exist gets the prerendered 404 page.
+Old URLs from the previous site (`/about`, `/blog/*`, `/gallery/*`, `/tags/*`, `/categories/*`) redirect home with a 301. Anything else that doesn't exist gets a real 404 page.
 
 ## The old site
 
-The previous version of the site, built with Hugo and live from 2017 to 2026, is archived under the [`hugo-site`](https://github.com/tomanistor/tomanistor.com/tree/hugo-site) tag. That's its final state on `master`, source and submodules included, and it can be browsed on GitHub or checked out:
+The Hugo site that ran from 2017 to 2026 is archived under the [`hugo-site`](https://github.com/tomanistor/tomanistor.com/tree/hugo-site) tag, source and submodules included. The [release](https://github.com/tomanistor/tomanistor.com/releases/tag/hugo-site) has a ready-built copy to serve locally, or check it out with:
 
 ```sh
 git clone --recurse-submodules --branch hugo-site https://github.com/tomanistor/tomanistor.com.git tomanistor-hugo
 ```
-
-The [Hugo site release](https://github.com/tomanistor/tomanistor.com/releases/tag/hugo-site) has a ready-built copy to serve locally.
