@@ -1,4 +1,4 @@
-import { bakeAll, releaseBitmaps, renderResolution } from './bake';
+import { bakeAll, blurScale, releaseBitmaps, renderResolution } from './bake';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, type Viewport } from './layout';
 import {
@@ -76,8 +76,9 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		dpr = devicePixelRatio || 1;
 		layoutLeaves(leaves, viewport);
 		const resolution = renderResolution(viewport, dpr);
-		const bitmaps = bakeAll(leaves, images, resolution);
-		renderer!.build(leaves, bitmaps, viewport, resolution);
+		const blur = blurScale(resolution, dpr);
+		const bitmaps = bakeAll(leaves, images, resolution, blur);
+		renderer!.build(leaves, bitmaps, viewport, resolution, blur);
 		fitTitle();
 		releaseBitmaps(bitmaps);
 		els.stage.dataset.gpuMb = String(Math.round(renderer!.gpuMegabytes()));

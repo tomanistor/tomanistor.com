@@ -99,7 +99,9 @@ export const regionShare = (
 
 export const logoPixelShare = (page: Page) => pixelShare(page, { kind: 'all' }, 'logo');
 
-export async function frameStats(page: Page): Promise<{ medianMs: number; worstMs: number }> {
+export async function frameStats(
+	page: Page
+): Promise<{ medianMs: number; p95Ms: number; worstMs: number }> {
 	return page.evaluate(async () => {
 		const times: number[] = [];
 		let running = true;
@@ -118,7 +120,11 @@ export async function frameStats(page: Page): Promise<{ medianMs: number; worstM
 			.slice(1)
 			.map((t, i) => t - times[i])
 			.sort((a, b) => a - b);
-		return { medianMs: d[d.length >> 1], worstMs: d[d.length - 1] };
+		return {
+			medianMs: d[d.length >> 1],
+			p95Ms: d[Math.floor(d.length * 0.95)],
+			worstMs: d[d.length - 1]
+		};
 	});
 }
 

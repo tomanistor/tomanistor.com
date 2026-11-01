@@ -17,7 +17,13 @@ export type DrawInput = {
 export type JungleRenderer = {
 	canvas: HTMLCanvasElement;
 	// Replaces every texture and sprite for this layout in one go; draws nothing.
-	build(leaves: Leaf[], bitmaps: Map<string, Bitmap>, v: Viewport, resolution: number): void;
+	build(
+		leaves: Leaf[],
+		bitmaps: Map<string, Bitmap>,
+		v: Viewport,
+		resolution: number,
+		blurScale: number
+	): void;
 	// `poses` are in the order of the live leaves (those not in a far layer).
 	draw(input: DrawInput): void;
 	gpuMegabytes(): number;
@@ -150,7 +156,8 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 		group: Leaf[],
 		bitmaps: Map<string, Bitmap>,
 		v: Viewport,
-		copies: readonly { res: number; blur: number }[]
+		copies: readonly { res: number; blur: number }[],
+		scale: number
 	): RenderTexture[] {
 		const layer = new Container();
 		const textures = new Map<string, Texture>();
@@ -170,7 +177,8 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 			);
 			layer.addChild(sprite);
 		}
-		const targets = copies.map(({ res, blur }) => {
+		const targets = copies.map(({ res: base, blur }) => {
+			const res = base * scale;
 			const target = RenderTexture.create({
 				width: v.width * 1.5,
 				height: v.height * 1.5,
@@ -192,7 +200,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 	return {
 		canvas: app.canvas,
 
-		build(all, bitmaps, v, resolution) {
+		build(all, bitmaps, v, resolution, blurScale) {
 			for (const child of app.stage.removeChildren()) child.destroy();
 			for (const texture of owned) texture.destroy(true);
 			owned = [];
@@ -230,7 +238,13 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 				]
 					.filter((part) => part.leaves.length > 0)
 					.flatMap(({ leaves, drop }) => {
-						const [sharpTexture, softTexture] = bakeLayer(leaves, bitmaps, v, [sharp, soft]);
+						const [sharpTexture, softTexture] = bakeLayer(
+							leaves,
+							bitmaps,
+							v,
+							[sharp, soft],
+							blurScale
+						);
 						return [
 							{ sprite: new Sprite(sharpTexture), dist, soft: false, drop },
 							{ sprite: new Sprite(softTexture), dist, soft: true, drop }

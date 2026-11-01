@@ -12,7 +12,8 @@ export type Bitmap = {
 
 export const SHADOW_PAD = 0.12;
 const MAX_CANVAS = 2200;
-const MAX_RENDER_PIXELS = 8_300_000;
+// No screen draws more pixels than a 1440×900 Retina laptop, the size the scene is tuned at.
+const MAX_RENDER_PIXELS = 1440 * 900 * 4;
 
 // Bake pixels per CSS pixel; `sharp` caps the device pixel ratio for in-focus mid leaves.
 export const BAKE_RES = { fg: 0.35, far: 0.6, soft: 0.75, sharp: 1.25 };
@@ -23,7 +24,13 @@ function context(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
 
 // Cropped, shaded by depth, with its drop shadow and focus drawn in. Out-of-focus leaves are baked
 // at low resolution, since the blur hides it; the far layers get their blur as a whole, later.
-function bake(leaf: Leaf, cssPerPx: number, img: HTMLImageElement, dpr: number): Bitmap {
+function bake(
+	leaf: Leaf,
+	cssPerPx: number,
+	img: HTMLImageElement,
+	dpr: number,
+	blurScale: number
+): Bitmap {
 	const { crop, base, coordWidth } = leaf.sprite;
 	const [x, y, w, h] = crop;
 	const k = img.naturalWidth / coordWidth;
@@ -34,11 +41,11 @@ function bake(leaf: Leaf, cssPerPx: number, img: HTMLImageElement, dpr: number):
 	const defocus = kind === 'fg' ? 7 : kind === 'far' ? 0 : Math.max(0, (0.35 - depth) / 0.35) * 1.5;
 	const want =
 		kind === 'fg'
-			? BAKE_RES.fg
+			? BAKE_RES.fg * blurScale
 			: kind === 'far'
-				? BAKE_RES.far
+				? BAKE_RES.far * blurScale
 				: defocus > 0
-					? BAKE_RES.soft
+					? BAKE_RES.soft * blurScale
 					: Math.min(dpr, BAKE_RES.sharp);
 	const res = Math.min(want, MAX_CANVAS / Math.max(cssW, cssH));
 	const lw = Math.round(cssW * res);
@@ -78,7 +85,8 @@ function bake(leaf: Leaf, cssPerPx: number, img: HTMLImageElement, dpr: number):
 export function bakeAll(
 	leaves: Leaf[],
 	images: Map<string, HTMLImageElement>,
-	dpr: number
+	dpr: number,
+	blurScale: number
 ): Map<string, Bitmap> {
 	const largest = new Map<string, Leaf>();
 	for (const leaf of leaves) {
@@ -88,7 +96,7 @@ export function bakeAll(
 	const bitmaps = new Map(
 		[...largest].map(([key, leaf]) => [
 			key,
-			bake(leaf, leaf.cssPerPx!, images.get(leaf.sprite.src)!, dpr)
+			bake(leaf, leaf.cssPerPx!, images.get(leaf.sprite.src)!, dpr, blurScale)
 		])
 	);
 	for (const leaf of leaves) {
@@ -110,6 +118,11 @@ export function textureMegabytes(bitmaps: Iterable<Bitmap>): number {
 export function renderResolution(v: Viewport, dpr: number): number {
 	return Math.max(1, Math.min(dpr, Math.sqrt(MAX_RENDER_PIXELS / (v.width * v.height))));
 }
+
+// Where the canvas is capped below the screen's density (up to 2x, where they were tuned), the
+// blurred kinds and far layers keep their share of its pixels.
+export const blurScale = (resolution: number, dpr: number): number =>
+	Math.min(1, resolution / Math.min(dpr, 2));
 
 export function releaseBitmaps(bitmaps: Map<string, Bitmap>): void {
 	for (const b of bitmaps.values()) b.canvas.width = 0;

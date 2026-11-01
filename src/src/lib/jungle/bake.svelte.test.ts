@@ -18,7 +18,7 @@ beforeAll(async () => {
 	await Promise.all([...images.values()].map((img) => img.decode()));
 	leaves = generateLeaves(11, 1);
 	layoutLeaves(leaves, { width: 1440, height: 900 });
-	bitmaps = bakeAll(leaves, images, 2);
+	bitmaps = bakeAll(leaves, images, 2, 1);
 });
 
 describe('bakeAll', () => {
@@ -35,8 +35,8 @@ describe('bakeAll', () => {
 describe('renderResolution', () => {
 	it.each([
 		[1440, 900, 2, 2],
-		[2560, 1340, 2, 1.556],
-		[3440, 1440, 2, 1.295],
+		[2560, 1340, 2, 1.229],
+		[3440, 1440, 2, 1.023],
 		[390, 844, 3, 3],
 		[7680, 4320, 1, 1]
 	])('%ix%i at dpr %i is %f', (width, height, dpr, expected) => {
