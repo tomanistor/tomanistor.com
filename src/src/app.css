@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+@import '@fontsource/inter-tight/latin-600.css';
+@import '@fontsource/inter-tight/latin-900.css';
+@plugin '@tailwindcss/typography';
+
+@theme {
+	--font-display: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+}

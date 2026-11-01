@@ -1,15 +1,15 @@
-[submodule "themes/osprey"]
+[submodule "legacy/themes/osprey"]
   path = themes/osprey
   url = https://github.com/tomanistor/osprey.git
-[submodule "static/octodrummer"]
+[submodule "legacy/static/octodrummer"]
   path = static/octodrummer
   url = https://github.com/tomanistor/octodrummer.git
-[submodule "static/to-do-list"]
+[submodule "legacy/static/to-do-list"]
   path = static/to-do-list
   url = https://github.com/tomanistor/vuejs-todo.git
-[submodule "public/octodrummer"]
+[submodule "legacy/public/octodrummer"]
   path = public/octodrummer
   url = https://github.com/tomanistor/octodrummer.git
-[submodule "public/to-do-list"]
+[submodule "legacy/public/to-do-list"]
   path = public/to-do-list
   url = https://github.com/tomanistor/vuejs-todo.git
