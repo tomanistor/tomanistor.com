@@ -42,6 +42,8 @@ line, the reduced-motion and phone decisions, and `titleLayout`'s font rule):
 
 ## Amendment (2026-11-01, owner-approved): logo and title lower at rest
 
+**Update (owner, 2026-11-01):** the logo rests centred: `LOGO_REST_DY` = 0 (not −0.02). The subtitle's bottom may reach 0.79 × height; the pure-white check still starts at 0.8 × height.
+
 The owner found too much white space under the title at 100% scroll. At rest the logo's centre moves
 from 6% to about 2% above the viewport's middle (`LOGO_REST_DY` −0.06 → −0.02; about 36px at
 1440×900), and the title follows it. The arch does not move: it keeps today's position through its
