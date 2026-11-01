@@ -37,7 +37,7 @@ describe('logoPose', () => {
 	it('shrinks to two thirds and rises once opened', () => {
 		const { scale, dy } = logoPose(1, 1, v);
 		expect(scale).toBeCloseTo(2 / 3);
-		expect(dy).toBeCloseTo(-54);
+		expect(dy).toBeCloseTo(-18);
 	});
 });
 
@@ -59,7 +59,7 @@ describe('logoSize', () => {
 
 describe('titleLayout', () => {
 	it('sits under the logo at 1440×900', () => {
-		expect(Math.abs(titleLayout({ width: 1440, height: 900 }).top - 573)).toBeLessThanOrEqual(2);
+		expect(Math.abs(titleLayout({ width: 1440, height: 900 }).top - 609)).toBeLessThanOrEqual(2);
 	});
 
 	it.each([

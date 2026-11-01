@@ -1,7 +1,7 @@
 import { SHADOW_PAD } from './bake';
 import { parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
-import { LOGO_REST_DY, LOGO_REST_SCALE, logoSize } from './phases';
+import { LOGO_REST_SCALE, logoSize } from './phases';
 import { SPRITES } from './sprites';
 
 export type Viewport = { width: number; height: number };
@@ -59,11 +59,13 @@ export function openingZone(v: Viewport): { safeW: number; safeH: number } {
 // screen, |x| < half, and either below cy or inside the top half-ellipse.
 export type Arch = { cy: number; half: number; rTop: number; bottom: number };
 
+export const ARCH_DY = -0.06;
+
 export function archZone(v: Viewport): Arch {
 	const vmin = Math.min(v.width, v.height);
 	const { w, h } = logoSize(v, LOGO_REST_SCALE);
 	return {
-		cy: LOGO_REST_DY * v.height,
+		cy: ARCH_DY * v.height,
 		half: Math.min(w / 2 + 0.13 * vmin + 0.22 * vmin, 0.34 * v.width),
 		rTop: h / 2 + 0.13 * vmin,
 		bottom: v.height / 2

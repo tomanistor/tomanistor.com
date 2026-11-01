@@ -17,7 +17,7 @@ test.describe.configure({ timeout: 60000 });
 const stageMb = (page: import('@playwright/test').Page) =>
 	page.locator('[data-jungle-stage]').evaluate((el) => Number((el as HTMLElement).dataset.gpuMb));
 
-const BOTTOM_MIDDLE = { x0: 0.3, y0: 0.75, x1: 0.7, y1: 1 };
+const BOTTOM_MIDDLE = { x0: 0.3, y0: 0.8, x1: 0.7, y1: 1 };
 
 for (const [width, height] of [
 	[1440, 900],
@@ -216,7 +216,7 @@ for (const [width, height] of [
 			expect(Math.abs((line.left + line.right) / 2 - width / 2)).toBeLessThanOrEqual(2);
 		}
 		expect(subtitle.top).toBeGreaterThanOrEqual(name.bottom - 1);
-		expect(subtitle.bottom).toBeLessThanOrEqual(0.72 * height);
+		expect(subtitle.bottom).toBeLessThanOrEqual(0.78 * height);
 	});
 }
 

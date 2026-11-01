@@ -5,7 +5,7 @@ import type { Viewport } from './layout';
 export const PHASE_SPLIT = 0.5;
 export const LOGO_REST_SCALE = 2 / 3;
 // Resting logo centre, as a share of viewport height from the middle.
-export const LOGO_REST_DY = -0.06;
+export const LOGO_REST_DY = -0.02;
 // Space between the resting logo and the name, as a share of the logo's height.
 const TITLE_GAP = 0.09;
 
