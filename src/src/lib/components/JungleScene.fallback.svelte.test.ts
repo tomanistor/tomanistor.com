@@ -12,6 +12,18 @@ async function renderReady() {
 	return screen.container.querySelector<HTMLElement>('[data-jungle-stage]')!;
 }
 
+function expectReadableTitle(stage: HTMLElement) {
+	const title = stage.querySelector<HTMLElement>('[data-title]')!;
+	const rect = title.getBoundingClientRect();
+	const logo = stage
+		.querySelector<HTMLImageElement>('[data-fallback-logo]')!
+		.getBoundingClientRect();
+	expect(rect.top).toBeGreaterThanOrEqual(logo.bottom);
+	expect(rect.top).toBeGreaterThanOrEqual(0);
+	expect(rect.bottom).toBeLessThanOrEqual(innerHeight);
+	expect(getComputedStyle(title).opacity).toBe('1');
+}
+
 describe('JungleScene fallback', () => {
 	afterEach(() => {
 		vi.restoreAllMocks();
@@ -31,6 +43,7 @@ describe('JungleScene fallback', () => {
 		expect(stage.dataset.renderer).toBe('fallback');
 		expect(stage.querySelector<HTMLImageElement>('[data-fallback-logo]')!.hidden).toBe(false);
 		expect(stage.querySelector('canvas')).toBeNull();
+		expectReadableTitle(stage);
 	});
 
 	it('shows the fallback logo when WebGL is unavailable', async () => {
@@ -47,5 +60,6 @@ describe('JungleScene fallback', () => {
 		const stage = await renderReady();
 		expect(stage.dataset.renderer).toBe('fallback');
 		expect(stage.querySelector<HTMLImageElement>('[data-fallback-logo]')!.hidden).toBe(false);
+		expectReadableTitle(stage);
 	});
 });

@@ -89,6 +89,17 @@ describe('JungleScene', () => {
 		}
 	});
 
+	it('has one heading, with the page title, above the vignettes', async () => {
+		const { screen, stage } = await renderReady();
+		const headings = screen.container.querySelectorAll('h1');
+		expect(headings).toHaveLength(1);
+		expect(headings[0].textContent).toBe('Toma Nistor – San Diego Software Engineer');
+		expect(stage.contains(headings[0])).toBe(true);
+		const z = (el: Element) => Number(getComputedStyle(el).zIndex);
+		for (const vignette of stage.querySelectorAll('[data-vignette]'))
+			expect(z(headings[0])).toBeGreaterThan(z(vignette));
+	});
+
 	it('ignores a resize event when the size has not changed', async () => {
 		const { stage } = await renderReady();
 		const before = generation(stage);

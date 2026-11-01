@@ -1,12 +1,16 @@
 import { bakeAll, releaseBitmaps, renderResolution } from './bake';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, type Viewport } from './layout';
-import { camAt, openAt } from './phases';
+import { camAt, logoPose, openAt, titleLayout } from './phases';
 import { leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
 import { createJungleRenderer, type JungleRenderer } from './renderer';
 import { SPRITES } from './sprites';
 
-export type SceneElements = { stage: HTMLElement; fallbackLogo: HTMLImageElement };
+export type SceneElements = {
+	stage: HTMLElement;
+	fallbackLogo: HTMLImageElement;
+	title: HTMLElement;
+};
 
 const SEED = 11;
 
@@ -29,6 +33,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	let frameId = 0;
 	let resizeTimer: ReturnType<typeof setTimeout> | undefined;
 	let generation = 0;
+	let titleTop = 0;
 	let resolveReady!: () => void;
 	const ready = new Promise<void>((resolve) => (resolveReady = resolve));
 
@@ -49,9 +54,20 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		const resolution = renderResolution(viewport, dpr);
 		const bitmaps = bakeAll(leaves, images, resolution);
 		renderer!.build(leaves, bitmaps, viewport, resolution);
+		titleTop = titleLayout(viewport).top;
+		els.title.style.fontSize = `${titleLayout(viewport).fontSize}px`;
 		releaseBitmaps(bitmaps);
 		els.stage.dataset.gpuMb = String(Math.round(renderer!.gpuMegabytes()));
 		els.stage.dataset.generation = String(++generation);
+	}
+
+	// The title rises from below the screen to its place; with reduced motion it fades in there.
+	function placeTitle(open: number) {
+		const y = reducedMotion.matches
+			? titleTop
+			: viewport.height + (titleTop - viewport.height) * open;
+		els.title.style.transform = `translateY(${Math.round(y * 10) / 10}px)`;
+		els.title.style.opacity = reducedMotion.matches ? String(Math.round(open * 1000) / 1000) : '1';
 	}
 
 	let last = performance.now();
@@ -86,6 +102,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		const openCss = String(Math.round(opening.t * 1000) / 1000);
 		if (els.stage.style.getPropertyValue('--open') !== openCss)
 			els.stage.style.setProperty('--open', openCss);
+		placeTitle(opening.t);
 		const drawn = String(poses.length);
 		if (els.stage.dataset.drawn !== drawn) els.stage.dataset.drawn = drawn;
 		if (schedule) frameId = requestAnimationFrame((t) => frame(t));
@@ -150,6 +167,12 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		cancelAnimationFrame(frameId);
 		renderer?.destroy();
 		renderer = undefined;
+		const { scale, dy } = logoPose(1, 1, viewport);
+		els.fallbackLogo.style.transform = `translateY(${dy}px) scale(${scale})`;
+		const { top, fontSize } = titleLayout(viewport);
+		els.title.style.fontSize = `${fontSize}px`;
+		els.title.style.transform = `translateY(${top}px)`;
+		els.title.style.opacity = '1';
 		els.fallbackLogo.hidden = false;
 		els.stage.dataset.renderer = 'fallback';
 		resolveReady();

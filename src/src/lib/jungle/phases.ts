@@ -23,3 +23,14 @@ export function logoPose(cam: number, open: number, v: Viewport): LogoPose {
 		dy: open * LOGO_REST_DY * v.height
 	};
 }
+
+// At rest: px from the viewport top to the title's top, and its font size.
+export function titleLayout(v: Viewport): { top: number; fontSize: number } {
+	const w = logoWidth(v) * LOGO_REST_SCALE;
+	const h = (w * 197) / 225;
+	const dy = LOGO_REST_DY * v.height;
+	return {
+		top: v.height / 2 + dy + h / 2 + 0.1 * h,
+		fontSize: Math.min(40, Math.max(18, 0.082 * w))
+	};
+}

@@ -1,19 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
-	import { LOGO_DIST, zoomAt } from '$lib/jungle/camera';
 	import { createJungleScene } from '$lib/jungle/scene';
 
 	let { onready }: { onready?: () => void } = $props();
 
 	let stage: HTMLElement;
 	let fallbackLogo: HTMLImageElement;
-
-	// The logo's size at the top of the page, where the scene starts.
-	const startTransform = `translate(-50%, -50%) scale(${zoomAt(LOGO_DIST, 0).toFixed(4)})`;
+	let title: HTMLElement;
 
 	onMount(() => {
-		const scene = createJungleScene({ stage, fallbackLogo });
+		const scene = createJungleScene({ stage, fallbackLogo, title });
 		scene.ready.then(() => onready?.());
 		return () => scene.destroy();
 	});
@@ -32,9 +29,16 @@
 			hidden
 			src={logoSrc}
 			alt="Toma Nistor - San Diego Software Engineer"
-			class="absolute left-1/2 top-1/2 w-[min(50vw,57vh)]"
-			style:transform={startTransform}
+			class="absolute left-1/2 top-1/2 w-[min(50vw,57vh)] -translate-x-1/2 -translate-y-1/2"
 		/>
+		<!-- Starts below the stage; the scene brings it up under the logo. -->
+		<h1
+			bind:this={title}
+			data-title
+			class="pointer-events-none absolute left-0 top-0 z-[600] w-full [transform:translateY(100lvh)] text-balance px-6 text-center font-semibold text-[#212121]"
+		>
+			Toma Nistor – San Diego Software Engineer
+		</h1>
 		<!-- A lens vignette over the whole scene; clear well before the logo. -->
 		<div
 			data-vignette

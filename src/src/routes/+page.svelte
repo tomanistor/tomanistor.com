@@ -6,7 +6,13 @@
 	let ready = $state(false);
 </script>
 
-<h1 class="sr-only">Toma Nistor – San Diego Software Engineer</h1>
+<svelte:head>
+	<title>Toma Nistor – San Diego Software Engineer</title>
+	<meta
+		name="description"
+		content="Toma Nistor is a San Diego software engineer building fast, thoughtfully crafted websites and web apps."
+	/>
+</svelte:head>
 
 <JungleScene onready={() => (ready = true)} />
 <JungleLoader done={ready} />
@@ -15,6 +21,11 @@
 	<img
 		src={logo}
 		alt="Toma Nistor - San Diego Software Engineer"
-		class="fixed left-1/2 top-1/2 z-[2001] w-[min(50vw,57vh)] -translate-x-1/2 -translate-y-1/2 scale-[0.818]"
+		class="fixed left-1/2 top-[44%] z-[2001] w-[calc(min(50vw,57vh)*2/3)] -translate-x-1/2 -translate-y-1/2"
 	/>
+	<p
+		class="fixed left-0 top-[calc(44%+min(50vw,57vh)*2/3*197/225/2+1rem)] z-[2001] w-full px-6 text-center text-lg font-semibold text-balance text-[#212121]"
+	>
+		Toma Nistor – San Diego Software Engineer
+	</p>
 </noscript>

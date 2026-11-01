@@ -189,3 +189,30 @@ export async function openRuns(page: Page): Promise<number> {
 		return runs;
 	}, png);
 }
+
+// The y (CSS px) just below the last row above `limit` that has a logo-coloured pixel, or 0.
+export async function lastLogoRowAbove(page: Page, limit: number): Promise<number> {
+	const png = (await page.screenshot({ scale: 'css' })).toString('base64');
+	return page.evaluate(
+		async ({ png, limit }) => {
+			const img = new Image();
+			img.src = `data:image/png;base64,${png}`;
+			await img.decode();
+			const canvas = document.createElement('canvas');
+			canvas.width = img.naturalWidth;
+			canvas.height = img.naturalHeight;
+			const ctx = canvas.getContext('2d')!;
+			ctx.drawImage(img, 0, 0);
+			const { data, width } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			for (let y = Math.floor(limit) - 1; y >= 0; y--) {
+				for (let x = Math.floor(width * 0.3); x < width * 0.7; x++) {
+					const i = (y * width + x) * 4;
+					const near = (c: number) => Math.abs(data[i + c] - 33) <= 8;
+					if (near(0) && near(1) && near(2)) return y + 1;
+				}
+			}
+			return 0;
+		},
+		{ png, limit }
+	);
+}
