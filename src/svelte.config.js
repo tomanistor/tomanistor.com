@@ -8,9 +8,9 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter({
-			fallback: '200.html'
-		})
+		adapter: adapter(),
+		// Netlify serves 404.html at any depth, so its asset and homepage URLs must not be relative.
+		paths: { relative: false }
 	}
 };
 

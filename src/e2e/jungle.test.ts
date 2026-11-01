@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 import {
 	logoPixelShare,
@@ -319,6 +319,30 @@ test('the deployed homepage is prerendered with the heading and the logo', () =>
 	expect(html).toContain('<noscript>');
 	expect(html).toContain('href="https://github.com/tomanistor"');
 	expect(html).toContain('href="https://linkedin.com/in/tomanistor"');
+
+	const notFound = readFileSync('build/404.html', 'utf8');
+	expect(notFound).toContain('Page not found');
+	expect(notFound).toMatch(/<a [^>]*href="\/"[^>]*>\s*Back to the homepage/);
+	expect(notFound).toMatch(/<meta name="robots" content="noindex"\s*\/?>/);
+	expect(notFound).not.toContain('data-jungle-stage');
+	expect(existsSync('build/200.html')).toBe(false);
+
+	const rules = readFileSync('build/_redirects', 'utf8')
+		.split('\n')
+		.map((line) => line.trim().split(/\s+/));
+	for (const from of [
+		'/about',
+		'/about/*',
+		'/blog',
+		'/blog/*',
+		'/gallery',
+		'/gallery/*',
+		'/tags/*',
+		'/categories/*'
+	]) {
+		expect(rules, from).toContainEqual([from, '/', '301']);
+	}
+	expect(rules.map(([from]) => from)).not.toContain('/*');
 });
 
 test('starts open when reloaded at the end, and stays open across a resize', async ({ page }) => {
