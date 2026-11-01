@@ -93,8 +93,18 @@ describe('JungleScene', () => {
 		const { screen, stage } = await renderReady();
 		const headings = screen.container.querySelectorAll('h1');
 		expect(headings).toHaveLength(1);
-		expect(headings[0].textContent).toBe('Toma Nistor – San Diego Software Engineer');
+		expect(headings[0].textContent?.replace(/\s+/g, ' ').trim()).toBe(
+			'Toma Nistor – San Diego Software Engineer'
+		);
 		expect(stage.contains(headings[0])).toBe(true);
+		const name = headings[0].querySelector('[data-title-name]')!;
+		const subtitle = headings[0].querySelector('[data-title-subtitle]')!;
+		expect(name.textContent).toBe('Toma Nistor');
+		expect(subtitle.textContent).toBe('San Diego Software Engineer');
+		// offsetTop ignores the rise transform, which differs per line.
+		expect((subtitle as HTMLElement).offsetTop).toBeGreaterThanOrEqual(
+			(name as HTMLElement).offsetTop + (name as HTMLElement).offsetHeight
+		);
 		const z = (el: Element) => Number(getComputedStyle(el).zIndex);
 		for (const vignette of stage.querySelectorAll('[data-vignette]'))
 			expect(z(headings[0])).toBeGreaterThan(z(vignette));

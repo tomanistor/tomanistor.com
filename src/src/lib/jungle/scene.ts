@@ -1,7 +1,15 @@
 import { bakeAll, releaseBitmaps, renderResolution } from './bake';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, type Viewport } from './layout';
-import { camAt, logoPose, openAt, titleLayout, titlePose } from './phases';
+import {
+	LOGO_REST_SCALE,
+	camAt,
+	logoPose,
+	logoSize,
+	openAt,
+	subtitleSize,
+	titlePose
+} from './phases';
 import { leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
 import { createJungleRenderer, type JungleRenderer } from './renderer';
 import { SPRITES } from './sprites';
@@ -22,6 +30,12 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		width: els.stage.clientWidth,
 		height: els.stage.clientHeight
 	});
+
+	const titleName = els.title.querySelector<HTMLElement>('[data-title-name]')!;
+	const titleSubtitle = els.title.querySelector<HTMLElement>('[data-title-subtitle]')!;
+	const nameRange = document.createRange();
+	nameRange.selectNodeContents(titleName);
+	let nameSize = 0;
 
 	let viewport = measure();
 	let dpr = devicePixelRatio || 1;
@@ -53,16 +67,32 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		const resolution = renderResolution(viewport, dpr);
 		const bitmaps = bakeAll(leaves, images, resolution);
 		renderer!.build(leaves, bitmaps, viewport, resolution);
-		els.title.style.fontSize = `${titleLayout(viewport).fontSize}px`;
+		fitTitle();
 		releaseBitmaps(bitmaps);
 		els.stage.dataset.gpuMb = String(Math.round(renderer!.gpuMegabytes()));
 		els.stage.dataset.generation = String(++generation);
 	}
 
-	function placeTitle(open: number) {
-		const { y, opacity } = titlePose(open, viewport, reducedMotion.matches);
-		els.title.style.transform = `translateY(${Math.round(y * 10) / 10}px)`;
-		els.title.style.opacity = String(Math.round(opacity * 1000) / 1000);
+	// Sizes the name so its text is as wide as the resting logo, measured from the real text.
+	function fitTitle() {
+		const REFERENCE = 100;
+		titleName.style.fontSize = `${REFERENCE}px`;
+		nameSize =
+			(REFERENCE * logoSize(viewport, LOGO_REST_SCALE).w) / nameRange.getBoundingClientRect().width;
+		titleName.style.fontSize = `${nameSize}px`;
+		titleSubtitle.style.fontSize = `${subtitleSize(nameSize)}px`;
+	}
+
+	function placeTitle(cam: number, open: number) {
+		const poses = titlePose(cam, open, viewport, nameSize, reducedMotion.matches);
+		els.title.style.top = `${Math.round(poses.top * 10) / 10}px`;
+		for (const [el, { dy, opacity }] of [
+			[titleName, poses.name],
+			[titleSubtitle, poses.subtitle]
+		] as const) {
+			el.style.transform = `translateY(${Math.round(dy * 10) / 10}px)`;
+			el.style.opacity = String(Math.round(opacity * 1000) / 1000);
+		}
 	}
 
 	let last = performance.now();
@@ -97,7 +127,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		const openCss = String(Math.round(opening.t * 1000) / 1000);
 		if (els.stage.style.getPropertyValue('--open') !== openCss)
 			els.stage.style.setProperty('--open', openCss);
-		placeTitle(opening.t);
+		placeTitle(camera.t, opening.t);
 		const drawn = String(poses.length);
 		if (els.stage.dataset.drawn !== drawn) els.stage.dataset.drawn = drawn;
 		if (schedule) frameId = requestAnimationFrame((t) => frame(t));
@@ -173,12 +203,14 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 
 	// Follows the scroll with the same poses as the scene, so it matches the loader at the hand-off.
 	function placeFallback() {
-		viewport = measure();
+		const next = measure();
+		const resized = next.width !== viewport.width || next.height !== viewport.height;
+		viewport = next;
+		if (resized || !nameSize) fitTitle();
 		const s = scroll();
 		const { scale, dy } = logoPose(camAt(s), openAt(s), viewport);
 		els.fallbackLogo.style.transform = `translateY(${dy}px) scale(${scale})`;
-		els.title.style.fontSize = `${titleLayout(viewport).fontSize}px`;
-		placeTitle(openAt(s));
+		placeTitle(camAt(s), openAt(s));
 	}
 
 	async function start() {

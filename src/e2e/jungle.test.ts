@@ -11,7 +11,7 @@ import {
 	waitForScene,
 	whiteFractionInEdgeBand
 } from './measure';
-import { LOGO_REST_SCALE } from '../src/lib/jungle/phases';
+import { LOGO_REST_SCALE, logoSize } from '../src/lib/jungle/phases';
 
 test.describe.configure({ timeout: 180000 });
 
@@ -154,17 +154,27 @@ test('the deployed homepage is prerendered with the heading and the logo', () =>
 	expect(html).toContain(
 		'Toma Nistor is a San Diego software engineer building fast, thoughtfully crafted websites and web apps.'
 	);
-	expect(html).toContain('Toma Nistor – San Diego Software Engineer</h1>');
+	expect(html).toContain('Toma Nistor');
+	expect(html).toContain('San Diego Software Engineer');
 	expect(html.match(/<h1/g)).toHaveLength(1);
 	expect(html).toContain('<noscript>');
 });
 
-const TITLE = '[data-title]';
-const titleBox = (page: import('@playwright/test').Page) =>
-	page.locator(TITLE).evaluate((el) => {
-		const { top, bottom, left, right } = el.getBoundingClientRect();
-		return { top, bottom, left, right, opacity: Number(getComputedStyle(el).opacity) };
-	});
+const NAME = '[data-title-name]';
+const SUBTITLE = '[data-title-subtitle]';
+type Line = { top: number; bottom: number; left: number; right: number; opacity: number };
+const lines = (page: import('@playwright/test').Page) =>
+	page.evaluate(
+		([name, subtitle]) => {
+			const box = (selector: string) => {
+				const el = document.querySelector(selector)!;
+				const { top, bottom, left, right } = el.getBoundingClientRect();
+				return { top, bottom, left, right, opacity: Number(getComputedStyle(el).opacity) };
+			};
+			return { name: box(name), subtitle: box(subtitle) };
+		},
+		[NAME, SUBTITLE]
+	) as Promise<{ name: Line; subtitle: Line }>;
 
 for (const [width, height] of [
 	[1440, 900],
@@ -172,48 +182,69 @@ for (const [width, height] of [
 	[1280, 600],
 	[390, 844]
 ]) {
-	test(`brings the title up under the logo at ${width}×${height}`, async ({ page }) => {
+	test(`sets the name as wide as the logo, with the subtitle under it at ${width}×${height}`, async ({
+		page
+	}) => {
 		await page.setViewportSize({ width, height });
 		await page.goto('/');
 		await waitForScene(page);
-		await scrollTo(page, 0);
-		expect((await titleBox(page)).top).toBeGreaterThanOrEqual(height);
 		await scrollTo(page, 1);
-		const box = await titleBox(page);
-		expect(box.top).toBeGreaterThanOrEqual(0);
-		expect(box.bottom).toBeLessThanOrEqual(height);
-		expect(Math.abs((box.left + box.right) / 2 - width / 2)).toBeLessThanOrEqual(2);
-		const logoBottom = await lastLogoRowAbove(page, box.top);
-		expect(logoBottom).toBeGreaterThan(0);
-		expect(box.top).toBeGreaterThanOrEqual(logoBottom);
+		const { name, subtitle } = await lines(page);
+		const nameWidth = await page.locator(NAME).evaluate((el) => {
+			const range = document.createRange();
+			range.selectNodeContents(el);
+			return range.getBoundingClientRect().width;
+		});
+		const logoWidth = logoSize({ width, height }, LOGO_REST_SCALE).w;
+		expect(Math.abs(nameWidth / logoWidth - 1)).toBeLessThanOrEqual(0.06);
+		for (const line of [name, subtitle]) {
+			expect(line.top).toBeGreaterThanOrEqual(0);
+			expect(line.bottom).toBeLessThanOrEqual(height);
+			expect(Math.abs((line.left + line.right) / 2 - width / 2)).toBeLessThanOrEqual(2);
+		}
+		expect(subtitle.top).toBeGreaterThanOrEqual(name.bottom - 1);
+		expect(subtitle.bottom).toBeLessThanOrEqual(0.72 * height);
 	});
 }
 
-test('keeps the title to two lines above the bottom quarter on a phone', async ({ page }) => {
-	await page.setViewportSize({ width: 390, height: 844 });
+test('fades the name in before the subtitle', async ({ page }) => {
 	await page.goto('/');
 	await waitForScene(page);
-	await scrollTo(page, 1);
-	const { lineHeight, height } = await page.locator(TITLE).evaluate((el) => ({
-		lineHeight: parseFloat(getComputedStyle(el).lineHeight),
-		height: el.getBoundingClientRect().height
-	}));
-	expect(height).toBeLessThanOrEqual(lineHeight * 2 + 1);
-	expect((await titleBox(page)).bottom).toBeLessThan(0.75 * 844);
+	await scrollTo(page, 0.7);
+	let { name, subtitle } = await lines(page);
+	expect(name.opacity).toBeGreaterThan(0);
+	expect(subtitle.opacity).toBe(0);
+	await scrollTo(page, 0.75);
+	({ name, subtitle } = await lines(page));
+	expect(name.opacity).toBeGreaterThan(subtitle.opacity);
 });
 
-test('fades the title in place with reduced motion', async ({ page }) => {
+test('keeps the name below the logo while both move', async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	await page.goto('/');
+	await waitForScene(page);
+	// The title's dark text would count as logo pixels.
+	await page.addStyleTag({ content: '[data-title] { visibility: hidden }' });
+	for (const fraction of [0.6, 0.75, 0.9]) {
+		await scrollTo(page, fraction);
+		const { top } = (await lines(page)).name;
+		expect(top, `at ${fraction * 100}%`).toBeGreaterThanOrEqual(await lastLogoRowAbove(page, 900));
+	}
+});
+
+test('fades each line in with reduced motion', async ({ page }) => {
 	await page.emulateMedia({ reducedMotion: 'reduce' });
 	await page.goto('/');
 	await waitForScene(page);
 	await scrollTo(page, 1);
-	const end = await titleBox(page);
+	const end = await lines(page);
 	await scrollTo(page, 0.75);
-	const mid = await titleBox(page);
-	expect(Math.abs(mid.top - end.top)).toBeLessThanOrEqual(1);
-	expect(mid.opacity).toBeGreaterThan(0);
-	expect(mid.opacity).toBeLessThan(1);
-	expect(end.opacity).toBe(1);
+	const mid = await lines(page);
+	// The lines track the logo rather than rising, so their tops are covered by the unit tests.
+	expect(mid.name.opacity).toBeGreaterThan(0);
+	expect(mid.name.opacity).toBeLessThan(1);
+	expect(end.name.opacity).toBe(1);
+	expect(end.subtitle.opacity).toBe(1);
 });
 
 test('the page does not bounce when scrolled past its ends', async ({ page }) => {

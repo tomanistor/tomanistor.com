@@ -30,13 +30,14 @@ async function scrollToEnd() {
 }
 
 function expectReadableTitle(stage: HTMLElement) {
-	const title = stage.querySelector<HTMLElement>('[data-title]')!;
-	const rect = title.getBoundingClientRect();
 	const logo = fallbackLogo(stage).getBoundingClientRect();
-	expect(rect.top).toBeGreaterThanOrEqual(logo.bottom);
-	expect(rect.top).toBeGreaterThanOrEqual(0);
-	expect(rect.bottom).toBeLessThanOrEqual(innerHeight);
-	expect(getComputedStyle(title).opacity).toBe('1');
+	for (const line of ['[data-title-name]', '[data-title-subtitle]']) {
+		const el = stage.querySelector<HTMLElement>(line)!;
+		const rect = el.getBoundingClientRect();
+		expect(rect.top, line).toBeGreaterThanOrEqual(logo.bottom);
+		expect(rect.bottom, line).toBeLessThanOrEqual(innerHeight);
+		expect(getComputedStyle(el).opacity, line).toBe('1');
+	}
 }
 
 describe('JungleScene fallback', () => {

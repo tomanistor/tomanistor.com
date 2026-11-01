@@ -31,13 +31,17 @@
 			alt="Toma Nistor - San Diego Software Engineer"
 			class="absolute left-1/2 top-1/2 w-[min(50vw,57vh)] -translate-x-1/2 -translate-y-1/2"
 		/>
-		<!-- Starts below the stage; the scene brings it up under the logo. -->
+		<!-- Starts below the stage; the scene places it under the logo and fades the lines in. -->
 		<h1
 			bind:this={title}
 			data-title
-			class="absolute left-0 top-0 z-[600] w-full [transform:translateY(100lvh)] text-balance px-6 text-center font-semibold text-[#212121]"
+			class="absolute left-0 top-[100lvh] z-[600] w-full whitespace-nowrap px-6 text-center font-semibold text-[#212121]"
 		>
-			Toma Nistor – San Diego Software Engineer
+			<span data-title-name class="block leading-none opacity-0">Toma Nistor</span>
+			<span class="sr-only"> – </span>
+			<span data-title-subtitle class="block leading-[1.1] opacity-0"
+				>San Diego Software Engineer</span
+			>
 		</h1>
 		<!-- A lens vignette over the whole scene; clear well before the logo. -->
 		<div

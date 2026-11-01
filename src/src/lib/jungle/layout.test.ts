@@ -43,7 +43,7 @@ describe('archZone', () => {
 	it('opens around the resting logo at 1440×900', () => {
 		const a = archZone({ width: 1440, height: 900 });
 		expect(Math.abs(a.half - 486)).toBeLessThanOrEqual(3);
-		expect(Math.abs(a.cy - a.rTop - -321)).toBeLessThanOrEqual(5);
+		expect(Math.abs(a.cy - a.rTop - -357)).toBeLessThanOrEqual(5);
 		expect(a.bottom).toBe(450);
 	});
 
