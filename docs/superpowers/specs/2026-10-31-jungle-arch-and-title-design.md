@@ -34,6 +34,7 @@ line, the reduced-motion and phone decisions, and `titleLayout`'s font rule):
   about halfway in and finishes as the phase ends *(Claude's call on the windows)*. Scrolling back up
   reverses it (subtitle out first). Each line rises a short distance rather than travelling up from
   below the viewport.
+- **In sync with the logo** (owner, 2026-10-31): the lines are anchored to the logo as it lifts and shrinks — the name always sits the set gap below the logo's current bottom edge — so text and logo move together and never overlap at any point in the phase.
 - **Reduced motion:** both lines fade in place, no rise, still in sequence.
 - **No-WebGL and no-JS:** both lines show, following the same rules as the canvas page and the
   noscript layout respectively.
