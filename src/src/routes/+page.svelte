@@ -39,7 +39,9 @@
 	<div class="fixed inset-x-0 bottom-6 z-[2001] mx-auto flex w-fit gap-6 text-[#212121]">
 		<a
 			href="https://github.com/tomanistor"
-			aria-label="GitHub"
+			aria-label="GitHub (opens in a new tab)"
+			target="_blank"
+			rel="noopener noreferrer"
 			class="group relative grid size-11 place-items-center rounded-full outline-hidden transition-colors duration-200 hover:text-white focus-visible:text-white forced-colors:focus-visible:outline-2"
 		>
 			<span
@@ -54,7 +56,9 @@
 		</a>
 		<a
 			href="https://linkedin.com/in/tomanistor"
-			aria-label="LinkedIn"
+			aria-label="LinkedIn (opens in a new tab)"
+			target="_blank"
+			rel="noopener noreferrer"
 			class="group relative grid size-11 place-items-center rounded-full outline-hidden transition-colors duration-200 hover:text-white focus-visible:text-white forced-colors:focus-visible:outline-2"
 		>
 			<span

@@ -135,11 +135,13 @@ describe('JungleScene', () => {
 		expect(stage.contains(footers[0])).toBe(true);
 		const links = [...footers[0].querySelectorAll('a')];
 		expect(links.map((a) => [a.getAttribute('href'), a.getAttribute('aria-label')])).toEqual([
-			['https://github.com/tomanistor', 'GitHub'],
-			['https://linkedin.com/in/tomanistor', 'LinkedIn']
+			['https://github.com/tomanistor', 'GitHub (opens in a new tab)'],
+			['https://linkedin.com/in/tomanistor', 'LinkedIn (opens in a new tab)']
 		]);
 		for (const a of links) {
-			expect(a.hasAttribute('target')).toBe(false);
+			expect(a.getAttribute('target')).toBe('_blank');
+			expect(a.getAttribute('rel')).toMatch(/noopener/);
+			expect(a.getAttribute('rel')).toMatch(/noreferrer/);
 			expect(a.querySelector('svg')!.getAttribute('aria-hidden')).toBe('true');
 		}
 		expect(footers[0].querySelectorAll('svg')).toHaveLength(2);
