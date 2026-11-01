@@ -210,6 +210,21 @@ for (const { width, height, archAt } of [
 				.soft(await link.evaluate((a) => getComputedStyle(a).opacity), 'focused link')
 				.toBe('1');
 		}
+		// The ink circle is the only focus mark, except in forced colors where it gets a real outline.
+		const github = page.locator(`${SOCIAL} a`).first();
+		await page.keyboard.press('Shift+Tab');
+		await expect(github).toBeFocused();
+		const outline = () =>
+			github.evaluate((a) => {
+				const { outlineStyle, outlineWidth } = getComputedStyle(a);
+				return { outlineStyle, outlineWidth };
+			});
+		expect.soft((await outline()).outlineStyle, 'focus outline in normal mode').toBe('none');
+		await page.emulateMedia({ forcedColors: 'active' });
+		const forced = await outline();
+		expect.soft(forced.outlineStyle, 'focus outline in forced colors').toBe('solid');
+		expect.soft(parseFloat(forced.outlineWidth), 'forced colors outline width').toBeGreaterThan(0);
+		await page.emulateMedia({ forcedColors: 'none' });
 		await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
 		await shown.evaluate((el) => el.remove());
 		await scrollTo(page, 1);

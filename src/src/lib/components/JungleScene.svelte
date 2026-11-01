@@ -59,7 +59,7 @@
 				aria-label="GitHub (opens in a new tab)"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="group relative grid size-11 place-items-center rounded-full outline-hidden transition-colors duration-200 hover:text-white focus-visible:text-white forced-colors:focus-visible:outline-2 opacity-0 focus-visible:opacity-100!"
+				class="group relative grid size-11 place-items-center rounded-full outline-hidden transition-colors duration-200 hover:text-white focus-visible:text-white forced-colors:focus-visible:outline-2 forced-colors:focus-visible:outline-solid opacity-0 focus-visible:opacity-100!"
 			>
 				<span
 					aria-hidden="true"
@@ -81,7 +81,7 @@
 				aria-label="LinkedIn (opens in a new tab)"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="group relative grid size-11 place-items-center rounded-full outline-hidden transition-colors duration-200 hover:text-white focus-visible:text-white forced-colors:focus-visible:outline-2 opacity-0 focus-visible:opacity-100!"
+				class="group relative grid size-11 place-items-center rounded-full outline-hidden transition-colors duration-200 hover:text-white focus-visible:text-white forced-colors:focus-visible:outline-2 forced-colors:focus-visible:outline-solid opacity-0 focus-visible:opacity-100!"
 			>
 				<span
 					aria-hidden="true"
