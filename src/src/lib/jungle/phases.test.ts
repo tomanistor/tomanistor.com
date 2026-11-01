@@ -21,7 +21,7 @@ describe('logoPose', () => {
 		expect(shut.dy).toBeCloseTo(0);
 		const { scale, dy } = logoPose(1, 1, v);
 		expect(scale).toBeCloseTo(2 / 3);
-		expect(Math.abs(dy / v.height)).toBeLessThanOrEqual(0.02);
+		expect(dy).toBeCloseTo(0);
 	});
 });
 

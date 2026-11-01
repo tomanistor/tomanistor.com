@@ -21,10 +21,10 @@
 	<img
 		src={logo}
 		alt="Toma Nistor - San Diego Software Engineer"
-		class="fixed left-1/2 top-[48%] z-[2001] w-[calc(min(50vw,57vh)*2/3)] -translate-x-1/2 -translate-y-1/2"
+		class="fixed left-1/2 top-1/2 z-[2001] w-[calc(min(50vw,57vh)*2/3)] -translate-x-1/2 -translate-y-1/2"
 	/>
 	<p
-		class="fixed left-0 top-[calc(48%+min(50vw,57vh)*2/3*197/225*0.59)] z-[2001] w-full whitespace-nowrap px-6 text-center font-display uppercase text-[#212121]"
+		class="fixed left-0 top-[calc(50%+min(50vw,57vh)*2/3*197/225*0.59)] z-[2001] w-full whitespace-nowrap px-6 text-center font-display uppercase text-[#212121]"
 	>
 		<span
 			class="block text-[calc(min(50vw,57vh)*2/3/6.86)] font-black leading-[0.95] tracking-[-0.01em] [word-spacing:0.06em]"

@@ -59,6 +59,7 @@ export function openingZone(v: Viewport): { safeW: number; safeH: number } {
 // screen, |x| < half, and either below cy or inside the top half-ellipse.
 export type Arch = { cy: number; half: number; rTop: number; bottom: number };
 
+// Deliberately separate from LOGO_REST_DY, so the arch stays put when the logo moves.
 export const ARCH_DY = -0.06;
 
 export function archZone(v: Viewport): Arch {

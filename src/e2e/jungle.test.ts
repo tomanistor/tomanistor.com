@@ -93,7 +93,7 @@ async function expectTitleLaidOut(page: Page, width: number, height: number) {
 			.toBeLessThanOrEqual(2);
 	}
 	expect.soft(subtitle.top, 'subtitle under the name').toBeGreaterThanOrEqual(name.bottom - 1);
-	expect.soft(subtitle.bottom, 'title kept low').toBeLessThanOrEqual(0.78 * height);
+	expect.soft(subtitle.bottom, 'title kept low').toBeLessThanOrEqual(0.79 * height);
 }
 
 // One load per size, checked at a few scroll positions with reduced motion. Edge coverage only
