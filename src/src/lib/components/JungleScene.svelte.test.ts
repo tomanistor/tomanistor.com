@@ -149,6 +149,38 @@ describe('JungleScene', () => {
 			);
 	});
 
+	it('gives each footer link an aria-hidden ink circle and a 44px hit area', async () => {
+		const { screen } = await renderReady();
+		for (const a of screen.container.querySelectorAll<HTMLElement>('footer a')) {
+			const ink = a.querySelector('span')!;
+			expect(ink.getAttribute('aria-hidden')).toBe('true');
+			const { width, height } = a.getBoundingClientRect();
+			expect(width).toBeGreaterThanOrEqual(44);
+			expect(height).toBeGreaterThanOrEqual(44);
+		}
+	});
+
+	it('fills the ink circle when a footer link is focused', async () => {
+		const { screen } = await renderReady();
+		const link = screen.container.querySelector<HTMLElement>('footer a')!;
+		const ink = link.querySelector<HTMLElement>('span')!;
+		ink.style.transition = 'none';
+		expect(getComputedStyle(ink).scale).toBe('0');
+		link.focus();
+		expect(link.matches(':focus-visible')).toBe(true);
+		expect(getComputedStyle(ink).scale).toBe('1');
+	});
+
+	it('ignores the footer while it is faint and takes clicks once it is in', async () => {
+		const { screen } = await renderReady();
+		const footer = screen.container.querySelector<HTMLElement>('footer')!;
+		expect(getComputedStyle(footer).pointerEvents).toBe('none');
+		scrollTo(0, document.documentElement.scrollHeight);
+		await vi.waitFor(() => expect(getComputedStyle(footer).pointerEvents).toBe('auto'), {
+			timeout: 5000
+		});
+	});
+
 	it('ignores a resize event when the size has not changed', async () => {
 		const { stage } = await renderReady();
 		const before = generation(stage);

@@ -186,6 +186,34 @@ for (const { width, height, archAt } of [
 		await expectSocialLaidOut(page, width, height);
 		if (!main) return;
 
+		// Keyboard focus reveals a hidden footer link without scrolling the stage or the page.
+		const shown = await page.addStyleTag({ content: '[data-social] { visibility: visible }' });
+		await scrollTo(page, 0);
+		const scrollBefore = await page.evaluate(() => scrollY);
+		await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
+		for (const link of await page.locator(`${SOCIAL} a`).all()) {
+			for (
+				let tabs = 0;
+				tabs < 10 && !(await link.evaluate((a) => a === document.activeElement));
+				tabs++
+			)
+				await page.keyboard.press('Tab');
+			await expect(link).toBeFocused();
+			expect.soft(await page.evaluate(() => scrollY), 'window scroll on focus').toBe(scrollBefore);
+			expect
+				.soft(
+					await page.locator('[data-jungle-stage]').evaluate((el) => el.scrollTop),
+					'stage scroll on focus'
+				)
+				.toBe(0);
+			expect
+				.soft(await link.evaluate((a) => getComputedStyle(a).opacity), 'focused link')
+				.toBe('1');
+		}
+		await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
+		await shown.evaluate((el) => el.remove());
+		await scrollTo(page, 1);
+
 		// Reduced motion fades each line in place, the name first.
 		const end = await lines(page);
 		for (const line of ['name', 'subtitle'] as const) {
