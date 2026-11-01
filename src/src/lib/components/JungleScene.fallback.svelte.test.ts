@@ -1,4 +1,4 @@
-import { page } from '@vitest/browser/context';
+import { page } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleScene from './JungleScene.svelte';
@@ -9,7 +9,7 @@ import { camAt, logoPose, logoWidth, openAt } from '$lib/jungle/phases';
 async function renderReady() {
 	let resolveReady!: () => void;
 	const ready = new Promise<void>((r) => (resolveReady = r));
-	const screen = render(JungleScene, { onready: resolveReady });
+	const screen = await render(JungleScene, { onready: resolveReady });
 	await ready;
 	return screen.container.querySelector<HTMLElement>('[data-jungle-stage]')!;
 }

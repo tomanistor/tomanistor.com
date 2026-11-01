@@ -1,4 +1,4 @@
-import { page } from '@vitest/browser/context';
+import { page } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleLoader from './JungleLoader.svelte';
@@ -44,8 +44,8 @@ describe('JungleLoader', () => {
 		scrollTo(0, 0);
 	});
 
-	it('starts as a thin band, opens a centre column, then spreads to the full logo', () => {
-		render(JungleLoader, { done: false });
+	it('starts as a thin band, opens a centre column, then spreads to the full logo', async () => {
+		await render(JungleLoader, { done: false });
 		const band = windowAt(0);
 		expect(band.height).toBeCloseTo(band.box.height * 0.04, 0);
 		expect(band.width).toBeCloseTo(band.box.width * 0.2, 0);
@@ -60,7 +60,7 @@ describe('JungleLoader', () => {
 	});
 
 	it('stays until done, then fades and unmounts', async () => {
-		const screen = render(JungleLoader, { done: false });
+		const screen = await render(JungleLoader, { done: false });
 		await new Promise((r) => setTimeout(r, 3000));
 		expect(loaderEl()).not.toBeNull();
 		await screen.rerender({ done: true });
@@ -68,7 +68,7 @@ describe('JungleLoader', () => {
 	});
 
 	it('keeps the logo sized to the scroll position while loading', async () => {
-		render(JungleLoader, { done: false });
+		await render(JungleLoader, { done: false });
 		const spacer = document.createElement('div');
 		spacer.dataset.spacer = '';
 		spacer.style.height = '5000px';
@@ -94,7 +94,7 @@ describe('JungleLoader', () => {
 		spacer.style.height = '50000px';
 		document.body.prepend(spacer);
 		scrollTo(0, target * (50000 + 5 * innerHeight - innerHeight));
-		render(Page);
+		await render(Page);
 		const loaderLogo = loaderEl()!.querySelector('[data-logo-box]')!;
 		const stage = document.querySelector<HTMLElement>('[data-jungle-stage]')!;
 		// The scene draws its logo into the canvas, at the pose for the current scroll.

@@ -1,4 +1,4 @@
-import { page } from '@vitest/browser/context';
+import { page } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleScene from './JungleScene.svelte';
@@ -7,7 +7,7 @@ import fern from '$lib/assets/jungle/fern.webp';
 async function renderReady() {
 	let resolveReady!: () => void;
 	const ready = new Promise<void>((r) => (resolveReady = r));
-	const screen = render(JungleScene, { onready: resolveReady });
+	const screen = await render(JungleScene, { onready: resolveReady });
 	await ready;
 	const stage = screen.container.querySelector<HTMLElement>('[data-jungle-stage]')!;
 	return { screen, stage };
@@ -65,7 +65,7 @@ describe('JungleScene', () => {
 	it('still becomes ready when one image fails', async () => {
 		const first = await renderReady();
 		const all = Number(first.stage.dataset.leaves);
-		first.screen.unmount();
+		await first.screen.unmount();
 		const decode = HTMLImageElement.prototype.decode;
 		vi.spyOn(HTMLImageElement.prototype, 'decode').mockImplementation(function (
 			this: HTMLImageElement
@@ -207,7 +207,7 @@ describe('JungleScene', () => {
 		const { screen } = await renderReady();
 		const errors = vi.spyOn(console, 'error');
 		await rebuildInFlight(1280, 800);
-		screen.unmount();
+		await screen.unmount();
 		const frames = vi.spyOn(window, 'requestAnimationFrame');
 		await new Promise((r) => setTimeout(r, 1000));
 		expect(screen.container.querySelector('canvas')).toBeNull();
