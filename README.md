@@ -22,7 +22,6 @@ src/                  the site (SvelteKit app, run everything from here)
   src/routes/         the homepage and the 404 page
   e2e/                Playwright tests
   static/_redirects   Netlify redirects for the old site's URLs
-archive/              the old Hugo site, kept for reference and not built
 docs/superpowers/     design specs and implementation plans
 ```
 
@@ -80,4 +79,10 @@ The old Hugo site's URLs (`/about`, `/blog/*`, `/gallery/*`, `/tags/*`, `/catego
 
 ## The old site
 
-The previous version of the site, built with Hugo, lives in `archive/` with its own README. It isn't built or deployed anymore.
+The previous version of the site, built with Hugo and live from 2017 to 2026, is archived under the [`hugo-site`](https://github.com/tomanistor/tomanistor.com/tree/hugo-site) tag. That's its final state on `master`, source and submodules included, and it can be browsed on GitHub or checked out:
+
+```sh
+git clone --recurse-submodules --branch hugo-site https://github.com/tomanistor/tomanistor.com.git tomanistor-hugo
+```
+
+The [Hugo site release](https://github.com/tomanistor/tomanistor.com/releases/tag/hugo-site) has a ready-built copy to serve locally.

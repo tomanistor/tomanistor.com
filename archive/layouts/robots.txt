@@ -1,5 +1,0 @@
-User-agent: *
-
-{{ with .OutputFormats.Get "rss" -}}
-Sitemap: {{ printf .Permalink | safeHTML }}
-{{ end -}}
