@@ -89,7 +89,7 @@ test('about 80% of the logo is hidden at the start, none after the reveal, and i
 	// Compare against the fully revealed logo with the leaves hidden.
 	await page.addStyleTag({
 		content: `canvas, [data-vignette] { visibility: hidden !important }
-			[data-fallback-logo] { transform: translate(-50%, -50%) !important }`
+			[data-fallback-logo] { transform: none !important }`
 	});
 	await page.locator('[data-fallback-logo]').evaluate((el) => el.removeAttribute('hidden'));
 	await page.waitForTimeout(100);
@@ -229,7 +229,7 @@ test('leaves a wide clearing around the logo at the end of the reveal', async ({
 	await page.goto('/');
 	await waitForScene(page);
 	await scrollTo(page, 0.5);
-	expect(await openShare(page)).toBeGreaterThanOrEqual(0.39);
+	expect(await openShare(page)).toBeGreaterThanOrEqual(0.394);
 });
 
 for (const [width, height] of [
@@ -257,6 +257,17 @@ test('starts open when reloaded at the end', async ({ page }) => {
 	await scrollTo(page, 1);
 	await page.reload();
 	await waitForScene(page);
+	expect(await regionShare(page, BOTTOM_MIDDLE, 'pure')).toBe(1);
+});
+
+test('keeps the bottom middle pure white with the cursor at the bottom', async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 900 });
+	await page.goto('/');
+	await waitForScene(page);
+	await scrollTo(page, 1);
+	// Leaves shift against the cursor, so a cursor at the bottom pulls exited leaves back up.
+	await page.mouse.move(720, 899, { steps: 10 });
+	await page.waitForTimeout(3000);
 	expect(await regionShare(page, BOTTOM_MIDDLE, 'pure')).toBe(1);
 });
 
