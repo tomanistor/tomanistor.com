@@ -13,7 +13,7 @@ import {
 } from './measure';
 import { LOGO_REST_SCALE, logoSize } from '../src/lib/jungle/phases';
 
-test.describe.configure({ timeout: 180000 });
+test.describe.configure({ timeout: 60000 });
 
 const stageMb = (page: import('@playwright/test').Page) =>
 	page.locator('[data-jungle-stage]').evaluate((el) => Number((el as HTMLElement).dataset.gpuMb));
@@ -27,8 +27,7 @@ for (const [width, height] of [
 	[390, 844]
 ]) {
 	test(`edges are covered at every scroll position at ${width}×${height}`, async ({ page }) => {
-		// Each settled scroll takes up to half a minute at 3440×1440.
-		test.setTimeout(300000);
+		await page.emulateMedia({ reducedMotion: 'reduce' });
 		await page.setViewportSize({ width, height });
 		await page.goto('/');
 		await waitForScene(page);
@@ -49,6 +48,7 @@ for (const [width, height] of [
 	});
 
 	test(`leaves the bottom middle pure white when open at ${width}×${height}`, async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: 'reduce' });
 		await page.setViewportSize({ width, height });
 		await page.goto('/');
 		await waitForScene(page);
@@ -57,6 +57,7 @@ for (const [width, height] of [
 	});
 
 	test(`keeps leaves in both bottom corners when open at ${width}×${height}`, async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: 'reduce' });
 		await page.setViewportSize({ width, height });
 		await page.goto('/');
 		await waitForScene(page);
@@ -75,6 +76,7 @@ for (const [width, height] of [
 test('about 80% of the logo is hidden at the start, none after the reveal, and it rests smaller', async ({
 	page
 }) => {
+	await page.emulateMedia({ reducedMotion: 'reduce' });
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
 	await waitForScene(page);
@@ -168,22 +170,6 @@ const textWidth = (page: import('@playwright/test').Page, selector: string) =>
 		range.selectNodeContents(el);
 		return range.getBoundingClientRect().width;
 	});
-// The scroll settles by screenshot, which lets a slow glide of the title through at large sizes.
-async function waitForTitleToRest(page: import('@playwright/test').Page) {
-	let previous = -1;
-	await expect
-		.poll(
-			async () => {
-				const { subtitle } = await lines(page);
-				const moved = Math.abs(subtitle.bottom - previous) > 0.05;
-				previous = subtitle.bottom;
-				return moved;
-			},
-			{ intervals: [500], timeout: 30000 }
-		)
-		.toBe(false);
-}
-
 type Line = { top: number; bottom: number; left: number; right: number; opacity: number };
 const lines = (page: import('@playwright/test').Page) =>
 	page.evaluate(
@@ -215,7 +201,6 @@ for (const [width, height] of [
 		await page.goto('/');
 		await waitForScene(page);
 		await scrollTo(page, 1);
-		await waitForTitleToRest(page);
 		const { name, subtitle } = await lines(page);
 		const nameWidth = await textWidth(page, NAME);
 		const subtitleWidth = await textWidth(page, SUBTITLE);
@@ -304,6 +289,7 @@ test('the page does not bounce when scrolled past its ends', async ({ page }) =>
 });
 
 test('leaves a wide clearing around the logo at the end of the reveal', async ({ page }) => {
+	await page.emulateMedia({ reducedMotion: 'reduce' });
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
 	await waitForScene(page);
@@ -316,7 +302,7 @@ for (const [width, height] of [
 	[390, 844]
 ]) {
 	test(`opens as one arch, never a figure 8 at ${width}×${height}`, async ({ page }) => {
-		test.setTimeout(300000);
+		await page.emulateMedia({ reducedMotion: 'reduce' });
 		await page.setViewportSize({ width, height });
 		await page.goto('/');
 		await waitForScene(page);
@@ -330,6 +316,7 @@ for (const [width, height] of [
 }
 
 test('starts open when reloaded at the end', async ({ page }) => {
+	await page.emulateMedia({ reducedMotion: 'reduce' });
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
 	await waitForScene(page);
@@ -351,6 +338,7 @@ test('keeps the bottom middle pure white with the cursor at the bottom', async (
 });
 
 test('stays open across a resize', async ({ page }) => {
+	await page.emulateMedia({ reducedMotion: 'reduce' });
 	await page.setViewportSize({ width: 1440, height: 900 });
 	await page.goto('/');
 	await waitForScene(page);
@@ -371,8 +359,6 @@ for (const losses of [1, 2]) {
 		await page.goto('/');
 		await waitForScene(page);
 		await scrollTo(page, 0.5);
-		// The leaves are still gliding into place for a few seconds after the scroll.
-		await page.waitForTimeout(4000);
 		const before = await page.screenshot();
 		const stage = page.locator('[data-jungle-stage]');
 		for (let i = 0; i < losses; i++) {

@@ -10,7 +10,7 @@ import {
 	openAt,
 	titlePose
 } from './phases';
-import { leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
+import { atRest, leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
 import { createJungleRenderer, type JungleRenderer } from './renderer';
 import { SPRITES } from './sprites';
 
@@ -122,8 +122,10 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		last = now;
 		const s = scroll();
 		// Everything glides without overshoot; leaves differ only in how quickly they follow.
-		spring(camera, camAt(s), 16, 1, dt);
-		spring(opening, openAt(s), 16, 1, dt);
+		const camTarget = camAt(s);
+		const openTarget = openAt(s);
+		spring(camera, camTarget, 16, 1, dt);
+		spring(opening, openTarget, 16, 1, dt);
 		spring(look.x, pointer.x, 6, 1, dt);
 		spring(look.y, pointer.y, 6, 1, dt);
 
@@ -149,6 +151,14 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		if (els.stage.style.getPropertyValue('--open') !== openCss)
 			els.stage.style.setProperty('--open', openCss);
 		placeTitle(camera.t, opening.t);
+		const settled = String(
+			atRest(camera, camTarget) &&
+				atRest(opening, openTarget) &&
+				atRest(look.x, pointer.x) &&
+				atRest(look.y, pointer.y) &&
+				live.every((leaf) => atRest(leaf, leafTarget(leaf, s)) && atRest(leaf.brush, 0))
+		);
+		if (els.stage.dataset.settled !== settled) els.stage.dataset.settled = settled;
 		const drawn = String(poses.length);
 		if (els.stage.dataset.drawn !== drawn) els.stage.dataset.drawn = drawn;
 		if (schedule) frameId = requestAnimationFrame((t) => frame(t));

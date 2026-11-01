@@ -45,6 +45,14 @@ describe('JungleScene', () => {
 		expect(stage.querySelectorAll('canvas')).toHaveLength(1);
 	});
 
+	it('reports settled once at rest, and again after a scroll', async () => {
+		const { stage } = await renderReady();
+		await vi.waitFor(() => expect(stage.dataset.settled).toBe('true'), { timeout: 5000 });
+		window.scrollTo(0, document.documentElement.scrollHeight);
+		await vi.waitFor(() => expect(stage.dataset.settled).toBe('false'), { timeout: 5000 });
+		await vi.waitFor(() => expect(stage.dataset.settled).toBe('true'), { timeout: 10000 });
+	});
+
 	it('still becomes ready when one image fails', async () => {
 		const first = await renderReady();
 		const all = Number(first.stage.dataset.leaves);

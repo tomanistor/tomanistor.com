@@ -4,19 +4,20 @@ export async function waitForScene(page: Page): Promise<void> {
 	await page.waitForSelector('[data-jungle-loader]', { state: 'detached', timeout: 30000 });
 }
 
+// Resolves once the scene has drawn the settled pose. The scene writes `data-settled` on the next
+// frame after the scroll, so a scroll that moves nothing leaves it "true" throughout.
 export async function scrollTo(page: Page, fraction: number): Promise<void> {
-	await page.evaluate(
-		(f) => window.scrollTo(0, (document.documentElement.scrollHeight - innerHeight) * f),
-		fraction
-	);
-	// Leaves keep stirring without reduced motion, so the scene never settles to an exact match.
-	let previous = await page.screenshot();
-	for (const deadline = Date.now() + 10000; Date.now() < deadline; ) {
-		await page.waitForTimeout(500);
-		const next = await page.screenshot();
-		if ((await screenshotDiff(page, previous, next)) <= 0.002) return;
-		previous = next;
-	}
+	await page.evaluate(async (f) => {
+		const stage = document.querySelector<HTMLElement>('[data-jungle-stage]')!;
+		const frame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+		window.scrollTo(0, (document.documentElement.scrollHeight - innerHeight) * f);
+		await frame();
+		for (const deadline = performance.now() + 10000; stage.dataset.settled !== 'true'; ) {
+			if (performance.now() > deadline) throw new Error('the scene did not settle in 10s');
+			await frame();
+		}
+		await frame();
+	}, fraction);
 }
 
 export type Edge = 'top' | 'right' | 'bottom' | 'left';

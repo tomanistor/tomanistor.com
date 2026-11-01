@@ -31,6 +31,10 @@ export function spring(state: Spring, target: number, k: number, zeta: number, d
 	}
 }
 
+export function atRest(state: Spring, target: number): boolean {
+	return Math.abs(target - state.t) < 1e-3 && Math.abs(state.v) < 1e-3;
+}
+
 export function scrollFraction(
 	scrollY: number,
 	scrollHeight: number,
