@@ -35,7 +35,7 @@
 		<h1
 			bind:this={title}
 			data-title
-			class="pointer-events-none absolute left-0 top-0 z-[600] w-full [transform:translateY(100lvh)] text-balance px-6 text-center font-semibold text-[#212121]"
+			class="absolute left-0 top-0 z-[600] w-full [transform:translateY(100lvh)] text-balance px-6 text-center font-semibold text-[#212121]"
 		>
 			Toma Nistor – San Diego Software Engineer
 		</h1>
