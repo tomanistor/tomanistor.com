@@ -30,7 +30,7 @@ My personal site. Scroll through a jungle to find my name.
 
 ## Quick start
 
-You need Node 20.19.4 and pnpm 12.5.1. Both are pinned (`src/.tool-versions` for asdf, `packageManager` for pnpm).
+You need Node 26.13.0 and pnpm 12.5.1. Both are pinned in `src/.tool-versions` for asdf, and pnpm also in `packageManager`.
 
 ```sh
 cd src
