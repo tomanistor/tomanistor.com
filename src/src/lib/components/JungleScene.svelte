@@ -35,11 +35,15 @@
 		<h1
 			bind:this={title}
 			data-title
-			class="absolute left-0 top-[100lvh] z-[600] w-full whitespace-nowrap px-6 text-center font-semibold text-[#212121]"
+			class="absolute left-0 top-0 z-[600] w-full whitespace-nowrap px-6 text-center font-display uppercase text-[#212121] [transform:translateY(100lvh)]"
 		>
-			<span data-title-name class="block leading-none opacity-0">Toma Nistor</span>
+			<span
+				data-title-name
+				class="block font-black leading-[0.95] tracking-[-0.01em] opacity-0 [word-spacing:0.06em]"
+				>Toma Nistor</span
+			>
 			<span class="sr-only"> – </span>
-			<span data-title-subtitle class="block leading-[1.1] opacity-0"
+			<span data-title-subtitle class="mt-[0.25em] block font-semibold leading-[0.95] opacity-0"
 				>San Diego Software Engineer</span
 			>
 		</h1>

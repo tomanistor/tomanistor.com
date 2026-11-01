@@ -154,14 +154,36 @@ test('the deployed homepage is prerendered with the heading and the logo', () =>
 	expect(html).toContain(
 		'Toma Nistor is a San Diego software engineer building fast, thoughtfully crafted websites and web apps.'
 	);
-	expect(html).toContain('Toma Nistor');
-	expect(html).toContain('San Diego Software Engineer');
 	expect(html.match(/<h1/g)).toHaveLength(1);
+	expect(html).toMatch(/<span data-title-name[^>]*>Toma Nistor<\/span>/);
+	expect(html).toMatch(/<span data-title-subtitle[^>]*>San Diego Software Engineer<\/span>/);
 	expect(html).toContain('<noscript>');
 });
 
 const NAME = '[data-title-name]';
 const SUBTITLE = '[data-title-subtitle]';
+const textWidth = (page: import('@playwright/test').Page, selector: string) =>
+	page.locator(selector).evaluate((el) => {
+		const range = document.createRange();
+		range.selectNodeContents(el);
+		return range.getBoundingClientRect().width;
+	});
+// The scroll settles by screenshot, which lets a slow glide of the title through at large sizes.
+async function waitForTitleToRest(page: import('@playwright/test').Page) {
+	let previous = -1;
+	await expect
+		.poll(
+			async () => {
+				const { subtitle } = await lines(page);
+				const moved = Math.abs(subtitle.bottom - previous) > 0.05;
+				previous = subtitle.bottom;
+				return moved;
+			},
+			{ intervals: [500], timeout: 30000 }
+		)
+		.toBe(false);
+}
+
 type Line = { top: number; bottom: number; left: number; right: number; opacity: number };
 const lines = (page: import('@playwright/test').Page) =>
 	page.evaluate(
@@ -171,10 +193,14 @@ const lines = (page: import('@playwright/test').Page) =>
 				const { top, bottom, left, right } = el.getBoundingClientRect();
 				return { top, bottom, left, right, opacity: Number(getComputedStyle(el).opacity) };
 			};
-			return { name: box(name), subtitle: box(subtitle) };
+			return {
+				name: box(name),
+				subtitle: box(subtitle),
+				heading: document.querySelector('[data-title]')!.getBoundingClientRect().top
+			};
 		},
 		[NAME, SUBTITLE]
-	) as Promise<{ name: Line; subtitle: Line }>;
+	) as Promise<{ name: Line; subtitle: Line; heading: number }>;
 
 for (const [width, height] of [
 	[1440, 900],
@@ -189,14 +215,17 @@ for (const [width, height] of [
 		await page.goto('/');
 		await waitForScene(page);
 		await scrollTo(page, 1);
+		await waitForTitleToRest(page);
 		const { name, subtitle } = await lines(page);
-		const nameWidth = await page.locator(NAME).evaluate((el) => {
-			const range = document.createRange();
-			range.selectNodeContents(el);
-			return range.getBoundingClientRect().width;
-		});
+		const nameWidth = await textWidth(page, NAME);
+		const subtitleWidth = await textWidth(page, SUBTITLE);
 		const logoWidth = logoSize({ width, height }, LOGO_REST_SCALE).w;
 		expect(Math.abs(nameWidth / logoWidth - 1)).toBeLessThanOrEqual(0.06);
+		if (width >= 1280) expect(Math.abs(subtitleWidth / nameWidth - 1)).toBeLessThanOrEqual(0.06);
+		else
+			expect(
+				await page.locator(SUBTITLE).evaluate((el) => parseFloat(getComputedStyle(el).fontSize))
+			).toBeGreaterThanOrEqual(12);
 		for (const line of [name, subtitle]) {
 			expect(line.top).toBeGreaterThanOrEqual(0);
 			expect(line.bottom).toBeLessThanOrEqual(height);
@@ -240,11 +269,30 @@ test('fades each line in with reduced motion', async ({ page }) => {
 	const end = await lines(page);
 	await scrollTo(page, 0.75);
 	const mid = await lines(page);
-	// The lines track the logo rather than rising, so their tops are covered by the unit tests.
+	// No rise: each line sits at the same offset from the heading's top as at the end.
+	for (const line of ['name', 'subtitle'] as const) {
+		const drift = mid[line].top - mid.heading - (end[line].top - end.heading);
+		expect(Math.abs(drift), line).toBeLessThanOrEqual(1);
+	}
 	expect(mid.name.opacity).toBeGreaterThan(0);
 	expect(mid.name.opacity).toBeLessThan(1);
 	expect(end.name.opacity).toBe(1);
 	expect(end.subtitle.opacity).toBe(1);
+});
+
+test('loads no font from Google', async ({ page }) => {
+	const hosts: string[] = [];
+	page.on('request', (request) => hosts.push(new URL(request.url()).hostname));
+	await page.goto('/');
+	await waitForScene(page);
+	expect(hosts.filter((host) => /fonts\.(googleapis|gstatic)\.com/.test(host))).toEqual([]);
+	const loaded = await page.evaluate(() =>
+		[...document.fonts]
+			.filter((face) => face.family.replace(/"/g, '') === 'Inter Tight' && face.status === 'loaded')
+			.map((face) => face.weight)
+			.sort()
+	);
+	expect(loaded).toEqual(['600', '900']);
 });
 
 test('the page does not bounce when scrolled past its ends', async ({ page }) => {

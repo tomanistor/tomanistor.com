@@ -110,6 +110,29 @@ describe('JungleScene', () => {
 			expect(z(headings[0])).toBeGreaterThan(z(vignette));
 	});
 
+	it('sets both lines in Inter Tight capitals, loaded before the fit', async () => {
+		const { screen } = await renderReady();
+		const lines = [
+			[screen.container.querySelector('[data-title-name]')!, '900'],
+			[screen.container.querySelector('[data-title-subtitle]')!, '600']
+		] as const;
+		for (const [el, weight] of lines) {
+			const style = getComputedStyle(el);
+			expect(style.fontFamily).toMatch(/^"?Inter Tight/);
+			expect(style.textTransform).toBe('uppercase');
+			expect(style.fontWeight).toBe(weight);
+			expect(document.fonts.check(`${weight} 16px "Inter Tight"`)).toBe(true);
+			const faces = [...document.fonts].filter(
+				(face) => face.family.replace(/"/g, '') === 'Inter Tight' && face.weight === weight
+			);
+			expect(faces.some((face) => face.status === 'loaded')).toBe(true);
+		}
+		const heading = screen.container.querySelector('h1')!;
+		expect(heading.textContent?.replace(/\s+/g, ' ').trim()).toBe(
+			'Toma Nistor – San Diego Software Engineer'
+		);
+	});
+
 	it('ignores a resize event when the size has not changed', async () => {
 		const { stage } = await renderReady();
 		const before = generation(stage);

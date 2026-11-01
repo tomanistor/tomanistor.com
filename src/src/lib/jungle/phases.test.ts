@@ -6,7 +6,6 @@ import {
 	logoWidth,
 	openAt,
 	revealAt,
-	subtitleSize,
 	titleLayout,
 	titlePose
 } from './phases';
@@ -38,7 +37,7 @@ describe('logoPose', () => {
 	it('shrinks to two thirds and rises once opened', () => {
 		const { scale, dy } = logoPose(1, 1, v);
 		expect(scale).toBeCloseTo(2 / 3);
-		expect(dy).toBeCloseTo(-90);
+		expect(dy).toBeCloseTo(-54);
 	});
 });
 
@@ -60,7 +59,7 @@ describe('logoSize', () => {
 
 describe('titleLayout', () => {
 	it('sits under the logo at 1440×900', () => {
-		expect(Math.abs(titleLayout({ width: 1440, height: 900 }).top - 525)).toBeLessThanOrEqual(2);
+		expect(Math.abs(titleLayout({ width: 1440, height: 900 }).top - 573)).toBeLessThanOrEqual(2);
 	});
 
 	it.each([
@@ -76,59 +75,53 @@ describe('titleLayout', () => {
 	});
 });
 
-describe('subtitleSize', () => {
-	it('is 40% of the name, never under 14px', () => {
-		expect(subtitleSize(60)).toBeCloseTo(24);
-		expect(subtitleSize(20)).toBe(14);
-	});
-});
-
 describe('titlePose', () => {
 	const NAME = 60;
+	const SUBTITLE = 20;
 	const V = { width: 1440, height: 900 };
 	const opens = Array.from({ length: 21 }, (_, i) => i / 20);
 
 	it('starts hidden', () => {
-		const { name, subtitle } = titlePose(1, 0, V, NAME, false);
+		const { name, subtitle } = titlePose(1, 0, V, NAME, SUBTITLE, false);
 		expect(name.opacity).toBe(0);
 		expect(subtitle.opacity).toBe(0);
 	});
 
 	it('fades the name in before the subtitle starts', () => {
-		const { name, subtitle } = titlePose(1, 0.5, V, NAME, false);
+		const { name, subtitle } = titlePose(1, 0.5, V, NAME, SUBTITLE, false);
 		expect(name.opacity).toBeCloseTo(0.5, 2);
 		expect(subtitle.opacity).toBe(0);
 	});
 
 	it('has the subtitle part way in at 0.75', () => {
-		const { opacity } = titlePose(1, 0.75, V, NAME, false).subtitle;
+		const { opacity } = titlePose(1, 0.75, V, NAME, SUBTITLE, false).subtitle;
 		expect(opacity).toBeGreaterThan(0);
 		expect(opacity).toBeLessThan(1);
 	});
 
 	it('rests in place once open', () => {
-		const { name, subtitle } = titlePose(1, 1, V, NAME, false);
+		const { name, subtitle } = titlePose(1, 1, V, NAME, SUBTITLE, false);
 		expect(name).toEqual({ dy: 0, opacity: 1 });
 		expect(subtitle).toEqual({ dy: 0, opacity: 1 });
 	});
 
-	it('rises one font size per line', () => {
-		const { name, subtitle } = titlePose(1, 0.3, V, NAME, false);
+	it('rises one font size per line, the subtitle by its own', () => {
+		const { name, subtitle } = titlePose(1, 0.3, V, NAME, SUBTITLE, false);
 		expect(name.dy).toBeCloseTo(NAME);
-		expect(subtitle.dy).toBeCloseTo(subtitleSize(NAME));
+		expect(subtitle.dy).toBeCloseTo(SUBTITLE);
 	});
 
 	it('never shows the subtitle ahead of the name', () => {
 		for (const open of opens) {
-			const { name, subtitle } = titlePose(1, open, V, NAME, false);
+			const { name, subtitle } = titlePose(1, open, V, NAME, SUBTITLE, false);
 			expect(name.opacity).toBeGreaterThanOrEqual(subtitle.opacity);
 		}
 	});
 
 	it('fades in place with reduced motion, still in sequence', () => {
 		for (const open of opens) {
-			const calm = titlePose(1, open, V, NAME, true);
-			const full = titlePose(1, open, V, NAME, false);
+			const calm = titlePose(1, open, V, NAME, SUBTITLE, true);
+			const full = titlePose(1, open, V, NAME, SUBTITLE, false);
 			expect(calm.name.dy).toBe(0);
 			expect(calm.subtitle.dy).toBe(0);
 			expect(calm.name.opacity).toBe(full.name.opacity);
@@ -147,11 +140,11 @@ describe('titlePose', () => {
 			const cam = 1;
 			const { scale, dy } = logoPose(cam, open, v);
 			const logoBottom = height / 2 + dy + logoSize(v, scale).h / 2;
-			expect(titlePose(cam, open, v, NAME, false).top).toBeGreaterThanOrEqual(logoBottom);
+			expect(titlePose(cam, open, v, NAME, SUBTITLE, false).top).toBeGreaterThanOrEqual(logoBottom);
 		}
 	});
 
 	it('lands on the resting layout once open', () => {
-		expect(titlePose(1, 1, V, NAME, false).top).toBe(titleLayout(V).top);
+		expect(titlePose(1, 1, V, NAME, SUBTITLE, false).top).toBe(titleLayout(V).top);
 	});
 });

@@ -5,9 +5,9 @@ import type { Viewport } from './layout';
 export const PHASE_SPLIT = 0.5;
 export const LOGO_REST_SCALE = 2 / 3;
 // Resting logo centre, as a share of viewport height from the middle.
-export const LOGO_REST_DY = -0.1;
+export const LOGO_REST_DY = -0.06;
 // Space between the resting logo and the name, as a share of the logo's height.
-const TITLE_GAP = 0.05;
+const TITLE_GAP = 0.09;
 
 export const revealAt = (scroll: number): number => clamp01(scroll / PHASE_SPLIT);
 export const camAt = (scroll: number): number => smoothstep(revealAt(scroll));
@@ -42,7 +42,7 @@ export const titleLayout = (v: Viewport): { top: number } => ({
 	top: titleTop(logoPose(1, 1, v), v)
 });
 
-export const subtitleSize = (nameSize: number): number => Math.max(14, 0.4 * nameSize);
+export const MIN_SUBTITLE_SIZE = 12;
 
 export type LinePose = { dy: number; opacity: number };
 
@@ -54,6 +54,7 @@ export function titlePose(
 	open: number,
 	v: Viewport,
 	nameSize: number,
+	subtitleSize: number,
 	calm: boolean
 ): { top: number; name: LinePose; subtitle: LinePose } {
 	const line = (from: number, to: number, size: number): LinePose => {
@@ -63,6 +64,6 @@ export function titlePose(
 	return {
 		top: titleTop(logoPose(cam, open, v), v),
 		name: line(0.3, 0.7, nameSize),
-		subtitle: line(0.5, 1, subtitleSize(nameSize))
+		subtitle: line(0.5, 1, subtitleSize)
 	};
 }

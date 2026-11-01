@@ -37,7 +37,12 @@ function expectReadableTitle(stage: HTMLElement) {
 		expect(rect.top, line).toBeGreaterThanOrEqual(logo.bottom);
 		expect(rect.bottom, line).toBeLessThanOrEqual(innerHeight);
 		expect(getComputedStyle(el).opacity, line).toBe('1');
+		expect(getComputedStyle(el).fontFamily, line).toMatch(/^"?Inter Tight/);
 	}
+	const name = stage.querySelector('[data-title-name]')!;
+	const range = document.createRange();
+	range.selectNodeContents(name);
+	expect(range.getBoundingClientRect().width / logo.width).toBeCloseTo(1, 1);
 }
 
 describe('JungleScene fallback', () => {

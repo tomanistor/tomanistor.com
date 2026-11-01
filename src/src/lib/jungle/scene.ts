@@ -3,11 +3,11 @@ import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, type Viewport } from './layout';
 import {
 	LOGO_REST_SCALE,
+	MIN_SUBTITLE_SIZE,
 	camAt,
 	logoPose,
 	logoSize,
 	openAt,
-	subtitleSize,
 	titlePose
 } from './phases';
 import { leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
@@ -33,9 +33,15 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 
 	const titleName = els.title.querySelector<HTMLElement>('[data-title-name]')!;
 	const titleSubtitle = els.title.querySelector<HTMLElement>('[data-title-subtitle]')!;
-	const nameRange = document.createRange();
-	nameRange.selectNodeContents(titleName);
+	const rangeOver = (el: HTMLElement) => {
+		const range = document.createRange();
+		range.selectNodeContents(el);
+		return range;
+	};
+	const nameRange = rangeOver(titleName);
+	const subtitleRange = rangeOver(titleSubtitle);
 	let nameSize = 0;
+	let subtitleSize = 0;
 
 	let viewport = measure();
 	let dpr = devicePixelRatio || 1;
@@ -49,6 +55,11 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	let generation = 0;
 	let resolveReady!: () => void;
 	const ready = new Promise<void>((resolve) => (resolveReady = resolve));
+	// The title is fitted from the loaded font's metrics; a font that fails to load only leaves the
+	// fallback face, which is fitted the same way.
+	const fontsReady = Promise.all(
+		['900', '600'].map((weight) => document.fonts.load(`${weight} 100px "Inter Tight"`))
+	).catch(() => {});
 
 	const camera = { t: 0, v: 0 };
 	const opening = { t: 0, v: 0 };
@@ -73,25 +84,35 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		els.stage.dataset.generation = String(++generation);
 	}
 
-	// Sizes the name so its text is as wide as the resting logo, measured from the real text.
+	// Sizes each line so its text is as wide as the resting logo, measured from the real text. The
+	// subtitle may run wider on a narrow screen, where it stops at a readable size.
 	function fitTitle() {
 		const REFERENCE = 100;
-		titleName.style.fontSize = `${REFERENCE}px`;
-		nameSize =
-			(REFERENCE * logoSize(viewport, LOGO_REST_SCALE).w) / nameRange.getBoundingClientRect().width;
+		const target = logoSize(viewport, LOGO_REST_SCALE).w;
+		const fit = (el: HTMLElement, range: Range) => {
+			el.style.fontSize = `${REFERENCE}px`;
+			return (REFERENCE * target) / range.getBoundingClientRect().width;
+		};
+		nameSize = fit(titleName, nameRange);
+		subtitleSize = Math.max(MIN_SUBTITLE_SIZE, fit(titleSubtitle, subtitleRange));
 		titleName.style.fontSize = `${nameSize}px`;
-		titleSubtitle.style.fontSize = `${subtitleSize(nameSize)}px`;
+		titleSubtitle.style.fontSize = `${subtitleSize}px`;
+	}
+
+	// Writes only what changed, so a still title costs the compositor nothing.
+	function setStyle(el: HTMLElement, property: 'transform' | 'opacity', value: string) {
+		if (el.style[property] !== value) el.style[property] = value;
 	}
 
 	function placeTitle(cam: number, open: number) {
-		const poses = titlePose(cam, open, viewport, nameSize, reducedMotion.matches);
-		els.title.style.top = `${Math.round(poses.top * 10) / 10}px`;
+		const poses = titlePose(cam, open, viewport, nameSize, subtitleSize, reducedMotion.matches);
+		setStyle(els.title, 'transform', `translateY(${Math.round(poses.top * 10) / 10}px)`);
 		for (const [el, { dy, opacity }] of [
 			[titleName, poses.name],
 			[titleSubtitle, poses.subtitle]
 		] as const) {
-			el.style.transform = `translateY(${Math.round(dy * 10) / 10}px)`;
-			el.style.opacity = String(Math.round(opacity * 1000) / 1000);
+			setStyle(el, 'transform', `translateY(${Math.round(dy * 10) / 10}px)`);
+			setStyle(el, 'opacity', String(Math.round(opacity * 1000) / 1000));
 		}
 	}
 
@@ -193,12 +214,15 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		renderer?.destroy();
 		renderer = undefined;
 		if (destroyed) return;
-		placeFallback();
-		addEventListener('scroll', placeFallback, { passive: true });
-		addEventListener('resize', placeFallback);
-		els.fallbackLogo.hidden = false;
-		els.stage.dataset.renderer = 'fallback';
-		resolveReady();
+		fontsReady.then(() => {
+			if (destroyed) return;
+			placeFallback();
+			addEventListener('scroll', placeFallback, { passive: true });
+			addEventListener('resize', placeFallback);
+			els.fallbackLogo.hidden = false;
+			els.stage.dataset.renderer = 'fallback';
+			resolveReady();
+		});
 	}
 
 	// Follows the scroll with the same poses as the scene, so it matches the loader at the hand-off.
@@ -223,7 +247,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 					return img.decode().then(() => [src, img] as const);
 				})
 			),
-			createJungleRenderer(onContextLost)
+			createJungleRenderer(onContextLost),
+			fontsReady
 		]);
 		if (destroyed) return created.destroy();
 		images = new Map(decoded.flatMap((r) => (r.status === 'fulfilled' ? [r.value] : [])));
