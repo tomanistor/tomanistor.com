@@ -40,6 +40,22 @@ line, the reduced-motion and phone decisions, and `titleLayout`'s font rule):
   noscript layout respectively.
 - The bottom-middle stays pure white.
 
+## Amendment (2026-10-31, owner-approved): the title's typeface
+
+Supersedes the title's font, case and subtitle size above (the motion and layout rules stand):
+
+- **Typeface:** Inter Tight (free, SIL OFL), self-hosted with the site — no requests to Google at
+  runtime. Only free fonts are acceptable for this site.
+- **Name:** "TOMA NISTOR" in capitals (CSS `uppercase`; the DOM text stays "Toma Nistor"), weight 900
+  (Black), letter-spacing −0.01em, a slightly widened word space so the two words don't run
+  together, fitted so the line is exactly the resting logo's width.
+- **Subtitle:** "SAN DIEGO SOFTWARE ENGINEER" in capitals, weight 600 (SemiBold), fitted to the same
+  width as the name (and the logo), with a 12px floor; on narrow screens where the floor applies it
+  may run wider than the logo, still centred. The earlier "about 40% of the name" rule no longer
+  applies.
+- Fitting must use the loaded font (wait for it before measuring), on every build.
+- Approved mockup: `.superpowers/brainstorm/89811-1793495998/content/heading-font-v5.html`, option B.
+
 ## Goal
 
 Extend the reveal with a second scroll phase that opens the bottom of the screen into an arch,
