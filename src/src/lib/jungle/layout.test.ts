@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { SHADOW_PAD } from './bake';
 import { parallaxAt, zoomAt } from './camera';
-import { generateLeaves, isFar, type Leaf } from './leaves';
+import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import {
 	archZone,
 	blankZone,
@@ -15,7 +15,8 @@ import {
 const VIEWPORTS: Viewport[] = [
 	{ width: 1440, height: 900 },
 	{ width: 390, height: 844 },
-	{ width: 3440, height: 1440 }
+	{ width: 3440, height: 1440 },
+	{ width: 1280, height: 600 }
 ];
 
 const DEG = 180 / Math.PI;
@@ -34,7 +35,7 @@ const BLADE = [
 ];
 
 function laidOut(v: Viewport): Leaf[] {
-	const leaves = generateLeaves(11, 1);
+	const leaves = generateLeaves(11, densityFor(v.width, v.height));
 	layoutLeaves(leaves, v);
 	return leaves;
 }
@@ -140,7 +141,12 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 
 	it('keeps every baked leaf out of the bottom middle wherever the cursor is', () => {
 		const step = Array.from({ length: 11 }, (_, i) => i / 10);
-		for (const leaf of laidOut(v)) {
+		const leaves = laidOut(v);
+		// Far layers are baked flat and drop together by the furthest exit of their role.
+		const drop = new Map<string, number>();
+		for (const l of leaves.filter(isFar))
+			drop.set(l.role, Math.max(drop.get(l.role) ?? 0, l.exit!));
+		for (const leaf of leaves) {
 			const { base, tip, crop } = leaf.sprite;
 			const dir1 = rotate(leaf.dir0!, leaf.swing / DEG);
 			const perp = [-dir1[1], dir1[0]];
@@ -149,7 +155,9 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 			const travel = isFar(leaf) ? leaf.pull! : leaf.pull! + leaf.exit!;
 			const root = [
 				leaf.anchor![0] + leaf.n![0] * travel,
-				leaf.anchor![1] + leaf.n![1] * travel + (isFar(leaf) ? leaf.exit! : 0)
+				leaf.anchor![1] +
+					leaf.n![1] * travel +
+					(isFar(leaf) && leaf.exit! > 0 ? drop.get(leaf.role)! : 0)
 			];
 			// The cursor shifts a leaf by up to this much on each axis.
 			const [x0, y0, x1, y1] = blankZone(v, parallaxAt(leaf.dist, vmin));
@@ -207,8 +215,7 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 	});
 
 	it('is stable across repeated layouts', () => {
-		const leaves = generateLeaves(11, 1);
-		layoutLeaves(leaves, v);
+		const leaves = laidOut(v);
 		const first = leaves.map((l) => [l.anchor, l.pull, l.rot0]);
 		layoutLeaves(leaves, v);
 		expect(leaves.map((l) => [l.anchor, l.pull, l.rot0])).toEqual(first);
