@@ -162,15 +162,23 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		cancelAnimationFrame(frameId);
 		renderer?.destroy();
 		renderer = undefined;
-		const { scale, dy } = logoPose(1, 1, viewport);
-		els.fallbackLogo.style.transform = `translateY(${dy}px) scale(${scale})`;
-		const { top, fontSize } = titleLayout(viewport);
-		els.title.style.fontSize = `${fontSize}px`;
-		els.title.style.transform = `translateY(${top}px)`;
-		els.title.style.opacity = '1';
+		if (destroyed) return;
+		placeFallback();
+		addEventListener('scroll', placeFallback, { passive: true });
+		addEventListener('resize', placeFallback);
 		els.fallbackLogo.hidden = false;
 		els.stage.dataset.renderer = 'fallback';
 		resolveReady();
+	}
+
+	// Follows the scroll with the same poses as the scene, so it matches the loader at the hand-off.
+	function placeFallback() {
+		viewport = measure();
+		const s = scroll();
+		const { scale, dy } = logoPose(camAt(s), openAt(s), viewport);
+		els.fallbackLogo.style.transform = `translateY(${dy}px) scale(${scale})`;
+		els.title.style.fontSize = `${titleLayout(viewport).fontSize}px`;
+		placeTitle(openAt(s));
 	}
 
 	async function start() {
@@ -211,6 +219,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			clearTimeout(resizeTimer);
 			removeEventListener('pointermove', onPointerMove);
 			removeEventListener('resize', onResize);
+			removeEventListener('scroll', placeFallback);
+			removeEventListener('resize', placeFallback);
 			renderer?.destroy();
 		}
 	};

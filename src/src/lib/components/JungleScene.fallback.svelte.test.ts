@@ -1,6 +1,8 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { page } from '@vitest/browser/context';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleScene from './JungleScene.svelte';
+import { camAt, logoPose, logoWidth, openAt } from '$lib/jungle/phases';
 
 // Kept apart from the other scene tests: PixiJS caches whether WebGL works, and a renderer that
 // fails partway through starting stays registered with PixiJS's global ticker for the whole file.
@@ -12,12 +14,25 @@ async function renderReady() {
 	return screen.container.querySelector<HTMLElement>('[data-jungle-stage]')!;
 }
 
+const fallbackLogo = (stage: HTMLElement) =>
+	stage.querySelector<HTMLImageElement>('[data-fallback-logo]')!;
+
+// Matches the loader's logo, so the hand-off doesn't jump.
+function expectLogoAtStart(stage: HTMLElement) {
+	const v = { width: stage.clientWidth, height: stage.clientHeight };
+	const { scale } = logoPose(camAt(0), openAt(0), v);
+	expect(fallbackLogo(stage).getBoundingClientRect().width).toBeCloseTo(scale * logoWidth(v), 0);
+}
+
+async function scrollToEnd() {
+	scrollTo(0, document.documentElement.scrollHeight);
+	await new Promise((r) => setTimeout(r, 200));
+}
+
 function expectReadableTitle(stage: HTMLElement) {
 	const title = stage.querySelector<HTMLElement>('[data-title]')!;
 	const rect = title.getBoundingClientRect();
-	const logo = stage
-		.querySelector<HTMLImageElement>('[data-fallback-logo]')!
-		.getBoundingClientRect();
+	const logo = fallbackLogo(stage).getBoundingClientRect();
 	expect(rect.top).toBeGreaterThanOrEqual(logo.bottom);
 	expect(rect.top).toBeGreaterThanOrEqual(0);
 	expect(rect.bottom).toBeLessThanOrEqual(innerHeight);
@@ -25,8 +40,12 @@ function expectReadableTitle(stage: HTMLElement) {
 }
 
 describe('JungleScene fallback', () => {
+	beforeEach(async () => {
+		await page.viewport(1440, 900);
+	});
 	afterEach(() => {
 		vi.restoreAllMocks();
+		scrollTo(0, 0);
 	});
 
 	// Runs first, while WebGL still works, so the failure comes from preparing the leaves.
@@ -41,8 +60,10 @@ describe('JungleScene fallback', () => {
 			expect.objectContaining({ message: 'broken' })
 		);
 		expect(stage.dataset.renderer).toBe('fallback');
-		expect(stage.querySelector<HTMLImageElement>('[data-fallback-logo]')!.hidden).toBe(false);
+		expect(fallbackLogo(stage).hidden).toBe(false);
 		expect(stage.querySelector('canvas')).toBeNull();
+		expectLogoAtStart(stage);
+		await scrollToEnd();
 		expectReadableTitle(stage);
 	});
 
@@ -59,7 +80,12 @@ describe('JungleScene fallback', () => {
 		vi.spyOn(console, 'error').mockImplementation(() => {});
 		const stage = await renderReady();
 		expect(stage.dataset.renderer).toBe('fallback');
-		expect(stage.querySelector<HTMLImageElement>('[data-fallback-logo]')!.hidden).toBe(false);
+		expect(fallbackLogo(stage).hidden).toBe(false);
+		expectLogoAtStart(stage);
+		await scrollToEnd();
+		expectReadableTitle(stage);
+		await page.viewport(800, 500);
+		await new Promise((r) => setTimeout(r, 200));
 		expectReadableTitle(stage);
 	});
 });
