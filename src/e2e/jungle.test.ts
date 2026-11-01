@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 import {
-	lastLogoRowAbove,
 	logoPixelShare,
 	openRuns,
 	openShare,
@@ -11,7 +10,7 @@ import {
 	waitForScene,
 	whiteFractionInEdgeBand
 } from './measure';
-import { LOGO_REST_SCALE, logoSize } from '../src/lib/jungle/phases';
+import { LOGO_REST_SCALE, camAt, logoPose, logoSize, openAt } from '../src/lib/jungle/phases';
 
 test.describe.configure({ timeout: 60000 });
 
@@ -241,8 +240,20 @@ test('keeps the name below the logo while both move', async ({ page }) => {
 	await page.addStyleTag({ content: '[data-title] { visibility: hidden }' });
 	for (const fraction of [0.6, 0.75, 0.9]) {
 		await scrollTo(page, fraction);
-		const { top } = (await lines(page)).name;
-		expect(top, `at ${fraction * 100}%`).toBeGreaterThanOrEqual(await lastLogoRowAbove(page, 900));
+		const { scroll, width, height } = await page.evaluate(() => ({
+			scroll: scrollY / (document.documentElement.scrollHeight - innerHeight),
+			width: document.querySelector('[data-jungle-stage]')!.clientWidth,
+			height: document.querySelector('[data-jungle-stage]')!.clientHeight
+		}));
+		const viewport = { width, height };
+		const pose = logoPose(camAt(scroll), openAt(scroll), viewport);
+		const logo = logoSize(viewport, pose.scale);
+		const bottom = height / 2 + pose.dy + logo.h / 2;
+		expect((await lines(page)).name.top, `at ${fraction * 100}%`).toBeGreaterThanOrEqual(bottom);
+		// The logo is drawn where the pose says: its centre columns are solid just above its bottom edge.
+		const rows = { y0: (bottom - 6) / height, y1: (bottom - 2) / height };
+		const span = { x0: 0.5 - (0.1 * logo.w) / width, x1: 0.5 + (0.1 * logo.w) / width };
+		expect(await regionShare(page, { ...span, ...rows }, 'logo'), `at ${fraction * 100}%`).toBe(1);
 	}
 });
 

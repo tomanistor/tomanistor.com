@@ -91,8 +91,11 @@ export const whiteFractionInEdgeBand = (page: Page, band = 0.15, edges: Edge[] =
 	pixelShare(page, { kind: 'edge-band', band, edges }, 'white');
 
 // `rect` is in fractions of the viewport.
-export const regionShare = (page: Page, rect: Rect, test: 'white' | 'pure' | 'open' | 'leaf') =>
-	pixelShare(page, { kind: 'rect', rect }, test);
+export const regionShare = (
+	page: Page,
+	rect: Rect,
+	test: 'white' | 'pure' | 'open' | 'leaf' | 'logo'
+) => pixelShare(page, { kind: 'rect', rect }, test);
 
 export const logoPixelShare = (page: Page) => pixelShare(page, { kind: 'all' }, 'logo');
 
@@ -156,7 +159,7 @@ export async function screenshotDiff(page: Page, a: Buffer, b: Buffer): Promise<
 export const openShare = (page: Page) => pixelShare(page, { kind: 'all' }, 'open');
 
 // Number of separate runs of open rows down the centre strip (x 0.48..0.52). A row is open when at
-// least half its sampled pixels are white or logo; rows are sampled every 2px.
+// least half its sampled pixels are not foliage; rows are sampled every 2px.
 export async function openRuns(page: Page): Promise<number> {
 	const png = (await page.screenshot({ scale: 'css' })).toString('base64');
 	return page.evaluate(async (png) => {
@@ -177,11 +180,13 @@ export async function openRuns(page: Page): Promise<number> {
 			for (let x = Math.ceil(width * 0.48); x < width * 0.52; x += 2) {
 				const i = (y * width + x) * 4;
 				const [red, green, blue] = [data[i], data[i + 1], data[i + 2]];
-				const white = red > 232 && green > 232 && blue > 232;
-				const logo =
+				// Open is light (white, or the vignette's faint tint over it, never below 200) or the
+				// logo's and title's dark grey; foliage and the dim vignette over it are neither.
+				const light = red > 200 && green > 200 && blue > 200;
+				const dark =
 					Math.abs(red - 33) <= 8 && Math.abs(green - 33) <= 8 && Math.abs(blue - 33) <= 8;
 				total++;
-				if (white || logo) open++;
+				if (light || dark) open++;
 			}
 			const isOpen = open / total >= 0.5;
 			if (isOpen && !wasOpen) runs++;
@@ -189,31 +194,4 @@ export async function openRuns(page: Page): Promise<number> {
 		}
 		return runs;
 	}, png);
-}
-
-// The y (CSS px) just below the last row above `limit` that has a logo-coloured pixel, or 0.
-export async function lastLogoRowAbove(page: Page, limit: number): Promise<number> {
-	const png = (await page.screenshot({ scale: 'css' })).toString('base64');
-	return page.evaluate(
-		async ({ png, limit }) => {
-			const img = new Image();
-			img.src = `data:image/png;base64,${png}`;
-			await img.decode();
-			const canvas = document.createElement('canvas');
-			canvas.width = img.naturalWidth;
-			canvas.height = img.naturalHeight;
-			const ctx = canvas.getContext('2d')!;
-			ctx.drawImage(img, 0, 0);
-			const { data, width } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-			for (let y = Math.floor(limit) - 1; y >= 0; y--) {
-				for (let x = Math.floor(width * 0.3); x < width * 0.7; x++) {
-					const i = (y * width + x) * 4;
-					const near = (c: number) => Math.abs(data[i + c] - 33) <= 8;
-					if (near(0) && near(1) && near(2)) return y + 1;
-				}
-			}
-			return 0;
-		},
-		{ png, limit }
-	);
 }
