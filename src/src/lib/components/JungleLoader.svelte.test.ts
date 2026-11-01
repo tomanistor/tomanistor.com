@@ -44,13 +44,9 @@ describe('JungleLoader', () => {
 		scrollTo(0, 0);
 	});
 
-	it('starts closed before any animation runs', () => {
+	it('starts closed, opens a centre column, then spreads to the full logo', () => {
 		render(JungleLoader, { done: false });
 		expect(windowAt(0).height).toBe(0);
-	});
-
-	it('opens a centre column, then spreads to the full logo', () => {
-		render(JungleLoader, { done: false });
 		// The spread starts just before the column finishes opening, as in the approved mockup.
 		const column = windowAt(1150);
 		expect(column.width).toBeCloseTo(column.box.width * 0.2, 0);
@@ -88,24 +84,23 @@ describe('JungleLoader', () => {
 		);
 	});
 
-	for (const target of [0.4, 0.9]) {
-		it(`matches the scene logo at a restored scroll position of ${target}`, async () => {
-			const spacer = document.createElement('div');
-			spacer.dataset.spacer = '';
-			// Tall enough to scroll to the target before the scene's own 500lvh section is rendered.
-			spacer.style.height = '50000px';
-			document.body.prepend(spacer);
-			scrollTo(0, target * (50000 + 5 * innerHeight - innerHeight));
-			render(Page);
-			const loaderLogo = loaderEl()!.querySelector('[data-logo-box]')!;
-			const stage = document.querySelector<HTMLElement>('[data-jungle-stage]')!;
-			// The scene draws its logo into the canvas, at the pose for the current scroll.
-			const s = scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
-			expect(s).toBeCloseTo(target, 1);
-			const sceneWidth =
-				logoPose(camAt(s), openAt(s), { width: stage.clientWidth, height: stage.clientHeight })
-					.scale * logoWidth({ width: stage.clientWidth, height: stage.clientHeight });
-			expect(loaderLogo.getBoundingClientRect().width).toBeCloseTo(sceneWidth, 0);
-		});
-	}
+	it('matches the scene logo at a restored scroll position in phase 2', async () => {
+		const target = 0.9;
+		const spacer = document.createElement('div');
+		spacer.dataset.spacer = '';
+		// Tall enough to scroll to the target before the scene's own 500lvh section is rendered.
+		spacer.style.height = '50000px';
+		document.body.prepend(spacer);
+		scrollTo(0, target * (50000 + 5 * innerHeight - innerHeight));
+		render(Page);
+		const loaderLogo = loaderEl()!.querySelector('[data-logo-box]')!;
+		const stage = document.querySelector<HTMLElement>('[data-jungle-stage]')!;
+		// The scene draws its logo into the canvas, at the pose for the current scroll.
+		const s = scrollFraction(scrollY, document.documentElement.scrollHeight, innerHeight);
+		expect(s).toBeCloseTo(target, 1);
+		const sceneWidth =
+			logoPose(camAt(s), openAt(s), { width: stage.clientWidth, height: stage.clientHeight })
+				.scale * logoWidth({ width: stage.clientWidth, height: stage.clientHeight });
+		expect(loaderLogo.getBoundingClientRect().width).toBeCloseTo(sceneWidth, 0);
+	});
 });

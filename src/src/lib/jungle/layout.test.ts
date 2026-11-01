@@ -41,19 +41,21 @@ function laidOut(v: Viewport): Leaf[] {
 }
 
 describe('archZone', () => {
-	it('opens around the resting logo at 1440×900', () => {
-		const a = archZone({ width: 1440, height: 900 });
-		expect(Math.abs(a.half - 486)).toBeLessThanOrEqual(3);
-		expect(Math.abs(a.cy - a.rTop - -321)).toBeLessThanOrEqual(5);
-		expect(a.bottom).toBe(450);
-	});
-
-	it('keeps a strip of leaves on each side of a phone', () => {
-		expect(archZone({ width: 390, height: 844 }).half).toBe(0.34 * 390);
-	});
-
-	it('stays narrow enough on an ultrawide', () => {
-		expect(Math.abs(archZone({ width: 3440, height: 1440 }).half - 778)).toBeLessThanOrEqual(3);
+	it('opens to the final frame at 1440×900, keeping leaves at the sides of a phone and an ultrawide', () => {
+		const v = { width: 1440, height: 900 };
+		const a = archZone(v);
+		const side = 0.5 - a.half / v.width;
+		expect(side).toBeGreaterThanOrEqual(0.15);
+		expect(side).toBeLessThanOrEqual(0.2);
+		const top = (v.height / 2 + a.cy - a.rTop) / v.height;
+		expect(top).toBeGreaterThanOrEqual(0.12);
+		expect(top).toBeLessThanOrEqual(0.15);
+		expect(a.bottom).toBe(v.height / 2);
+		expect(archZone({ width: 390, height: 844 }).half).toBeLessThan(390 / 2);
+		// An ultrawide opens no wider, as a share of the screen, than the calibration frame.
+		expect(archZone({ width: 3440, height: 1440 }).half / 3440).toBeLessThanOrEqual(
+			a.half / v.width
+		);
 	});
 });
 

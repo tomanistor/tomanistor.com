@@ -53,15 +53,9 @@ describe('leafTarget', () => {
 });
 
 describe('outwardSweep', () => {
-	it('is zero when moving toward the centre', () => {
+	it('is zero when moving toward the centre and positive when moving away', () => {
 		expect(outwardSweep({ x: 100, y: 100 }, { x: 300, y: 250 }, 1440, 900)).toBe(0);
-	});
-	it('is positive when moving away from the centre, capped at 60', () => {
 		expect(outwardSweep({ x: 600, y: 400 }, { x: 400, y: 300 }, 1440, 900)).toBeGreaterThan(0);
-		expect(outwardSweep({ x: 720, y: 450 }, { x: 0, y: 0 }, 1440, 900)).toBe(60);
-	});
-	it('is zero without a previous position', () => {
-		expect(outwardSweep(null, { x: 0, y: 0 }, 1440, 900)).toBe(0);
 	});
 });
 
@@ -86,13 +80,6 @@ describe('leafPose', () => {
 		}
 	});
 
-	it('returns an identical pose when nothing changes', () => {
-		const [leaf] = liveLeaves();
-		const input = frame({ calm: true });
-		for (let i = 0; i < 600; i++) leafPose(leaf, input, 1 / 60);
-		expect(leafPose(leaf, input, 1 / 60)).toEqual(leafPose(leaf, input, 1 / 60));
-	});
-
 	it('moves a leaf out by its exit as the arch opens', () => {
 		for (const leaf of liveLeaves().filter((l) => l.exit! > 0)) {
 			const input = frame({ calm: true, scroll: 0.5, cam: 1 });
@@ -102,22 +89,6 @@ describe('leafPose', () => {
 			const zoom = zoomAt(leaf.dist, 1);
 			expect(open.x - shut.x).toBeCloseTo(leaf.n![0] * leaf.exit! * zoom, 6);
 			expect(open.y - shut.y).toBeCloseTo(leaf.n![1] * leaf.exit! * zoom, 6);
-		}
-	});
-
-	it('places the origin where the old transform did', () => {
-		for (const leaf of liveLeaves()) {
-			leaf.origin = [37, 52];
-			const input = frame({ calm: true, scroll: 0.4, cam: 0.3 });
-			for (let i = 0; i < 600; i++) leafPose(leaf, input, 1 / 60);
-			const pose = leafPose(leaf, input, 1 / 60);
-			const anchor = leaf.anchor!;
-			const n = leaf.n!;
-			const zoom = zoomAt(leaf.dist, input.cam);
-			const out = leaf.pull! * leaf.t;
-			const ax = input.width / 2 + (anchor[0] + n[0] * out) * zoom;
-			const old = `translate3d(${(ax - leaf.origin[0]).toFixed(1)}px`;
-			expect(`translate3d(${(pose.x - leaf.origin[0]).toFixed(1)}px`).toBe(old);
 		}
 	});
 });

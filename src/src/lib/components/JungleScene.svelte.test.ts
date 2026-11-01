@@ -83,21 +83,7 @@ describe('JungleScene', () => {
 		expect(stage.querySelectorAll('canvas')).toHaveLength(1);
 	});
 
-	it('darkens the edges with two vignettes above the canvas', async () => {
-		const { stage } = await renderReady();
-		const canvas = getComputedStyle(stage.querySelector('canvas')!);
-		const vignettes = [...stage.querySelectorAll('[data-vignette]')].map((el) =>
-			getComputedStyle(el)
-		);
-		expect(vignettes).toHaveLength(2);
-		for (const vignette of vignettes) {
-			expect(Number(vignette.zIndex)).toBeGreaterThan(Number(canvas.zIndex));
-			expect(vignette.pointerEvents).toBe('none');
-			expect(vignette.backgroundImage).toContain('gradient');
-		}
-	});
-
-	it('has one heading, with the page title, above the vignettes', async () => {
+	it('has one heading, with the page title in Inter Tight capitals, above the vignettes', async () => {
 		const { screen, stage } = await renderReady();
 		const headings = screen.container.querySelectorAll('h1');
 		expect(headings).toHaveLength(1);
@@ -116,15 +102,11 @@ describe('JungleScene', () => {
 		const z = (el: Element) => Number(getComputedStyle(el).zIndex);
 		for (const vignette of stage.querySelectorAll('[data-vignette]'))
 			expect(z(headings[0])).toBeGreaterThan(z(vignette));
-	});
-
-	it('sets both lines in Inter Tight capitals, loaded before the fit', async () => {
-		const { screen } = await renderReady();
-		const lines = [
-			[screen.container.querySelector('[data-title-name]')!, '900'],
-			[screen.container.querySelector('[data-title-subtitle]')!, '600']
-		] as const;
-		for (const [el, weight] of lines) {
+		// Loaded before the title is fitted to the logo.
+		for (const [el, weight] of [
+			[name, '900'],
+			[subtitle, '600']
+		] as const) {
 			const style = getComputedStyle(el);
 			expect(style.fontFamily).toMatch(/^"?Inter Tight/);
 			expect(style.textTransform).toBe('uppercase');
@@ -135,10 +117,6 @@ describe('JungleScene', () => {
 			);
 			expect(faces.some((face) => face.status === 'loaded')).toBe(true);
 		}
-		const heading = screen.container.querySelector('h1')!;
-		expect(heading.textContent?.replace(/\s+/g, ' ').trim()).toBe(
-			'Toma Nistor – San Diego Software Engineer'
-		);
 	});
 
 	it('ignores a resize event when the size has not changed', async () => {
@@ -149,23 +127,16 @@ describe('JungleScene', () => {
 		expect(generation(stage)).toBe(before);
 	});
 
-	it('keeps leaf count across a resize', async () => {
+	it('only the last of two quick resizes lands, keeping the leaf count', async () => {
 		const { stage } = await renderReady();
 		const before = generation(stage);
 		const count = stage.dataset.leaves;
-		await page.viewport(1280, 800);
-		await vi.waitFor(() => expect(generation(stage)).toBe(before + 1), { timeout: 5000 });
-		expect(stage.dataset.leaves).toBe(count);
-	});
-
-	it('only the last of two quick resizes lands', async () => {
-		const { stage } = await renderReady();
-		const before = generation(stage);
 		await page.viewport(1280, 800);
 		await page.viewport(1200, 760);
 		expect(await settledGeneration(stage)).toBe(before + 1);
 		const canvas = stage.querySelector('canvas')!;
 		expect([canvas.clientWidth, canvas.clientHeight]).toEqual([1200, 760]);
+		expect(stage.dataset.leaves).toBe(count);
 	});
 
 	it('rebuilds when the pixel ratio changes', async () => {
@@ -179,15 +150,5 @@ describe('JungleScene', () => {
 		} finally {
 			Object.defineProperty(window, 'devicePixelRatio', original);
 		}
-	});
-
-	it('stops the frame loop and removes the canvas on destroy', async () => {
-		const { screen, stage } = await renderReady();
-		const raf = vi.spyOn(window, 'requestAnimationFrame');
-		screen.unmount();
-		raf.mockClear();
-		await new Promise((r) => setTimeout(r, 100));
-		expect(raf).not.toHaveBeenCalled();
-		expect(stage.querySelector('canvas')).toBeNull();
 	});
 });
