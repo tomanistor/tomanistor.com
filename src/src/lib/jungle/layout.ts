@@ -133,8 +133,6 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 	const clear = logoSafeZone(v);
 	const open = openingZone(v);
 	const arch = archZone(v);
-	// Leaves stir a little once parted, so they are held a little further off.
-	const blank = blankZone(v, vmin * 0.02);
 	const margin = vmin * 0.03;
 	// A monstera at the nearest regular layer is this long; everything else scales from it.
 	const unit = 0.55 * Math.max(vmin, 0.62 * Math.max(v.width, v.height));
@@ -236,6 +234,8 @@ export function layoutLeaves(leaves: Leaf[], v: Viewport): void {
 			placed.anchor[1] + placed.out[1] * leaf.pull
 		];
 		const away: Point = isFar(leaf) ? [0, 1] : placed.out;
+		// Leaves stir a little once parted and shift with the cursor, so they are held further off.
+		const blank = blankZone(v, vmin * 0.02 + parallaxAt(leaf.dist, vmin));
 		const inside = (x: number, y: number) => inArch(x, y, arch);
 		const blocked = (exit: number) => {
 			const root: Point = [parted[0] + away[0] * exit, parted[1] + away[1] * exit];

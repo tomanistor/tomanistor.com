@@ -1,7 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { zoomAt } from './camera';
+import { SHADOW_PAD } from './bake';
+import { parallaxAt, zoomAt } from './camera';
 import { generateLeaves, isFar, type Leaf } from './leaves';
-import { archZone, inArch, layoutLeaves, logoSafeZone, openingZone, type Viewport } from './layout';
+import {
+	archZone,
+	blankZone,
+	inArch,
+	layoutLeaves,
+	logoSafeZone,
+	openingZone,
+	type Viewport
+} from './layout';
 
 const VIEWPORTS: Viewport[] = [
 	{ width: 1440, height: 900 },
@@ -124,6 +133,38 @@ describe.each(VIEWPORTS)('layoutLeaves at $width×$height', (v) => {
 						dir1[1] * leaf.len! * f +
 						perp[1] * leaf.len! * lat * side;
 					expect(inArch(x, y, arch)).toBe(false);
+				}
+			}
+		}
+	});
+
+	it('keeps every baked leaf out of the bottom middle wherever the cursor is', () => {
+		const step = Array.from({ length: 11 }, (_, i) => i / 10);
+		for (const leaf of laidOut(v)) {
+			const { base, tip, crop } = leaf.sprite;
+			const dir1 = rotate(leaf.dir0!, leaf.swing / DEG);
+			const perp = [-dir1[1], dir1[0]];
+			const mid = [(tip[0] - base[0]) * leaf.flip, tip[1] - base[1]];
+			const m2 = mid[0] ** 2 + mid[1] ** 2;
+			const travel = isFar(leaf) ? leaf.pull! : leaf.pull! + leaf.exit!;
+			const root = [
+				leaf.anchor![0] + leaf.n![0] * travel,
+				leaf.anchor![1] + leaf.n![1] * travel + (isFar(leaf) ? leaf.exit! : 0)
+			];
+			// The cursor shifts a leaf by up to this much on each axis.
+			const [x0, y0, x1, y1] = blankZone(v, parallaxAt(leaf.dist, vmin));
+			const pad = SHADOW_PAD * Math.max(crop[2], crop[3]);
+			for (const fx of step) {
+				for (const fy of step) {
+					const q = [
+						(-pad + fx * (crop[2] + 2 * pad) - base[0]) * leaf.flip,
+						-pad + fy * (crop[3] + 2 * pad) - base[1]
+					];
+					const f = (q[0] * mid[0] + q[1] * mid[1]) / m2;
+					const lat = (q[1] * mid[0] - q[0] * mid[1]) / m2;
+					const x = root[0] + (dir1[0] * f + perp[0] * lat) * leaf.len!;
+					const y = root[1] + (dir1[1] * f + perp[1] * lat) * leaf.len!;
+					expect(x > x0 && x < x1 && y > y0 && y < y1).toBe(false);
 				}
 			}
 		}
