@@ -45,6 +45,34 @@ const lines = (page: Page) =>
 		[NAME, SUBTITLE]
 	) as Promise<{ name: Line; subtitle: Line; heading: number }>;
 
+const SOCIAL = '[data-social]';
+const socialIcons = (page: Page) =>
+	page.locator(`${SOCIAL} svg`).evaluateAll((icons) =>
+		icons.map((icon) => {
+			const { top, bottom, left, right } = icon.getBoundingClientRect();
+			return { top, bottom, left, right };
+		})
+	);
+const socialOpacity = (page: Page) =>
+	page.locator(`${SOCIAL} a`).evaluateAll((links) => links.map((a) => getComputedStyle(a).opacity));
+const socialTop = (page: Page) =>
+	page.locator(SOCIAL).evaluate((el) => el.getBoundingClientRect().top);
+
+async function expectSocialLaidOut(page: Page, width: number, height: number) {
+	const icons = await socialIcons(page);
+	expect.soft(icons, 'two icons').toHaveLength(2);
+	for (const icon of icons) {
+		expect.soft(icon.top, 'icon top').toBeGreaterThanOrEqual((await lines(page)).subtitle.bottom);
+		expect.soft(icon.bottom, 'icon bottom').toBeLessThanOrEqual(height - 16);
+		expect.soft(icon.left, 'icon left').toBeGreaterThanOrEqual(0);
+		expect.soft(icon.right, 'icon right').toBeLessThanOrEqual(width);
+	}
+	const centre =
+		(Math.min(...icons.map((i) => i.left)) + Math.max(...icons.map((i) => i.right))) / 2;
+	expect.soft(Math.abs(centre - width / 2), 'icons centred').toBeLessThanOrEqual(2);
+	expect.soft(await socialOpacity(page), 'icons in').toEqual(['1', '1']);
+}
+
 // The name stays below the logo, which is drawn where its pose says: the logo's centre columns are
 // solid just above its bottom edge.
 async function expectNameBelowLogo(page: Page, at: string) {
@@ -114,8 +142,8 @@ for (const { width, height, archAt } of [
 		await page.setViewportSize({ width, height });
 		await page.goto('/');
 		await waitForScene(page);
-		// The title's dark text would count as logo pixels; its boxes and styles still measure.
-		await page.addStyleTag({ content: '[data-title] { visibility: hidden }' });
+		// The title's and footer's dark marks would count as logo pixels; their boxes and styles still measure.
+		await page.addStyleTag({ content: '[data-title], [data-social] { visibility: hidden }' });
 
 		const logo: number[] = [];
 		for (const fraction of [0, 0.25, 0.5]) {
@@ -123,10 +151,13 @@ for (const { width, height, archAt } of [
 			const at = `at ${fraction * 100}%`;
 			expect.soft(await whiteFractionInEdgeBand(page), `edges ${at}`).toBeLessThanOrEqual(0.0005);
 			if (main && fraction !== 0.25) logo.push(await logoPixelShare(page));
+			if (fraction === 0)
+				expect.soft(await socialOpacity(page), `footer hidden ${at}`).toEqual(['0', '0']);
 		}
 		if (main) expect.soft(await openShare(page), 'wide clearing').toBeGreaterThanOrEqual(0.394);
 
 		let mid: Awaited<ReturnType<typeof lines>> | undefined;
+		let midSocialTop = 0;
 		for (const fraction of [...new Set([...archAt, 0.75, 1])]) {
 			await scrollTo(page, fraction);
 			const at = `at ${fraction * 100}%`;
@@ -136,7 +167,10 @@ for (const { width, height, archAt } of [
 				.toBeLessThanOrEqual(0.0005);
 			if (archAt.length) expect.soft(await openRuns(page), `one arch ${at}`).toBe(1);
 			if (archAt.includes(fraction)) await expectNameBelowLogo(page, at);
-			if (main && fraction === 0.75) mid = await lines(page);
+			if (main && fraction === 0.75) {
+				mid = await lines(page);
+				midSocialTop = await socialTop(page);
+			}
 		}
 
 		expect.soft(await regionShare(page, BOTTOM_MIDDLE, 'pure'), 'bottom middle').toBe(1);
@@ -149,6 +183,7 @@ for (const { width, height, archAt } of [
 				.toBeGreaterThanOrEqual(0.5);
 		}
 		await expectTitleLaidOut(page, width, height);
+		await expectSocialLaidOut(page, width, height);
 		if (!main) return;
 
 		// Reduced motion fades each line in place, the name first.
@@ -157,6 +192,9 @@ for (const { width, height, archAt } of [
 			const drift = mid![line].top - mid!.heading - (end[line].top - end.heading);
 			expect.soft(Math.abs(drift), `${line} drift`).toBeLessThanOrEqual(1);
 		}
+		expect
+			.soft(Math.abs(midSocialTop - (await socialTop(page))), 'footer drift')
+			.toBeLessThanOrEqual(1);
 		expect.soft(mid!.name.opacity, 'name part way in').toBeGreaterThan(0);
 		expect.soft(mid!.name.opacity, 'name part way in').toBeLessThan(1);
 		expect.soft(mid!.subtitle.opacity, 'subtitle after the name').toBeLessThan(mid!.name.opacity);
@@ -236,6 +274,8 @@ test('the deployed homepage is prerendered with the heading and the logo', () =>
 	expect(html).toMatch(/<span data-title-name[^>]*>Toma Nistor<\/span>/);
 	expect(html).toMatch(/<span data-title-subtitle[^>]*>San Diego Software Engineer<\/span>/);
 	expect(html).toContain('<noscript>');
+	expect(html).toContain('href="https://github.com/tomanistor"');
+	expect(html).toContain('href="https://linkedin.com/in/tomanistor"');
 });
 
 test('starts open when reloaded at the end, and stays open across a resize', async ({ page }) => {
@@ -246,6 +286,7 @@ test('starts open when reloaded at the end, and stays open across a resize', asy
 	await scrollTo(page, 1);
 	await page.reload();
 	await waitForScene(page);
+	await page.addStyleTag({ content: '[data-social] { visibility: hidden }' });
 	expect(await regionShare(page, BOTTOM_MIDDLE, 'pure'), 'after the reload').toBe(1);
 	const stage = page.locator('[data-jungle-stage]');
 	const before = Number(await stage.getAttribute('data-generation'));

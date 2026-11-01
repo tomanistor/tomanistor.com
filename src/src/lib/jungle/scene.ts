@@ -8,6 +8,9 @@ import {
 	logoPose,
 	logoSize,
 	openAt,
+	socialPose,
+	socialTop,
+	titleLayout,
 	titlePose
 } from './phases';
 import { atRest, leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
@@ -19,6 +22,7 @@ export type SceneElements = {
 	stage: HTMLElement;
 	fallbackLogo: HTMLImageElement;
 	title: HTMLElement;
+	social: HTMLElement;
 };
 
 const SEED = 11;
@@ -39,10 +43,12 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		range.selectNodeContents(el);
 		return range;
 	};
+	const socialLinks = [...els.social.querySelectorAll<HTMLElement>('a')];
 	const nameRange = rangeOver(titleName);
 	const subtitleRange = rangeOver(titleSubtitle);
 	let nameSize = 0;
 	let subtitleSize = 0;
+	let socialRest = 0;
 
 	let viewport = measure();
 	// What the latest build is for, which a resize is compared against while that build runs.
@@ -131,10 +137,20 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		subtitleSize = Math.max(MIN_SUBTITLE_SIZE, fit(titleSubtitle, subtitleRange));
 		titleName.style.fontSize = `${nameSize}px`;
 		titleSubtitle.style.fontSize = `${subtitleSize}px`;
+		// offsetHeight ignores the title's transform, so the title's resting bottom is its top plus this.
+		socialRest = socialTop(
+			viewport,
+			titleLayout(viewport).top + els.title.offsetHeight,
+			els.social.offsetHeight
+		);
 	}
 
 	// Writes only what changed, so a still title costs the compositor nothing.
-	function setStyle(el: HTMLElement, property: 'transform' | 'opacity', value: string) {
+	function setStyle(
+		el: HTMLElement,
+		property: 'transform' | 'opacity' | 'pointerEvents',
+		value: string
+	) {
 		if (el.style[property] !== value) el.style[property] = value;
 	}
 
@@ -148,6 +164,14 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 			setStyle(el, 'transform', `translateY(${Math.round(dy * 10) / 10}px)`);
 			setStyle(el, 'opacity', String(Math.round(opacity * 1000) / 1000));
 		}
+	}
+
+	function placeSocial(open: number) {
+		const { dy, opacity } = socialPose(open, reducedMotion.matches);
+		setStyle(els.social, 'transform', `translateY(${Math.round((socialRest + dy) * 10) / 10}px)`);
+		setStyle(els.social, 'pointerEvents', opacity < 0.5 ? 'none' : 'auto');
+		for (const link of socialLinks)
+			setStyle(link, 'opacity', String(Math.round(opacity * 1000) / 1000));
 	}
 
 	let last = performance.now();
@@ -185,6 +209,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		if (els.stage.style.getPropertyValue('--open') !== openCss)
 			els.stage.style.setProperty('--open', openCss);
 		placeTitle(camera.t, opening.t);
+		placeSocial(opening.t);
 		const settled = String(
 			atRest(camera, camTarget) &&
 				atRest(opening, openTarget) &&
@@ -277,6 +302,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		const { scale, dy } = logoPose(camAt(s), openAt(s), viewport);
 		els.fallbackLogo.style.transform = `translateY(${dy}px) scale(${scale})`;
 		placeTitle(camAt(s), openAt(s));
+		placeSocial(openAt(s));
 	}
 
 	async function start() {

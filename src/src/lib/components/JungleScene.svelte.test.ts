@@ -128,6 +128,27 @@ describe('JungleScene', () => {
 		}
 	});
 
+	it('has a footer with the GitHub and LinkedIn links, above the vignettes', async () => {
+		const { screen, stage } = await renderReady();
+		const footers = screen.container.querySelectorAll('footer');
+		expect(footers).toHaveLength(1);
+		expect(stage.contains(footers[0])).toBe(true);
+		const links = [...footers[0].querySelectorAll('a')];
+		expect(links.map((a) => [a.getAttribute('href'), a.getAttribute('aria-label')])).toEqual([
+			['https://github.com/tomanistor', 'GitHub'],
+			['https://linkedin.com/in/tomanistor', 'LinkedIn']
+		]);
+		for (const a of links) {
+			expect(a.hasAttribute('target')).toBe(false);
+			expect(a.querySelector('svg')!.getAttribute('aria-hidden')).toBe('true');
+		}
+		expect(footers[0].querySelectorAll('svg')).toHaveLength(2);
+		for (const vignette of stage.querySelectorAll('[data-vignette]'))
+			expect(Number(getComputedStyle(footers[0]).zIndex)).toBeGreaterThan(
+				Number(getComputedStyle(vignette).zIndex)
+			);
+	});
+
 	it('ignores a resize event when the size has not changed', async () => {
 		const { stage } = await renderReady();
 		const before = generation(stage);

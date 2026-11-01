@@ -67,3 +67,18 @@ export function titlePose(
 		subtitle: line(0.5, 1, subtitleSize)
 	};
 }
+
+const SOCIAL_RISE = 24;
+const SOCIAL_MARGIN = 16;
+
+// The footer's links come in after the subtitle, finishing with the phase. `dy` is pixels below
+// their resting place; with reduced motion they fade in place.
+export function socialPose(open: number, calm: boolean): LinePose {
+	const progress = smoothstep(clamp01((open - 0.7) / 0.3));
+	return { dy: calm ? 0 : (1 - progress) * SOCIAL_RISE, opacity: progress };
+}
+
+// At rest: px from the viewport top to the icons' top, centred between the subtitle's bottom and
+// the viewport's bottom, and never closer to that edge than the margin.
+export const socialTop = (v: Viewport, subtitleBottom: number, iconSize: number): number =>
+	Math.min((subtitleBottom + v.height) / 2 - iconSize / 2, v.height - SOCIAL_MARGIN - iconSize);

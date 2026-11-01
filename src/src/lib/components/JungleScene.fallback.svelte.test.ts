@@ -45,6 +45,19 @@ function expectReadableTitle(stage: HTMLElement) {
 	expect(range.getBoundingClientRect().width / logo.width).toBeCloseTo(1, 1);
 }
 
+function expectSocialLinksShown(stage: HTMLElement) {
+	const links = [...stage.querySelectorAll<HTMLElement>('[data-social] a')];
+	expect(links).toHaveLength(2);
+	for (const link of links) {
+		const rect = link.getBoundingClientRect();
+		expect(rect.top).toBeGreaterThanOrEqual(0);
+		expect(rect.bottom).toBeLessThanOrEqual(innerHeight - 16);
+		expect(rect.left).toBeGreaterThanOrEqual(0);
+		expect(rect.right).toBeLessThanOrEqual(innerWidth);
+		expect(getComputedStyle(link).opacity).toBe('1');
+	}
+}
+
 describe('JungleScene fallback', () => {
 	beforeEach(async () => {
 		await page.viewport(1440, 900);
@@ -71,6 +84,7 @@ describe('JungleScene fallback', () => {
 		expectLogoAtStart(stage);
 		await scrollToEnd();
 		expectReadableTitle(stage);
+		expectSocialLinksShown(stage);
 	});
 
 	it('shows the fallback logo when WebGL is unavailable', async () => {
@@ -90,8 +104,10 @@ describe('JungleScene fallback', () => {
 		expectLogoAtStart(stage);
 		await scrollToEnd();
 		expectReadableTitle(stage);
+		expectSocialLinksShown(stage);
 		await page.viewport(800, 500);
 		await new Promise((r) => setTimeout(r, 200));
 		expectReadableTitle(stage);
+		expectSocialLinksShown(stage);
 	});
 });

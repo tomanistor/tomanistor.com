@@ -1,5 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { camAt, logoPose, logoSize, logoWidth, openAt, revealAt, titlePose } from './phases';
+import {
+	camAt,
+	logoPose,
+	logoSize,
+	logoWidth,
+	openAt,
+	revealAt,
+	socialPose,
+	socialTop,
+	titlePose
+} from './phases';
 
 describe('phases', () => {
 	it('finishes the reveal at the split, then opens until the end', () => {
@@ -86,5 +96,49 @@ describe('titlePose', () => {
 			const logoBottom = height / 2 + dy + logoSize(v, scale).h / 2;
 			expect(titlePose(cam, open, v, NAME, SUBTITLE, false).top).toBeGreaterThanOrEqual(logoBottom);
 		}
+	});
+});
+
+describe('socialPose', () => {
+	const opens = Array.from({ length: 21 }, (_, i) => i / 20);
+	const V = { width: 1440, height: 900 };
+
+	it('stays hidden until the subtitle is half in, then rises into place as the phase ends', () => {
+		expect(socialPose(0, false)).toEqual({ dy: 24, opacity: 0 });
+		expect(socialPose(0.7, false)).toEqual({ dy: 24, opacity: 0 });
+		expect(socialPose(1, false)).toEqual({ dy: 0, opacity: 1 });
+	});
+
+	it('only ever fades in and settles as the scroll advances', () => {
+		for (const [i, open] of opens.slice(1).entries()) {
+			expect(socialPose(open, false).opacity).toBeGreaterThanOrEqual(
+				socialPose(opens[i], false).opacity
+			);
+			expect(socialPose(open, false).dy).toBeLessThanOrEqual(socialPose(opens[i], false).dy);
+		}
+	});
+
+	it('fades in place with reduced motion, on the same progress', () => {
+		for (const open of opens) {
+			expect(socialPose(open, true).dy).toBe(0);
+			expect(socialPose(open, true).opacity).toBe(socialPose(open, false).opacity);
+		}
+	});
+
+	it('is never more visible than the subtitle', () => {
+		for (const open of opens) {
+			const subtitle = titlePose(1, open, V, 60, 20, false).subtitle.opacity;
+			expect(socialPose(open, false).opacity).toBeLessThanOrEqual(subtitle);
+		}
+	});
+});
+
+describe('socialTop', () => {
+	it('centres the icons between the subtitle and the bottom edge', () => {
+		expect(socialTop({ width: 1440, height: 900 }, 700, 28)).toBeCloseTo(800 - 14);
+	});
+
+	it('keeps the icons 16px above the bottom edge when the subtitle runs low', () => {
+		expect(socialTop({ width: 1440, height: 900 }, 880, 28)).toBe(900 - 16 - 28);
 	});
 });
