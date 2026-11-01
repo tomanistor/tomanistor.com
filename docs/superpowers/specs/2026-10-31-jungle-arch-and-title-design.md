@@ -40,6 +40,20 @@ line, the reduced-motion and phone decisions, and `titleLayout`'s font rule):
   noscript layout respectively.
 - The bottom-middle stays pure white.
 
+## Amendment (2026-11-01, owner-approved): social links in a footer
+
+At the bottom of the page, centred: a `<footer>` with two icon links, GitHub
+(`https://github.com/tomanistor`) and LinkedIn (`https://linkedin.com/in/tomanistor`). Owner's
+words: centred at the bottom, fading up as you scroll down, initially hidden behind the leaves.
+
+Claude's calls: monochrome inline-SVG brand marks in `#212121`, about 28px (smaller on phones),
+~24px apart, centred below the title near the bottom edge; normal same-tab links with accessible
+names. They fade in while rising a short distance during phase 2, after the subtitle (logo → name →
+subtitle → icons), finishing as the phase ends, scroll-tied and reversible like the title; with
+reduced motion they fade in place. While hidden they don't take pointer events, but keyboard focus
+reveals the focused link. They show in the no-WebGL fallback and in `<noscript>`. The bottom-middle
+pure-white check ignores the footer (it guards leaves and shading).
+
 ## Amendment (2026-11-01, owner-approved): logo and title lower at rest
 
 **Update (owner, 2026-11-01):** the logo rests centred: `LOGO_REST_DY` = 0 (not −0.02). The subtitle's bottom may reach 0.79 × height; the pure-white check still starts at 0.8 × height.
