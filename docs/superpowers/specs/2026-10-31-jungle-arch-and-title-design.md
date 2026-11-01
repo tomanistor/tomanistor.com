@@ -47,8 +47,10 @@ At the bottom of the page, centred: a `<footer>` with two icon links, GitHub
 words: centred at the bottom, fading up as you scroll down, initially hidden behind the leaves.
 
 Claude's calls: monochrome inline-SVG brand marks in `#212121`, about 28px (smaller on phones),
-~24px apart, centred below the title near the bottom edge; normal same-tab links with accessible
-names. They fade in while rising a short distance during phase 2, after the subtitle (logo → name →
+~24px apart, centred below the title near the bottom edge. The links open in new tabs (owner,
+2026-11-01): `target="_blank"`, `rel="noopener noreferrer"`, accessible names "GitHub (opens in a new
+tab)" and "LinkedIn (opens in a new tab)". On hover and keyboard focus an ink circle fills behind
+the icon and it turns white (owner-picked hover, mockup option B). They fade in while rising a short distance during phase 2, after the subtitle (logo → name →
 subtitle → icons), finishing as the phase ends, scroll-tied and reversible like the title; with
 reduced motion they fade in place. While hidden they don't take pointer events, but keyboard focus
 reveals the focused link. They show in the no-WebGL fallback and in `<noscript>`. The bottom-middle
