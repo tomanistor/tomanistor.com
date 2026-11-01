@@ -1,7 +1,7 @@
 import { bakeAll, releaseBitmaps, renderResolution } from './bake';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, type Viewport } from './layout';
-import { camAt, logoPose, openAt, titleLayout } from './phases';
+import { camAt, logoPose, openAt, titleLayout, titlePose } from './phases';
 import { leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
 import { createJungleRenderer, type JungleRenderer } from './renderer';
 import { SPRITES } from './sprites';
@@ -33,7 +33,6 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	let frameId = 0;
 	let resizeTimer: ReturnType<typeof setTimeout> | undefined;
 	let generation = 0;
-	let titleTop = 0;
 	let resolveReady!: () => void;
 	const ready = new Promise<void>((resolve) => (resolveReady = resolve));
 
@@ -54,20 +53,16 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		const resolution = renderResolution(viewport, dpr);
 		const bitmaps = bakeAll(leaves, images, resolution);
 		renderer!.build(leaves, bitmaps, viewport, resolution);
-		titleTop = titleLayout(viewport).top;
 		els.title.style.fontSize = `${titleLayout(viewport).fontSize}px`;
 		releaseBitmaps(bitmaps);
 		els.stage.dataset.gpuMb = String(Math.round(renderer!.gpuMegabytes()));
 		els.stage.dataset.generation = String(++generation);
 	}
 
-	// The title rises from below the screen to its place; with reduced motion it fades in there.
 	function placeTitle(open: number) {
-		const y = reducedMotion.matches
-			? titleTop
-			: viewport.height + (titleTop - viewport.height) * open;
+		const { y, opacity } = titlePose(open, viewport, reducedMotion.matches);
 		els.title.style.transform = `translateY(${Math.round(y * 10) / 10}px)`;
-		els.title.style.opacity = reducedMotion.matches ? String(Math.round(open * 1000) / 1000) : '1';
+		els.title.style.opacity = String(Math.round(opacity * 1000) / 1000);
 	}
 
 	let last = performance.now();

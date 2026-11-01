@@ -1,7 +1,7 @@
 import { SHADOW_PAD } from './bake';
 import { parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
-import { LOGO_REST_DY, LOGO_REST_SCALE, logoWidth } from './phases';
+import { LOGO_REST_DY, LOGO_REST_SCALE, logoSize } from './phases';
 import { SPRITES } from './sprites';
 
 export type Viewport = { width: number; height: number };
@@ -42,8 +42,8 @@ const PHOTO_EDGE: readonly Point[] = Array.from(
 
 export function logoSafeZone(v: Viewport): { safeW: number; safeH: number } {
 	const vmin = Math.min(v.width, v.height);
-	const logoW = logoWidth(v);
-	return { safeW: logoW / 2 + vmin * 0.13, safeH: (logoW * 197) / 225 / 2 + vmin * 0.13 };
+	const { w, h } = logoSize(v);
+	return { safeW: w / 2 + vmin * 0.13, safeH: h / 2 + vmin * 0.13 };
 }
 
 export const OPEN_WIDEN = 1.15;
@@ -61,8 +61,7 @@ export type Arch = { cy: number; half: number; rTop: number; bottom: number };
 
 export function archZone(v: Viewport): Arch {
 	const vmin = Math.min(v.width, v.height);
-	const w = logoWidth(v) * LOGO_REST_SCALE;
-	const h = (w * 197) / 225;
+	const { w, h } = logoSize(v, LOGO_REST_SCALE);
 	return {
 		cy: LOGO_REST_DY * v.height,
 		half: Math.min(w / 2 + 0.13 * vmin + 0.22 * vmin, 0.34 * v.width),
