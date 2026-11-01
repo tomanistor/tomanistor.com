@@ -1,6 +1,6 @@
 import type { Container, RenderTexture, Sprite, Texture } from 'pixi.js';
 import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
-import { textureMegabytes, type Bitmap } from './bake';
+import { releaseBitmaps, textureMegabytes, type Bitmap } from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
 import { archZone, DEG, openingZone, type Viewport } from './layout';
@@ -151,12 +151,28 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 
 	let scene: Scene | undefined;
 
-	// Uploads now, so the canvas can be released as soon as `build` returns.
+	// Uploads now, so the canvas can be released straight away.
 	function upload(canvas: HTMLCanvasElement, owned: Scene['owned']): Texture {
 		const texture = Texture.from(canvas, true);
 		app.renderer.texture.initSource(texture.source);
 		owned.push(texture);
 		return texture;
+	}
+
+	// PixiJS compiles a program on its first use, in one call that can't be split; drawing a blurred
+	// pixel compiles the sprite and blur programs the far layers use, as a unit of its own.
+	let warmed = false;
+	function warmShaders() {
+		warmed = true;
+		const target = RenderTexture.create({ width: 1, height: 1 });
+		const sprite = new Sprite(Texture.WHITE);
+		const filter = new BlurFilter({ strength: 1, quality: 2 });
+		sprite.filters = [filter];
+		app.renderer.render({ container: sprite, target, clear: true });
+		sprite.destroy();
+		filter.destroy();
+		target.destroy(true);
+		TexturePool.clear(true);
 	}
 
 	// A far layer's leaves, fully parted, rendered once into textures half again the size of the
@@ -251,6 +267,13 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 				logo.anchor.set(0.5);
 				root.addChild(shade, archShade, logo);
 
+				if (!warmed) {
+					await pace();
+					warmShaders();
+				}
+				// A far bitmap is freed once the last part that draws it is baked.
+				const uses = new Map<string, number>();
+				for (const leaf of all.filter(isFar)) uses.set(leaf.key!, (uses.get(leaf.key!) ?? 0) + 1);
 				// Each far layer is baked in two parts: the leaves that stay, and those that drop out of
 				// the arch together as it opens.
 				const far: Scene['far'] = [];
@@ -271,6 +294,13 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 							owned,
 							pace
 						);
+						// The blur passes leave scratch textures pooled.
+						TexturePool.clear(true);
+						for (const leaf of leaves) {
+							const left = uses.get(leaf.key!)! - 1;
+							uses.set(leaf.key!, left);
+							if (left === 0) releaseBitmaps([bitmaps.get(leaf.key!)!]);
+						}
 						for (const [i, texture] of copies.entries()) {
 							textureMb += megabytes(texture.source.pixelWidth, texture.source.pixelHeight);
 							const sprite = new Sprite(texture);
@@ -280,17 +310,16 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 						}
 					}
 				}
-				// The blur passes leave scratch textures pooled; nothing filters again until the next build.
-				TexturePool.clear(true);
 
 				const live = all.filter((l) => !isFar(l));
 				const liveBitmaps = new Map(live.map((l) => [l.key!, bitmaps.get(l.key!)!]));
+				textureMb += textureMegabytes(liveBitmaps.values());
 				const textures = new Map<string, Texture>();
 				for (const [key, b] of liveBitmaps) {
 					await pace();
 					textures.set(key, upload(b.canvas, owned));
+					releaseBitmaps([b]);
 				}
-				textureMb += textureMegabytes(liveBitmaps.values());
 				const leaves = live.map((leaf) => {
 					const sprite = new Sprite(textures.get(leaf.key!)!);
 					sprite.anchor.set(leaf.origin![0] / leaf.box![0], leaf.origin![1] / leaf.box![1]);

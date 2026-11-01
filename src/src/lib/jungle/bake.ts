@@ -102,7 +102,7 @@ export async function bakeAll(
 			bitmaps.set(key, bake(leaf, leaf.cssPerPx!, images.get(leaf.sprite.src)!, dpr, blurScale));
 		}
 	} catch (error) {
-		abandon(error, () => releaseBitmaps(bitmaps));
+		abandon(error, () => releaseBitmaps(bitmaps.values()));
 	}
 	for (const leaf of leaves) {
 		const b = bitmaps.get(leaf.key!)!;
@@ -129,6 +129,6 @@ export function renderResolution(v: Viewport, dpr: number): number {
 export const blurScale = (resolution: number, dpr: number): number =>
 	Math.min(1, resolution / Math.min(dpr, 2));
 
-export function releaseBitmaps(bitmaps: Map<string, Bitmap>): void {
-	for (const b of bitmaps.values()) b.canvas.width = 0;
+export function releaseBitmaps(bitmaps: Iterable<Bitmap>): void {
+	for (const b of bitmaps) b.canvas.width = 0;
 }

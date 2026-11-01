@@ -1,7 +1,7 @@
 import { Container, TexturePool } from 'pixi.js';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { bakeAll } from './bake';
-import { densityFor, generateLeaves, type Leaf } from './leaves';
+import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves } from './layout';
 import { Stale, type Pace } from './pace';
 import { createJungleRenderer, type JungleRenderer } from './renderer';
@@ -85,5 +85,21 @@ describe('renderer.build', () => {
 		await expect(build(always)).rejects.toThrow('teardown');
 		expect(swapped).toBeDefined();
 		expect(swapped!.destroyed).toBe(false);
+	});
+
+	it('frees each bitmap once it is on the GPU, the far layers’ before any live leaf’s', async () => {
+		renderer = await createJungleRenderer(() => {});
+		const bitmaps = await bakeAll(leaves, images, 1, 1);
+		const of = (far: boolean) =>
+			leaves.filter((l) => isFar(l) === far).map((l) => bitmaps.get(l.key!)!);
+		const [far, live] = [of(true), of(false)];
+		let farHeld = false;
+		const pace: Pace = async () => {
+			if (live.some((b) => b.canvas.width === 0) && far.some((b) => b.canvas.width > 0))
+				farHeld = true;
+		};
+		await renderer.build(leaves, bitmaps, v, 1, 1, pace);
+		expect(farHeld).toBe(false);
+		expect([...bitmaps.values()].every((b) => b.canvas.width === 0)).toBe(true);
 	});
 });

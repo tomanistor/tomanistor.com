@@ -96,7 +96,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 		try {
 			await target.build(next, bitmaps, v, resolution, blur, pace);
 		} finally {
-			releaseBitmaps(bitmaps);
+			releaseBitmaps(bitmaps.values());
 		}
 		if (!wanted()) throw new Stale();
 		// The leaves kept moving while the build ran.
