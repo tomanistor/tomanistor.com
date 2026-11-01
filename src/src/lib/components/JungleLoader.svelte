@@ -9,11 +9,13 @@
 	type Axis = 'X' | 'Y';
 	// The logo is only ever drawn inside a window, so the unfilled part simply isn't there. Each
 	// edge is a clipping box that starts slid in from one side while its child counter-moves, keeping
-	// the logo still. They open from a line through the centre: up and down into a column 20% wide,
-	// then out to both sides. Start positions are rendered on the server so nothing flashes.
+	// the logo still. They open from a thin band through the centre: up and down into a column 20% wide,
+	// then out to both sides. The band is not a line because a logo with no area at first paint never
+	// counts as the page's Largest Contentful Paint. Start positions are rendered on the server so
+	// nothing flashes.
 	const EDGES: { axis: Axis; from: number; spread: boolean }[] = [
-		{ axis: 'Y', from: 50, spread: false },
-		{ axis: 'Y', from: -50, spread: false },
+		{ axis: 'Y', from: 48, spread: false },
+		{ axis: 'Y', from: -48, spread: false },
 		{ axis: 'X', from: 40, spread: true },
 		{ axis: 'X', from: -40, spread: true }
 	];

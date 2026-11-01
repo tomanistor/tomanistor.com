@@ -44,9 +44,11 @@ describe('JungleLoader', () => {
 		scrollTo(0, 0);
 	});
 
-	it('starts closed, opens a centre column, then spreads to the full logo', () => {
+	it('starts as a thin band, opens a centre column, then spreads to the full logo', () => {
 		render(JungleLoader, { done: false });
-		expect(windowAt(0).height).toBe(0);
+		const band = windowAt(0);
+		expect(band.height).toBeCloseTo(band.box.height * 0.04, 0);
+		expect(band.width).toBeCloseTo(band.box.width * 0.2, 0);
 		// The spread starts just before the column finishes opening, as in the approved mockup.
 		const column = windowAt(1150);
 		expect(column.width).toBeCloseTo(column.box.width * 0.2, 0);
