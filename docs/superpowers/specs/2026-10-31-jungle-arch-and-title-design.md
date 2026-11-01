@@ -40,6 +40,15 @@ line, the reduced-motion and phone decisions, and `titleLayout`'s font rule):
   noscript layout respectively.
 - The bottom-middle stays pure white.
 
+## Amendment (2026-11-01, owner-approved): logo and title lower at rest
+
+The owner found too much white space under the title at 100% scroll. At rest the logo's centre moves
+from 6% to about 2% above the viewport's middle (`LOGO_REST_DY` −0.06 → −0.02; about 36px at
+1440×900), and the title follows it. The arch does not move: it keeps today's position through its
+own constant, decoupled from the logo's. The subtitle's bottom may now reach 0.78 × height; the
+pure-white bottom-middle check starts at 0.8 × height (x 0.3..0.7). Leaves still clear the same
+bottom-middle zone as before.
+
 ## Amendment (2026-10-31, owner-approved): the title's typeface
 
 Supersedes the title's font, case and subtitle size above (the motion and layout rules stand):
