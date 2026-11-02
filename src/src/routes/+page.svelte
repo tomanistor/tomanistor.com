@@ -25,10 +25,7 @@
 	<meta property="og:image" content={new URL(ogImage, ORIGIN).href} />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
-	<meta
-		property="og:image:alt"
-		content="The Toma Nistor logo above the words Toma Nistor, San Diego Software Engineer"
-	/>
+	<meta property="og:image:alt" content="The Toma Nistor logo" />
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
