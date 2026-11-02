@@ -11,6 +11,7 @@ My personal site. Scroll through a jungle to find my name.
 
 [**Visit the site**](https://tomanistor.com) &nbsp;·&nbsp; [The old site](https://github.com/tomanistor/tomanistor.com/releases/tag/hugo-site)
 
+[![CI](https://github.com/tomanistor/tomanistor.com/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/tomanistor/tomanistor.com/actions/workflows/ci.yml?query=branch%3Amaster)
 [![SvelteKit](https://img.shields.io/badge/SvelteKit-3-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev/docs/kit)
 [![PixiJS](https://img.shields.io/badge/PixiJS-8-E72264)](https://pixijs.com/8.x/guides)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/docs)
