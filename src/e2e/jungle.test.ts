@@ -319,6 +319,17 @@ test('the deployed homepage is prerendered with the heading and the logo', () =>
 	expect(html).toContain('<noscript>');
 	expect(html).toContain('href="https://github.com/tomanistor"');
 	expect(html).toContain('href="https://linkedin.com/in/tomanistor"');
+	expect(html).toContain('<link rel="canonical" href="https://tomanistor.com/"');
+	expect(html).toContain('<meta property="og:url" content="https://tomanistor.com/"');
+	expect(html).toContain(
+		'<meta property="og:title" content="Toma Nistor – San Diego Software Engineer"'
+	);
+	expect(html).toContain('<meta name="twitter:card" content="summary_large_image"');
+	const ogImage = html.match(
+		/<meta property="og:image" content="https:\/\/tomanistor\.com(\/_app\/[^"]+\.jpg)"/
+	)?.[1];
+	expect(ogImage, 'og:image').toBeDefined();
+	expect(existsSync(`build${ogImage}`), 'og:image file').toBe(true);
 
 	const notFound = readFileSync('build/404.html', 'utf8');
 	expect(notFound).toContain('Page not found');

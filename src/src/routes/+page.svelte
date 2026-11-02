@@ -1,17 +1,32 @@
 <script lang="ts">
 	import logo from '#lib/assets/logo/toma-nistor-logo.svg';
+	import ogImage from '#lib/assets/og-image.jpg';
 	import JungleLoader from '#lib/components/JungleLoader.svelte';
 	import JungleScene from '#lib/components/JungleScene.svelte';
+
+	// Prerendering has no real origin, and link previews need absolute URLs.
+	const ORIGIN = 'https://tomanistor.com';
+	const TITLE = 'Toma Nistor – San Diego Software Engineer';
+	const DESCRIPTION =
+		'Toma Nistor is a San Diego software engineer building fast, thoughtfully crafted websites and web apps.';
 
 	let ready = $state(false);
 </script>
 
 <svelte:head>
-	<title>Toma Nistor – San Diego Software Engineer</title>
-	<meta
-		name="description"
-		content="Toma Nistor is a San Diego software engineer building fast, thoughtfully crafted websites and web apps."
-	/>
+	<title>{TITLE}</title>
+	<meta name="description" content={DESCRIPTION} />
+	<link rel="canonical" href="{ORIGIN}/" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Toma Nistor" />
+	<meta property="og:url" content="{ORIGIN}/" />
+	<meta property="og:title" content={TITLE} />
+	<meta property="og:description" content={DESCRIPTION} />
+	<meta property="og:image" content={new URL(ogImage, ORIGIN).href} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="The Toma Nistor logo framed by jungle leaves" />
+	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <main>
