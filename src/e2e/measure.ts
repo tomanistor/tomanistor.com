@@ -12,7 +12,7 @@ export async function scrollTo(page: Page, fraction: number): Promise<void> {
 		const frame = () => new Promise((resolve) => requestAnimationFrame(resolve));
 		window.scrollTo(0, (document.documentElement.scrollHeight - innerHeight) * f);
 		await frame();
-		for (const deadline = performance.now() + 10000; stage.dataset.settled !== 'true'; ) {
+		for (const deadline = performance.now() + 10000; stage.dataset.settled !== 'true';) {
 			if (performance.now() > deadline) throw new Error('the scene did not settle in 10s');
 			await frame();
 		}
