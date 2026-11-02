@@ -32,13 +32,10 @@ const BLADE: readonly Point[] = [
 
 // Points around the ellipse inscribed in a photo's crop, as fractions of the crop. Leaves fill
 // most of it; the corners are mostly bare.
-const PHOTO_EDGE: readonly Point[] = Array.from(
-	{ length: 16 },
-	(_, i): Point => [
-		0.5 + 0.5 * Math.cos((i * Math.PI) / 8),
-		0.5 + 0.5 * Math.sin((i * Math.PI) / 8)
-	]
-);
+const PHOTO_EDGE: readonly Point[] = Array.from({ length: 16 }, (_, i): Point => [
+	0.5 + 0.5 * Math.cos((i * Math.PI) / 8),
+	0.5 + 0.5 * Math.sin((i * Math.PI) / 8)
+]);
 
 export function logoSafeZone(v: Viewport): { safeW: number; safeH: number } {
 	const vmin = Math.min(v.width, v.height);
