@@ -11,10 +11,11 @@ My personal site. Scroll through a jungle to find my name.
 
 [**Visit the site**](https://tomanistor.com) &nbsp;·&nbsp; [The old site](https://github.com/tomanistor/tomanistor.com/releases/tag/hugo-site)
 
-![SvelteKit](https://img.shields.io/badge/SvelteKit-2-FF3E00?logo=svelte&logoColor=white)
+![SvelteKit](https://img.shields.io/badge/SvelteKit-3-FF3E00?logo=svelte&logoColor=white)
 ![PixiJS](https://img.shields.io/badge/PixiJS-8-E72264)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Netlify](https://img.shields.io/badge/Netlify-hosted-00C7B7?logo=netlify&logoColor=white)
+![Sentry](https://img.shields.io/badge/Sentry-errors-362D59?logo=sentry&logoColor=white)
 
 </div>
 
@@ -59,7 +60,7 @@ Run these from `src/`.
 
 | | |
 | --- | --- |
-| **Framework** | SvelteKit 2 and Svelte 5, prerendered to static HTML |
+| **Framework** | SvelteKit 3 and Svelte 5, prerendered to static HTML |
 | **Scene** | PixiJS 8, one WebGL canvas |
 | **Styles** | Tailwind CSS 4, Inter Tight for the title |
 | **Tests** | Vitest and Playwright |
@@ -71,8 +72,10 @@ src/
   src/lib/jungle/      the scene: layout, motion, baking, rendering
   src/lib/components/  JungleScene and JungleLoader
   src/routes/          the homepage and the 404 page
+  src/hooks.client.ts  Sentry setup
   e2e/                 Playwright tests
   static/_redirects    redirects for the old site's URLs
+  vite.config.ts       SvelteKit, Sentry and Vitest config (there's no svelte.config.js)
 docs/superpowers/      design specs and implementation plans
 ```
 
