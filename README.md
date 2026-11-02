@@ -63,6 +63,7 @@ Run these from `src/`.
 | **Scene** | PixiJS 8, one WebGL canvas |
 | **Styles** | Tailwind CSS 4, Inter Tight for the title |
 | **Tests** | Vitest and Playwright |
+| **Errors** | Sentry, reporting from tomanistor.com only |
 | **Hosting** | Netlify |
 
 ```
@@ -117,6 +118,8 @@ All in `src/src/lib/jungle/`. Memory and frame-time targets per screen size are 
 ## Deployment
 
 Netlify builds from the `src` base directory with `src/netlify.toml`. Pushes to `master` go to production and every pull request gets a deploy preview.
+
+Sentry is set up in `src/src/hooks.client.ts` and only reports from tomanistor.com, so local runs, the e2e suite and deploy previews stay out of it. To get readable stack traces, set `SENTRY_AUTH_TOKEN`, `SENTRY_ORG` and `SENTRY_PROJECT` in Netlify. The build then uploads source maps and deletes them before publishing.
 
 Old URLs from the previous site (`/about`, `/blog/*`, `/gallery/*`, `/tags/*`, `/categories/*`) redirect home with a 301. Anything else that doesn't exist gets a real 404 page.
 
