@@ -1,12 +1,12 @@
-import monsteraSheet from '$lib/assets/jungle/monstera-sheet.webp';
-import ladyPalm from '$lib/assets/jungle/lady-palm.webp';
-import fanPalm from '$lib/assets/jungle/fan-palm.webp';
-import leafyBush from '$lib/assets/jungle/leafy-bush.webp';
-import fern from '$lib/assets/jungle/fern.webp';
-import monsteraDark from '$lib/assets/jungle/monstera-dark.webp';
-import monsteraStem from '$lib/assets/jungle/monstera-stem.webp';
-import bananaLeaf from '$lib/assets/jungle/banana-leaf.webp';
-import ribbedLeaf from '$lib/assets/jungle/ribbed-leaf.webp';
+import monsteraSheet from '#lib/assets/jungle/monstera-sheet.webp';
+import ladyPalm from '#lib/assets/jungle/lady-palm.webp';
+import fanPalm from '#lib/assets/jungle/fan-palm.webp';
+import leafyBush from '#lib/assets/jungle/leafy-bush.webp';
+import fern from '#lib/assets/jungle/fern.webp';
+import monsteraDark from '#lib/assets/jungle/monstera-dark.webp';
+import monsteraStem from '#lib/assets/jungle/monstera-stem.webp';
+import bananaLeaf from '#lib/assets/jungle/banana-leaf.webp';
+import ribbedLeaf from '#lib/assets/jungle/ribbed-leaf.webp';
 import type { Role } from './leaves';
 
 type Point = [number, number];

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
-	import { camAt, logoPose, openAt } from '$lib/jungle/phases';
-	import { scrollFraction } from '$lib/jungle/motion';
+	import logoSrc from '#lib/assets/logo/toma-nistor-logo.svg';
+	import { camAt, logoPose, openAt } from '#lib/jungle/phases.ts';
+	import { scrollFraction } from '#lib/jungle/motion.ts';
 
 	let { done }: { done: boolean } = $props();
 

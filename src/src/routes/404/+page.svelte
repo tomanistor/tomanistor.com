@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import logo from '$lib/assets/logo/toma-nistor-logo.svg';
+	import logo from '#lib/assets/logo/toma-nistor-logo.svg';
 </script>
 
 <svelte:head>

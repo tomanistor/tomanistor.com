@@ -2,7 +2,7 @@ import { page } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleScene from './JungleScene.svelte';
-import { camAt, logoPose, logoWidth, openAt } from '$lib/jungle/phases';
+import { camAt, logoPose, logoWidth, openAt } from '#lib/jungle/phases.ts';
 
 // Kept apart from the other scene tests: PixiJS caches whether WebGL works, and a renderer that
 // fails partway through starting stays registered with PixiJS's global ticker for the whole file.

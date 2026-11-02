@@ -1,7 +1,7 @@
 <script lang="ts">
-	import logo from '$lib/assets/logo/toma-nistor-logo.svg';
-	import JungleLoader from '$lib/components/JungleLoader.svelte';
-	import JungleScene from '$lib/components/JungleScene.svelte';
+	import logo from '#lib/assets/logo/toma-nistor-logo.svg';
+	import JungleLoader from '#lib/components/JungleLoader.svelte';
+	import JungleScene from '#lib/components/JungleScene.svelte';
 
 	let ready = $state(false);
 </script>
