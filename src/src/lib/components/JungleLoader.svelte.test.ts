@@ -2,8 +2,8 @@ import { page } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleLoader from './JungleLoader.svelte';
-import { camAt, logoPose, logoWidth, openAt } from '$lib/jungle/phases';
-import { scrollFraction } from '$lib/jungle/motion';
+import { camAt, logoPose, logoWidth, openAt } from '#lib/jungle/phases.ts';
+import { scrollFraction } from '#lib/jungle/motion.ts';
 import Page from '../../routes/+page.svelte';
 
 const loaderEl = () => document.querySelector<HTMLElement>('[data-jungle-loader]');

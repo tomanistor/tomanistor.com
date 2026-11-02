@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
-	import { createJungleScene } from '$lib/jungle/scene';
+	import logoSrc from '#lib/assets/logo/toma-nistor-logo.svg';
+	import { createJungleScene } from '#lib/jungle/scene.ts';
 
 	let { onready }: { onready?: () => void } = $props();
 

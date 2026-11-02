@@ -1,5 +1,5 @@
 import type { Container, RenderTexture, Sprite, Texture } from 'pixi.js';
-import logoSrc from '$lib/assets/logo/toma-nistor-logo.svg';
+import logoSrc from '#lib/assets/logo/toma-nistor-logo.svg';
 import { releaseBitmaps, textureMegabytes, type Bitmap } from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, zoomAt } from './camera';
 import { isFar, type Leaf } from './leaves';
