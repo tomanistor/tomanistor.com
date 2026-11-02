@@ -15,7 +15,7 @@ My personal site. Scroll through a jungle to find my name.
 [![SvelteKit](https://img.shields.io/badge/SvelteKit-3-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev/docs/kit)
 [![PixiJS](https://img.shields.io/badge/PixiJS-8-E72264)](https://pixijs.com/8.x/guides)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/docs)
-[![Netlify](https://img.shields.io/badge/Netlify-hosted-00C7B7?logo=netlify&logoColor=white)](https://docs.netlify.com)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4f3d806f-b9d9-485d-aec5-01b3fec46af5/deploy-status)](https://tomanistor.com)
 [![Sentry](https://img.shields.io/badge/Sentry-errors-362D59?logo=sentry&logoColor=white)](https://docs.sentry.io/platforms/javascript/guides/sveltekit/)
 
 </div>
