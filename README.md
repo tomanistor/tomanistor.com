@@ -11,11 +11,11 @@ My personal site. Scroll through a jungle to find my name.
 
 [**Visit the site**](https://tomanistor.com) &nbsp;·&nbsp; [The old site](https://github.com/tomanistor/tomanistor.com/releases/tag/hugo-site)
 
-![SvelteKit](https://img.shields.io/badge/SvelteKit-3-FF3E00?logo=svelte&logoColor=white)
-![PixiJS](https://img.shields.io/badge/PixiJS-8-E72264)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
-![Netlify](https://img.shields.io/badge/Netlify-hosted-00C7B7?logo=netlify&logoColor=white)
-![Sentry](https://img.shields.io/badge/Sentry-errors-362D59?logo=sentry&logoColor=white)
+[![SvelteKit](https://img.shields.io/badge/SvelteKit-3-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev/docs/kit)
+[![PixiJS](https://img.shields.io/badge/PixiJS-8-E72264)](https://pixijs.com/8.x/guides)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/docs)
+[![Netlify](https://img.shields.io/badge/Netlify-hosted-00C7B7?logo=netlify&logoColor=white)](https://docs.netlify.com)
+[![Sentry](https://img.shields.io/badge/Sentry-errors-362D59?logo=sentry&logoColor=white)](https://docs.sentry.io/platforms/javascript/guides/sveltekit/)
 
 </div>
 
