@@ -311,7 +311,7 @@ test('the deployed homepage is prerendered with the heading and the logo', () =>
 	const html = readFileSync('build/index.html', 'utf8');
 	expect(html).toContain('<title>Toma Nistor – San Diego Software Engineer</title>');
 	expect(html).toContain(
-		'Toma Nistor is a San Diego software engineer building fast, thoughtfully crafted websites and web apps.'
+		'Toma Nistor is a San Diego-based full-stack software engineer building fast, thoughtfully crafted websites, applications, and AI-powered products.'
 	);
 	expect(html.match(/<h1/g)).toHaveLength(1);
 	expect(html).toMatch(/<span data-title-name[^>]*>Toma Nistor<\/span>/);
@@ -326,7 +326,7 @@ test('the deployed homepage is prerendered with the heading and the logo', () =>
 	);
 	expect(html).toContain('<meta name="twitter:card" content="summary_large_image"');
 	const ogImage = html.match(
-		/<meta property="og:image" content="https:\/\/tomanistor\.com(\/_app\/[^"]+\.jpg)"/
+		/<meta property="og:image" content="https:\/\/tomanistor\.com(\/_app\/[^"]+\.png)"/
 	)?.[1];
 	expect(ogImage, 'og:image').toBeDefined();
 	expect(existsSync(`build${ogImage}`), 'og:image file').toBe(true);

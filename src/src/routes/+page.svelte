@@ -1,6 +1,6 @@
 <script lang="ts">
 	import logo from '#lib/assets/logo/toma-nistor-logo.svg';
-	import ogImage from '#lib/assets/og-image.jpg';
+	import ogImage from '#lib/assets/og-image.png';
 	import JungleLoader from '#lib/components/JungleLoader.svelte';
 	import JungleScene from '#lib/components/JungleScene.svelte';
 
@@ -8,7 +8,7 @@
 	const ORIGIN = 'https://tomanistor.com';
 	const TITLE = 'Toma Nistor – San Diego Software Engineer';
 	const DESCRIPTION =
-		'Toma Nistor is a San Diego software engineer building fast, thoughtfully crafted websites and web apps.';
+		'Toma Nistor is a San Diego-based full-stack software engineer building fast, thoughtfully crafted websites, applications, and AI-powered products.';
 
 	let ready = $state(false);
 </script>
@@ -25,7 +25,10 @@
 	<meta property="og:image" content={new URL(ogImage, ORIGIN).href} />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
-	<meta property="og:image:alt" content="The Toma Nistor logo framed by jungle leaves" />
+	<meta
+		property="og:image:alt"
+		content="The Toma Nistor logo above the words Toma Nistor, San Diego Software Engineer"
+	/>
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
