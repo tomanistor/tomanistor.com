@@ -41,7 +41,12 @@ export default defineConfig({
 						instances: [{ browser: 'chromium' }]
 					},
 					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
-					exclude: ['src/lib/server/**'],
+					exclude: [
+						'src/lib/server/**',
+						// CI runners have no GPU, and these time the live scene, which software WebGL
+						// renders too slowly for.
+						...(process.env.CI ? ['src/lib/components/JungleScene.svelte.test.ts'] : [])
+					],
 					setupFiles: ['./vitest-setup-client.ts']
 				}
 			},
