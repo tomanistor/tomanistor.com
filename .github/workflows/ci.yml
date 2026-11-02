@@ -36,9 +36,29 @@ jobs:
           node-version-file: src/.tool-versions
           package-manager-cache: false
 
-      - run: pnpm install --frozen-lockfile
+      - id: install
+        run: pnpm install --frozen-lockfile
 
-      - run: pnpm lint
+      # prettier --check only names files, so show the diff and annotate the lines it would change.
+      - name: Prettier
+        run: |
+          if ! pnpm exec prettier --check .; then
+            pnpm exec prettier --write . > /dev/null
+            git --no-pager diff --color=always
+            git --no-pager diff -U0 --no-color | awk '
+              /^\+\+\+ b\// { file = substr($0, 7) }
+              /^@@/ {
+                split(substr($2, 2), old, ",")
+                start = old[1] > 0 ? old[1] : 1
+                end = start + (old[2] == "" ? 0 : (old[2] > 0 ? old[2] - 1 : 0))
+                printf "::error file=%s,line=%d,endLine=%d,title=Prettier::Not formatted. Run pnpm format.\n", file, start, end
+              }'
+            exit 1
+          fi
+
+      - name: ESLint
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: pnpm exec eslint .
 
       - run: pnpm check
 
