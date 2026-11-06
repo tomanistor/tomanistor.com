@@ -1,4 +1,4 @@
-import type { Container, RenderTexture, Sprite, Texture } from 'pixi.js';
+import type { BlurFilter, Container, RenderTexture, Sprite, Texture } from 'pixi.js';
 import logoSrc from '#lib/assets/logo/toma-nistor-logo.svg';
 import { releaseBitmaps, textureMegabytes, type Bitmap } from './bake';
 import { BACK_DIST, DEEP_DIST, LOGO_DIST, parallaxAt, zoomAt } from './camera';
@@ -159,6 +159,15 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 		return texture;
 	}
 
+	// PixiJS binds each blur pass's input, a pooled texture, in a bind group shared by all filters
+	// and leaves it there after rendering; clearing the pool would destroy it while still bound.
+	function destroyFilter(filter: BlurFilter) {
+		const shared = filter.blurYFilter.groups[0];
+		shared.setResource(Texture.EMPTY.source, 1);
+		shared.setResource(Texture.EMPTY.source.style, 2);
+		filter.destroy();
+	}
+
 	// PixiJS compiles a program on its first use, in one call that can't be split; drawing a blurred
 	// pixel compiles the sprite and blur programs the far layers use, as a unit of its own.
 	let warmed = false;
@@ -170,7 +179,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 		sprite.filters = [filter];
 		app.renderer.render({ container: sprite, target, clear: true });
 		sprite.destroy();
-		filter.destroy();
+		destroyFilter(filter);
 		target.destroy(true);
 		TexturePool.clear(true);
 	}
@@ -228,7 +237,7 @@ export async function createJungleRenderer(onContextLost: () => void): Promise<J
 				const filter = new BlurFilter({ strength: blur * res, quality: 2, resolution: res });
 				layer.filters = [filter];
 				app.renderer.render({ container: layer, target, clear: true });
-				filter.destroy();
+				destroyFilter(filter);
 				targets.push(target);
 			}
 		} catch (error) {
