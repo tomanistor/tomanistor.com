@@ -52,6 +52,14 @@ describe('renderer.build', () => {
 		await expect(build(stopAt(3, new Stale()))).rejects.toBeInstanceOf(Stale);
 	});
 
+	it('frees the blur scratch textures without destroying one still bound to a shader', async () => {
+		renderer = await createJungleRenderer(() => {});
+		const warn = vi.spyOn(console, 'warn');
+		await build(always);
+		await build(always);
+		expect(warn.mock.calls.flat().join('\n')).not.toContain('destroyed while still bound');
+	});
+
 	it('a failed build reports its own error, not one from its cleanup', async () => {
 		renderer = await createJungleRenderer(() => {});
 		vi.spyOn(TexturePool, 'clear').mockImplementation(() => {
