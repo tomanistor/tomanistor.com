@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/sveltekit';
 import { bakeAll, blurScale, releaseBitmaps, renderResolution } from './bake';
 import { densityFor, generateLeaves, isFar, type Leaf } from './leaves';
 import { layoutLeaves, type Viewport } from './layout';
@@ -277,6 +278,7 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	// The page is never left blank: anything that stops the scene drawing shows a plain logo.
 	function fallBack(error: unknown) {
 		console.error('Jungle scene failed to start', error);
+		Sentry.captureException(error);
 		cancelAnimationFrame(frameId);
 		renderer?.destroy();
 		renderer = undefined;

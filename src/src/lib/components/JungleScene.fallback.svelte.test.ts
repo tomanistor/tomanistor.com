@@ -1,8 +1,11 @@
+import * as Sentry from '@sentry/sveltekit';
 import { page } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import JungleScene from './JungleScene.svelte';
 import { camAt, logoPose, logoWidth, openAt } from '#lib/jungle/phases.ts';
+
+vi.mock('@sentry/sveltekit', () => ({ captureException: vi.fn() }));
 
 // Kept apart from the other scene tests: PixiJS caches whether WebGL works, and a renderer that
 // fails partway through starting stays registered with PixiJS's global ticker for the whole file.
@@ -76,6 +79,9 @@ describe('JungleScene fallback', () => {
 		const stage = await renderReady();
 		expect(error).toHaveBeenCalledWith(
 			'Jungle scene failed to start',
+			expect.objectContaining({ message: 'broken' })
+		);
+		expect(Sentry.captureException).toHaveBeenCalledWith(
 			expect.objectContaining({ message: 'broken' })
 		);
 		expect(stage.dataset.renderer).toBe('fallback');
