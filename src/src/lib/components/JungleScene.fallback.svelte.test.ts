@@ -67,6 +67,7 @@ describe('JungleScene fallback', () => {
 	});
 	afterEach(() => {
 		vi.restoreAllMocks();
+		vi.clearAllMocks();
 		scrollTo(0, 0);
 	});
 
@@ -107,6 +108,7 @@ describe('JungleScene fallback', () => {
 		const stage = await renderReady();
 		expect(stage.dataset.renderer).toBe('fallback');
 		expect(fallbackLogo(stage).hidden).toBe(false);
+		expect(Sentry.captureException).not.toHaveBeenCalled();
 		expectLogoAtStart(stage);
 		await scrollToEnd();
 		expectReadableTitle(stage);

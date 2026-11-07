@@ -16,7 +16,7 @@ import {
 } from './phases';
 import { atRest, leafPose, leafTarget, outwardSweep, scrollFraction, spring } from './motion';
 import { pacer, Stale } from './pace';
-import { createJungleRenderer, type JungleRenderer } from './renderer';
+import { createJungleRenderer, WebGLUnavailableError, type JungleRenderer } from './renderer';
 import { SPRITES } from './sprites';
 
 export type SceneElements = {
@@ -278,7 +278,8 @@ export function createJungleScene(els: SceneElements): { ready: Promise<void>; d
 	// The page is never left blank: anything that stops the scene drawing shows a plain logo.
 	function fallBack(error: unknown) {
 		console.error('Jungle scene failed to start', error);
-		Sentry.captureException(error);
+		// The visitor's browser lacking WebGL isn't something the site can fix.
+		if (!(error instanceof WebGLUnavailableError)) Sentry.captureException(error);
 		cancelAnimationFrame(frameId);
 		renderer?.destroy();
 		renderer = undefined;
