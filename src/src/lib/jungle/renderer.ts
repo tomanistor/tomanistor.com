@@ -122,13 +122,26 @@ function paintLogo(img: HTMLImageElement, width: number): HTMLCanvasElement {
 	return canvas;
 }
 
-// Rejects if WebGL is unavailable. `onContextLost` fires once the canvas can no longer draw.
+export class WebGLUnavailableError extends Error {}
+
+// PixiJS caches its own check for good, but a browser that once had WebGL can lose it, e.g. when
+// its GPU process crashes; asks afresh, with the stencil buffer PixiJS needs.
+function canCreateWebGLContext(): boolean {
+	const gl = document.createElement('canvas').getContext('webgl', { stencil: true });
+	const supported = !!gl?.getContextAttributes()?.stencil;
+	gl?.getExtension('WEBGL_lose_context')?.loseContext();
+	return supported;
+}
+
+// Rejects with `WebGLUnavailableError` if WebGL is unavailable. `onContextLost` fires once the
+// canvas can no longer draw.
 export async function createJungleRenderer(onContextLost: () => void): Promise<JungleRenderer> {
 	const logoImg = new Image();
 	logoImg.src = logoSrc;
 	const [
 		{ Application, BlurFilter, Container, RenderTexture, Sprite, Texture, TexturePool, Ticker }
 	] = await Promise.all([import('pixi.js'), logoImg.decode()]);
+	if (!canCreateWebGLContext()) throw new WebGLUnavailableError('WebGL is unavailable');
 	const app = new Application();
 	// The baked canvases are released once uploaded, so the GPU copy must never be collected.
 	await app
