@@ -13,8 +13,11 @@ Sentry.init({
 	dsn: 'https://5545d0d5140d43479400e40a29153d5d@sentry.io/1375351',
 	// Local dev, the e2e suite's preview server and deploy previews all run off other hosts.
 	enabled: location.hostname === 'tomanistor.com',
-	// Everything on the site is public and there are no inputs, so masking would only hide context.
-	integrations: [Sentry.replayIntegration({ maskAllText: false, blockAllMedia: false })],
+	integrations: [
+		// Everything on the site is public and there are no inputs, so masking would only hide context.
+		Sentry.replayIntegration({ maskAllText: false, blockAllMedia: false }),
+		Sentry.consoleLoggingIntegration({ levels: ['log', 'warn', 'error'] })
+	],
 	replaysSessionSampleRate: 0.1,
 	replaysOnErrorSampleRate: 1.0,
 	// The reload above recovers from these when a newer build is live; any other cause is a real failure.
