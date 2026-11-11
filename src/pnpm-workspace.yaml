@@ -1,3 +1,6 @@
 allowBuilds:
   '@tailwindcss/oxide': true
   esbuild: true
+overrides:
+  '@typescript-eslint/typescript-estree>minimatch': ^11.0.2
+  '@tailwindcss/typography>postcss-selector-parser': ^6.1.5
